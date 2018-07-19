@@ -4,21 +4,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- Поддержка загрузки файлов -->
-    <bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="maxUploadSize" value="10000000" />
-    </bean>
-
     <!-- Инициализация бина zookeeper -->
-    <bean id="zkSettingsHolder" class="com.uraltranscom.util.ZookeeperSettingHolder">
-        <property name="commonPropertiesAccessor">
-            <bean class="com.uraltranscom.util.CommonPropertiesAccessor"/>
-        </property>
-    </bean>
+    <bean id="zkSettingsHolder" class="com.uraltranscom.dynamicdistributionpark.util.ZookeeperUtil.ZookeeperSettingHolder" />
+
+    <bean id="propertyUtil" class="com.uraltranscom.dynamicdistributionpark.util.PropertyUtil" />
+
+    <bean id="yieldCalculation" class="com.dynamicdistributionpark.service.impl.YieldCalculationImpl" />
 
     <!-- дешифровка пароля -->
     <bean id="decodedPassword" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetClass" value="com.uraltranscom.util.KeyMaster"/>
+        <property name="targetClass" value="com.uraltranscom.dynamicdistributionpark.util.ZookeeperUtil.KeyMaster"/>
         <property name="targetMethod" value="dec"/>
         <property name="arguments">
             <list>
@@ -36,7 +31,7 @@
         <property name="password" value="#{decodedPassword}"/>
     </bean>
 
-    <bean class="com.uraltranscom.util.ConnectionDB">
+    <bean class="com.uraltranscom.dynamicdistributionpark.util.ConnectUtil.ConnectionDB">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
