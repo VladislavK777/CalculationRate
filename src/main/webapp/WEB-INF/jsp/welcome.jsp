@@ -130,7 +130,7 @@
 </div>
 
 <div class="one">
-    <h1>сервис распределения вагонов</h1>
+    <h1>Сервис динамического распределения вагонов</h1>
     <div class="train">
     		<img src="resources/train.jpg">
     </div>
@@ -143,18 +143,10 @@
 <br><br><br><br><br>
 
 <div>
-    <c:if test="${empty reportListOfDistributedRoutesAndWagons}">
-        <input type="button" value="Создать отчет" onclick="showPopup()" class="bot1" style="visibility:visible">
-    </c:if>
 
-    <c:if test="${!empty reportListOfDistributedRoutesAndWagons}">
-        <form action="/uraltranscom" method="get" style="visibility:visible">
-            <input type="submit" value="Очистить форму" class="bot1">
-        </form>
-        <form action="export" method="post" style="visibility:visible">
-            <input type="submit" value="Скачать отчет" class="bot1">
-        </form>
-    </c:if>
+        <input type="button" value="Создать процесс" onclick="showPopup()" class="bot1" >
+
+
 
     <table class="table_report">
         <tr>
@@ -165,11 +157,15 @@
                          style="background: rgba(0, 0, 0, 0.2); position: absolute; z-index: 1; height: 100%; width: 100%;">
                     </div>
                     <div class="form">
-                        <form enctype="multipart/form-data" method="post" action="routes">
+                        <form enctype="multipart/form-data" method="post" action="reports">
                             <p>Файл заявок</p>
                             <input type="file" name="routes" multiple accept="xlsx">
                             <p>Файл дислокации вагонов</p>
                             <input type="file" name="wagons" multiple accept="xlsx">
+                            <p>Файл ставок</p>
+                            <input type="file" name="rates" multiple accept="xlsx">
+                            <p>Файл порожних вагонов</p>
+                            <input type="file" name="emptyroutes" multiple accept="xlsx">
                             <p>
                                 <input type="submit" value="Загрузить" class="bot1">
                             </p>
@@ -180,79 +176,7 @@
         </tr>
     </table>
 
-    <div>
-        <div class="tabs">
-            <input id="tab1" type="radio" name="tabs" checked>
-            <label for="tab1" title="Распределенные рейсы">Распределенные заявки</label>
 
-            <input id="tab2" type="radio" name="tabs">
-            <label for="tab2" title="Ошибки">Ошибки в кодах станций</label>
-
-            <section id="content-tab1">
-             <div>
-                <table class="table_report">
-                    <tr>
-                        <th>Номер вагона</th>
-                        <th>Станция распределения</th>
-                        <th>Рейс</th>
-                        <th>Порожнее расстояние</th>
-                        <th>Оборот дней</th>
-                        <th>Из под груза</th>
-                        <th>Класс груза</th>
-                    </tr>
-                     <c:if test="${!empty reportListOfDistributedRoutesAndWagons}">
-                         <c:forEach items="${reportListOfDistributedRoutesAndWagons}" var="reportList">
-                            <tr>
-                                <c:choose>
-                                    <c:when test="${reportList.getCargo() == 'СБ.ПОВАГ.ОТП'}">
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getNumberOfWagon()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getNameOfStationDepartureOfWagon()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getRoute()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getDistanceEmpty()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getCountCircleDays()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getCargo()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getCargoType()}</td>
-                                    </c:when>
-                                    <c:when test="${reportList.getCountCircleDays() > 30}">
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getNumberOfWagon()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getNameOfStationDepartureOfWagon()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getRoute()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getDistanceEmpty()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getCountCircleDays()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getCargo()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getCargoType()}</td>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getNumberOfWagon()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getNameOfStationDepartureOfWagon()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getRoute()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getDistanceEmpty()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getCountCircleDays()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getCargo()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getCargoType()}</td>
-                                    </c:otherwise>
-                                </c:choose>
-                            </tr>
-                         </c:forEach>
-                     </c:if>
-                </table>
-             </div>
-            </section>
-            <section id="content-tab2">
-                <p>
-                    <c:if test="${!empty reportListOfError}">
-                <table>
-                    <c:forEach items="${reportListOfError}" var="Error">
-                        <tr>
-                            <td style="background: #ffffff; color: #364274;">${Error}</td>
-                        </tr>
-                    </c:forEach>
-                </table>
-                </c:if>
-                </p>
-            </section>
-        </div>
-    </div>
     <br>
 </div>
 

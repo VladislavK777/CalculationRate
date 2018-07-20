@@ -30,7 +30,7 @@ public class GetTypeOfCargoImpl extends ConnectionDB implements GetTypeOfCargo {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetTypeOfCargoImpl.class);
 
-    public GetTypeOfCargoImpl() {
+    private GetTypeOfCargoImpl() {
     }
 
     @Override
@@ -44,7 +44,7 @@ public class GetTypeOfCargoImpl extends ConnectionDB implements GetTypeOfCargo {
             while (resultSet.next()) {
                 type = resultSet.getInt(1);
             }
-            logger.debug("Get type of cargo: {}", key + ": " + type);
+            logger.info("Get type of cargo: {}", key + ": " + type);
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }

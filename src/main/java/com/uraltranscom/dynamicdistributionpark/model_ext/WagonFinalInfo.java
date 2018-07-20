@@ -1,7 +1,10 @@
 package com.uraltranscom.dynamicdistributionpark.model_ext;
 
+import com.uraltranscom.dynamicdistributionpark.model.Route;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 /**
  *
@@ -24,25 +27,19 @@ public class WagonFinalInfo {
     private int countCircleDays; // Количество дней в пути
     private int distanceEmpty; // Расстояние порожнее
     private String nameOfStationDepartureOfWagon; // Станция, куда едет вагон порожний
-    private String route; // Маршрут
-    private String cargo; // Груз
+    private Route route; // Маршрут
     private int cargoType; // Класс груза
+    private double rate; // Ставка
+    private double tariff; // Тариф
 
-    // Для файла Excel
-    public WagonFinalInfo(String numberOfWagon, int countCircleDays, int distanceEmpty) {
-        this.numberOfWagon = numberOfWagon;
-        this.countCircleDays = countCircleDays;
-        this.distanceEmpty = distanceEmpty;
-    }
 
-    // Для вебморды
-    public WagonFinalInfo(String numberOfWagon, int countCircleDays, int distanceEmpty, String nameOfStationDepartureOfWagon, String route, String cargo, int cargoType) {
+    // Первичный конструктор, без ставки и тарифа
+    public WagonFinalInfo(String numberOfWagon, int countCircleDays, int distanceEmpty, String nameOfStationDepartureOfWagon, Route route, int cargoType) {
         this.numberOfWagon = numberOfWagon;
         this.countCircleDays = countCircleDays;
         this.distanceEmpty = distanceEmpty;
         this.nameOfStationDepartureOfWagon = nameOfStationDepartureOfWagon;
         this.route = route;
-        this.cargo = cargo;
         this.cargoType = cargoType;
     }
 
@@ -78,20 +75,12 @@ public class WagonFinalInfo {
         this.nameOfStationDepartureOfWagon = nameOfStationDepartureOfWagon;
     }
 
-    public String getRoute() {
+    public Route getRoute() {
         return route;
     }
 
-    public void setRoute(String route) {
+    public void setRoute(Route route) {
         this.route = route;
-    }
-
-    public String getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
     }
 
     public int getCargoType() {
@@ -100,5 +89,56 @@ public class WagonFinalInfo {
 
     public void setCargoType(int cargoType) {
         this.cargoType = cargoType;
+    }
+
+    public double getRate() {
+        return rate;
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
+    }
+
+    public double getTariff() {
+        return tariff;
+    }
+
+    public void setTariff(double tariff) {
+        this.tariff = tariff;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WagonFinalInfo that = (WagonFinalInfo) o;
+        return countCircleDays == that.countCircleDays &&
+                distanceEmpty == that.distanceEmpty &&
+                cargoType == that.cargoType &&
+                Double.compare(that.rate, rate) == 0 &&
+                Double.compare(that.tariff, tariff) == 0 &&
+                Objects.equals(numberOfWagon, that.numberOfWagon) &&
+                Objects.equals(nameOfStationDepartureOfWagon, that.nameOfStationDepartureOfWagon) &&
+                Objects.equals(route, that.route);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(numberOfWagon, countCircleDays, distanceEmpty, nameOfStationDepartureOfWagon, route, cargoType, rate, tariff);
+    }
+
+    @Override
+    public String toString() {
+        return "WagonFinalInfo{" +
+                "numberOfWagon='" + numberOfWagon + '\'' +
+                ", countCircleDays=" + countCircleDays +
+                ", distanceEmpty=" + distanceEmpty +
+                ", nameOfStationDepartureOfWagon='" + nameOfStationDepartureOfWagon + '\'' +
+                ", route=" + route +
+                ", cargoType=" + cargoType +
+                ", rate=" + rate +
+                ", tariff=" + tariff +
+                '}';
     }
 }

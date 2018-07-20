@@ -152,6 +152,7 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
                     if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.keycargo"))) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         keyCargo = xssfRow.getCell(c).getStringCellValue();
+                        logger.info("key: {}", keyCargo);
                     }
                 }
                 if (wagonType.equals(TYPE_OF_WAGON_KR)) {

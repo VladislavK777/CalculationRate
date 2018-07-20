@@ -13,10 +13,9 @@ package com.uraltranscom.dynamicdistributionpark.controller;
  *
  */
 
-import com.uraltranscom.dynamicdistributionpark.util.MultipartFileToFileUtil;
 import com.uraltranscom.dynamicdistributionpark.service.export.WriteToFileExcel;
 import com.uraltranscom.dynamicdistributionpark.service.impl.BasicClassLookingForImpl;
-import com.uraltranscom.dynamicdistributionpark.service.impl.GetListOfRoutesImpl;
+import com.uraltranscom.dynamicdistributionpark.util.MultipartFileToFileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,28 +36,21 @@ public class BasicController {
     @Autowired
     private BasicClassLookingForImpl basicClassLookingForImpl;
 
-    @Autowired
-    private GetListOfRoutesImpl getListOfRoutes;
-
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
         return "welcome";
     }
 
-    @RequestMapping(value = "/routes", method = RequestMethod.POST)
-    public String routeList(@RequestParam(value = "routes") MultipartFile routeFile,
-                             @RequestParam(value = "wagons") MultipartFile wagonFile, Model model) {
-        basicClassLookingForImpl.getGetListOfDistance().getGetListOfRoutesImpl().setFile(MultipartFileToFileUtil.multipartToFile(routeFile));
-        basicClassLookingForImpl.getGetListOfDistance().getGetListOfWagonsImpl().setFile(MultipartFileToFileUtil.multipartToFile(wagonFile));
-        model.addAttribute("listRoute", getListOfRoutes.getMapOfRoutes());
-        return "showroutes";
-    }
-
     @RequestMapping(value = "/reports", method = RequestMethod.POST)
-    public String reportList(@RequestParam(value = "routeId", defaultValue = "") String routeId, Model model) {
+    public String routeList(@RequestParam(value = "routes") MultipartFile routesFile,
+                            @RequestParam(value = "wagons") MultipartFile wagonsFile,
+                            @RequestParam(value = "rates") MultipartFile ratesFile,
+                            @RequestParam(value = "emptyroutes") MultipartFile emptyRoutesFile, Model model) {
+        basicClassLookingForImpl.getGetListOfDistance().getGetListOfRoutesImpl().setFile(MultipartFileToFileUtil.multipartToFile(routesFile));
+        basicClassLookingForImpl.getGetListOfDistance().getGetListOfWagonsImpl().setFile(MultipartFileToFileUtil.multipartToFile(wagonsFile));
+        basicClassLookingForImpl.getGetListOfRates().setFile(MultipartFileToFileUtil.multipartToFile(ratesFile));
+        basicClassLookingForImpl.getGetListOfEmptyRoutes().setFile(MultipartFileToFileUtil.multipartToFile(emptyRoutesFile));
         basicClassLookingForImpl.fillMapRouteIsOptimal();
-        model.addAttribute("reportListOfDistributedRoutesAndWagons", basicClassLookingForImpl.getListOfDistributedRoutesAndWagons());
-        model.addAttribute("reportListOfError", basicClassLookingForImpl.getListOfError());
         return "welcome";
     }
 

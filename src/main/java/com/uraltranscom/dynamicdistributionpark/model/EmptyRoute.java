@@ -95,7 +95,6 @@ public class EmptyRoute {
         EmptyRoute that = (EmptyRoute) o;
         return Double.compare(that.tariff, tariff) == 0 &&
                 cargoType == that.cargoType &&
-                Objects.equals(getTypeOfCargo, that.getTypeOfCargo) &&
                 Objects.equals(nameOfStationDeparture, that.nameOfStationDeparture) &&
                 Objects.equals(nameOfStationDestination, that.nameOfStationDestination) &&
                 Objects.equals(cargo, that.cargo);
@@ -104,13 +103,12 @@ public class EmptyRoute {
     @Override
     public int hashCode() {
 
-        return Objects.hash(getTypeOfCargo, nameOfStationDeparture, nameOfStationDestination, cargo, tariff, cargoType);
+        return Objects.hash(nameOfStationDeparture, nameOfStationDestination, cargo, tariff, cargoType);
     }
 
     @Override
     public String toString() {
         return "EmptyRoute{" +
-                "getTypeOfCargo=" + getTypeOfCargo +
                 ", nameOfStationDeparture='" + nameOfStationDeparture + '\'' +
                 ", nameOfStationDestination='" + nameOfStationDestination + '\'' +
                 ", cargo='" + cargo + '\'' +

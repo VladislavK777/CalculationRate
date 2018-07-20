@@ -32,13 +32,13 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
     private static Logger logger = LoggerFactory.getLogger(BasicClassLookingForImpl.class);
 
     @Autowired
-    private GetListOfWagonsImpl getListOfWagons;
-    @Autowired
-    private GetListOfRoutesImpl getListOfRoutes;
-    @Autowired
     private GetListOfDistanceImpl getListOfDistance;
     @Autowired
     private ClassHandlerLookingForImpl classHandlerLookingFor;
+    @Autowired
+    private GetListOfEmptyRoutesImpl getListOfEmptyRoutes;
+    @Autowired
+    private GetListOfRatesImpl getListOfRates;
 
     // Мапа для записи в файл Вагона + Станция назначения.
     private Map<WagonFinalInfo, Route> totalMapWithWagonNumberAndRoute = new HashMap<>();
@@ -63,8 +63,8 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
         getListOfDistance.fillMap();
 
         // Заполняем мапы
-        Map<Integer, Route> tempMapRoutes = getListOfRoutes.getMapOfRoutes();
-        List<Wagon> tempListOfWagons = getListOfWagons.getListOfWagons();
+        Map<Integer, Route> tempMapRoutes = getListOfDistance.getGetListOfRoutesImpl().getMapOfRoutes();
+        List<Wagon> tempListOfWagons = getListOfDistance.getGetListOfWagonsImpl().getListOfWagons();
 
         // Запускаем распределение
         if (!tempMapRoutes.isEmpty()) {
@@ -106,5 +106,21 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
 
     public void setGetListOfDistance(GetListOfDistanceImpl getListOfDistance) {
         this.getListOfDistance = getListOfDistance;
+    }
+
+    public GetListOfEmptyRoutesImpl getGetListOfEmptyRoutes() {
+        return getListOfEmptyRoutes;
+    }
+
+    public void setGetListOfEmptyRoutes(GetListOfEmptyRoutesImpl getListOfEmptyRoutes) {
+        this.getListOfEmptyRoutes = getListOfEmptyRoutes;
+    }
+
+    public GetListOfRatesImpl getGetListOfRates() {
+        return getListOfRates;
+    }
+
+    public void setGetListOfRates(GetListOfRatesImpl getListOfRates) {
+        this.getListOfRates = getListOfRates;
     }
 }
