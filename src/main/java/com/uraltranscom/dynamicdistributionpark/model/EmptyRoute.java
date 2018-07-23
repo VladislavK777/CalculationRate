@@ -1,9 +1,7 @@
 package com.uraltranscom.dynamicdistributionpark.model;
 
-import com.uraltranscom.dynamicdistributionpark.service.impl.GetTypeOfCargoImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
 
@@ -23,21 +21,17 @@ import java.util.Objects;
 public class EmptyRoute {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(Route.class);
-    @Autowired
-    private GetTypeOfCargoImpl getTypeOfCargo;
 
     private String nameOfStationDeparture; // Станция отправления
     private String nameOfStationDestination; // Станция назначения
     private String cargo; // Груз
     private double tariff; // Тариф
-    private int cargoType; // Класс груза
 
     public EmptyRoute(String nameOfStationDeparture, String nameOfStationDestination, String cargo, double tariff) {
         this.nameOfStationDeparture = nameOfStationDeparture;
         this.nameOfStationDestination = nameOfStationDestination;
         this.cargo = cargo;
         this.tariff = tariff;
-        this.cargoType = getTypeOfCargo.getTypeOfCargo(this.cargo);
     }
 
     public String getNameOfStationDeparture() {
@@ -56,14 +50,6 @@ public class EmptyRoute {
         this.nameOfStationDestination = nameOfStationDestination;
     }
 
-    public GetTypeOfCargoImpl getGetTypeOfCargo() {
-        return getTypeOfCargo;
-    }
-
-    public void setGetTypeOfCargo(GetTypeOfCargoImpl getTypeOfCargo) {
-        this.getTypeOfCargo = getTypeOfCargo;
-    }
-
     public String getCargo() {
         return cargo;
     }
@@ -80,21 +66,12 @@ public class EmptyRoute {
         this.tariff = tariff;
     }
 
-    public int getCargoType() {
-        return cargoType;
-    }
-
-    public void setCargoType(int cargoType) {
-        this.cargoType = cargoType;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EmptyRoute that = (EmptyRoute) o;
         return Double.compare(that.tariff, tariff) == 0 &&
-                cargoType == that.cargoType &&
                 Objects.equals(nameOfStationDeparture, that.nameOfStationDeparture) &&
                 Objects.equals(nameOfStationDestination, that.nameOfStationDestination) &&
                 Objects.equals(cargo, that.cargo);
@@ -103,17 +80,16 @@ public class EmptyRoute {
     @Override
     public int hashCode() {
 
-        return Objects.hash(nameOfStationDeparture, nameOfStationDestination, cargo, tariff, cargoType);
+        return Objects.hash(nameOfStationDeparture, nameOfStationDestination, cargo, tariff);
     }
 
     @Override
     public String toString() {
         return "EmptyRoute{" +
-                ", nameOfStationDeparture='" + nameOfStationDeparture + '\'' +
+                "nameOfStationDeparture='" + nameOfStationDeparture + '\'' +
                 ", nameOfStationDestination='" + nameOfStationDestination + '\'' +
                 ", cargo='" + cargo + '\'' +
                 ", tariff=" + tariff +
-                ", cargoType=" + cargoType +
                 '}';
     }
 }

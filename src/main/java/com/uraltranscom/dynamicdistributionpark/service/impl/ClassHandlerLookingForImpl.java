@@ -193,8 +193,6 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                         }
 
                                         tempMapWagonInfo.put(wagon.getNumberOfWagon(), new WagonFinalInfo(wagon.getNumberOfWagon(), countCircleDays, mapDistanceSortFirstElement.getValue(), nameOfStationDepartureOfWagon, entry.getValue(), getTypeOfCargo.getTypeOfCargo(entry.getValue().getCargo().getKeyCargo())));
-                                        putRateAndTariff(tempMapWagonInfo);
-                                        logger.info("mapFinalWagonInfo: {}", mapFinalWagonInfo);
                                         //basicClassLookingFor.getListOfDistributedRoutesAndWagons().add(new WagonFinalInfo(wagon.getNumberOfWagon(), countCircleDays, mapDistanceSortFirstElement.getValue(), nameOfStationDepartureOfWagon, tempMapOfRouteForDelete.get(j).getNameOfStationDeparture() + " - " + tempMapOfRouteForDelete.get(j).getNameOfStationDestination(), wagon.getCargo().trim(), getListOfDistance.getRootMapWithTypeOfCargo().get(wagon.getKeyItemCargo())));
                                         //basicClassLookingFor.getTotalMapWithWagonNumberAndRoute().put(new WagonFinalInfo(wagon.getNumberOfWagon(), countCircleDays, mapDistanceSortFirstElement.getValue()), tempMapOfRouteForDelete.get(j));
 
@@ -209,6 +207,9 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                 }
             }
         }
+
+        putRateAndTariff(tempMapWagonInfo);
+        logger.info("mapFinalWagonInfo: {}", mapFinalWagonInfo);
 
         logger.info("Stop root method: {}", this.getClass().getSimpleName() + ".fillMapRouteIsOptimal");
     }
@@ -230,11 +231,12 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
             }
             Collections.sort(tempListSelectedRates);
             logger.info("tempListSelectedRates: {}", tempListSelectedRates);
-            _map.getValue().setRate(tempListSelectedRates.get(0).getRate());
+            if (!tempListSelectedRates.isEmpty()) _map.getValue().setRate(tempListSelectedRates.get(0).getRate());
             for (Map.Entry<Integer, EmptyRoute> _tempMapEmptyRoutes: tempMapEmptyRoutes.entrySet()) {
                 if (_map.getValue().getRoute().getNameOfStationDeparture().equals(_tempMapEmptyRoutes.getValue().getNameOfStationDeparture()) &&
                         _map.getValue().getRoute().getNameOfStationDestination().equals(_tempMapEmptyRoutes.getValue().getNameOfStationDestination()) &&
-                        _map.getValue().getCargoType() == _tempMapEmptyRoutes.getValue().getCargoType()) {
+                        _map.getValue().getCargoType() == getTypeOfCargo.getTypeOfCargo(_tempMapEmptyRoutes.getValue().getCargo())) {
+                    logger.info("entered to tariff");
                     _map.getValue().setTariff(_tempMapEmptyRoutes.getValue().getTariff());
                 }
             }

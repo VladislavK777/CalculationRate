@@ -4,12 +4,14 @@ import com.uraltranscom.dynamicdistributionpark.model.EmptyRoute;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
 import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
+import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +33,7 @@ import java.util.Map;
  *
  */
 
+@Service
 public class GetListOfEmptyRoutesImpl implements GetList {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetListOfEmptyRoutesImpl.class);
@@ -58,21 +61,22 @@ public class GetListOfEmptyRoutesImpl implements GetList {
         mapOfEmptyRoutes.clear();
         // Получаем файл формата xls
         try {
+            ZipSecureFile.setMinInflateRatio(-1.0d);
             fileInputStream = new FileInputStream(this.file);
             xssfWorkbook = new XSSFWorkbook(fileInputStream);
 
             // Заполняем Map данными
             sheet = xssfWorkbook.getSheetAt(0);
             int i = 0;
-            for (int j = 0; j < sheet.getLastRowNum() + 1; j++) {
-                XSSFRow row = sheet.getRow(1);
+            for (int j = 1; j < sheet.getLastRowNum() + 1; j++) {
+                XSSFRow row = sheet.getRow(0);
 
                 String nameOfStationDeparture = null;
                 String nameOfStationDestination = null;
                 String nameCargo = null;
                 double tariff = 0.00d;
 
-                for (int c = 1; c < row.getLastCellNum(); c++) {
+                for (int c = 0; c < row.getLastCellNum(); c++) {
                     if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("emptyroute.namestationdeparture"))) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
@@ -90,10 +94,12 @@ public class GetListOfEmptyRoutesImpl implements GetList {
                         tariff = xssfRow.getCell(c).getNumericCellValue();
                     }
                 }
-                mapOfEmptyRoutes.put(i, new EmptyRoute(nameOfStationDeparture, nameOfStationDestination, nameCargo, tariff));
-                i++;
+                if (!mapOfEmptyRoutes.containsValue(new EmptyRoute(nameOfStationDeparture, nameOfStationDestination, nameCargo, tariff))) {
+                    mapOfEmptyRoutes.put(i, new EmptyRoute(nameOfStationDeparture, nameOfStationDestination, nameCargo, tariff));
+                    i++;
+                }
             }
-            logger.info("Body emptyRoutes: {}", mapOfEmptyRoutes);
+            logger.debug("Body emptyRoutes: {}", mapOfEmptyRoutes);
         } catch (IOException e) {
             logger.error("Ошибка загруки файла - {}", e.getMessage());
         } catch (OLE2NotOfficeXmlFileException e1) {

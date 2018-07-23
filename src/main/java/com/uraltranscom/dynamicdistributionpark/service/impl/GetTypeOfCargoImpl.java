@@ -44,7 +44,7 @@ public class GetTypeOfCargoImpl extends ConnectionDB implements GetTypeOfCargo {
             while (resultSet.next()) {
                 type = resultSet.getInt(1);
             }
-            logger.info("Get type of cargo: {}", key + ": " + type);
+            logger.debug("Get type of cargo: {}", key + ": " + type);
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }

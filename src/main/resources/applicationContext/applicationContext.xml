@@ -9,11 +9,9 @@
         <property name="maxUploadSize" value="10000000" />
     </bean>
 
-    <!-- Инициализация бина zookeeper -->
+    <!-- Инициализация бинов -->
     <bean id="zkSettingsHolder" class="com.uraltranscom.dynamicdistributionpark.util.ZookeeperUtil.ZookeeperSettingHolder" />
-
-    <bean id="propertyUtil" class="com.uraltranscom.dynamicdistributionpark.util.PropertyUtil" />
-    <bean id="getListOfEmptyRoutes" class="com.uraltranscom.dynamicdistributionpark.service.impl.GetListOfEmptyRoutesImpl" />
+    <bean id="propertyUnit" class="com.uraltranscom.dynamicdistributionpark.util.PropertyUtil" />
 
     <!-- дешифровка пароля -->
     <bean id="decodedPassword" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">

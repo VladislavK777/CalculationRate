@@ -4,6 +4,7 @@ import com.uraltranscom.dynamicdistributionpark.model.RateClass;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
 import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -66,7 +67,7 @@ public class GetListOfRatesImpl implements GetList {
             // Заполняем Map данными
             sheet = xssfWorkbook.getSheetAt(0);
             int i = 0;
-            for (int j = 0; j < sheet.getLastRowNum() + 1; j++) {
+            for (int j = 1; j < sheet.getLastRowNum() + 1; j++) {
                 XSSFRow row = sheet.getRow(0);
 
                 String nameOfStationDeparture = null;
@@ -77,10 +78,9 @@ public class GetListOfRatesImpl implements GetList {
                 String nameCargo = null;
                 String keyCargo = null;
 
-                for (int c = 1; c < row.getLastCellNum(); c++) {
+                for (int c = 0; c < row.getLastCellNum(); c++) {
                     if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("rateclass.namestationdeparture"))) {
                         XSSFRow xssfRow = sheet.getRow(j);
-                        System.out.println(xssfRow.getCell(c).getNumericCellValue());
                         nameOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
                     }
                     if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("rateclass.namestationdestination"))) {
@@ -97,7 +97,11 @@ public class GetListOfRatesImpl implements GetList {
                     }
                     if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("rateclass.keycargo"))) {
                         XSSFRow xssfRow = sheet.getRow(j);
-                        keyCargo = xssfRow.getCell(c).getStringCellValue();
+                        if (xssfRow.getCell(c).getCellTypeEnum().equals(CellType.NUMERIC)) {
+                            keyCargo = String.valueOf(xssfRow.getCell(c).getNumericCellValue());
+                        } else {
+                            keyCargo = xssfRow.getCell(c).getStringCellValue();
+                        }
                     }
                     if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("rateclass.rate"))) {
                         XSSFRow xssfRow = sheet.getRow(j);
@@ -117,7 +121,7 @@ public class GetListOfRatesImpl implements GetList {
                     i++;
                 }
             }
-            logger.info("Body rates: {}", mapOfRates);
+            logger.debug("Body rates: {}", mapOfRates);
         } catch (IOException e) {
             logger.error("Ошибка загруки файла - {}", e.getMessage());
         } catch (OLE2NotOfficeXmlFileException e1) {

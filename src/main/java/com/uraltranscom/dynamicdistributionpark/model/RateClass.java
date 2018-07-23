@@ -121,6 +121,6 @@ public class RateClass implements Comparable<RateClass> {
 
     @Override
     public int compareTo(RateClass o) {
-        return this.loadingDate.compareTo(o.loadingDate);
+        return o.loadingDate.compareTo(this.loadingDate);
     }
 }
