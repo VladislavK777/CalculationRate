@@ -108,15 +108,5 @@ public class Wagon extends JavaHelperBase {
         return Objects.hash(numberOfWagon, wagonType, keyOfStationDestination, nameOfStationDestination, volume, cargo);
     }
 
-    @Override
-    public String toString() {
-        return "Wagon{" +
-                "numberOfWagon='" + numberOfWagon + '\'' +
-                ", wagonType=" + wagonType +
-                ", keyOfStationDestination='" + keyOfStationDestination + '\'' +
-                ", nameOfStationDestination='" + nameOfStationDestination + '\'' +
-                ", volume=" + volume +
-                ", cargo=" + cargo +
-                '}';
-    }
+
 }

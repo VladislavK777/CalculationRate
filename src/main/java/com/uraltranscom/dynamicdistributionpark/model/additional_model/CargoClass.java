@@ -1,5 +1,7 @@
 package com.uraltranscom.dynamicdistributionpark.model.additional_model;
 
+import com.uraltranscom.dynamicdistributionpark.service.impl.GetTypeOfCargoImpl;
+
 import java.util.Objects;
 
 /**
@@ -16,12 +18,17 @@ import java.util.Objects;
  */
 
 public class CargoClass {
+
+    private GetTypeOfCargoImpl getTypeOfCargo = new GetTypeOfCargoImpl();
+
     private String nameCargo; // Груз
     private String keyCargo; // Код груза
+    private int cargoType;  // Класс груза
 
     public CargoClass(String nameCargo, String keyCargo) {
         this.nameCargo = nameCargo;
         this.keyCargo = keyCargo;
+        this.cargoType = getTypeOfCargo.getTypeOfCargo(keyCargo);
     }
 
     public String getNameCargo() {
@@ -40,18 +47,27 @@ public class CargoClass {
         this.keyCargo = keyCargo;
     }
 
+    public int getCargoType() {
+        return cargoType;
+    }
+
+    public void setCargoType(int cargoType) {
+        this.cargoType = cargoType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CargoClass that = (CargoClass) o;
-        return Objects.equals(nameCargo, that.nameCargo) &&
+        return cargoType == that.cargoType &&
+                Objects.equals(nameCargo, that.nameCargo) &&
                 Objects.equals(keyCargo, that.keyCargo);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(nameCargo, keyCargo);
+        return Objects.hash(nameCargo, keyCargo, cargoType);
     }
 }

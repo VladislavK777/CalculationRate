@@ -11,7 +11,6 @@
 
     <!-- Инициализация бинов -->
     <bean id="zkSettingsHolder" class="com.uraltranscom.dynamicdistributionpark.util.ZookeeperUtil.ZookeeperSettingHolder" />
-    <bean id="propertyUnit" class="com.uraltranscom.dynamicdistributionpark.util.PropertyUtil" />
 
     <!-- дешифровка пароля -->
     <bean id="decodedPassword" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">

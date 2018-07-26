@@ -44,13 +44,16 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
     private GetListOfRatesImpl getListOfRates;
 
     // Мапа для записи в файл Вагона + Станция назначения.
-    private Map<WagonFinalInfo, Route> totalMapWithWagonNumberAndRoute = new HashMap<>();
+    private Map<String, WagonFinalInfo> totalMapWithWagonNumberAndRoute = new HashMap<>();
 
     // Массив распределенных маршрутов и вагонов
     private List<WagonFinalInfo> listOfDistributedRoutesAndWagons = new ArrayList<>();
 
     // Массив ошибок
     private List<String> listOfError = new ArrayList<>();
+
+    // Флаг, что нужно заполнить ставку или тариф
+    private boolean isFlag = false;
 
     private BasicClassLookingForImpl() {
     }
@@ -79,11 +82,11 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
         tempMapRoutes.clear();
     }
 
-    public Map<WagonFinalInfo, Route> getTotalMapWithWagonNumberAndRoute() {
+    public Map<String, WagonFinalInfo> getTotalMapWithWagonNumberAndRoute() {
         return totalMapWithWagonNumberAndRoute;
     }
 
-    public void setTotalMapWithWagonNumberAndRoute(Map<WagonFinalInfo, Route> totalMapWithWagonNumberAndRoute) {
+    public void setTotalMapWithWagonNumberAndRoute(Map<String, WagonFinalInfo> totalMapWithWagonNumberAndRoute) {
         this.totalMapWithWagonNumberAndRoute = totalMapWithWagonNumberAndRoute;
     }
 
@@ -125,5 +128,21 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
 
     public void setGetListOfRates(GetListOfRatesImpl getListOfRates) {
         this.getListOfRates = getListOfRates;
+    }
+
+    public boolean isFlag() {
+        return isFlag;
+    }
+
+    public void setFlag(boolean flag) {
+        isFlag = flag;
+    }
+
+    public ClassHandlerLookingForImpl getClassHandlerLookingFor() {
+        return classHandlerLookingFor;
+    }
+
+    public void setClassHandlerLookingFor(ClassHandlerLookingForImpl classHandlerLookingFor) {
+        this.classHandlerLookingFor = classHandlerLookingFor;
     }
 }

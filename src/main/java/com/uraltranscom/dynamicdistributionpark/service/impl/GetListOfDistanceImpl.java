@@ -2,7 +2,7 @@ package com.uraltranscom.dynamicdistributionpark.service.impl;
 
 import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.model.Wagon;
-import com.uraltranscom.dynamicdistributionpark.service.GetListOfDistance;
+import com.uraltranscom.dynamicdistributionpark.service.GetList;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import java.util.*;
 /**
  *
  * Класс получения списка первоначальных расстояний
- * Implementation for {@link GetListOfDistance} interface
+ * Implementation for {@link GetList} interface
  *
  * @author Vladislav Klochkov
  * @version 1.0
@@ -26,7 +26,7 @@ import java.util.*;
  */
 
 @Service
-public class GetListOfDistanceImpl extends JavaHelperBase implements GetListOfDistance {
+public class GetListOfDistanceImpl extends JavaHelperBase implements GetList {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetListOfDistanceImpl.class);
 
@@ -40,8 +40,6 @@ public class GetListOfDistanceImpl extends JavaHelperBase implements GetListOfDi
     private CheckExistKeyOfStationImpl checkExistKeyOfStationImpl;
     @Autowired
     private BasicClassLookingForImpl basicClassLookingForImpl;
-    @Autowired
-    private GetTypeOfCargoImpl getTypeOfCargo;
 
     // Основная мапа
     private Map<String, List<Integer>> rootMapWithDistances = new HashMap<>();

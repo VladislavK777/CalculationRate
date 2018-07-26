@@ -1,5 +1,6 @@
 package com.uraltranscom.dynamicdistributionpark.model;
 
+import com.uraltranscom.dynamicdistributionpark.model.additional_model.CargoClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,13 +25,13 @@ public class EmptyRoute {
 
     private String nameOfStationDeparture; // Станция отправления
     private String nameOfStationDestination; // Станция назначения
-    private String cargo; // Груз
+    private CargoClass cargo; // Груз
     private double tariff; // Тариф
 
     public EmptyRoute(String nameOfStationDeparture, String nameOfStationDestination, String cargo, double tariff) {
         this.nameOfStationDeparture = nameOfStationDeparture;
         this.nameOfStationDestination = nameOfStationDestination;
-        this.cargo = cargo;
+        this.cargo = new CargoClass(null, cargo);
         this.tariff = tariff;
     }
 
@@ -50,11 +51,11 @@ public class EmptyRoute {
         this.nameOfStationDestination = nameOfStationDestination;
     }
 
-    public String getCargo() {
+    public CargoClass getCargo() {
         return cargo;
     }
 
-    public void setCargo(String cargo) {
+    public void setCargo(CargoClass cargo) {
         this.cargo = cargo;
     }
 
@@ -88,7 +89,7 @@ public class EmptyRoute {
         return "EmptyRoute{" +
                 "nameOfStationDeparture='" + nameOfStationDeparture + '\'' +
                 ", nameOfStationDestination='" + nameOfStationDestination + '\'' +
-                ", cargo='" + cargo + '\'' +
+                ", cargo=" + cargo +
                 ", tariff=" + tariff +
                 '}';
     }

@@ -13,6 +13,7 @@ package com.uraltranscom.dynamicdistributionpark.controller;
  *
  */
 
+import com.uraltranscom.dynamicdistributionpark.model.additional_model.WagonRateAndTariff;
 import com.uraltranscom.dynamicdistributionpark.service.impl.BasicClassLookingForImpl;
 import com.uraltranscom.dynamicdistributionpark.util.MultipartFileToFileUtil;
 import org.slf4j.Logger;
@@ -24,6 +25,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class BasicController {
@@ -48,6 +52,26 @@ public class BasicController {
         basicClassLookingForImpl.getGetListOfRates().setFile(MultipartFileToFileUtil.multipartToFile(ratesFile));
         basicClassLookingForImpl.getGetListOfEmptyRoutes().setFile(MultipartFileToFileUtil.multipartToFile(emptyRoutesFile));
         basicClassLookingForImpl.fillMapRouteIsOptimal();
+        if (basicClassLookingForImpl.isFlag()) {
+            model.addAttribute("needFillRateOrTariff", basicClassLookingForImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
+            return "add";
+        }
+        return "welcome";
+    }
+
+    @RequestMapping(value = "/result", method = RequestMethod.POST)
+    public String routeList(@RequestParam(value = "rate") String rate,
+                            @RequestParam(value = "tariff") String tariff,
+                            @RequestParam(value = "number") String numberOfWagon, Model model) {
+        List list = new ArrayList();
+        String [] rateArray = rate.split(",");
+        String [] tariffArray = tariff.split(",");
+        String [] wagonArray = numberOfWagon.split(",");
+        logger.info("size: {}, {}, {}", wagonArray.length, rateArray.length, tariffArray.length);
+        for (int i = 0; i < wagonArray.length; i++) {
+            list.add(new WagonRateAndTariff(wagonArray[i], Double.valueOf(rateArray[i]), Double.valueOf(tariffArray[i])));
+        }
+        logger.info("list: {}", list);
         return "welcome";
     }
 /**

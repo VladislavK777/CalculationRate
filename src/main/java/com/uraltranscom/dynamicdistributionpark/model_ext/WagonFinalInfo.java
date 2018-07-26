@@ -1,6 +1,7 @@
 package com.uraltranscom.dynamicdistributionpark.model_ext;
 
 import com.uraltranscom.dynamicdistributionpark.model.Route;
+import com.uraltranscom.dynamicdistributionpark.model.additional_model.CargoClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,21 +27,46 @@ public class WagonFinalInfo {
     private String numberOfWagon; // Номер вагона
     private int countCircleDays; // Количество дней в пути
     private int distanceEmpty; // Расстояние порожнее
+    private String currentNameOfStationOfWagon; // Текущая станция вагона
+    private String currentKeyOfStationOfWagon; // Код текущей станции
     private String nameOfStationDepartureOfWagon; // Станция, куда едет вагон порожний
+    private String keyOfStationDepartureOfWagon; // Код станции распределения
     private Route route; // Маршрут
-    private int cargoType; // Класс груза
-    private double rate; // Ставка
-    private double tariff; // Тариф
+    private CargoClass cargo; // Предыдущий груз
+    private int cargoType; // Класс предыдущего груза
+    private Object rate; // Ставка
+    private Object tariff; // Тариф
+    private boolean isEmpty; // Флаг пустоты значения
+    private boolean isLoadingRateFromDB; // Признак загрузки ставки из БД
+    private boolean isLoadingTariffFromDB; // Признак загрузки тарифа из БД
 
 
     // Первичный конструктор, без ставки и тарифа
-    public WagonFinalInfo(String numberOfWagon, int countCircleDays, int distanceEmpty, String nameOfStationDepartureOfWagon, Route route, int cargoType) {
+
+
+    public WagonFinalInfo(String numberOfWagon,
+                          int countCircleDays,
+                          int distanceEmpty,
+                          String currentNameOfStationOfWagon,
+                          String currentKeyOfStationOfWagon,
+                          String nameOfStationDepartureOfWagon,
+                          String keyOfStationDepartureOfWagon,
+                          Route route,
+                          CargoClass cargo,
+                          int cargoType) {
         this.numberOfWagon = numberOfWagon;
         this.countCircleDays = countCircleDays;
         this.distanceEmpty = distanceEmpty;
+        this.currentNameOfStationOfWagon = currentNameOfStationOfWagon;
+        this.currentKeyOfStationOfWagon = currentKeyOfStationOfWagon;
         this.nameOfStationDepartureOfWagon = nameOfStationDepartureOfWagon;
+        this.keyOfStationDepartureOfWagon = keyOfStationDepartureOfWagon;
         this.route = route;
+        this.cargo = cargo;
         this.cargoType = cargoType;
+        this.isEmpty = false;
+        this.isLoadingRateFromDB = false;
+        this.isLoadingTariffFromDB = false;
     }
 
     public String getNumberOfWagon() {
@@ -67,12 +93,36 @@ public class WagonFinalInfo {
         this.distanceEmpty = distanceEmpty;
     }
 
+    public String getCurrentNameOfStationOfWagon() {
+        return currentNameOfStationOfWagon;
+    }
+
+    public void setCurrentNameOfStationOfWagon(String currentNameOfStationOfWagon) {
+        this.currentNameOfStationOfWagon = currentNameOfStationOfWagon;
+    }
+
+    public String getCurrentKeyOfStationOfWagon() {
+        return currentKeyOfStationOfWagon;
+    }
+
+    public void setCurrentKeyOfStationOfWagon(String currentKeyOfStationOfWagon) {
+        this.currentKeyOfStationOfWagon = currentKeyOfStationOfWagon;
+    }
+
     public String getNameOfStationDepartureOfWagon() {
         return nameOfStationDepartureOfWagon;
     }
 
     public void setNameOfStationDepartureOfWagon(String nameOfStationDepartureOfWagon) {
         this.nameOfStationDepartureOfWagon = nameOfStationDepartureOfWagon;
+    }
+
+    public String getKeyOfStationDepartureOfWagon() {
+        return keyOfStationDepartureOfWagon;
+    }
+
+    public void setKeyOfStationDepartureOfWagon(String keyOfStationDepartureOfWagon) {
+        this.keyOfStationDepartureOfWagon = keyOfStationDepartureOfWagon;
     }
 
     public Route getRoute() {
@@ -83,6 +133,14 @@ public class WagonFinalInfo {
         this.route = route;
     }
 
+    public CargoClass getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(CargoClass cargo) {
+        this.cargo = cargo;
+    }
+
     public int getCargoType() {
         return cargoType;
     }
@@ -91,20 +149,44 @@ public class WagonFinalInfo {
         this.cargoType = cargoType;
     }
 
-    public double getRate() {
+    public Object getRate() {
         return rate;
     }
 
-    public void setRate(double rate) {
+    public void setRate(Object rate) {
         this.rate = rate;
     }
 
-    public double getTariff() {
+    public Object getTariff() {
         return tariff;
     }
 
-    public void setTariff(double tariff) {
+    public void setTariff(Object tariff) {
         this.tariff = tariff;
+    }
+
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
+    public void setEmpty(boolean empty) {
+        isEmpty = empty;
+    }
+
+    public boolean isLoadingRateFromDB() {
+        return isLoadingRateFromDB;
+    }
+
+    public void setLoadingRateFromDB(boolean loadingRateFromDB) {
+        isLoadingRateFromDB = loadingRateFromDB;
+    }
+
+    public boolean isLoadingTariffFromDB() {
+        return isLoadingTariffFromDB;
+    }
+
+    public void setLoadingTariffFromDB(boolean loadingTariffFromDB) {
+        isLoadingTariffFromDB = loadingTariffFromDB;
     }
 
     @Override
@@ -115,17 +197,24 @@ public class WagonFinalInfo {
         return countCircleDays == that.countCircleDays &&
                 distanceEmpty == that.distanceEmpty &&
                 cargoType == that.cargoType &&
-                Double.compare(that.rate, rate) == 0 &&
-                Double.compare(that.tariff, tariff) == 0 &&
+                isEmpty == that.isEmpty &&
+                isLoadingRateFromDB == that.isLoadingRateFromDB &&
+                isLoadingTariffFromDB == that.isLoadingTariffFromDB &&
                 Objects.equals(numberOfWagon, that.numberOfWagon) &&
+                Objects.equals(currentNameOfStationOfWagon, that.currentNameOfStationOfWagon) &&
+                Objects.equals(currentKeyOfStationOfWagon, that.currentKeyOfStationOfWagon) &&
                 Objects.equals(nameOfStationDepartureOfWagon, that.nameOfStationDepartureOfWagon) &&
-                Objects.equals(route, that.route);
+                Objects.equals(keyOfStationDepartureOfWagon, that.keyOfStationDepartureOfWagon) &&
+                Objects.equals(route, that.route) &&
+                Objects.equals(cargo, that.cargo) &&
+                Objects.equals(rate, that.rate) &&
+                Objects.equals(tariff, that.tariff);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(numberOfWagon, countCircleDays, distanceEmpty, nameOfStationDepartureOfWagon, route, cargoType, rate, tariff);
+        return Objects.hash(numberOfWagon, countCircleDays, distanceEmpty, currentNameOfStationOfWagon, currentKeyOfStationOfWagon, nameOfStationDepartureOfWagon, keyOfStationDepartureOfWagon, route, cargo, cargoType, rate, tariff, isEmpty, isLoadingRateFromDB, isLoadingTariffFromDB);
     }
 
     @Override
@@ -134,11 +223,18 @@ public class WagonFinalInfo {
                 "numberOfWagon='" + numberOfWagon + '\'' +
                 ", countCircleDays=" + countCircleDays +
                 ", distanceEmpty=" + distanceEmpty +
+                ", currentNameOfStationOfWagon='" + currentNameOfStationOfWagon + '\'' +
+                ", currentKeyOfStationOfWagon='" + currentKeyOfStationOfWagon + '\'' +
                 ", nameOfStationDepartureOfWagon='" + nameOfStationDepartureOfWagon + '\'' +
+                ", keyOfStationDepartureOfWagon='" + keyOfStationDepartureOfWagon + '\'' +
                 ", route=" + route +
+                ", cargo=" + cargo +
                 ", cargoType=" + cargoType +
                 ", rate=" + rate +
                 ", tariff=" + tariff +
+                ", isEmpty=" + isEmpty +
+                ", isLoadingRateFromDB=" + isLoadingRateFromDB +
+                ", isLoadingTariffFromDB=" + isLoadingTariffFromDB +
                 '}';
     }
 }
