@@ -141,15 +141,19 @@
 </div>
 
 <br><br><br><br><br>
-
+<form action="result" method="post">
 <div>
+<input type="submit" value="Отправить" class="bot1">
     <div>
+        <div class="attention">
+            <p>Были загружены данные из базы данных(выделено красным), возможно, они уже устарели, необходимо убедиться в корректности и при необходимости обновить</p>
+            <p>Измененные данные будут обновлены автоматически</p>
+        </div>
         <div class="tabs">
             <input id="tab1" type="radio" name="tabs" checked>
-            <label for="tab1" title="Недостающие данные">Недостающие данные</label>
+            <label for="tab1" title="Проверка данные">Недостающие данные</label>
              <section id="content-tab1">
                  <div>
-                 <form action="result" method="post">
                      <table class="table_report">
                             <tr>
                                 <th>Номер вагона</th>
@@ -176,7 +180,10 @@
                                         <td>${report.value.getDistanceEmpty()}</td>
                                         <c:choose>
                                             <c:when test="${empty report.value.getTariff()}">
-                                                <td><input name="tariff"></td>
+                                                <td><input name="tariff" required></td>
+                                            </c:when>
+                                            <c:when test="${report.value.isLoadingTariffFromDB()}">
+                                                <td><input name="tariff" class="field" value="${report.value.getTariff()}"></td>
                                             </c:when>
                                             <c:otherwise>
                                                 <td><input name="tariff" value="${report.value.getTariff()}"></td>
@@ -188,7 +195,10 @@
                                         <td>${report.value.getCountCircleDays()}</td>
                                         <c:choose>
                                             <c:when test="${empty report.value.getRate()}">
-                                                <td><input name="rate"></td>
+                                                <td><input name="rate" required></td>
+                                            </c:when>
+                                            <c:when test="${report.value.isLoadingRateFromDB()}">
+                                                <td><input name="rate" class="field" value="${report.value.getRate()}"></td>
                                             </c:when>
                                             <c:otherwise>
                                                 <td><input name="rate" value="${report.value.getRate()}"></td>
@@ -199,15 +209,15 @@
                                  </c:forEach>
                              </c:if>
                         </table>
-                        <input type="submit" value="Отправить" class="bot1">
-                    </form>
+
+
                  </div>
             </section>
         </div>
     </div>
     <br>
 </div>
-
+</form>
 <br><br><br>
 
 <div align="center" id="footer">

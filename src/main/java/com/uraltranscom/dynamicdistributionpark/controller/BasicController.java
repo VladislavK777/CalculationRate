@@ -63,7 +63,7 @@ public class BasicController {
     public String routeList(@RequestParam(value = "rate") String rate,
                             @RequestParam(value = "tariff") String tariff,
                             @RequestParam(value = "number") String numberOfWagon, Model model) {
-        List list = new ArrayList();
+        List<WagonRateAndTariff> list = new ArrayList();
         String [] rateArray = rate.split(",");
         String [] tariffArray = tariff.split(",");
         String [] wagonArray = numberOfWagon.split(",");
@@ -71,7 +71,6 @@ public class BasicController {
         for (int i = 0; i < wagonArray.length; i++) {
             list.add(new WagonRateAndTariff(wagonArray[i], Double.valueOf(rateArray[i]), Double.valueOf(tariffArray[i])));
         }
-        logger.info("list: {}", list);
         return "welcome";
     }
 /**

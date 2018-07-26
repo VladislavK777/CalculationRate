@@ -285,7 +285,9 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                         _map.getValue().getRoute().getKeyOfStationDestination(),
                         _map.getValue().getRoute().getCargo().getCargoType());
                 if (rate != null) {
+                    System.out.println(rate);
                     _map.getValue().setRate(rate);
+                    System.out.println(_map.getValue().getRate());
                     _map.getValue().setLoadingRateFromDB(Boolean.TRUE);
                 }
             }

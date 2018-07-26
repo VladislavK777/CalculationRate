@@ -33,6 +33,22 @@
     outline: 0 none;
 }
 
+.field {
+    border-color: rgba(255, 0, 0, 0.8);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px
+    rgba(255, 0, 0, 0.9);
+    outline: 0 none;
+}
+
+.attention {
+    background: #f6cece;
+    font-family: 'Calibri Light', serif;
+    color: #364274;
+    font-size: 25px;
+    font-weight: bold;
+    text-align:center;
+}
+
 .bot3 {
     background-color: #FFFFFF;
     border: 1px solid #CCCCCC;
