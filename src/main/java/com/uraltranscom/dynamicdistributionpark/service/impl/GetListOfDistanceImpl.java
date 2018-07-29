@@ -58,8 +58,9 @@ public class GetListOfDistanceImpl extends JavaHelperBase implements GetList {
         while (iterator.hasNext()) {
             Map.Entry<Integer, Route> entry = iterator.next();
             for (int i = 0; i < listOfWagons.size(); i++) {
+                int index = listOfWagons.get(i).getListRoutes().size() - 1;
 
-                String wagonKeyOfStationDestination = listOfWagons.get(i).getKeyOfStationDestination();
+                String wagonKeyOfStationDestination = listOfWagons.get(i).getListRoutes().get(index).getKeyOfStationDestination();
                 String routeKeyOfStationDeparture = entry.getValue().getKeyOfStationDeparture();
 
                 String key = wagonKeyOfStationDestination + "_" + routeKeyOfStationDeparture;

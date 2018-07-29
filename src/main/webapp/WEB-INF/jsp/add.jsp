@@ -11,7 +11,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>UralTransCom</title>
+    <title>UralTransCom|DynamicDistributionPark</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href="resources/style.css" rel="stylesheet" type="text/css"/>
     <link rel="shortcut icon" href="resources/favicon.ico" type="image/x-icon">
@@ -100,8 +100,7 @@
             background: #fff;
         }
         /* Активация секций с помощью псевдокласса :checked */
-        #tab1:checked ~ #content-tab1,
-        #tab2:checked ~ #content-tab2 {
+        #tab1:checked ~ #content-tab1 {
             display: block;
         }
         /* Убираем текст с переключателей и оставляем иконки на малых экранах*/
@@ -125,10 +124,6 @@
 
 <body onload="cop()">
 
-<div id="lockPane" class="lockScreenOff">
-    <div class="loader" hide></div>
-</div>
-
 <div class="one">
     <h1>Сервис распределения вагонов</h1>
     <div class="train">
@@ -139,84 +134,96 @@
 <div>
     <img class="logo" src="resources/logo.jpg">
 </div>
-
 <br><br><br><br><br>
 <form action="result" method="post">
-<div>
-<input type="submit" value="Отправить" class="bot1">
-    <div>
-        <div class="attention">
-            <p>Были загружены данные из базы данных(выделено красным), возможно, они уже устарели, необходимо убедиться в корректности и при необходимости обновить</p>
-            <p>Измененные данные будут обновлены автоматически</p>
-        </div>
-        <div class="tabs">
-            <input id="tab1" type="radio" name="tabs" checked>
-            <label for="tab1" title="Проверка данные">Недостающие данные</label>
-             <section id="content-tab1">
-                 <div>
-                     <table class="table_report">
-                            <tr>
-                                <th>Номер вагона</th>
-                                <th>Текущая станция</th>
-                                <th>Из под груза</th>
-                                <th>Класс груза</th>
-                                <th>Станция распределения</th>
-                                <th>Порожнее расстояние</th>
-                                <th>Тариф</th>
-                                <th>Следующий рейс</th>
-                                <th>Следующий груз</th>
-                                <th>Класс груза</th>
-                                <th>Оборот дней</th>
-                                <th>Ставка</th>
-                            </tr>
-                             <c:if test="${!empty needFillRateOrTariff}">
-                                 <c:forEach items="${needFillRateOrTariff}" var="report">
-                                    <tr>
-                                        <td>${report.value.getNumberOfWagon()}</td>
-                                        <td>${report.value.getCurrentNameOfStationOfWagon()}</td>
-                                        <td>${report.value.getCargo().getNameCargo()}</td>
-                                        <td>${report.value.getCargoType()}</td>
-                                        <td>${report.value.getNameOfStationDepartureOfWagon()}</td>
-                                        <td>${report.value.getDistanceEmpty()}</td>
-                                        <c:choose>
-                                            <c:when test="${empty report.value.getTariff()}">
-                                                <td><input name="tariff" required></td>
-                                            </c:when>
-                                            <c:when test="${report.value.isLoadingTariffFromDB()}">
-                                                <td><input name="tariff" class="field" value="${report.value.getTariff()}"></td>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <td><input name="tariff" value="${report.value.getTariff()}"></td>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <td>${report.value.getRoute().getNameOfStationDeparture()} - ${report.value.getRoute().getNameOfStationDestination()}</td>
-                                        <td>${report.value.getRoute().getCargo().getNameCargo()}</td>
-                                        <td>${report.value.getRoute().getCargo().getCargoType()}</td>
-                                        <td>${report.value.getCountCircleDays()}</td>
-                                        <c:choose>
-                                            <c:when test="${empty report.value.getRate()}">
-                                                <td><input name="rate" required></td>
-                                            </c:when>
-                                            <c:when test="${report.value.isLoadingRateFromDB()}">
-                                                <td><input name="rate" class="field" value="${report.value.getRate()}"></td>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <td><input name="rate" value="${report.value.getRate()}"></td>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <input type="hidden" name="number" value="${report.value.getNumberOfWagon()}">
-                                    </tr>
-                                 </c:forEach>
-                             </c:if>
-                        </table>
+    <form action="/dynamicdistributionpark" method="get">
+            <input type="submit" value="Очистить форму" class="bot1">
+    </form>
+	<input type="submit" value="Отправить" class="bot1">
+	<div>
+		<div>
+			<div class="attention">
+				<p>Были загружены данные из базы данных(выделено зеленым), возможно, они уже устарели, необходимо убедиться в корректности и при необходимости обновить</p>
+				<p>Либо недостаточно данных(выделено красным), необходимо внести ставки лиюо тарифы</p>
+				<p>Измененные данные будут обновлены автоматически</p>
+			</div>
+			<div class="tabs">
+				<input id="tab1" type="radio" name="tabs" checked>
+				<label for="tab1" title="Проверка данных">Проверка данных</label>
 
-
-                 </div>
-            </section>
-        </div>
-    </div>
-    <br>
-</div>
+				<section id="content-tab1">
+					<div>
+						<table class="table_report">
+							<tr>
+								<th>Номер вагона</th>
+								<th>Текущая станция</th>
+								<th>Из под груза</th>
+								<th>Класс груза</th>
+								<th>Станция распределения</th>
+								<th>Порожнее расстояние</th>
+								<th>Тариф</th>
+								<th>Следующий рейс</th>
+								<th>Следующий груз</th>
+								<th>Класс груза</th>
+								<th>Оборот дней</th>
+								<th>Ставка</th>
+							</tr>
+							<c:if test="${!empty needFillRateOrTariff}">
+								<c:forEach items="${needFillRateOrTariff}" var="report">
+									<tr>
+										<td>${report.value.getNumberOfWagon()}</td>
+										<input type="hidden" id="size" value="${report.value.getListRouteInfo().size()}">
+										<script language="javascript" type="text/javascript">
+										    function minus() {
+										        var a = parseInt(document.getDocumentById('size').value);
+										        var b = a - 1;
+										        alert(b);
+										    }
+										</script>
+										<c:forEach var="i" begin="0" end="0">
+                                            <td>${report.value.getListRouteInfo().get(i).getCurrentNameOfStationOfWagon()}</td>
+                                            <td>${report.value.getListRouteInfo().get(i).getCargo().getNameCargo()}</td>
+                                            <td>${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                            <td>${report.value.getListRouteInfo().get(i).getNameOfStationDepartureOfWagon()}</td>
+                                            <td>${report.value.getListRouteInfo().get(i).getDistanceEmpty()}</td>
+                                            <c:choose>
+                                                <c:when test="${empty report.value.getListRouteInfo().get(i).getTariff()}">
+                                                    <td><input name="tariff" class="field_red" required></td>
+                                                </c:when>
+                                                <c:when test="${report.value.getListRouteInfo().get(i).isLoadingTariffFromDB()}">
+                                                    <td><input name="tariff" class="field_green" value="${report.value.getListRouteInfo().get(i).getTariff()}"></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td><input name="tariff" class="field_normal" value="${report.value.getListRouteInfo().get(i).getTariff()}"></td>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <td>${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDeparture()} - ${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDestination()}</td>
+                                            <td>${report.value.getListRouteInfo().get(i).getRoute().getCargo().getNameCargo()}</td>
+                                            <td>${report.value.getListRouteInfo().get(i).getRoute().getCargo().getCargoType()}</td>
+                                            <td>${report.value.getListRouteInfo().get(i).getCountCircleDays()}</td>
+                                            <c:choose>
+                                                <c:when test="${empty report.value.getListRouteInfo().get(i).getRate()}">
+                                                    <td><input name="rate" class="field_red" required></td>
+                                                </c:when>
+                                                <c:when test="${report.value.getListRouteInfo().get(i).isLoadingRateFromDB()}">
+                                                    <td><input name="rate" class="field_green" value="${report.value.getListRouteInfo().get(i).getRate()}"></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td><input name="rate" class="field_normal" value="${report.value.getListRouteInfo().get(i).getRate()}"></td>
+                                                </c:otherwise>
+                                            </c:choose>
+										</c:forEach>
+										<input type="hidden" name="number" value="${report.value.getNumberOfWagon()}">
+									</tr>
+								</c:forEach>
+							</c:if>
+						</table>
+					</div>
+				</section>
+			</div>
+		</div>
+		<br>
+	</div>
 </form>
 <br><br><br>
 

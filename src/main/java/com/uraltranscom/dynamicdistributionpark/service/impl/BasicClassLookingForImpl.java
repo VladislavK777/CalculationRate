@@ -42,6 +42,8 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
     private GetListOfEmptyRoutesImpl getListOfEmptyRoutes;
     @Autowired
     private GetListOfRatesImpl getListOfRates;
+    @Autowired
+    private ClassHandlerTotalCalculateImpl classHandlerTotalCalculate;
 
     // Мапа для записи в файл Вагона + Станция назначения.
     private Map<String, WagonFinalInfo> totalMapWithWagonNumberAndRoute = new HashMap<>();
@@ -52,7 +54,7 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
     // Массив ошибок
     private List<String> listOfError = new ArrayList<>();
 
-    // Флаг, что нужно заполнить ставку или тариф
+    // Флаг, что нужно заполнить или проверить ставку или тариф
     private boolean isFlag = false;
 
     private BasicClassLookingForImpl() {
@@ -144,5 +146,13 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
 
     public void setClassHandlerLookingFor(ClassHandlerLookingForImpl classHandlerLookingFor) {
         this.classHandlerLookingFor = classHandlerLookingFor;
+    }
+
+    public ClassHandlerTotalCalculateImpl getClassHandlerTotalCalculate() {
+        return classHandlerTotalCalculate;
+    }
+
+    public void setClassHandlerTotalCalculate(ClassHandlerTotalCalculateImpl classHandlerTotalCalculate) {
+        this.classHandlerTotalCalculate = classHandlerTotalCalculate;
     }
 }

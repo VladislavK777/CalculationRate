@@ -7,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * Класс расчета количества дней, затраченных вагоном за один цикл. По вагонам количесво дней суммируется
@@ -26,22 +29,47 @@ public class GetFullMonthCircleOfWagonImpl extends JavaHelperBase implements Get
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetFullMonthCircleOfWagonImpl.class);
 
+    private Map<String, Integer> mapOfDaysOfWagon = new HashMap<>();
+
     private GetFullMonthCircleOfWagonImpl() {
     }
 
     @Override
-    public int fullDays(Integer distanceOfEmpty, String distanceOfRoute) {
-        int fullMonthCircle = 0;
+    public int fullDays(String numberOfWagon, Integer distanceOfEmpty, String distanceOfRoute) {
+        logger.info("ddd: {}", mapOfDaysOfWagon);
+        if (getNumberOfDaysOfWagon(numberOfWagon) == 0) {
+            int fullMonthCircle = 0;
 
-        // Прибавляем количество дней порожнего расстояния до станции отпраления следующего рейса
-        fullMonthCircle += Math.ceil(distanceOfEmpty / PrepareDistanceOfDay.getDistanceOfDay(distanceOfEmpty));
-        // Погрузка
-        fullMonthCircle += LOADING_WAGON;
-        // Расчитываем количество дней следующего рейса
-        fullMonthCircle += Math.ceil(Integer.parseInt(distanceOfRoute) / PrepareDistanceOfDay.getDistanceOfDay(Integer.parseInt(distanceOfRoute)));
-        // Прибавляем количество дней разгрузки
-        fullMonthCircle += UNLOADING_WAGON;
+            // Прибавляем количество дней порожнего расстояния до станции отпраления следующего рейса
+            fullMonthCircle += Math.ceil(distanceOfEmpty / PrepareDistanceOfDay.getDistanceOfDay(distanceOfEmpty));
+            // Погрузка
+            fullMonthCircle += LOADING_WAGON;
+            // Расчитываем количество дней следующего рейса
+            fullMonthCircle += Math.ceil(Integer.parseInt(distanceOfRoute) / PrepareDistanceOfDay.getDistanceOfDay(Integer.parseInt(distanceOfRoute)));
+            // Прибавляем количество дней разгрузки
+            fullMonthCircle += UNLOADING_WAGON;
 
-        return fullMonthCircle;
+            mapOfDaysOfWagon.put(numberOfWagon, fullMonthCircle);
+
+            return fullMonthCircle;
+        } else {
+            int fullMonthCircle = getNumberOfDaysOfWagon(numberOfWagon);
+
+            // Прибавляем количество дней порожнего расстояния до станции отпраления следующего рейса
+            fullMonthCircle += Math.ceil(distanceOfEmpty / PrepareDistanceOfDay.getDistanceOfDay(distanceOfEmpty));
+            // Погрузка
+            fullMonthCircle += LOADING_WAGON;
+            // Расчитываем количество дней следующего рейса
+            fullMonthCircle += Math.ceil(Integer.parseInt(distanceOfRoute) / PrepareDistanceOfDay.getDistanceOfDay(Integer.parseInt(distanceOfRoute)));
+            // Прибавляем количество дней разгрузки
+            fullMonthCircle += UNLOADING_WAGON;
+
+            mapOfDaysOfWagon.replace(numberOfWagon, fullMonthCircle);
+            return fullMonthCircle;
+        }
+    }
+
+    private int getNumberOfDaysOfWagon(String numberOfWagon) {
+        return mapOfDaysOfWagon.getOrDefault(numberOfWagon, 0);
     }
 }

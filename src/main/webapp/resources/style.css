@@ -24,6 +24,8 @@
     padding: 4px 6px;
     vertical-align: middle;
     text-decoration: none;
+    font-family: 'Calibri Light', serif;
+    font-size: 18px;
 }
 
 .bot1:hover, .bot1:focus {
@@ -33,11 +35,28 @@
     outline: 0 none;
 }
 
-.field {
+.field_red {
     border-color: rgba(255, 0, 0, 0.8);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px
     rgba(255, 0, 0, 0.9);
     outline: 0 none;
+    border-radius: 4px;
+    width: 100px;
+}
+
+.field_green {
+    border-color: rgba(0, 128, 0, 0.8);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px
+    rgba(0, 128, 0, 0.9);
+    outline: 0 none;
+    border-radius: 4px;
+    width: 100px;
+}
+
+.field_normal {
+    outline: 0 none;
+    border-radius: 4px;
+    width: 100px;
 }
 
 .attention {
@@ -182,7 +201,6 @@
     position: relative;
     color: #364274;
     font-size: 50px;
-    font-weight: normal;
     font-weight: bold;
     padding: 8px 20px 7px 20px;
     border-top: 4px solid;
@@ -220,19 +238,28 @@
 .form {
     position: absolute;
     top: 30%;
-    left: 40%;
+    left: 30%;
     margin: auto;
     z-index: 2;
-    width: 300px;
+    width: 30%;
     padding: 40px 20px;
     background: #FFFFFF;
     border: 1px solid #666666;
     border-radius: 20px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.9);
+    font-family: 'Calibri Light', serif;
+    font-size: 20px;
 }
 
 .form input {
-    width: 96%;
+    width: auto;
+    padding: 5px 2%;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+#input_form {
+    width: 100px;
     padding: 5px 2%;
     margin: 10px 0;
     border-radius: 4px;

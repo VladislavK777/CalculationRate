@@ -4,9 +4,12 @@ import com.uraltranscom.dynamicdistributionpark.service.InsertRateOrTariff;
 import com.uraltranscom.dynamicdistributionpark.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -23,6 +26,8 @@ import java.sql.SQLException;
  *
  */
 
+@Service
+@Component
 public class InsertTariffImpl extends ConnectionDB implements InsertRateOrTariff {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(InsertTariffImpl.class);
@@ -31,6 +36,7 @@ public class InsertTariffImpl extends ConnectionDB implements InsertRateOrTariff
     public void insertRateOfTariff(String keyOfStationDeparture, String keyOfStationDestination, int cargoType, double rateOrTariff) {
         try (Connection connection = getDataSource().getConnection();
              CallableStatement callableStatement = createCallableStatement(connection, keyOfStationDeparture, keyOfStationDestination, cargoType, rateOrTariff)) {
+            callableStatement.executeQuery();
             logger.debug("Insert tariff: {}", keyOfStationDeparture + " " + keyOfStationDestination + ": " + rateOrTariff);
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());

@@ -13,7 +13,6 @@ package com.uraltranscom.dynamicdistributionpark.controller;
  *
  */
 
-import com.uraltranscom.dynamicdistributionpark.model.additional_model.WagonRateAndTariff;
 import com.uraltranscom.dynamicdistributionpark.service.impl.BasicClassLookingForImpl;
 import com.uraltranscom.dynamicdistributionpark.util.MultipartFileToFileUtil;
 import org.slf4j.Logger;
@@ -25,9 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class BasicController {
@@ -55,15 +51,23 @@ public class BasicController {
         if (basicClassLookingForImpl.isFlag()) {
             model.addAttribute("needFillRateOrTariff", basicClassLookingForImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
             return "add";
+        } else {
+            basicClassLookingForImpl.getClassHandlerTotalCalculate().calculateYield(basicClassLookingForImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
+            model.addAttribute("finalWagonList", basicClassLookingForImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
+            model.addAttribute("reportListOfError", basicClassLookingForImpl.getListOfError());
+            model.addAttribute("yield", basicClassLookingForImpl.getClassHandlerTotalCalculate().getYield());
+            return "welcome";
         }
-        return "welcome";
     }
 
     @RequestMapping(value = "/result", method = RequestMethod.POST)
     public String routeList(@RequestParam(value = "rate") String rate,
                             @RequestParam(value = "tariff") String tariff,
                             @RequestParam(value = "number") String numberOfWagon, Model model) {
-
+        basicClassLookingForImpl.getClassHandlerTotalCalculate().updateMap(basicClassLookingForImpl.getClassHandlerLookingFor().getMapFinalWagonInfo(), numberOfWagon, rate, tariff);
+        model.addAttribute("finalWagonList", basicClassLookingForImpl.getClassHandlerTotalCalculate().getNewMapWagonFinalInfo());
+        model.addAttribute("reportListOfError", basicClassLookingForImpl.getListOfError());
+        model.addAttribute("yield", basicClassLookingForImpl.getClassHandlerTotalCalculate().getYield());
         return "welcome";
     }
 /**

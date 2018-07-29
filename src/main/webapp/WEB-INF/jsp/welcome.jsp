@@ -11,7 +11,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>UralTransCom</title>
+    <title>UralTransCom|DynamicDistributionPark</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href="resources/style.css" rel="stylesheet" type="text/css"/>
     <link rel="shortcut icon" href="resources/favicon.ico" type="image/x-icon">
@@ -35,6 +35,17 @@
     <script>
         function cop() {
             document.getElementById("copy").innerText = new Date().getFullYear();
+        }
+    </script>
+
+    <!-- Блокировка экрана -->
+    <script type="text/javascript">
+        function lockScreen() {
+            var lock = document.getElementById('lockPane');
+            if (lock)
+                lock.className = 'lockScreenOn';
+                $('body').addClass('stop-scrolling');
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
         }
     </script>
 
@@ -101,7 +112,8 @@
         }
         /* Активация секций с помощью псевдокласса :checked */
         #tab1:checked ~ #content-tab1,
-        #tab2:checked ~ #content-tab2 {
+        #tab2:checked ~ #content-tab2,
+        #tab3:checked ~ #content-tab3 {
             display: block;
         }
         /* Убираем текст с переключателей и оставляем иконки на малых экранах*/
@@ -119,6 +131,48 @@
             .tabs > label {
                 padding: 15px;
             }
+        }
+        /* Блокировка экрана */
+        .lockScreenOff {
+            display: none;
+            visibility: hidden;
+        }
+        .lockScreenOn {
+            display: block;
+            visibility: visible;
+            position: absolute;
+            z-index: 999;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: #ccc;
+            text-align: center;
+            filter: alpha(opacity=75);
+            opacity: 0.75;
+        }
+        .stop-scrolling {
+            height: 100%;
+            overflow: hidden;
+        }
+        /* Стили лоадера */
+        .hide {
+            display: none;
+        }
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #364274;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            position: relative;
+            top: 40%;
+            left: 45%;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -143,11 +197,11 @@
 <br><br><br><br><br>
 
 <div>
-    <c:if test="${empty reportListOfDistributedRoutesAndWagons}">
+    <c:if test="${empty finalWagonList}">
         <input type="button" value="Создать процесс" onclick="showPopup()" class="bot1" style="visibility:visible">
     </c:if>
 
-    <c:if test="${!empty reportListOfDistributedRoutesAndWagons}">
+    <c:if test="${!empty finalWagonList}">
         <form action="/dynamicdistributionpark" method="get" style="visibility:visible">
             <input type="submit" value="Очистить форму" class="bot1">
         </form>
@@ -166,16 +220,20 @@
                     </div>
                     <div class="form">
                         <form enctype="multipart/form-data" method="post" action="reports">
-                            <p>Файл заявок</p>
-                            <input type="file" name="routes" multiple accept="xlsx">
-                            <p>Файл дислокации вагонов</p>
-                            <input type="file" name="wagons" multiple accept="xlsx">
-                            <p>Файл ставок</p>
-                            <input type="file" name="rates" multiple accept="xlsx">
-                            <p>Файл порожних вагонов</p>
-                            <input type="file" name="emptyroutes" multiple accept="xlsx">
                             <p>
-                                <input type="submit" value="Загрузить" class="bot1">
+                                Файл заявок: <input type="file" name="routes" multiple accept="xlsx">
+                            </p>
+                            <p>
+                                Файл ставок: <input type="file" name="rates" multiple accept="xlsx">
+                            </p>
+                            <p>
+                                Файл порожних вагонов: <input type="file" name="emptyroutes" multiple accept="xlsx">
+                            </p>
+                            <p>
+                                Файл дислокации вагонов: <input type="file" name="wagons" multiple accept="xlsx">
+                            </p>
+                            <p>
+                                <input type="submit" value="Загрузить" class="bot1" id="input_form" onclick="lockScreen();">
                             </p>
                         </form>
                     </div>
@@ -192,48 +250,51 @@
             <input id="tab2" type="radio" name="tabs">
             <label for="tab2" title="Ошибки">Ошибки в кодах станций</label>
 
+            <input id="tab3" type="radio" name="tabs">
+            <label for="tab3" title="Доходность">Доходность</label>
+
             <section id="content-tab1">
              <div>
                 <table class="table_report">
                     <tr>
                         <th>Номер вагона</th>
-                        <th>Станция распределения</th>
-                        <th>Рейс</th>
-                        <th>Порожнее расстояние</th>
-                        <th>Оборот дней</th>
                         <th>Из под груза</th>
                         <th>Класс груза</th>
+                        <th>Станция распределения</th>
+                        <th>Порожнее расстояние</th>
+                        <th>Следующий рейс</th>
+                        <th>Оборот дней</th>
                     </tr>
-                     <c:if test="${!empty reportListOfDistributedRoutesAndWagons}">
-                         <c:forEach items="${reportListOfDistributedRoutesAndWagons}" var="reportList">
+                     <c:if test="${!empty finalWagonList}">
+                         <c:forEach items="${finalWagonList}" var="report">
                             <tr>
                                 <c:choose>
-                                    <c:when test="${reportList.getCargo() == 'СБ.ПОВАГ.ОТП'}">
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getNumberOfWagon()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getNameOfStationDepartureOfWagon()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getRoute()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getDistanceEmpty()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getCountCircleDays()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getCargo()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${reportList.getCargoType()}</td>
+                                    <c:when test="${report.value.getCargo().getNameCargo() == 'СБ.ПОВАГ.ОТП'}">
+                                        <td style="background: #364274; color: #ffffff;">${report.value.getNumberOfWagon()}</td>
+                                        <td style="background: #364274; color: #ffffff;">${report.value.getCargo().getNameCargo()}</td>
+                                        <td style="background: #364274; color: #ffffff;">${report.value.getCargoType()}</td>
+                                        <td style="background: #364274; color: #ffffff;">${report.value.getNameOfStationDepartureOfWagon()}</td>
+                                        <td style="background: #364274; color: #ffffff;">${report.value.getDistanceEmpty()}</td>
+                                        <td style="background: #364274; color: #ffffff;">${report.value.getRoute().getNameOfStationDeparture()} - ${report.value.getRoute().getNameOfStationDestination()}</td>
+                                        <td style="background: #364274; color: #ffffff;">${report.value.getCountCircleDays()}</td>
                                     </c:when>
-                                    <c:when test="${reportList.getCountCircleDays() > 30}">
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getNumberOfWagon()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getNameOfStationDepartureOfWagon()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getRoute()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getDistanceEmpty()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getCountCircleDays()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getCargo()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${reportList.getCargoType()}</td>
+                                    <c:when test="${report.value.getCountCircleDays() > 30}">
+                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getNumberOfWagon()}</td>
+                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getCargo().getNameCargo()}</td>
+                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getCargoType()}</td>
+                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getNameOfStationDepartureOfWagon()}</td>
+                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getDistanceEmpty()}</td>
+                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getRoute().getNameOfStationDeparture()} - ${report.value.getRoute().getNameOfStationDestination()}</td>
+                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getCountCircleDays()}</td>
                                     </c:when>
                                     <c:otherwise>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getNumberOfWagon()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getNameOfStationDepartureOfWagon()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getRoute()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getDistanceEmpty()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getCountCircleDays()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getCargo()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${reportList.getCargoType()}</td>
+                                        <td style="background: #ffffff; color: #364274;">${report.value.getNumberOfWagon()}</td>
+                                        <td style="background: #ffffff; color: #364274;">${report.value.getCargo().getNameCargo()}</td>
+                                        <td style="background: #ffffff; color: #364274;">${report.value.getCargoType()}</td>
+                                        <td style="background: #ffffff; color: #364274;">${report.value.getNameOfStationDepartureOfWagon()}</td>
+                                        <td style="background: #ffffff; color: #364274;">${report.value.getDistanceEmpty()}</td>
+                                        <td style="background: #ffffff; color: #364274;">${report.value.getRoute().getNameOfStationDeparture()} - ${report.value.getRoute().getNameOfStationDestination()}</td>
+                                        <td style="background: #ffffff; color: #364274;">${report.value.getCountCircleDays()}</td>
                                     </c:otherwise>
                                 </c:choose>
                             </tr>
@@ -246,13 +307,22 @@
                 <p>
                     <c:if test="${!empty reportListOfError}">
                 <table>
-                    <c:forEach items="${reportListOfError}" var="Error">
+                    <c:forEach items="${reportListOfError}" var="error">
                         <tr>
-                            <td style="background: #ffffff; color: #364274;">${Error}</td>
+                            <td style="background: #ffffff; color: #364274;">${error}</td>
                         </tr>
                     </c:forEach>
                 </table>
                 </c:if>
+                </p>
+            </section>
+            <section id="content-tab3">
+                <p>
+                <table>
+                    <tr>
+                        <td style="background: #ffffff; color: #364274;">${yield}</td>
+                    </tr>
+                </table>
                 </p>
             </section>
         </div>

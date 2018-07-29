@@ -1,14 +1,12 @@
 package com.uraltranscom.dynamicdistributionpark.service.impl;
 
-import com.uraltranscom.dynamicdistributionpark.model.additional_model.WagonRateAndTariff;
 import com.uraltranscom.dynamicdistributionpark.model_ext.WagonFinalInfo;
-import com.uraltranscom.dynamicdistributionpark.service.additional.PrepareDateForInsert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,24 +23,27 @@ import java.util.Map;
  */
 
 @Service
+@Component
 public class ClassHandlerInsertRateOrTariffImpl {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(ClassHandlerInsertRateOrTariffImpl.class);
 
     @Autowired
-    InsertRateImpl insertRate;
+    private InsertRateImpl insertRate;
     @Autowired
-    InsertTariffImpl insertTariff;
+    private InsertTariffImpl insertTariff;
 
-    public void insertDate(Map<String, WagonFinalInfo> map, String wagons, String rates, String tariffs) {
-        List<WagonRateAndTariff> listRateAndTariff = PrepareDateForInsert.fillListForUpdate(wagons, rates, tariffs);
+    void insertDate(Map<String, WagonFinalInfo> newMap, Map<String, WagonFinalInfo> map) {
         for (Map.Entry<String, WagonFinalInfo> _map: map.entrySet()) {
-            for (WagonRateAndTariff list : listRateAndTariff) {
-                if (_map.getKey().equals(list.getNumberOfWagon())) {
-                    // Вставляем ставку в БД
-                    insertRate.insertRateOfTariff(_map.getValue().getRoute().getKeyOfStationDeparture(), _map.getValue().getRoute().getKeyOfStationDestination(), _map.getValue().getRoute().getCargo().getCargoType(), list.getRate());
-                    // Вставляем тариф в БД
-                    insertTariff.insertRateOfTariff(_map.getValue().getCurrentKeyOfStationOfWagon(), _map.getValue().getRoute().getKeyOfStationDeparture(), _map.getValue().getCargoType(), list.getTariff());
+            int index = _map.getValue().getListRouteInfo().size() - 1;
+            for (Map.Entry<String, WagonFinalInfo> _newMap : newMap.entrySet()) {
+                if (_map.getKey().equals(_newMap.getKey())) {
+                    if (!_map.getValue().equals(_newMap.getValue())) {
+                        // Вставляем ставку в БД
+                        insertRate.insertRateOfTariff(_newMap.getValue().getListRouteInfo().get(index).getRoute().getKeyOfStationDeparture(), _newMap.getValue().getListRouteInfo().get(index).getRoute().getKeyOfStationDestination(), _newMap.getValue().getListRouteInfo().get(index).getRoute().getCargo().getCargoType(), (Double) _newMap.getValue().getListRouteInfo().get(index).getRate());
+                        // Вставляем тариф в БД
+                        insertTariff.insertRateOfTariff(_newMap.getValue().getListRouteInfo().get(index).getCurrentKeyOfStationOfWagon(), _newMap.getValue().getListRouteInfo().get(index).getRoute().getKeyOfStationDeparture(), _newMap.getValue().getListRouteInfo().get(index).getCargoType(), (Double) _newMap.getValue().getListRouteInfo().get(index).getTariff());
+                    }
                 }
             }
         }

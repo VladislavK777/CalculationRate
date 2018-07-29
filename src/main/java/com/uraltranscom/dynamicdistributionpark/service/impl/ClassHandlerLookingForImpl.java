@@ -5,6 +5,7 @@ import com.uraltranscom.dynamicdistributionpark.model.RateClass;
 import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.model.Wagon;
 import com.uraltranscom.dynamicdistributionpark.model_ext.WagonFinalInfo;
+import com.uraltranscom.dynamicdistributionpark.model_ext.WagonFinalRouteInfo;
 import com.uraltranscom.dynamicdistributionpark.service.ClassHandlerLookingFor;
 import com.uraltranscom.dynamicdistributionpark.service.additional.CompareMapValue;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
@@ -73,8 +74,10 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
             mapDistance.clear();
 
             for (Wagon _copyListOfWagon : copyListOfWagon) {
+                // Индекс последнего маршрута
+                int index = _copyListOfWagon.getListRoutes().size() - 1;
                 // Получаем код станции назначения вагона
-                String keyOfStationOfWagonDestination = _copyListOfWagon.getKeyOfStationDestination().trim();
+                String keyOfStationOfWagonDestination = _copyListOfWagon.getListRoutes().get(index).getKeyOfStationDestination().trim();
 
                 // По каждому вагону высчитываем расстояние до каждой начальной станнции маршрутов
                 // Цикл расчета расстояния и заполнения мапы
@@ -89,7 +92,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                     // Ищем в готовой мапе расстояние
                     if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
                         if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 0) {
-                            switch (_copyListOfWagon.getCargo().getCargoType()) {
+                            switch (_copyListOfWagon.getListRoutes().get(index).getCargo().getCargoType()) {
                                 case 3:
                                     if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 300) {
                                         mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
@@ -117,11 +120,11 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
             // Сортируем мапу по значению
             Map<List<Object>, Integer> mapDistanceSort = new LinkedHashMap<>();
 
-            int index = mapDistance.size();
-            CompareMapValue[] compareMapValues = new CompareMapValue[index];
-            index = 0;
+            int indexMap = mapDistance.size();
+            CompareMapValue[] compareMapValues = new CompareMapValue[indexMap];
+            indexMap = 0;
             for (Map.Entry<List<Object>, Integer> entry : mapDistance.entrySet()) {
-                compareMapValues[index++] = new CompareMapValue(entry.getKey(), entry.getValue());
+                compareMapValues[indexMap++] = new CompareMapValue(entry.getKey(), entry.getValue());
             }
             Arrays.sort(compareMapValues);
             for (CompareMapValue cmv : compareMapValues) {
@@ -138,6 +141,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                     Wagon wagon = (Wagon) listRouteMinDistance.get(0);
                     String nameOfStationDepartureOfWagon = route.getNameOfStationDeparture();
                     String keyOfStationDepartureOfWagon = route.getKeyOfStationDeparture();
+                    int index = wagon.getListRoutes().size() - 1;
 
                     final int[] o = {0};
                     Map<Integer, Route> tempMapOfRouteForDelete = new HashMap<>();
@@ -164,7 +168,10 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                         }
 
                                         // Число дней пройденных вагоном
-                                        int countCircleDays = getFullMonthCircleOfWagonImpl.fullDays(mapDistanceSortFirstElement.getValue(), route.getDistanceOfWay());
+                                        int countCircleDays = getFullMonthCircleOfWagonImpl.fullDays(
+                                                wagon.getNumberOfWagon(),
+                                                mapDistanceSortFirstElement.getValue(),
+                                                route.getDistanceOfWay());
 
                                         // Удаляем вагон
                                         /*for (int i = 0; i < tempListOfWagons.size(); i++) {
@@ -173,7 +180,64 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                             }
                                         }*/
 
-                                        copyListOfWagon.remove(getKeyNumber);
+                                        if (countCircleDays < MAX_COUNT_DAYS) {
+                                            // Добавляем информацию в выходную мапу
+                                            if (tempMapWagonInfo.isEmpty() || !tempMapWagonInfo.containsKey(wagon.getNumberOfWagon())) {
+                                                List<WagonFinalRouteInfo> list = new ArrayList<>();
+                                                list.add(new WagonFinalRouteInfo(countCircleDays,
+                                                        mapDistanceSortFirstElement.getValue(),
+                                                        wagon.getListRoutes().get(index).getNameOfStationDestination(),
+                                                        wagon.getListRoutes().get(index).getKeyOfStationDestination(),
+                                                        nameOfStationDepartureOfWagon,
+                                                        keyOfStationDepartureOfWagon,
+                                                        entry.getValue(),
+                                                        wagon.getListRoutes().get(index).getCargo(),
+                                                        wagon.getListRoutes().get(index).getCargo().getCargoType())
+                                                );
+                                                tempMapWagonInfo.put(wagon.getNumberOfWagon(),
+                                                        new WagonFinalInfo(
+                                                                wagon.getNumberOfWagon(),
+                                                                list
+                                                        )
+                                                );
+                                            } else {
+                                                logger.info("map: {}", tempMapWagonInfo);
+                                                logger.info("number: {}", wagon.getNumberOfWagon());
+                                                WagonFinalInfo wagonFinalInfo = tempMapWagonInfo.get(wagon.getNumberOfWagon());
+                                                logger.info("wagon: {}", wagonFinalInfo.toString());
+                                                List<WagonFinalRouteInfo> wagonFinalRouteInfo = wagonFinalInfo.getListRouteInfo();
+                                                logger.info("list: {}", wagonFinalRouteInfo.toString());
+                                                wagonFinalRouteInfo.add(new WagonFinalRouteInfo(countCircleDays,
+                                                        mapDistanceSortFirstElement.getValue(),
+                                                        wagon.getListRoutes().get(index).getNameOfStationDestination(),
+                                                        wagon.getListRoutes().get(index).getKeyOfStationDestination(),
+                                                        nameOfStationDepartureOfWagon,
+                                                        keyOfStationDepartureOfWagon,
+                                                        entry.getValue(),
+                                                        wagon.getListRoutes().get(index).getCargo(),
+                                                        wagon.getListRoutes().get(index).getCargo().getCargoType())
+                                                );
+                                                tempMapWagonInfo.get(wagon.getNumberOfWagon()).setListRouteInfo(wagonFinalRouteInfo);
+                                            }
+
+                                            // Добавляем информацию у вагона, добавляем новый рейс
+                                            List<Route> list = wagon.getListRoutes();
+                                            list.add(new Route(entry.getValue().getKeyOfStationDeparture(),
+                                                    entry.getValue().getNameOfStationDeparture(),
+                                                    entry.getValue().getRoadOfStationDeparture(),
+                                                    entry.getValue().getKeyOfStationDestination(),
+                                                    entry.getValue().getNameOfStationDestination(),
+                                                    entry.getValue().getRoadOfStationDestination(),
+                                                    entry.getValue().getCustomer(),
+                                                    entry.getValue().getVolumePeriod().getVolumeFrom(),
+                                                    entry.getValue().getVolumePeriod().getVolumeTo(),
+                                                    entry.getValue().getCargo().getNameCargo(),
+                                                    entry.getValue().getCargo().getKeyCargo()
+                                            ));
+                                            wagon.setListRoutes(list);
+                                        } else if (countCircleDays > MAX_COUNT_DAYS_DECADE) {
+                                            copyListOfWagon.remove(getKeyNumber);
+                                        }
 
                                         // Уменьшаем количество рейсов у маршрута
                                         tempMapOfRoutes.put(entry.getKey(), new Route(tempMapOfRoutes.get(entry.getKey()).getKeyOfStationDeparture(),
@@ -196,24 +260,6 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                         if (tempMapOfRoutes.get(entry.getKey()).getCountOrders() == 0) {
                                             it.remove();
                                         }
-
-                                        tempMapWagonInfo.put(wagon.getNumberOfWagon(),
-                                                new WagonFinalInfo(
-                                                        wagon.getNumberOfWagon(),
-                                                        countCircleDays,
-                                                        mapDistanceSortFirstElement.getValue(),
-                                                        wagon.getNameOfStationDestination(),
-                                                        wagon.getKeyOfStationDestination(),
-                                                        nameOfStationDepartureOfWagon,
-                                                        keyOfStationDepartureOfWagon,
-                                                        entry.getValue(),
-                                                        wagon.getCargo(),
-                                                        wagon.getCargo().getCargoType()
-                                                )
-                                        );
-                                        //basicClassLookingFor.getListOfDistributedRoutesAndWagons().add(new WagonFinalInfo(wagon.getNumberOfWagon(), countCircleDays, mapDistanceSortFirstElement.getValue(), nameOfStationDepartureOfWagon, tempMapOfRouteForDelete.get(j).getNameOfStationDeparture() + " - " + tempMapOfRouteForDelete.get(j).getNameOfStationDestination(), wagon.getCargo().trim(), getListOfDistance.getRootMapWithTypeOfCargo().get(wagon.getKeyItemCargo())));
-                                        //basicClassLookingFor.getTotalMapWithWagonNumberAndRoute().put(new WagonFinalInfo(wagon.getNumberOfWagon(), countCircleDays, mapDistanceSortFirstElement.getValue()), tempMapOfRouteForDelete.get(j));
-
                                         isOk = true;
                                         // Выходим из цикла, так как с ним больше ничего не сделать
                                         break outer;
@@ -228,8 +274,8 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
 
         putRateAndTariff(tempMapWagonInfo);
         checkEmptyTariffOrRate(mapFinalWagonInfo);
-        logger.debug("mapFinalWagonInfo: {}", mapFinalWagonInfo);
 
+        logger.debug("mapFinalWagonInfo: {}", mapFinalWagonInfo);
         logger.info("Stop root method: {}", this.getClass().getSimpleName() + ".fillMapRouteIsOptimal");
     }
 
@@ -239,26 +285,28 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
         Map<Integer, EmptyRoute> tempMapEmptyRoutes = new HashMap<>(basicClassLookingFor.getGetListOfEmptyRoutes().getMapOfEmptyRoutes());
 
         for (Map.Entry<String, WagonFinalInfo> _map: map.entrySet()) {
+            // Индекс последнего маршрута
+            int index = _map.getValue().getListRouteInfo().size() - 1;
             List<RateClass> tempListSelectedRates = new ArrayList<>();
 
             // Подбираем ставку из файле
             for (Map.Entry<Integer, RateClass> _tempMapRates: tempMapRates.entrySet()) {
-                if (_map.getValue().getRoute().getCustomer().equals(_tempMapRates.getValue().getCustomer()) &&
-                        _map.getValue().getRoute().getNameOfStationDeparture().equals(_tempMapRates.getValue().getNameOfStationDeparture()) &&
-                        _map.getValue().getRoute().getNameOfStationDestination().equals(_tempMapRates.getValue().getNameOfStationDestination()) &&
-                        _map.getValue().getRoute().getCargo().getCargoType() == _tempMapRates.getValue().getCargo().getCargoType()) {
+                if (_map.getValue().getListRouteInfo().get(index).getRoute().getCustomer().equals(_tempMapRates.getValue().getCustomer()) &&
+                        _map.getValue().getListRouteInfo().get(index).getRoute().getNameOfStationDeparture().equals(_tempMapRates.getValue().getNameOfStationDeparture()) &&
+                        _map.getValue().getListRouteInfo().get(index).getRoute().getNameOfStationDestination().equals(_tempMapRates.getValue().getNameOfStationDestination()) &&
+                        _map.getValue().getListRouteInfo().get(index).getRoute().getCargo().getCargoType() == _tempMapRates.getValue().getCargo().getCargoType()) {
                     tempListSelectedRates.add(_tempMapRates.getValue());
                 }
             }
             Collections.sort(tempListSelectedRates);
-            if (!tempListSelectedRates.isEmpty()) _map.getValue().setRate(tempListSelectedRates.get(0).getRate());
+            if (!tempListSelectedRates.isEmpty()) _map.getValue().getListRouteInfo().get(index).setRate(tempListSelectedRates.get(0).getRate());
 
             // Подбираем тариф из файле
             for (Map.Entry<Integer, EmptyRoute> _tempMapEmptyRoutes: tempMapEmptyRoutes.entrySet()) {
-                if (_map.getValue().getCurrentNameOfStationOfWagon().equals(_tempMapEmptyRoutes.getValue().getNameOfStationDeparture()) &&
-                        _map.getValue().getRoute().getNameOfStationDeparture().equals(_tempMapEmptyRoutes.getValue().getNameOfStationDestination()) &&
-                        _map.getValue().getCargoType() == _tempMapEmptyRoutes.getValue().getCargo().getCargoType()) {
-                    _map.getValue().setTariff(_tempMapEmptyRoutes.getValue().getTariff());
+                if (_map.getValue().getListRouteInfo().get(index).getCurrentNameOfStationOfWagon().equals(_tempMapEmptyRoutes.getValue().getNameOfStationDeparture()) &&
+                        _map.getValue().getListRouteInfo().get(index).getRoute().getNameOfStationDeparture().equals(_tempMapEmptyRoutes.getValue().getNameOfStationDestination()) &&
+                        _map.getValue().getListRouteInfo().get(index).getCargoType() == _tempMapEmptyRoutes.getValue().getCargo().getCargoType()) {
+                    _map.getValue().getListRouteInfo().get(index).setTariff(_tempMapEmptyRoutes.getValue().getTariff());
                 }
             }
             tempResultMap.put(_map.getKey(), _map.getValue());
@@ -269,26 +317,32 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
 
     private void lookingForRateAndTariffInDB(Map<String, WagonFinalInfo> map) {
         for (Map.Entry<String, WagonFinalInfo> _map: map.entrySet()) {
+            // Индекс последнего маршрута
+            int index = _map.getValue().getListRouteInfo().size() - 1;
             // Не нашли тариф в файле, поищем в базе
-            if (_map.getValue().getTariff() == null) {
-                Object tariff = getTariff.getRateOrTariff(_map.getValue().getCurrentKeyOfStationOfWagon(),
-                        _map.getValue().getRoute().getKeyOfStationDeparture(),
-                        _map.getValue().getCargoType());
+            if (_map.getValue().getListRouteInfo().get(index).getTariff() == null) {
+                Object tariff = getTariff.getRateOrTariff(_map.getValue().getListRouteInfo().get(index).getCurrentKeyOfStationOfWagon(),
+                        _map.getValue().getListRouteInfo().get(index).getRoute().getKeyOfStationDeparture(),
+                        _map.getValue().getListRouteInfo().get(index).getCargoType());
                 if (tariff != null) {
-                    _map.getValue().setTariff(tariff);
-                    _map.getValue().setLoadingTariffFromDB(Boolean.TRUE);
+                    _map.getValue().getListRouteInfo().get(index).setTariff(tariff);
+                    _map.getValue().getListRouteInfo().get(index).setLoadingTariffFromDB(Boolean.TRUE);
+                    if (!basicClassLookingFor.isFlag()) {
+                        basicClassLookingFor.setFlag(Boolean.TRUE);
+                    }
                 }
             }
             // Не нашли ставку в файле, поищем в базе
-            if (_map.getValue().getRate() == null) {
-                Object rate = getRate.getRateOrTariff(_map.getValue().getRoute().getKeyOfStationDeparture(),
-                        _map.getValue().getRoute().getKeyOfStationDestination(),
-                        _map.getValue().getRoute().getCargo().getCargoType());
+            if (_map.getValue().getListRouteInfo().get(index).getRate() == null) {
+                Object rate = getRate.getRateOrTariff(_map.getValue().getListRouteInfo().get(index).getRoute().getKeyOfStationDeparture(),
+                        _map.getValue().getListRouteInfo().get(index).getRoute().getKeyOfStationDestination(),
+                        _map.getValue().getListRouteInfo().get(index).getRoute().getCargo().getCargoType());
                 if (rate != null) {
-                    System.out.println(rate);
-                    _map.getValue().setRate(rate);
-                    System.out.println(_map.getValue().getRate());
-                    _map.getValue().setLoadingRateFromDB(Boolean.TRUE);
+                    _map.getValue().getListRouteInfo().get(index).setRate(rate);
+                    _map.getValue().getListRouteInfo().get(index).setLoadingRateFromDB(Boolean.TRUE);
+                    if (!basicClassLookingFor.isFlag()) {
+                        basicClassLookingFor.setFlag(Boolean.TRUE);
+                    }
                 }
             }
         }
@@ -296,8 +350,10 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
 
     private void checkEmptyTariffOrRate(Map<String, WagonFinalInfo> map) {
         for (Map.Entry<String, WagonFinalInfo> _map: map.entrySet()) {
-            if (_map.getValue().getRate() == null || _map.getValue().getTariff() == null) {
-                _map.getValue().setEmpty(Boolean.TRUE);
+            // Индекс последнего маршрута
+            int index = _map.getValue().getListRouteInfo().size() - 1;
+            if (_map.getValue().getListRouteInfo().get(index).getRate() == null || _map.getValue().getListRouteInfo().get(index).getTariff() == null) {
+                _map.getValue().getListRouteInfo().get(index).setEmpty(Boolean.TRUE);
                 if (!basicClassLookingFor.isFlag()) {
                     basicClassLookingFor.setFlag(Boolean.TRUE);
                 }
