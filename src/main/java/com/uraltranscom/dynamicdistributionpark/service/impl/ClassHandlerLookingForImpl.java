@@ -90,27 +90,82 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                     String key = keyOfStationOfWagonDestination + "_" + keyOfStationDeparture;
 
                     // Ищем в готовой мапе расстояние
-                    if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
-                        if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 0) {
-                            switch (_copyListOfWagon.getListRoutes().get(index).getCargo().getCargoType()) {
-                                case 3:
-                                    if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 300) {
-                                        mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                    }
-                                    break;
-                                default:
-                                    if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 600) {
-                                        mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                    }
-                                    break;
+                    if (_copyListOfWagon.getListRoutes().size() == 1) {
+                        if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
+                            if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 0) {
+                                switch (_copyListOfWagon.getListRoutes().get(index).getCargo().getCargoType()) {
+                                    case 3:
+                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 300) {
+                                            mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
+                                        }
+                                        break;
+                                    default:
+                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 600) {
+                                            mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
+                                        }
+                                        break;
+                                }
+                            } else if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 1) {
+                                if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 2500) {
+                                    mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
+                                }
+                            } else {
+                                if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 1800) {
+                                    mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
+                                }
                             }
-                        } else if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 1) {
-                            if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 2500) {
-                                mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
+                        }
+                    } else {
+                        if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
+                            if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 0) {
+                                switch (_copyListOfWagon.getListRoutes().get(index).getCargo().getCargoType()) {
+                                    case 3:
+                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 300) {
+                                            mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
+                                        }
+                                        break;
+                                    default:
+                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 600) {
+                                            mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
+                                        }
+                                        break;
+                                }
+                            } else if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 1) {
+                                if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 2500) {
+                                    mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
+                                }
+                            } else {
+                                if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 1800) {
+                                    mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
+                                }
                             }
                         } else {
-                            if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 1800) {
-                                mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
+                            List<Integer> listDistance = getListOfDistance.listDistance(keyOfStationOfWagonDestination, keyOfStationDeparture);
+                            if (listDistance != null) {
+                                if (listDistance.get(1) == 0) {
+                                    switch (_copyListOfWagon.getListRoutes().get(index).getCargo().getCargoType()) {
+                                        case 3:
+                                            if (listDistance.get(0) <= 300) {
+                                                mapDistance.put(list, listDistance.get(0));
+                                            }
+                                            break;
+                                        default:
+                                            if (listDistance.get(0) <= 600) {
+                                                mapDistance.put(list, listDistance.get(0));
+                                            }
+                                            break;
+                                    }
+                                } else if (listDistance.get(1) == 1) {
+                                    if (listDistance.get(0) <= 2500) {
+                                        mapDistance.put(list, listDistance.get(0));
+                                    }
+                                } else {
+                                    if (listDistance.get(0) <= 1800) {
+                                        mapDistance.put(list, listDistance.get(0));
+                                    }
+                                }
+                            } else {
+                                break;
                             }
                         }
                     }
@@ -168,6 +223,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                         }
 
                                         // Число дней пройденных вагоном
+
                                         int countCircleDays = getFullMonthCircleOfWagonImpl.fullDays(
                                                 wagon.getNumberOfWagon(),
                                                 mapDistanceSortFirstElement.getValue(),
@@ -180,11 +236,11 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                             }
                                         }*/
 
-                                        if (countCircleDays < MAX_COUNT_DAYS) {
+                                        if (countCircleDays <= MAX_COUNT_DAYS_DECADE) {
                                             // Добавляем информацию в выходную мапу
                                             if (tempMapWagonInfo.isEmpty() || !tempMapWagonInfo.containsKey(wagon.getNumberOfWagon())) {
                                                 List<WagonFinalRouteInfo> list = new ArrayList<>();
-                                                list.add(new WagonFinalRouteInfo(countCircleDays,
+                                                list.add(new WagonFinalRouteInfo(getFullMonthCircleOfWagonImpl.getListOfDaysOfWagon(wagon.getNumberOfWagon()).get(index),
                                                         mapDistanceSortFirstElement.getValue(),
                                                         wagon.getListRoutes().get(index).getNameOfStationDestination(),
                                                         wagon.getListRoutes().get(index).getKeyOfStationDestination(),
@@ -201,13 +257,9 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                                         )
                                                 );
                                             } else {
-                                                logger.info("map: {}", tempMapWagonInfo);
-                                                logger.info("number: {}", wagon.getNumberOfWagon());
                                                 WagonFinalInfo wagonFinalInfo = tempMapWagonInfo.get(wagon.getNumberOfWagon());
-                                                logger.info("wagon: {}", wagonFinalInfo.toString());
                                                 List<WagonFinalRouteInfo> wagonFinalRouteInfo = wagonFinalInfo.getListRouteInfo();
-                                                logger.info("list: {}", wagonFinalRouteInfo.toString());
-                                                wagonFinalRouteInfo.add(new WagonFinalRouteInfo(countCircleDays,
+                                                wagonFinalRouteInfo.add(new WagonFinalRouteInfo(getFullMonthCircleOfWagonImpl.getListOfDaysOfWagon(wagon.getNumberOfWagon()).get(index),
                                                         mapDistanceSortFirstElement.getValue(),
                                                         wagon.getListRoutes().get(index).getNameOfStationDestination(),
                                                         wagon.getListRoutes().get(index).getKeyOfStationDestination(),
@@ -218,6 +270,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                                         wagon.getListRoutes().get(index).getCargo().getCargoType())
                                                 );
                                                 tempMapWagonInfo.get(wagon.getNumberOfWagon()).setListRouteInfo(wagonFinalRouteInfo);
+                                                tempMapWagonInfo.get(wagon.getNumberOfWagon()).setSizeArray(wagonFinalRouteInfo.size() - 1);
                                             }
 
                                             // Добавляем информацию у вагона, добавляем новый рейс
@@ -235,7 +288,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                                     entry.getValue().getCargo().getKeyCargo()
                                             ));
                                             wagon.setListRoutes(list);
-                                        } else if (countCircleDays > MAX_COUNT_DAYS_DECADE) {
+                                        } else {
                                             copyListOfWagon.remove(getKeyNumber);
                                         }
 

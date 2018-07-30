@@ -63,8 +63,9 @@ public class BasicController {
     @RequestMapping(value = "/result", method = RequestMethod.POST)
     public String routeList(@RequestParam(value = "rate") String rate,
                             @RequestParam(value = "tariff") String tariff,
-                            @RequestParam(value = "number") String numberOfWagon, Model model) {
-        basicClassLookingForImpl.getClassHandlerTotalCalculate().updateMap(basicClassLookingForImpl.getClassHandlerLookingFor().getMapFinalWagonInfo(), numberOfWagon, rate, tariff);
+                            @RequestParam(value = "number") String numberOfWagon,
+                            @RequestParam(value = "route") String route, Model model) {
+        basicClassLookingForImpl.getClassHandlerTotalCalculate().updateMap(basicClassLookingForImpl.getClassHandlerLookingFor().getMapFinalWagonInfo(), numberOfWagon, rate, tariff, route);
         model.addAttribute("finalWagonList", basicClassLookingForImpl.getClassHandlerTotalCalculate().getNewMapWagonFinalInfo());
         model.addAttribute("reportListOfError", basicClassLookingForImpl.getListOfError());
         model.addAttribute("yield", basicClassLookingForImpl.getClassHandlerTotalCalculate().getYield());

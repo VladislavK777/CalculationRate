@@ -251,7 +251,7 @@
             <label for="tab2" title="Ошибки">Ошибки в кодах станций</label>
 
             <input id="tab3" type="radio" name="tabs">
-            <label for="tab3" title="Доходность">Доходность</label>
+            <label for="tab3" title="Итоговые показатели">Доходность</label>
 
             <section id="content-tab1">
              <div>
@@ -267,37 +267,39 @@
                     </tr>
                      <c:if test="${!empty finalWagonList}">
                          <c:forEach items="${finalWagonList}" var="report">
-                            <tr>
-                                <c:choose>
-                                    <c:when test="${report.value.getCargo().getNameCargo() == 'СБ.ПОВАГ.ОТП'}">
-                                        <td style="background: #364274; color: #ffffff;">${report.value.getNumberOfWagon()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${report.value.getCargo().getNameCargo()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${report.value.getCargoType()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${report.value.getNameOfStationDepartureOfWagon()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${report.value.getDistanceEmpty()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${report.value.getRoute().getNameOfStationDeparture()} - ${report.value.getRoute().getNameOfStationDestination()}</td>
-                                        <td style="background: #364274; color: #ffffff;">${report.value.getCountCircleDays()}</td>
-                                    </c:when>
-                                    <c:when test="${report.value.getCountCircleDays() > 30}">
-                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getNumberOfWagon()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getCargo().getNameCargo()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getCargoType()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getNameOfStationDepartureOfWagon()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getDistanceEmpty()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getRoute().getNameOfStationDeparture()} - ${report.value.getRoute().getNameOfStationDestination()}</td>
-                                        <td style="background: #ff0000; color: #ffffff;">${report.value.getCountCircleDays()}</td>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <td style="background: #ffffff; color: #364274;">${report.value.getNumberOfWagon()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${report.value.getCargo().getNameCargo()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${report.value.getCargoType()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${report.value.getNameOfStationDepartureOfWagon()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${report.value.getDistanceEmpty()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${report.value.getRoute().getNameOfStationDeparture()} - ${report.value.getRoute().getNameOfStationDestination()}</td>
-                                        <td style="background: #ffffff; color: #364274;">${report.value.getCountCircleDays()}</td>
-                                    </c:otherwise>
-                                </c:choose>
-                            </tr>
+                             <c:forEach var="i" begin="0" end="${report.value.getSizeArray()}">
+                                <tr>
+                                    <c:choose>
+                                        <c:when test="${report.value.getListRouteInfo().get(i).getCargo().getNameCargo() == 'СБ.ПОВАГ.ОТП'}">
+                                            <td style="background: #364274; color: #ffffff;">${report.value.getNumberOfWagon()}</td>
+                                            <td style="background: #364274; color: #ffffff;">${report.value.getListRouteInfo().get(i).getCargo().getNameCargo()}</td>
+                                            <td style="background: #364274; color: #ffffff;">${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                            <td style="background: #364274; color: #ffffff;">${report.value.getListRouteInfo().get(i).getNameOfStationDepartureOfWagon()}</td>
+                                            <td style="background: #364274; color: #ffffff;">${report.value.getListRouteInfo().get(i).getDistanceEmpty()}</td>
+                                            <td style="background: #364274; color: #ffffff;">${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDeparture()} - ${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDestination()}</td>
+                                            <td style="background: #364274; color: #ffffff;">${report.value.getListRouteInfo().get(i).getCountCircleDays()}</td>
+                                        </c:when>
+                                        <c:when test="${report.value.getListRouteInfo().get(i).getCountCircleDays() > 30}">
+                                            <td style="background: #ff0000; color: #ffffff;">${report.value.getNumberOfWagon()}</td>
+                                            <td style="background: #ff0000; color: #ffffff;">${report.value.getListRouteInfo().get(i).getCargo().getNameCargo()}</td>
+                                            <td style="background: #ff0000; color: #ffffff;">${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                            <td style="background: #ff0000; color: #ffffff;">${report.value.getListRouteInfo().get(i).getNameOfStationDepartureOfWagon()}</td>
+                                            <td style="background: #ff0000; color: #ffffff;">${report.value.getListRouteInfo().get(i).getDistanceEmpty()}</td>
+                                            <td style="background: #ff0000; color: #ffffff;">${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDeparture()} - ${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDestination()}</td>
+                                            <td style="background: #ff0000; color: #ffffff;">${report.value.getListRouteInfo().get(i).getCountCircleDays()}</td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td style="background: #ffffff; color: #364274;">${report.value.getNumberOfWagon()}</td>
+                                            <td style="background: #ffffff; color: #364274;">${report.value.getListRouteInfo().get(i).getCargo().getNameCargo()}</td>
+                                            <td style="background: #ffffff; color: #364274;">${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                            <td style="background: #ffffff; color: #364274;">${report.value.getListRouteInfo().get(i).getNameOfStationDepartureOfWagon()}</td>
+                                            <td style="background: #ffffff; color: #364274;">${report.value.getListRouteInfo().get(i).getDistanceEmpty()}</td>
+                                            <td style="background: #ffffff; color: #364274;">${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDeparture()} - ${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDestination()}</td>
+                                            <td style="background: #ffffff; color: #364274;">${report.value.getListRouteInfo().get(i).getCountCircleDays()}</td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </tr>
+                             </c:forEach>
                          </c:forEach>
                      </c:if>
                 </table>
@@ -319,6 +321,13 @@
             <section id="content-tab3">
                 <p>
                 <table>
+                    <tr>
+                        <th>Доходность за 30 суток</th>
+                        <th>Факт заявок за 30 дней</th>
+                        <th>Факт заявок за 30 дней и декаду</th>
+                        <th>Общие количество заявок</th>
+                        <th>Открыть невостребованные заявки</th>
+                    </tr>
                     <tr>
                         <td style="background: #ffffff; color: #364274;">${yield}</td>
                     </tr>

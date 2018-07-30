@@ -19,11 +19,13 @@ public class WagonRateAndTariff {
     String numberOfWagon;
     double rate;
     double tariff;
+    String routeId;
 
-    public WagonRateAndTariff(String numberOfWagon, double rate, double tariff) {
+    public WagonRateAndTariff(String numberOfWagon, double rate, double tariff, String routeId) {
         this.numberOfWagon = numberOfWagon;
         this.rate = rate;
         this.tariff = tariff;
+        this.routeId = routeId;
     }
 
     public String getNumberOfWagon() {
@@ -50,6 +52,14 @@ public class WagonRateAndTariff {
         this.tariff = tariff;
     }
 
+    public String getRouteId() {
+        return routeId;
+    }
+
+    public void setRouteId(String routeId) {
+        this.routeId = routeId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,13 +67,14 @@ public class WagonRateAndTariff {
         WagonRateAndTariff that = (WagonRateAndTariff) o;
         return Double.compare(that.rate, rate) == 0 &&
                 Double.compare(that.tariff, tariff) == 0 &&
-                Objects.equals(numberOfWagon, that.numberOfWagon);
+                Objects.equals(numberOfWagon, that.numberOfWagon) &&
+                Objects.equals(routeId, that.routeId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(numberOfWagon, rate, tariff);
+        return Objects.hash(numberOfWagon, rate, tariff, routeId);
     }
 
     @Override
@@ -72,6 +83,7 @@ public class WagonRateAndTariff {
                 "numberOfWagon='" + numberOfWagon + '\'' +
                 ", rate=" + rate +
                 ", tariff=" + tariff +
+                ", routeId='" + routeId + '\'' +
                 '}';
     }
 }

@@ -26,20 +26,24 @@ public class WagonFinalInfo {
 
     private String numberOfWagon; // Номер вагона
     private List<WagonFinalRouteInfo> listRouteInfo; // Список маршрутов вагона
+    private int sizeArray; // Размер листа
 
     public WagonFinalInfo(String numberOfWagon, List<WagonFinalRouteInfo> listRouteInfo) {
         this.numberOfWagon = numberOfWagon;
         this.listRouteInfo = listRouteInfo;
+        this.sizeArray = listRouteInfo.size() - 1;
     }
 
     public WagonFinalInfo(WagonFinalInfo source) {
         setNumberOfWagon(source.getNumberOfWagon());
         setListRouteInfo(source.getListRouteInfo());
+        setSizeArray(source.getSizeArray());
     }
 
     public WagonFinalInfo(Map.Entry<String,WagonFinalInfo> source) {
         setNumberOfWagon(source.getValue().getNumberOfWagon());
         setListRouteInfo(source.getValue().getListRouteInfo());
+        setSizeArray(source.getValue().getSizeArray());
     }
 
     public String getNumberOfWagon() {
@@ -58,19 +62,28 @@ public class WagonFinalInfo {
         this.listRouteInfo = listRouteInfo;
     }
 
+    public int getSizeArray() {
+        return sizeArray;
+    }
+
+    public void setSizeArray(int sizeArray) {
+        this.sizeArray = sizeArray;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WagonFinalInfo that = (WagonFinalInfo) o;
-        return Objects.equals(numberOfWagon, that.numberOfWagon) &&
+        return sizeArray == that.sizeArray &&
+                Objects.equals(numberOfWagon, that.numberOfWagon) &&
                 Objects.equals(listRouteInfo, that.listRouteInfo);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(numberOfWagon, listRouteInfo);
+        return Objects.hash(numberOfWagon, listRouteInfo, sizeArray);
     }
 
     @Override
@@ -78,6 +91,7 @@ public class WagonFinalInfo {
         return "WagonFinalInfo{" +
                 "numberOfWagon='" + numberOfWagon + '\'' +
                 ", listRouteInfo=" + listRouteInfo +
+                ", sizeArray=" + sizeArray +
                 '}';
     }
 }

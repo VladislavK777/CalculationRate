@@ -1,6 +1,5 @@
 package com.uraltranscom.dynamicdistributionpark.service.additional;
 
-import com.uraltranscom.dynamicdistributionpark.controller.BasicController;
 import com.uraltranscom.dynamicdistributionpark.model.additional_model.WagonRateAndTariff;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +24,14 @@ public class PrepareDateForInsert {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(PrepareDateForInsert.class);
 
-    public static List<WagonRateAndTariff> fillListForUpdate(String wagons, String rates, String tariffs) {
+    public static List<WagonRateAndTariff> fillListForUpdate(String wagons, String rates, String tariffs, String routes) {
         List<WagonRateAndTariff> listRateAndTariff = new ArrayList<>();
         String [] rateArray = rates.split(",");
         String [] tariffArray = tariffs.split(",");
         String [] wagonArray = wagons.split(",");
+        String [] routeArray =  routes.split(",");
         for (int i = 0; i < wagonArray.length; i++) {
-            listRateAndTariff.add(new WagonRateAndTariff(wagonArray[i], Double.valueOf(rateArray[i]), Double.valueOf(tariffArray[i])));
+            listRateAndTariff.add(new WagonRateAndTariff(wagonArray[i], Double.valueOf(rateArray[i]), Double.valueOf(tariffArray[i]), routeArray[i]));
         }
         return listRateAndTariff;
     }

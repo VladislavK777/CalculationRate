@@ -5,6 +5,8 @@ import com.uraltranscom.dynamicdistributionpark.model.additional_model.CargoClas
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 /**
  *
  * Класс для формирвоания итоговой информации маршрутов для вагона
@@ -171,6 +173,33 @@ public class WagonFinalRouteInfo {
 
     public void setLoadingTariffFromDB(boolean loadingTariffFromDB) {
         isLoadingTariffFromDB = loadingTariffFromDB;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WagonFinalRouteInfo that = (WagonFinalRouteInfo) o;
+        return countCircleDays == that.countCircleDays &&
+                distanceEmpty == that.distanceEmpty &&
+                cargoType == that.cargoType &&
+                isEmpty == that.isEmpty &&
+                isLoadingRateFromDB == that.isLoadingRateFromDB &&
+                isLoadingTariffFromDB == that.isLoadingTariffFromDB &&
+                Objects.equals(currentNameOfStationOfWagon, that.currentNameOfStationOfWagon) &&
+                Objects.equals(currentKeyOfStationOfWagon, that.currentKeyOfStationOfWagon) &&
+                Objects.equals(nameOfStationDepartureOfWagon, that.nameOfStationDepartureOfWagon) &&
+                Objects.equals(keyOfStationDepartureOfWagon, that.keyOfStationDepartureOfWagon) &&
+                Objects.equals(route, that.route) &&
+                Objects.equals(cargo, that.cargo) &&
+                Objects.equals(rate, that.rate) &&
+                Objects.equals(tariff, that.tariff);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(countCircleDays, distanceEmpty, currentNameOfStationOfWagon, currentKeyOfStationOfWagon, nameOfStationDepartureOfWagon, keyOfStationDepartureOfWagon, route, cargo, cargoType, rate, tariff, isEmpty, isLoadingRateFromDB, isLoadingTariffFromDB);
     }
 
     @Override
