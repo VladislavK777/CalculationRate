@@ -330,6 +330,10 @@
                     </tr>
                     <tr>
                         <td style="background: #ffffff; color: #364274;">${yield}</td>
+                        <td style="background: #ffffff; color: #364274;">${count30Days}</td>
+                        <td style="background: #ffffff; color: #364274;">${count45Days}</td>
+                        <td style="background: #ffffff; color: #364274;">${count}</td>
+                        <td style="background: #ffffff; color: #364274;">Открыть</td>
                     </tr>
                 </table>
                 </p>

@@ -56,6 +56,9 @@ public class BasicController {
             model.addAttribute("finalWagonList", basicClassLookingForImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
             model.addAttribute("reportListOfError", basicClassLookingForImpl.getListOfError());
             model.addAttribute("yield", basicClassLookingForImpl.getClassHandlerTotalCalculate().getYield());
+            model.addAttribute("count", basicClassLookingForImpl.getGetListOfDistance().getGetListOfRoutesImpl().getCount());
+            model.addAttribute("count30Days", basicClassLookingForImpl.getClassHandlerTotalCalculate().getCount30Days());
+            model.addAttribute("count45Days", basicClassLookingForImpl.getClassHandlerTotalCalculate().getCount45Days());
             return "welcome";
         }
     }
@@ -69,6 +72,9 @@ public class BasicController {
         model.addAttribute("finalWagonList", basicClassLookingForImpl.getClassHandlerTotalCalculate().getNewMapWagonFinalInfo());
         model.addAttribute("reportListOfError", basicClassLookingForImpl.getListOfError());
         model.addAttribute("yield", basicClassLookingForImpl.getClassHandlerTotalCalculate().getYield());
+        model.addAttribute("count", basicClassLookingForImpl.getGetListOfDistance().getGetListOfRoutesImpl().getCount());
+        model.addAttribute("count30Days", basicClassLookingForImpl.getClassHandlerTotalCalculate().getCount30Days());
+        model.addAttribute("count45Days", basicClassLookingForImpl.getClassHandlerTotalCalculate().getCount45Days());
         return "welcome";
     }
 /**

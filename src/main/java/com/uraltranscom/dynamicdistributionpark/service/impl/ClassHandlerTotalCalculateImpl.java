@@ -3,6 +3,7 @@ package com.uraltranscom.dynamicdistributionpark.service.impl;
 import com.uraltranscom.dynamicdistributionpark.model.additional_model.WagonRateAndTariff;
 import com.uraltranscom.dynamicdistributionpark.model_ext.WagonFinalInfo;
 import com.uraltranscom.dynamicdistributionpark.model_ext.WagonFinalRouteInfo;
+import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import com.uraltranscom.dynamicdistributionpark.service.additional.PrepareDateForInsert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ import java.util.Map;
 
 @Service
 @Component
-public class ClassHandlerTotalCalculateImpl {
+public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(ClassHandlerTotalCalculateImpl.class);
 
@@ -39,12 +40,14 @@ public class ClassHandlerTotalCalculateImpl {
 
     private Map<String, WagonFinalInfo> newMapWagonFinalInfo = new HashMap<>();
     private double yield;
+    private int count30Days;
+    private int count45Days;
 
     public void updateMap(Map<String, WagonFinalInfo> map, String wagons, String rates, String tariffs, String routes) {
         List<WagonRateAndTariff> listRateAndTariff = PrepareDateForInsert.fillListForUpdate(wagons, rates, tariffs, routes);
         Map<String, WagonFinalInfo> tempNewMap = new HashMap<>();
         //TODO Изменить на более изящно
-        for (Map.Entry<String, WagonFinalInfo> _map: map.entrySet()) {
+        for (Map.Entry<String, WagonFinalInfo> _map : map.entrySet()) {
             String numberWagon = _map.getKey();
             List<WagonFinalRouteInfo> list = new ArrayList<>();
             for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
@@ -64,7 +67,7 @@ public class ClassHandlerTotalCalculateImpl {
             tempNewMap.put(numberWagon, wagonFinalInfo);
         }
         logger.debug("listRateAndTariff: {}", listRateAndTariff);
-        for (Map.Entry<String, WagonFinalInfo> _map: tempNewMap.entrySet()) {
+        for (Map.Entry<String, WagonFinalInfo> _map : tempNewMap.entrySet()) {
             for (WagonRateAndTariff list : listRateAndTariff) {
                 if (_map.getKey().equals(list.getNumberOfWagon())) {
                     for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
@@ -88,31 +91,36 @@ public class ClassHandlerTotalCalculateImpl {
         double sumRate = 0.00;
         double sumTariff = 0.00;
         int sumCountDays = 0;
-        for (Map.Entry<String, WagonFinalInfo> _map: map.entrySet()) {
+        for (Map.Entry<String, WagonFinalInfo> _map : map.entrySet()) {
             for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
                 sumRate = sumRate + (Double) _map.getValue().getListRouteInfo().get(i).getRate();
                 sumTariff = sumTariff + (Double) _map.getValue().getListRouteInfo().get(i).getTariff();
-                sumCountDays = sumCountDays + _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
+                if (i > 0) {
+                    sumCountDays = sumCountDays + _map.getValue().getListRouteInfo().get(i).getCountCircleDays() + UNLOADING_WAGON;
+                } else {
+                    sumCountDays = sumCountDays + _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
+                }
             }
         }
         yield = Math.round(((sumRate - sumTariff) / sumCountDays) * 100) / 100.00d;
-        logger.debug("yield = {}", yield);
+        calculateCountOrders(map);
+        logger.debug("yield: {}", yield);
     }
 
     public void calculateCountOrders(Map<String, WagonFinalInfo> map) {
-        int count30Days = 0;
-        int count45Days = 0;
-        for (Map.Entry<String, WagonFinalInfo> _map: map.entrySet()) {
+        for (Map.Entry<String, WagonFinalInfo> _map : map.entrySet()) {
             for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
                 int tempCount = 0;
                 tempCount = tempCount + _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
                 if (tempCount > 31) {
                     count45Days = count45Days + _map.getValue().getListRouteInfo().size();
+                    count30Days++;
                 } else {
                     count30Days = count30Days + _map.getValue().getListRouteInfo().size();
                 }
             }
         }
+        logger.debug("count30Days: {}, count45Days: {}", count30Days, count45Days);
     }
 
 
@@ -130,5 +138,21 @@ public class ClassHandlerTotalCalculateImpl {
 
     public void setYield(double yield) {
         this.yield = yield;
+    }
+
+    public int getCount30Days() {
+        return count30Days;
+    }
+
+    public void setCount30Days(int count30Days) {
+        this.count30Days = count30Days;
+    }
+
+    public int getCount45Days() {
+        return count45Days;
+    }
+
+    public void setCount45Days(int count45Days) {
+        this.count45Days = count45Days;
     }
 }
