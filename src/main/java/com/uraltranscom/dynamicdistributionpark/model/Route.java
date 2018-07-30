@@ -67,6 +67,26 @@ public class Route {
         this.wagonType = new WagonType(wagonType);
     }
 
+    public Route(String keyOfStationDeparture,
+                 String nameOfStationDeparture,
+                 String roadOfStationDeparture,
+                 String keyOfStationDestination,
+                 String nameOfStationDestination,
+                 String roadOfStationDestination,
+                 String customer,
+                 int volumeFrom, int volumeTo,
+                 String nameCargo, String keyCargo) {
+        this.keyOfStationDeparture = keyOfStationDeparture;
+        this.nameOfStationDeparture = nameOfStationDeparture;
+        this.roadOfStationDeparture = roadOfStationDeparture;
+        this.keyOfStationDestination = keyOfStationDestination;
+        this.nameOfStationDestination = nameOfStationDestination;
+        this.roadOfStationDestination = roadOfStationDestination;
+        this.customer = customer;
+        this.volumePeriod = new VolumePeriod(volumeFrom, volumeTo);
+        this.cargo = new CargoClass(nameCargo, keyCargo);
+    }
+
     public String getKeyOfStationDeparture() {
         return keyOfStationDeparture;
     }

@@ -1,7 +1,6 @@
 package com.uraltranscom.dynamicdistributionpark.model.additional_model;
 
 import com.uraltranscom.dynamicdistributionpark.service.impl.GetTypeOfCargoImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
 
@@ -19,17 +18,17 @@ import java.util.Objects;
  */
 
 public class CargoClass {
-    @Autowired
-    private GetTypeOfCargoImpl getTypeOfCargo;
+
+    private GetTypeOfCargoImpl getTypeOfCargo = new GetTypeOfCargoImpl();
 
     private String nameCargo; // Груз
     private String keyCargo; // Код груза
-    private int cargoType; // Класс груза
+    private int cargoType;  // Класс груза
 
     public CargoClass(String nameCargo, String keyCargo) {
         this.nameCargo = nameCargo;
         this.keyCargo = keyCargo;
-        this.cargoType = getTypeOfCargo.getTypeOfCargo(nameCargo);
+        this.cargoType = getTypeOfCargo.getTypeOfCargo(keyCargo);
     }
 
     public String getNameCargo() {
@@ -62,7 +61,6 @@ public class CargoClass {
         if (o == null || getClass() != o.getClass()) return false;
         CargoClass that = (CargoClass) o;
         return cargoType == that.cargoType &&
-                Objects.equals(getTypeOfCargo, that.getTypeOfCargo) &&
                 Objects.equals(nameCargo, that.nameCargo) &&
                 Objects.equals(keyCargo, that.keyCargo);
     }
@@ -70,6 +68,6 @@ public class CargoClass {
     @Override
     public int hashCode() {
 
-        return Objects.hash(getTypeOfCargo, nameCargo, keyCargo, cargoType);
+        return Objects.hash(nameCargo, keyCargo, cargoType);
     }
 }

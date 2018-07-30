@@ -13,34 +13,18 @@ package com.uraltranscom.dynamicdistributionpark.service.export;
  *
  */
 
-import com.uraltranscom.dynamicdistributionpark.model.Route;
-import com.uraltranscom.dynamicdistributionpark.model_ext.WagonFinalInfo;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
-import com.uraltranscom.dynamicdistributionpark.service.additional.PrefixOfDays;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class WriteToFileExcel extends JavaHelperBase {
+
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(WriteToFileExcel.class);
 
@@ -53,7 +37,7 @@ public class WriteToFileExcel extends JavaHelperBase {
 
     private WriteToFileExcel() {
     }
-
+/**
     public static void downloadFileExcel(HttpServletResponse response, List<String>... listOfFinal) {
         try {
             xssfWorkbook = new XSSFWorkbook();
@@ -141,7 +125,7 @@ public class WriteToFileExcel extends JavaHelperBase {
     }
 
     private static String buildText(int dist, int countCircle) {
-        if (countCircle < MAX_FULL_CIRCLE_DAYS ) {
+        if (countCircle < MAX_COUNT_DAYS) {
             return dist + " км./" + countCircle + " " + PrefixOfDays.parsePrefixOfDays(countCircle);
         } else {
             return dist + " км./" + countCircle + " " + PrefixOfDays.parsePrefixOfDays(countCircle) + "(превышение!)";
@@ -188,7 +172,7 @@ public class WriteToFileExcel extends JavaHelperBase {
     public static void setIsOk(boolean isOk) {
         WriteToFileExcel.isOk = isOk;
     }
-
+*/
     public static void setFile(File file) {
         WriteToFileExcel.file = file;
     }

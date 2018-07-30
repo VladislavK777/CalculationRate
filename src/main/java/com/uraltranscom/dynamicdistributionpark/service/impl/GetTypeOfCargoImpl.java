@@ -4,6 +4,7 @@ import com.uraltranscom.dynamicdistributionpark.service.GetTypeOfCargo;
 import com.uraltranscom.dynamicdistributionpark.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.sql.CallableStatement;
@@ -25,7 +26,7 @@ import java.sql.SQLException;
  *
  */
 
-@Service
+@Component
 public class GetTypeOfCargoImpl extends ConnectionDB implements GetTypeOfCargo {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetTypeOfCargoImpl.class);

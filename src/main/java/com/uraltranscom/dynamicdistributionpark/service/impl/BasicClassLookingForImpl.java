@@ -10,7 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -32,22 +35,27 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
     private static Logger logger = LoggerFactory.getLogger(BasicClassLookingForImpl.class);
 
     @Autowired
-    private GetListOfWagonsImpl getListOfWagons;
-    @Autowired
-    private GetListOfRoutesImpl getListOfRoutes;
-    @Autowired
     private GetListOfDistanceImpl getListOfDistance;
     @Autowired
     private ClassHandlerLookingForImpl classHandlerLookingFor;
+    @Autowired
+    private GetListOfEmptyRoutesImpl getListOfEmptyRoutes;
+    @Autowired
+    private GetListOfRatesImpl getListOfRates;
+    @Autowired
+    private ClassHandlerTotalCalculateImpl classHandlerTotalCalculate;
 
     // Мапа для записи в файл Вагона + Станция назначения.
-    private Map<WagonFinalInfo, Route> totalMapWithWagonNumberAndRoute = new HashMap<>();
+    private Map<String, WagonFinalInfo> totalMapWithWagonNumberAndRoute = new HashMap<>();
 
     // Массив распределенных маршрутов и вагонов
     private List<WagonFinalInfo> listOfDistributedRoutesAndWagons = new ArrayList<>();
 
     // Массив ошибок
     private List<String> listOfError = new ArrayList<>();
+
+    // Флаг, что нужно заполнить или проверить ставку или тариф
+    private boolean isFlag = false;
 
     private BasicClassLookingForImpl() {
     }
@@ -63,8 +71,8 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
         getListOfDistance.fillMap();
 
         // Заполняем мапы
-        Map<Integer, Route> tempMapRoutes = getListOfRoutes.getMapOfRoutes();
-        List<Wagon> tempListOfWagons = getListOfWagons.getListOfWagons();
+        Map<Integer, Route> tempMapRoutes = getListOfDistance.getGetListOfRoutesImpl().getMapOfRoutes();
+        List<Wagon> tempListOfWagons = getListOfDistance.getGetListOfWagonsImpl().getListOfWagons();
 
         // Запускаем распределение
         if (!tempMapRoutes.isEmpty()) {
@@ -76,11 +84,11 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
         tempMapRoutes.clear();
     }
 
-    public Map<WagonFinalInfo, Route> getTotalMapWithWagonNumberAndRoute() {
+    public Map<String, WagonFinalInfo> getTotalMapWithWagonNumberAndRoute() {
         return totalMapWithWagonNumberAndRoute;
     }
 
-    public void setTotalMapWithWagonNumberAndRoute(Map<WagonFinalInfo, Route> totalMapWithWagonNumberAndRoute) {
+    public void setTotalMapWithWagonNumberAndRoute(Map<String, WagonFinalInfo> totalMapWithWagonNumberAndRoute) {
         this.totalMapWithWagonNumberAndRoute = totalMapWithWagonNumberAndRoute;
     }
 
@@ -106,5 +114,45 @@ public class BasicClassLookingForImpl extends JavaHelperBase implements BasicCla
 
     public void setGetListOfDistance(GetListOfDistanceImpl getListOfDistance) {
         this.getListOfDistance = getListOfDistance;
+    }
+
+    public GetListOfEmptyRoutesImpl getGetListOfEmptyRoutes() {
+        return getListOfEmptyRoutes;
+    }
+
+    public void setGetListOfEmptyRoutes(GetListOfEmptyRoutesImpl getListOfEmptyRoutes) {
+        this.getListOfEmptyRoutes = getListOfEmptyRoutes;
+    }
+
+    public GetListOfRatesImpl getGetListOfRates() {
+        return getListOfRates;
+    }
+
+    public void setGetListOfRates(GetListOfRatesImpl getListOfRates) {
+        this.getListOfRates = getListOfRates;
+    }
+
+    public boolean isFlag() {
+        return isFlag;
+    }
+
+    public void setFlag(boolean flag) {
+        isFlag = flag;
+    }
+
+    public ClassHandlerLookingForImpl getClassHandlerLookingFor() {
+        return classHandlerLookingFor;
+    }
+
+    public void setClassHandlerLookingFor(ClassHandlerLookingForImpl classHandlerLookingFor) {
+        this.classHandlerLookingFor = classHandlerLookingFor;
+    }
+
+    public ClassHandlerTotalCalculateImpl getClassHandlerTotalCalculate() {
+        return classHandlerTotalCalculate;
+    }
+
+    public void setClassHandlerTotalCalculate(ClassHandlerTotalCalculateImpl classHandlerTotalCalculate) {
+        this.classHandlerTotalCalculate = classHandlerTotalCalculate;
     }
 }

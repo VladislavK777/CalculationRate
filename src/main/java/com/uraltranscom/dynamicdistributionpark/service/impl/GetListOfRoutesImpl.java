@@ -40,6 +40,7 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
 
     // Основаная мапа, куда записываем все маршруты
     private Map<Integer, Route> mapOfRoutes = new HashMap<>();
+    private int count;
 
     // Переменные для работы с файлами
     private File file;
@@ -160,6 +161,10 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
                 }
             }
             logger.debug("Body route: {}", mapOfRoutes);
+            for (Map.Entry<Integer, Route> _map: mapOfRoutes.entrySet()) {
+                count = count + _map.getValue().getCountOrders();
+            }
+            logger.info("count: {}", count);
         } catch (IOException e) {
             logger.error("Ошибка загруки файла - {}", e.getMessage());
         } catch (OLE2NotOfficeXmlFileException e1) {
@@ -178,5 +183,13 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
     public void setFile(File file) {
         this.file = file;
         fillMap();
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

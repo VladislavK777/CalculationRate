@@ -1,11 +1,11 @@
 package com.uraltranscom.dynamicdistributionpark.model;
 
-import com.uraltranscom.dynamicdistributionpark.model.additional_model.CargoClass;
 import com.uraltranscom.dynamicdistributionpark.model.additional_model.WagonType;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -27,18 +27,14 @@ public class Wagon extends JavaHelperBase {
 
     private String numberOfWagon; // Номер вагона
     private WagonType wagonType; // Тип вагона
-    private String keyOfStationDestination; // Код станции назначения
-    private String nameOfStationDestination; // Название станции назначения
+    private List<Route> listRoutes; // Список рейсов
     private int volume; // Объем вагона
-    private CargoClass cargo; // Груз
 
-    public Wagon(String numberOfWagon, String keyOfStationDestination, String nameOfStationDestination, int volume, String nameCargo, String keyCargo) {
-        this.numberOfWagon = numberOfWagon;
+    public Wagon(String numberOfWagon, List<Route> listRoutes, int volume) {
         this.wagonType = new WagonType(TYPE_OF_WAGON_KR);
-        this.keyOfStationDestination = keyOfStationDestination;
-        this.nameOfStationDestination = nameOfStationDestination;
+        this.numberOfWagon = numberOfWagon;
+        this.listRoutes = listRoutes;
         this.volume = volume;
-        this.cargo = new CargoClass(nameCargo, keyCargo);
     }
 
     public String getNumberOfWagon() {
@@ -57,20 +53,12 @@ public class Wagon extends JavaHelperBase {
         this.wagonType = wagonType;
     }
 
-    public String getKeyOfStationDestination() {
-        return keyOfStationDestination;
+    public List<Route> getListRoutes() {
+        return listRoutes;
     }
 
-    public void setKeyOfStationDestination(String keyOfStationDestination) {
-        this.keyOfStationDestination = keyOfStationDestination;
-    }
-
-    public String getNameOfStationDestination() {
-        return nameOfStationDestination;
-    }
-
-    public void setNameOfStationDestination(String nameOfStationDestination) {
-        this.nameOfStationDestination = nameOfStationDestination;
+    public void setListRoutes(List<Route> listRoutes) {
+        this.listRoutes = listRoutes;
     }
 
     public int getVolume() {
@@ -81,14 +69,6 @@ public class Wagon extends JavaHelperBase {
         this.volume = volume;
     }
 
-    public CargoClass getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(CargoClass cargo) {
-        this.cargo = cargo;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,15 +77,13 @@ public class Wagon extends JavaHelperBase {
         return volume == wagon.volume &&
                 Objects.equals(numberOfWagon, wagon.numberOfWagon) &&
                 Objects.equals(wagonType, wagon.wagonType) &&
-                Objects.equals(keyOfStationDestination, wagon.keyOfStationDestination) &&
-                Objects.equals(nameOfStationDestination, wagon.nameOfStationDestination) &&
-                Objects.equals(cargo, wagon.cargo);
+                Objects.equals(listRoutes, wagon.listRoutes);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(numberOfWagon, wagonType, keyOfStationDestination, nameOfStationDestination, volume, cargo);
+        return Objects.hash(numberOfWagon, wagonType, listRoutes, volume);
     }
 
     @Override
@@ -113,10 +91,8 @@ public class Wagon extends JavaHelperBase {
         return "Wagon{" +
                 "numberOfWagon='" + numberOfWagon + '\'' +
                 ", wagonType=" + wagonType +
-                ", keyOfStationDestination='" + keyOfStationDestination + '\'' +
-                ", nameOfStationDestination='" + nameOfStationDestination + '\'' +
+                ", listRoutes=" + listRoutes +
                 ", volume=" + volume +
-                ", cargo=" + cargo +
                 '}';
     }
 }

@@ -1,10 +1,12 @@
 package com.uraltranscom.dynamicdistributionpark.service.impl;
 
+import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.model.Wagon;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
 import com.uraltranscom.dynamicdistributionpark.service.export.WriteToFileExcel;
 import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
+import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -68,6 +70,7 @@ public class GetListOfWagonsImpl implements GetList {
 
         // Получаем файл формата xls
         try {
+            ZipSecureFile.setMinInflateRatio(-1.0d);
             fileInputStream = new FileInputStream(this.file);
             xssfWorkbook = new XSSFWorkbook(fileInputStream);
 
@@ -77,8 +80,13 @@ public class GetListOfWagonsImpl implements GetList {
                 XSSFRow row = sheet.getRow(0);
 
                 String numberOfWagon = null;
+                String keyOfStationDeparture = null;
+                String nameOfStationDeparture = null;
+                String roadOfStationDeparture = null;
                 String keyOfStationDestination = null;
                 String nameOfStationDestination = null;
+                String roadOfStationDestination = null;
+                String customer = null;
                 int volume = 0;
                 String nameCargo = null;
                 String keyCargo = null;
@@ -88,13 +96,33 @@ public class GetListOfWagonsImpl implements GetList {
                         XSSFRow xssfRow = sheet.getRow(j);
                         numberOfWagon = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.namestationdestination"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.keystationdeparture"))) {
                         XSSFRow xssfRow = sheet.getRow(j);
-                        nameOfStationDestination = xssfRow.getCell(c).getStringCellValue();
+                        keyOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
+                    }
+                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.namestationdeparture"))) {
+                        XSSFRow xssfRow = sheet.getRow(j);
+                        nameOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
+                    }
+                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.roadstationdeparture"))) {
+                        XSSFRow xssfRow = sheet.getRow(j);
+                        roadOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
                     }
                     if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.keystationdestination"))) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         keyOfStationDestination = xssfRow.getCell(c).getStringCellValue();
+                    }
+                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.namestationdestination"))) {
+                        XSSFRow xssfRow = sheet.getRow(j);
+                        nameOfStationDestination = xssfRow.getCell(c).getStringCellValue();
+                    }
+                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.roadstationdestination"))) {
+                        XSSFRow xssfRow = sheet.getRow(j);
+                        roadOfStationDestination = xssfRow.getCell(c).getStringCellValue();
+                    }
+                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.customer"))) {
+                        XSSFRow xssfRow = sheet.getRow(j);
+                        customer = xssfRow.getCell(c).getStringCellValue();
                     }
                     if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.volume"))) {
                         XSSFRow xssfRow = sheet.getRow(j);
@@ -109,7 +137,20 @@ public class GetListOfWagonsImpl implements GetList {
                         keyCargo = xssfRow.getCell(c).getStringCellValue();
                     }
                 }
-                listOfWagons.add(new Wagon(numberOfWagon, keyOfStationDestination, nameOfStationDestination, volume, nameCargo, keyCargo));
+                List<Route> list = new ArrayList<>();
+                list.add(new Route(
+                        keyOfStationDeparture,
+                        nameOfStationDeparture,
+                        roadOfStationDeparture,
+                        keyOfStationDestination,
+                        nameOfStationDestination,
+                        roadOfStationDestination,
+                        customer,
+                        volume,
+                        volume,
+                        nameCargo,
+                        keyCargo));
+                listOfWagons.add(new Wagon(numberOfWagon, list, volume));
             }
             logger.debug("Body wagon: {}", listOfWagons);
         } catch (IOException e) {
