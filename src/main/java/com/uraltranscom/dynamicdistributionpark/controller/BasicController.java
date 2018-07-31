@@ -13,7 +13,8 @@ package com.uraltranscom.dynamicdistributionpark.controller;
  *
  */
 
-import com.uraltranscom.dynamicdistributionpark.service.impl.BasicClassLookingForImpl;
+import com.uraltranscom.dynamicdistributionpark.service.export.WriteToFileExcel;
+import com.uraltranscom.dynamicdistributionpark.service.impl.BasicClassImpl;
 import com.uraltranscom.dynamicdistributionpark.util.MultipartFileToFileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +26,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class BasicController {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(BasicController.class);
 
     @Autowired
-    private BasicClassLookingForImpl basicClassLookingForImpl;
+    private BasicClassImpl basicClassImpl;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
@@ -39,48 +42,56 @@ public class BasicController {
     }
 
     @RequestMapping(value = "/reports", method = RequestMethod.POST)
-    public String routeList(@RequestParam(value = "routes") MultipartFile routesFile,
-                            @RequestParam(value = "wagons") MultipartFile wagonsFile,
-                            @RequestParam(value = "rates") MultipartFile ratesFile,
-                            @RequestParam(value = "emptyroutes") MultipartFile emptyRoutesFile, Model model) {
-        basicClassLookingForImpl.getGetListOfDistance().getGetListOfRoutesImpl().setFile(MultipartFileToFileUtil.multipartToFile(routesFile));
-        basicClassLookingForImpl.getGetListOfDistance().getGetListOfWagonsImpl().setFile(MultipartFileToFileUtil.multipartToFile(wagonsFile));
-        basicClassLookingForImpl.getGetListOfRates().setFile(MultipartFileToFileUtil.multipartToFile(ratesFile));
-        basicClassLookingForImpl.getGetListOfEmptyRoutes().setFile(MultipartFileToFileUtil.multipartToFile(emptyRoutesFile));
-        basicClassLookingForImpl.fillMapRouteIsOptimal();
-        if (basicClassLookingForImpl.isFlag()) {
-            model.addAttribute("needFillRateOrTariff", basicClassLookingForImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
+    public String routeList(@RequestParam(value = "routesFile") MultipartFile routesFile,
+                            @RequestParam(value = "wagonsFile") MultipartFile wagonsFile,
+                            @RequestParam(value = "ratesFile") MultipartFile ratesFile,
+                            @RequestParam(value = "emptyRoutesFile") MultipartFile emptyRoutesFile, Model model) {
+        basicClassImpl.getClassHandlerLookingFor().getGetListOfDistance().getGetListOfRoutesImpl().setFile(MultipartFileToFileUtil.multipartToFile(routesFile));
+        basicClassImpl.getClassHandlerLookingFor().getGetListOfDistance().getGetListOfWagonsImpl().setFile(MultipartFileToFileUtil.multipartToFile(wagonsFile));
+        basicClassImpl.getClassHandlerLookingFor().getGetListOfRates().setFile(MultipartFileToFileUtil.multipartToFile(ratesFile));
+        basicClassImpl.getClassHandlerLookingFor().getGetListOfEmptyRoutes().setFile(MultipartFileToFileUtil.multipartToFile(emptyRoutesFile));
+        basicClassImpl.fillMapRouteIsOptimal();
+        if (basicClassImpl.isFlag()) {
+            model.addAttribute("needFillRateOrTariff", basicClassImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
             return "add";
         } else {
-            basicClassLookingForImpl.getClassHandlerTotalCalculate().calculateYield(basicClassLookingForImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
-            model.addAttribute("finalWagonList", basicClassLookingForImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
-            model.addAttribute("reportListOfError", basicClassLookingForImpl.getListOfError());
-            model.addAttribute("yield", basicClassLookingForImpl.getClassHandlerTotalCalculate().getYield());
-            model.addAttribute("count", basicClassLookingForImpl.getGetListOfDistance().getGetListOfRoutesImpl().getCount());
-            model.addAttribute("count30Days", basicClassLookingForImpl.getClassHandlerTotalCalculate().getCount30Days());
-            model.addAttribute("count45Days", basicClassLookingForImpl.getClassHandlerTotalCalculate().getCount45Days());
+            basicClassImpl.getClassHandlerTotalCalculate().calculateYield(basicClassImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
+            model.addAttribute("finalWagonList", basicClassImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
+            model.addAttribute("reportListOfError", basicClassImpl.getListOfError());
+            model.addAttribute("yield", basicClassImpl.getClassHandlerTotalCalculate().getYield());
+            model.addAttribute("count", basicClassImpl.getClassHandlerLookingFor().getGetListOfDistance().getGetListOfRoutesImpl().getCount());
+            model.addAttribute("count30Days", basicClassImpl.getClassHandlerTotalCalculate().getCount30Days());
+            model.addAttribute("count45Days", basicClassImpl.getClassHandlerTotalCalculate().getCount45Days());
             return "welcome";
         }
     }
 
     @RequestMapping(value = "/result", method = RequestMethod.POST)
-    public String routeList(@RequestParam(value = "rate") String rate,
-                            @RequestParam(value = "tariff") String tariff,
-                            @RequestParam(value = "number") String numberOfWagon,
-                            @RequestParam(value = "route") String route, Model model) {
-        basicClassLookingForImpl.getClassHandlerTotalCalculate().updateMap(basicClassLookingForImpl.getClassHandlerLookingFor().getMapFinalWagonInfo(), numberOfWagon, rate, tariff, route);
-        model.addAttribute("finalWagonList", basicClassLookingForImpl.getClassHandlerTotalCalculate().getNewMapWagonFinalInfo());
-        model.addAttribute("reportListOfError", basicClassLookingForImpl.getListOfError());
-        model.addAttribute("yield", basicClassLookingForImpl.getClassHandlerTotalCalculate().getYield());
-        model.addAttribute("count", basicClassLookingForImpl.getGetListOfDistance().getGetListOfRoutesImpl().getCount());
-        model.addAttribute("count30Days", basicClassLookingForImpl.getClassHandlerTotalCalculate().getCount30Days());
-        model.addAttribute("count45Days", basicClassLookingForImpl.getClassHandlerTotalCalculate().getCount45Days());
+    public String routeList(@RequestParam(value = "rates") String rates,
+                            @RequestParam(value = "tariffs") String tariffs,
+                            @RequestParam(value = "wagons") String wagons,
+                            @RequestParam(value = "routes") String routes, Model model) {
+        basicClassImpl.getClassHandlerTotalCalculate().updateMap(basicClassImpl.getClassHandlerLookingFor().getMapFinalWagonInfo(), wagons, rates, tariffs, routes);
+        model.addAttribute("finalWagonList", basicClassImpl.getClassHandlerTotalCalculate().getNewMapWagonFinalInfo());
+        model.addAttribute("reportListOfError", basicClassImpl.getListOfError());
+        model.addAttribute("yield", basicClassImpl.getClassHandlerTotalCalculate().getYield());
+        model.addAttribute("count", basicClassImpl.getClassHandlerLookingFor().getGetListOfDistance().getGetListOfRoutesImpl().getCount());
+        model.addAttribute("count30Days", basicClassImpl.getClassHandlerTotalCalculate().getCount30Days());
+        model.addAttribute("count45Days", basicClassImpl.getClassHandlerTotalCalculate().getCount45Days());
         return "welcome";
     }
-/**
+
+    @RequestMapping(value = "/orders", method = RequestMethod.GET)
+    public String routeList(Model model) {
+        basicClassImpl.getClassHandlerLookingFor().fillFinalMapByOrders();
+        model.addAttribute("finalRoutes", basicClassImpl.getClassHandlerLookingFor().getMapFinalOrderInfo());
+        model.addAttribute("finalWagons", basicClassImpl.getClassHandlerLookingFor().getTotalListWagon());
+        return "orders";
+    }
+
     // Выгрузка в Excel
-    @RequestMapping(value = "/export", method = RequestMethod.POST)
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
     public void getXLS(HttpServletResponse response, Model model) {
-        WriteToFileExcel.downloadFileExcel(response, basicClassLookingForImpl.getTotalMapWithWagonNumberAndRoute());
-    }*/
+        WriteToFileExcel.downloadFileExcel(response, basicClassImpl.getClassHandlerLookingFor().getMapFinalOrderInfo());
+    }
 }

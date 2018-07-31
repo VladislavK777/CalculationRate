@@ -3,7 +3,6 @@ package com.uraltranscom.dynamicdistributionpark.service.impl;
 import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.model.Wagon;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
-import com.uraltranscom.dynamicdistributionpark.service.export.WriteToFileExcel;
 import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
@@ -13,6 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -36,6 +36,7 @@ import java.util.List;
  */
 
 @Service
+@Component
 public class GetListOfWagonsImpl implements GetList {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetListOfWagonsImpl.class);
@@ -52,9 +53,6 @@ public class GetListOfWagonsImpl implements GetList {
     private XSSFSheet sheet;
 
     @Autowired
-    private WriteToFileExcel writeToFileExcel;
-
-    @Autowired
     private PropertyUtil propertyUtil;
 
     private GetListOfWagonsImpl() {
@@ -65,8 +63,6 @@ public class GetListOfWagonsImpl implements GetList {
     @Override
     public void fillMap() {
         listOfWagons.clear();
-        writeToFileExcel.setFile(null);
-        writeToFileExcel.setFile(file);
 
         // Получаем файл формата xls
         try {

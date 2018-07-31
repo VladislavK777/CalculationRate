@@ -4,6 +4,7 @@ import com.uraltranscom.dynamicdistributionpark.service.GetDistanceBetweenStatio
 import com.uraltranscom.dynamicdistributionpark.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
@@ -25,6 +26,7 @@ import java.util.List;
  */
 
 @Service
+@Component
 public class GetDistanceBetweenStationsImpl extends ConnectionDB implements GetDistanceBetweenStations {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetDistanceBetweenStationsImpl.class);

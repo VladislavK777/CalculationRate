@@ -5,6 +5,7 @@ import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBas
 import com.uraltranscom.dynamicdistributionpark.service.additional.PrepareDistanceOfDay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.Map;
  */
 
 @Service
+@Component
 public class GetFullMonthCircleOfWagonImpl extends JavaHelperBase implements GetFullMonthCircleOfWagon {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetFullMonthCircleOfWagonImpl.class);

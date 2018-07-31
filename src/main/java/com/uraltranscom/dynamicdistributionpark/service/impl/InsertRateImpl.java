@@ -36,7 +36,7 @@ public class InsertRateImpl extends ConnectionDB implements InsertRateOrTariff {
         try (Connection connection = getDataSource().getConnection();
              CallableStatement callableStatement = createCallableStatement(connection, keyOfStationDeparture, keyOfStationDestination, cargoType, rateOrTariff)) {
             callableStatement.executeQuery();
-            logger.debug("Insert rate: {}", keyOfStationDeparture + " " + keyOfStationDestination + ": " + rateOrTariff);
+            logger.info("Insert rate: {}", keyOfStationDeparture + " " + keyOfStationDestination + ": " + rateOrTariff);
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }

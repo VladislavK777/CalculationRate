@@ -181,13 +181,13 @@
                                               <td>${report.value.getListRouteInfo().get(i).getDistanceEmpty()}</td>
                                               <c:choose>
                                                   <c:when test="${empty report.value.getListRouteInfo().get(i).getTariff()}">
-                                                      <td><input name="tariff" class="field_red" required></td>
+                                                      <td><input name="tariffs" class="field_red" required></td>
                                                   </c:when>
                                                   <c:when test="${report.value.getListRouteInfo().get(i).isLoadingTariffFromDB()}">
-                                                      <td><input name="tariff" class="field_green" value="${report.value.getListRouteInfo().get(i).getTariff()}"></td>
+                                                      <td><input name="tariffs" class="field_green" value="${report.value.getListRouteInfo().get(i).getTariff()}"></td>
                                                   </c:when>
                                                   <c:otherwise>
-                                                      <td><input name="tariff" class="field_normal" value="${report.value.getListRouteInfo().get(i).getTariff()}"></td>
+                                                      <td><input name="tariffs" class="field_normal" value="${report.value.getListRouteInfo().get(i).getTariff()}"></td>
                                                   </c:otherwise>
                                               </c:choose>
                                               <td>${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDeparture()} - ${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDestination()}</td>
@@ -196,17 +196,17 @@
                                               <td>${report.value.getListRouteInfo().get(i).getCountCircleDays()}</td>
                                               <c:choose>
                                                   <c:when test="${empty report.value.getListRouteInfo().get(i).getRate()}">
-                                                      <td><input name="rate" class="field_red" required></td>
+                                                      <td><input name="rates" class="field_red" required></td>
                                                   </c:when>
                                                   <c:when test="${report.value.getListRouteInfo().get(i).isLoadingRateFromDB()}">
-                                                      <td><input name="rate" class="field_green" value="${report.value.getListRouteInfo().get(i).getRate()}"></td>
+                                                      <td><input name="rates" class="field_green" value="${report.value.getListRouteInfo().get(i).getRate()}"></td>
                                                   </c:when>
                                                   <c:otherwise>
-                                                      <td><input name="rate" class="field_normal" value="${report.value.getListRouteInfo().get(i).getRate()}"></td>
+                                                      <td><input name="rates" class="field_normal" value="${report.value.getListRouteInfo().get(i).getRate()}"></td>
                                                   </c:otherwise>
                                               </c:choose>
-                                              <input type="hidden" name="number" value="${report.value.getNumberOfWagon()}">
-                                              <input type="hidden" name="route" value="${report.value.getListRouteInfo().get(i).getRoute().getNumberOrder()}">
+                                              <input type="hidden" name="wagons" value="${report.value.getNumberOfWagon()}">
+                                              <input type="hidden" name="routes" value="${report.value.getListRouteInfo().get(i).getRoute().getNumberOrder()}">
                                           </tr>
                                       </c:forEach>
                                   </c:forEach>

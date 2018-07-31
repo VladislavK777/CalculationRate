@@ -205,9 +205,6 @@
         <form action="/dynamicdistributionpark" method="get" style="visibility:visible">
             <input type="submit" value="Очистить форму" class="bot1">
         </form>
-        <form action="export" method="post" style="visibility:visible">
-            <input type="submit" value="Скачать отчет" class="bot1">
-        </form>
     </c:if>
 
     <table class="table_report">
@@ -221,16 +218,16 @@
                     <div class="form">
                         <form enctype="multipart/form-data" method="post" action="reports">
                             <p>
-                                Файл заявок: <input type="file" name="routes" multiple accept="xlsx">
+                                Файл заявок: <input type="file" name="routesFile" multiple accept="xlsx">
                             </p>
                             <p>
-                                Файл ставок: <input type="file" name="rates" multiple accept="xlsx">
+                                Файл ставок: <input type="file" name="ratesFile" multiple accept="xlsx">
                             </p>
                             <p>
-                                Файл порожних вагонов: <input type="file" name="emptyroutes" multiple accept="xlsx">
+                                Файл порожних вагонов: <input type="file" name="emptyRoutesFile" multiple accept="xlsx">
                             </p>
                             <p>
-                                Файл дислокации вагонов: <input type="file" name="wagons" multiple accept="xlsx">
+                                Файл дислокации вагонов: <input type="file" name="wagonsFile" multiple accept="xlsx">
                             </p>
                             <p>
                                 <input type="submit" value="Загрузить" class="bot1" id="input_form" onclick="lockScreen();">
@@ -248,10 +245,10 @@
             <label for="tab1" title="Распределенные рейсы">Распределенные заявки</label>
 
             <input id="tab2" type="radio" name="tabs">
-            <label for="tab2" title="Ошибки">Ошибки в кодах станций</label>
+            <label for="tab2" title="Итоговые показатели">Итоговые показатели</label>
 
             <input id="tab3" type="radio" name="tabs">
-            <label for="tab3" title="Итоговые показатели">Доходность</label>
+            <label for="tab3" title="Ошибки">Ошибки в кодах станций</label>
 
             <section id="content-tab1">
              <div>
@@ -304,39 +301,44 @@
                      </c:if>
                 </table>
              </div>
-            </section>
-            <section id="content-tab2">
+             </section>
+             <section id="content-tab2">
                 <p>
-                    <c:if test="${!empty reportListOfError}">
-                <table>
-                    <c:forEach items="${reportListOfError}" var="error">
-                        <tr>
-                            <td style="background: #ffffff; color: #364274;">${error}</td>
-                        </tr>
-                    </c:forEach>
+                <table class="table_report">
+                    <tr>
+                        <td>Средняя доходность за 30 суток: </td>
+                        <td>${yield}</td>
+                    </tr>
+                    <tr>
+                        <td>Факт заявок за 30 дней: </td>
+                        <td>${count30Days}</td>
+                    </tr>
+                    <tr>
+                        <td>Факт заявок за 30 дней и декаду: </td>
+                        <td>${count45Days}</td>
+                    </tr>
+                        <td>Общие количество заявок: </td>
+                        <td>${count}</td>
+                    </tr>
+                    <tr>
+                        <td>Открыть невостребованные заявки и вагоны: </td>
+                        <form action="orders" method="get">
+                            <td><input type="submit" value="Открыть" class="bot1" /></td>
+                        </form>
+                    </tr>
                 </table>
-                </c:if>
                 </p>
             </section>
             <section id="content-tab3">
-                <p>
-                <table>
-                    <tr>
-                        <th>Доходность за 30 суток</th>
-                        <th>Факт заявок за 30 дней</th>
-                        <th>Факт заявок за 30 дней и декаду</th>
-                        <th>Общие количество заявок</th>
-                        <th>Открыть невостребованные заявки</th>
-                    </tr>
-                    <tr>
-                        <td style="background: #ffffff; color: #364274;">${yield}</td>
-                        <td style="background: #ffffff; color: #364274;">${count30Days}</td>
-                        <td style="background: #ffffff; color: #364274;">${count45Days}</td>
-                        <td style="background: #ffffff; color: #364274;">${count}</td>
-                        <td style="background: #ffffff; color: #364274;">Открыть</td>
-                    </tr>
-                </table>
-                </p>
+                <c:if test="${!empty reportListOfError}">
+                    <table class="table_report">
+                        <c:forEach items="${reportListOfError}" var="error">
+                            <tr>
+                                <td>${error}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </c:if>
             </section>
         </div>
     </div>

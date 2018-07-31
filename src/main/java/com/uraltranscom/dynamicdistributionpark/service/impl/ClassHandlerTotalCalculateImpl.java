@@ -59,7 +59,10 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
                         _map.getValue().getListRouteInfo().get(i).getKeyOfStationDepartureOfWagon(),
                         _map.getValue().getListRouteInfo().get(i).getRoute(),
                         _map.getValue().getListRouteInfo().get(i).getCargo(),
-                        _map.getValue().getListRouteInfo().get(i).getCargoType()));
+                        _map.getValue().getListRouteInfo().get(i).getCargoType(),
+                        _map.getValue().getListRouteInfo().get(i).isEmpty(),
+                        _map.getValue().getListRouteInfo().get(i).isLoadingRateFromDB(),
+                        _map.getValue().getListRouteInfo().get(i).isLoadingTariffFromDB()));
             }
             WagonFinalInfo wagonFinalInfo = new WagonFinalInfo(
                     _map.getValue().getNumberOfWagon(),
@@ -82,7 +85,7 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
             }
         }
         newMapWagonFinalInfo.putAll(tempNewMap);
-        logger.info("newMapWagonFinalInfo: {}, map: {}", newMapWagonFinalInfo, map);
+        logger.debug("newMapWagonFinalInfo: {}, map: {}", newMapWagonFinalInfo, map);
         classHandlerInsertRateOrTariff.insertDate(newMapWagonFinalInfo, map);
         calculateYield(newMapWagonFinalInfo);
     }
@@ -109,15 +112,17 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
 
     public void calculateCountOrders(Map<String, WagonFinalInfo> map) {
         for (Map.Entry<String, WagonFinalInfo> _map : map.entrySet()) {
+            int tempCount = 0;
             for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
-                int tempCount = 0;
+
                 tempCount = tempCount + _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
-                if (tempCount > 31) {
-                    count45Days = count45Days + _map.getValue().getListRouteInfo().size();
-                    count30Days++;
-                } else {
-                    count30Days = count30Days + _map.getValue().getListRouteInfo().size();
-                }
+
+            }
+            if (tempCount > 31) {
+                count45Days = count45Days + _map.getValue().getListRouteInfo().size();
+                count30Days++;
+            } else {
+                count30Days = count30Days + _map.getValue().getListRouteInfo().size();
             }
         }
         logger.debug("count30Days: {}, count45Days: {}", count30Days, count45Days);

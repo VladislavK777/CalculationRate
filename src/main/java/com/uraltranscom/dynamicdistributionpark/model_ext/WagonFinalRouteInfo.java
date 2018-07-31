@@ -63,6 +63,31 @@ public class WagonFinalRouteInfo {
         this.isLoadingTariffFromDB = false;
     }
 
+    public WagonFinalRouteInfo(int countCircleDays,
+                               int distanceEmpty,
+                               String currentNameOfStationOfWagon,
+                               String currentKeyOfStationOfWagon,
+                               String nameOfStationDepartureOfWagon,
+                               String keyOfStationDepartureOfWagon,
+                               Route route, CargoClass cargo,
+                               int cargoType,
+                               boolean isEmpty,
+                               boolean isLoadingRateFromDB,
+                               boolean isLoadingTariffFromDB) {
+        this.countCircleDays = countCircleDays;
+        this.distanceEmpty = distanceEmpty;
+        this.currentNameOfStationOfWagon = currentNameOfStationOfWagon;
+        this.currentKeyOfStationOfWagon = currentKeyOfStationOfWagon;
+        this.nameOfStationDepartureOfWagon = nameOfStationDepartureOfWagon;
+        this.keyOfStationDepartureOfWagon = keyOfStationDepartureOfWagon;
+        this.route = route;
+        this.cargo = cargo;
+        this.cargoType = cargoType;
+        this.isEmpty = isEmpty;
+        this.isLoadingRateFromDB = isLoadingRateFromDB;
+        this.isLoadingTariffFromDB = isLoadingTariffFromDB;
+    }
+
     public int getCountCircleDays() {
         return countCircleDays;
     }

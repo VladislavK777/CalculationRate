@@ -13,16 +13,31 @@ package com.uraltranscom.dynamicdistributionpark.service.export;
  *
  */
 
+import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
+import com.uraltranscom.dynamicdistributionpark.service.additional.PrefixOfDays;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
-@Service
+@Component
 public class WriteToFileExcel extends JavaHelperBase {
 
     // Подключаем логгер
@@ -31,13 +46,13 @@ public class WriteToFileExcel extends JavaHelperBase {
     // Успешная выгрузка
     private static boolean isOk = false;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat();
-    private static XSSFWorkbook xssfWorkbook;
 
     private static File file;
 
     private WriteToFileExcel() {
     }
-/**
+
+    /*
     public static void downloadFileExcel(HttpServletResponse response, List<String>... listOfFinal) {
         try {
             xssfWorkbook = new XSSFWorkbook();
@@ -59,9 +74,9 @@ public class WriteToFileExcel extends JavaHelperBase {
             isOk = false;
         }
 
-    }
+    }*/
 
-    public static void downloadFileExcel(HttpServletResponse response, Map<WagonFinalInfo, Route> map) {
+    public static void downloadFileExcel(HttpServletResponse response, Map<Route, List<Integer>> map) {
         try {
             String fileName = "Report_" + dateFormat.format(new Date()) + ".xlsx";
             response.setHeader("Content-Disposition", "inline; filename=" + fileName);
@@ -77,7 +92,7 @@ public class WriteToFileExcel extends JavaHelperBase {
 
     }
 
-    public static synchronized void writeToFileExcel(HttpServletResponse response, Map<WagonFinalInfo, Route> map) {
+    public static synchronized void writeToFileExcel(HttpServletResponse response, Map<Route, List<Integer>> map) {
         try {
             ServletOutputStream outputStream = response.getOutputStream();
 
@@ -85,28 +100,18 @@ public class WriteToFileExcel extends JavaHelperBase {
 
                 XSSFWorkbook xssfWorkbook = new XSSFWorkbook(fis);
                 XSSFSheet sheet = xssfWorkbook.getSheetAt(0);
-                for (int j = 1; j < sheet.getLastRowNum() + 1; j++) {
-                    XSSFRow row = sheet.getRow(0);
-                    for (int c = 0; c < row.getLastCellNum(); c++) {
-                        if (row.getCell(c).getStringCellValue().trim().equals("Номер вагона")) {
+                for (int j = 2; j < sheet.getLastRowNum() + 1; j++) {
+                    XSSFRow row = sheet.getRow(1);
+                    for (int c = 1; c < row.getLastCellNum(); c++) {
+                        if (row.getCell(c).getStringCellValue().trim().equals("Номер заявки")) {
                             XSSFRow xssfRow = sheet.getRow(j);
                             String val = xssfRow.getCell(c).getStringCellValue();
-                            for (Map.Entry<WagonFinalInfo, Route> mapForAdd : map.entrySet()) {
-                                if (val.equals(mapForAdd.getKey().getNumberOfWagon())) {
-                                    for (int q = 0; q < row.getLastCellNum(); q++) {
-                                        if (row.getCell(q).getStringCellValue().trim().equals("Станция погрузки запланированная")) {
+                            for (Map.Entry<Route, List<Integer>> _map: map.entrySet()) {
+                                if (val.equals(_map.getKey().getNumberOrder())) {
+                                    for (int q = 1; q < row.getLastCellNum(); q++) {
+                                        if (row.getCell(q).getStringCellValue().trim().equals("Факт.вагонов")) {
                                             Cell cell = xssfRow.createCell(q);
-                                            cell.setCellValue(mapForAdd.getValue().getNameOfStationDeparture());
-                                            cell.setCellStyle(cellStyle(sheet));
-                                        }
-                                        if (row.getCell(q).getStringCellValue().trim().equals("Клиент Следующее задание")) {
-                                            Cell cell = xssfRow.createCell(q);
-                                            cell.setCellValue(mapForAdd.getValue().getCustomer());
-                                            cell.setCellStyle(cellStyle(sheet));
-                                        }
-                                        if (row.getCell(q).getStringCellValue().trim().equals("Примечание")) {
-                                            Cell cell = xssfRow.createCell(q);
-                                            cell.setCellValue(buildText(mapForAdd.getKey().getDistanceEmpty(), mapForAdd.getKey().getCountCircleDays()));
+                                            cell.setCellValue(_map.getValue().get(1));
                                             cell.setCellStyle(cellStyle(sheet));
                                         }
                                     }
@@ -133,14 +138,13 @@ public class WriteToFileExcel extends JavaHelperBase {
     }
 
     private static XSSFCellStyle cellStyle(XSSFSheet sheet) {
-        Font fontTitle = sheet.getWorkbook().createFont();
-        fontTitle.setColor(HSSFColor.BLACK.index);
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
-        cellStyle.setFont(fontTitle);
+        cellStyle.setBorderBottom(BorderStyle.THIN);
         return cellStyle;
     }
 
     // Метод записи в файл
+    /*
     public static synchronized void writeToFileExcel(HttpServletResponse response, List<String>... listOfFinalArray) {
         try {
             ServletOutputStream outputStream = response.getOutputStream();
@@ -163,7 +167,7 @@ public class WriteToFileExcel extends JavaHelperBase {
         } catch (Exception e) {
             logger.error("Ошибка записи в файл - {}", e.getMessage());
         }
-    }
+    }*/
 
     public static boolean isIsOk() {
         return isOk;
@@ -172,7 +176,7 @@ public class WriteToFileExcel extends JavaHelperBase {
     public static void setIsOk(boolean isOk) {
         WriteToFileExcel.isOk = isOk;
     }
-*/
+
     public static void setFile(File file) {
         WriteToFileExcel.file = file;
     }
