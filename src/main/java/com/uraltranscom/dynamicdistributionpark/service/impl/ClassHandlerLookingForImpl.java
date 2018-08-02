@@ -9,6 +9,7 @@ import com.uraltranscom.dynamicdistributionpark.model_ext.WagonFinalRouteInfo;
 import com.uraltranscom.dynamicdistributionpark.service.ClassHandlerLookingFor;
 import com.uraltranscom.dynamicdistributionpark.service.additional.CompareMapValue;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
+import com.uraltranscom.dynamicdistributionpark.service.additional.PrepareDistanceOfDay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +59,6 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
     private Map<Route, List<Integer>> mapFinalOrderInfo = new HashMap<>();
     // Временная мапа после отработки метода
     private Map<Integer, Route> tempMapTotalRoute = new HashMap<>();
-    // Основная мапа маршрутов
-    private Map<Integer, Route> rootMapRoute = new HashMap<>();
     // Список невостребованых вагонво
     private List<Wagon> totalListWagon = new ArrayList<>();
 
@@ -67,14 +66,15 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
     }
 
     @Override
-    public void lookingForOptimalMapOfRoute(Map<Integer, Route> mapOfRoutes, List<Wagon> tempListOfWagons) {
+    public void lookingForOptimalMapOfRoute() {
         logger.info("Start root method: {}", this.getClass().getSimpleName() + ".fillMapRouteIsOptimal");
+        getFullMonthCircleOfWagonImpl.getMapOfDaysOfWagon().clear();
 
         // Заполняем мапы
-        List<Wagon> copyListOfWagon = new ArrayList<>(tempListOfWagons);
-        Map<Integer, Route> tempMapOfRoutes = new HashMap<>(mapOfRoutes);
-        rootMapRoute.putAll(mapOfRoutes);
+        List<Wagon> copyListOfWagon = new ArrayList<>(getListOfDistance.getListOfWagons());
+        Map<Integer, Route> tempMapOfRoutes = new HashMap<>(getListOfDistance.getMapOfRoutes());
 
+        // Временная выходная мапа
         Map<String, WagonFinalInfo> tempMapWagonInfo = new HashMap<>();
 
         // Мапа расстояний
@@ -87,109 +87,86 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
             // Очищаем массивы
             mapDistance.clear();
 
-            for (Wagon _copyListOfWagon : copyListOfWagon) {
+            for (Wagon _wagons : copyListOfWagon) {
                 // Индекс последнего маршрута
-                int index = _copyListOfWagon.getListRoutes().size() - 1;
+                int index = _wagons.getListRoutes().size() - 1;
                 // Получаем код станции назначения вагона
-                String keyOfStationOfWagonDestination = _copyListOfWagon.getListRoutes().get(index).getKeyOfStationDestination().trim();
+                String keyOfStationOfWagonDestination = _wagons.getListRoutes().get(index).getKeyOfStationDestination().trim();
 
                 // По каждому вагону высчитываем расстояние до каждой начальной станнции маршрутов
                 // Цикл расчета расстояния и заполнения мапы
-                for (Map.Entry<Integer, Route> _tempMapOfRoutes : tempMapOfRoutes.entrySet()) {
+                for (Map.Entry<Integer, Route> _routes : tempMapOfRoutes.entrySet()) {
 
                     List<Object> list = new ArrayList<>();
-                    String keyOfStationDeparture = _tempMapOfRoutes.getValue().getKeyOfStationDeparture();
-                    list.add(_copyListOfWagon);
-                    list.add(_tempMapOfRoutes.getValue());
-                    String key = keyOfStationOfWagonDestination + "_" + keyOfStationDeparture;
+                    // Станция отправления рейса
+                    String keyOfStationDeparture = _routes.getValue().getKeyOfStationDeparture();
+                    list.add(_wagons);
+                    list.add(_routes.getValue());
+                    if (_wagons.getVolume() >= _routes.getValue().getVolumePeriod().getVolumeFrom() && _wagons.getVolume() <= _routes.getValue().getVolumePeriod().getVolumeTo() &&
+                            _routes.getValue().getCountOrders() > 0 && !_wagons.getListRoutes().get(index).getKeyOfStationDestination().equals("")) {
+                        String key = keyOfStationOfWagonDestination + "_" + keyOfStationDeparture;
 
-                    // Ищем в готовой мапе расстояние
-                    //TODO сделать компактнее
-                    if (_copyListOfWagon.getListRoutes().size() == 1) {
+                        // Ищем в готовой мапе расстояние
+                        //TODO сделать компактнее
                         if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
-                            if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 0) {
-                                switch (_copyListOfWagon.getListRoutes().get(index).getCargo().getCargoType()) {
-                                    case 3:
-                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 300) {
-                                            mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                        }
-                                        break;
-                                    default:
-                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 600) {
-                                            mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                        }
-                                        break;
-                                }
-                            } else if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 1) {
-                                if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 2500) {
-                                    mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                }
-                            } else {
-                                if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 1800) {
-                                    mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                }
-                            }
-                        }
-                    } else {
-                        if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
-                            if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 0) {
-                                switch (_copyListOfWagon.getListRoutes().get(index).getCargo().getCargoType()) {
-                                    case 3:
-                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 300) {
-                                            mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                        }
-                                        break;
-                                    default:
-                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 600) {
-                                            mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                        }
-                                        break;
-                                }
-                            } else if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 1) {
-                                if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 2500) {
-                                    mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                }
-                            } else {
-                                if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 1800) {
-                                    mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                }
-                            }
-                        } else {
-                            List<Integer> listDistance = getListOfDistance.listDistance(keyOfStationOfWagonDestination, keyOfStationDeparture);
-                            if (listDistance != null) {
-                                if (listDistance.get(1) == 0) {
-                                    switch (_copyListOfWagon.getListRoutes().get(index).getCargo().getCargoType()) {
+                            if (getListOfDistance.getRootMapWithDistances().get(key).get(0) != -20000) {
+                                if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 0) {
+                                    switch (_wagons.getListRoutes().get(index).getCargo().getCargoType()) {
                                         case 3:
-                                            if (listDistance.get(0) <= 300) {
-                                                mapDistance.put(list, listDistance.get(0));
+                                            if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 300) {
+                                                mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
                                             }
                                             break;
                                         default:
-                                            if (listDistance.get(0) <= 600) {
-                                                mapDistance.put(list, listDistance.get(0));
+                                            if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 600) {
+                                                mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
                                             }
                                             break;
                                     }
-                                } else if (listDistance.get(1) == 1) {
-                                    if (listDistance.get(0) <= 2500) {
-                                        mapDistance.put(list, listDistance.get(0));
+                                } else if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 1) {
+                                    if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 2500) {
+                                        mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
                                     }
                                 } else {
-                                    if (listDistance.get(0) <= 1800) {
-                                        mapDistance.put(list, listDistance.get(0));
+                                    if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 1800) {
+                                        mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
                                     }
                                 }
-                            } else {
-                                break;
+                            }
+                        } else {
+                            if (isCheckMore40(_wagons, _routes.getValue())) {
+                                List<Integer> listDistance = getListOfDistance.listDistance(keyOfStationOfWagonDestination, keyOfStationDeparture);
+                                if (listDistance != null) {
+                                    if (listDistance.get(0) != -20000) {
+                                        if (listDistance.get(1) == 0) {
+                                            switch (_wagons.getListRoutes().get(index).getCargo().getCargoType()) {
+                                                case 3:
+                                                    if (listDistance.get(0) <= 300) {
+                                                        mapDistance.put(list, listDistance.get(0));
+                                                    }
+                                                    break;
+                                                default:
+                                                    if (listDistance.get(0) <= 600) {
+                                                        mapDistance.put(list, listDistance.get(0));
+                                                    }
+                                                    break;
+                                            }
+                                        } else if (listDistance.get(1) == 1) {
+                                            if (listDistance.get(0) <= 2500) {
+                                                mapDistance.put(list, listDistance.get(0));
+                                            }
+                                        } else {
+                                            if (listDistance.get(0) <= 1800) {
+                                                mapDistance.put(list, listDistance.get(0));
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
-
-            // Сортируем мапу по значению
-            Map<List<Object>, Integer> mapDistanceSort = new LinkedHashMap<>();
-
             int indexMap = mapDistance.size();
             CompareMapValue[] compareMapValues = new CompareMapValue[indexMap];
             indexMap = 0;
@@ -197,147 +174,127 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                 compareMapValues[indexMap++] = new CompareMapValue(entry.getKey(), entry.getValue());
             }
             Arrays.sort(compareMapValues);
-            for (CompareMapValue cmv : compareMapValues) {
-                mapDistanceSort.put(cmv.wagon, cmv.distance);
-            }
 
-            // Цикл формирования рейсов
-            // Проверяем на пустоту мап, либо вагоны, либо рейсы
-            outer:
-            if (!mapDistanceSort.isEmpty() && !copyListOfWagon.isEmpty()) {
-                for (Map.Entry<List<Object>, Integer> mapDistanceSortFirstElement : mapDistanceSort.entrySet()) {
-                    List<Object> listRouteMinDistance = mapDistanceSortFirstElement.getKey();
-                    Route route = (Route) listRouteMinDistance.get(1);
-                    Wagon wagon = (Wagon) listRouteMinDistance.get(0);
-                    String nameOfStationDepartureOfWagon = route.getNameOfStationDeparture();
-                    String keyOfStationDepartureOfWagon = route.getKeyOfStationDeparture();
-                    int index = wagon.getListRoutes().size() - 1;
+            if (compareMapValues.length != 0) {
+                List<Object> listRouteMinDistance = compareMapValues[0].list;
+                Route route = (Route) listRouteMinDistance.get(1);
+                Wagon wagon = (Wagon) listRouteMinDistance.get(0);
+                int minDistance = compareMapValues[0].distance;
+                int index = wagon.getListRoutes().size() - 1;
 
-                    final int[] o = {0};
-                    Map<Integer, Route> tempMapOfRouteForDelete = new HashMap<>();
-                    tempMapOfRoutes.forEach((k, v) -> {
-                        tempMapOfRouteForDelete.put(o[0], v);
-                        o[0]++;
-                    });
+                // Число дней пройденных вагоном
+                int countCircleDays = getFullMonthCircleOfWagonImpl.fullDays(
+                        wagon.getNumberOfWagon(),
+                        minDistance,
+                        route.getDistanceOfWay());
 
-                    Iterator<Map.Entry<Integer, Route>> it = tempMapOfRoutes.entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry<Integer, Route> entry = it.next();
-                        for (int j = 0; j < tempMapOfRouteForDelete.size(); j++) {
-                            // Находим маршрут для вагона
-                            if (tempMapOfRouteForDelete.get(j).equals(route) && entry.getValue().getCountOrders() > 0) {
-                                if (tempMapOfRouteForDelete.get(j).equals(entry.getValue())) {
-                                    if (wagon.getVolume() >= entry.getValue().getVolumePeriod().getVolumeFrom() && wagon.getVolume() <= entry.getValue().getVolumePeriod().getVolumeTo()) {
+                // Добавляем информацию в выходную мапу
+                if (!tempMapWagonInfo.containsKey(wagon.getNumberOfWagon())) {
+                    if (countCircleDays <= MAX_COUNT_DAYS) {
+                        List<WagonFinalRouteInfo> listInfo = new ArrayList<>();
+                        listInfo.add(new WagonFinalRouteInfo(getFullMonthCircleOfWagonImpl.getListOfDaysOfWagon(wagon.getNumberOfWagon()).get(index),
+                                minDistance,
+                                wagon.getListRoutes().get(index).getNameOfStationDestination(),
+                                wagon.getListRoutes().get(index).getKeyOfStationDestination(),
+                                route.getNameOfStationDeparture(),
+                                route.getKeyOfStationDeparture(),
+                                route,
+                                wagon.getListRoutes().get(index).getCargo(),
+                                wagon.getListRoutes().get(index).getCargo().getCargoType())
+                        );
+                        tempMapWagonInfo.put(wagon.getNumberOfWagon(),
+                                new WagonFinalInfo(
+                                        wagon.getNumberOfWagon(),
+                                        listInfo)
+                        );
+                        // Добавляем информацию у вагона, добавляем новый рейс
+                        List<Route> list = wagon.getListRoutes();
+                        list.add(route);
 
-                                        int getKeyNumber = 0;
-
-                                        for (int i = 0; i < copyListOfWagon.size(); i++) {
-                                            if (copyListOfWagon.get(i).getNumberOfWagon().equals(wagon.getNumberOfWagon())) {
-                                                getKeyNumber = i;
-                                            }
-                                        }
-
-                                        // Число дней пройденных вагоном
-
-                                        int countCircleDays = getFullMonthCircleOfWagonImpl.fullDays(
-                                                wagon.getNumberOfWagon(),
-                                                mapDistanceSortFirstElement.getValue(),
-                                                route.getDistanceOfWay());
-
-                                        // Удаляем вагон
-                                        /*for (int i = 0; i < tempListOfWagons.size(); i++) {
-                                            if (tempListOfWagons.get(i).getNumberOfWagon().equals(copyListOfWagon.get(getKeyNumber).getNumberOfWagon())) {
-                                                tempListOfWagons.remove(i);
-                                            }
-                                        }*/
-
-                                        if (countCircleDays <= MAX_COUNT_DAYS_DECADE) {
-                                            // Добавляем информацию в выходную мапу
-                                            if (tempMapWagonInfo.isEmpty() || !tempMapWagonInfo.containsKey(wagon.getNumberOfWagon())) {
-                                                List<WagonFinalRouteInfo> list = new ArrayList<>();
-                                                list.add(new WagonFinalRouteInfo(getFullMonthCircleOfWagonImpl.getListOfDaysOfWagon(wagon.getNumberOfWagon()).get(index),
-                                                        mapDistanceSortFirstElement.getValue(),
-                                                        wagon.getListRoutes().get(index).getNameOfStationDestination(),
-                                                        wagon.getListRoutes().get(index).getKeyOfStationDestination(),
-                                                        nameOfStationDepartureOfWagon,
-                                                        keyOfStationDepartureOfWagon,
-                                                        entry.getValue(),
-                                                        wagon.getListRoutes().get(index).getCargo(),
-                                                        wagon.getListRoutes().get(index).getCargo().getCargoType())
-                                                );
-                                                tempMapWagonInfo.put(wagon.getNumberOfWagon(),
-                                                        new WagonFinalInfo(
-                                                                wagon.getNumberOfWagon(),
-                                                                list
-                                                        )
-                                                );
-                                            } else {
-                                                WagonFinalInfo wagonFinalInfo = tempMapWagonInfo.get(wagon.getNumberOfWagon());
-                                                List<WagonFinalRouteInfo> wagonFinalRouteInfo = wagonFinalInfo.getListRouteInfo();
-                                                wagonFinalRouteInfo.add(new WagonFinalRouteInfo(getFullMonthCircleOfWagonImpl.getListOfDaysOfWagon(wagon.getNumberOfWagon()).get(index),
-                                                        mapDistanceSortFirstElement.getValue(),
-                                                        wagon.getListRoutes().get(index).getNameOfStationDestination(),
-                                                        wagon.getListRoutes().get(index).getKeyOfStationDestination(),
-                                                        nameOfStationDepartureOfWagon,
-                                                        keyOfStationDepartureOfWagon,
-                                                        entry.getValue(),
-                                                        wagon.getListRoutes().get(index).getCargo(),
-                                                        wagon.getListRoutes().get(index).getCargo().getCargoType())
-                                                );
-                                                tempMapWagonInfo.get(wagon.getNumberOfWagon()).setListRouteInfo(wagonFinalRouteInfo);
-                                                tempMapWagonInfo.get(wagon.getNumberOfWagon()).setSizeArray(wagonFinalRouteInfo.size() - 1);
-                                            }
-
-                                            // Добавляем информацию у вагона, добавляем новый рейс
-                                            List<Route> list = wagon.getListRoutes();
-                                            list.add(new Route(entry.getValue().getKeyOfStationDeparture(),
-                                                    entry.getValue().getNameOfStationDeparture(),
-                                                    entry.getValue().getRoadOfStationDeparture(),
-                                                    entry.getValue().getKeyOfStationDestination(),
-                                                    entry.getValue().getNameOfStationDestination(),
-                                                    entry.getValue().getRoadOfStationDestination(),
-                                                    entry.getValue().getCustomer(),
-                                                    entry.getValue().getVolumePeriod().getVolumeFrom(),
-                                                    entry.getValue().getVolumePeriod().getVolumeTo(),
-                                                    entry.getValue().getCargo().getNameCargo(),
-                                                    entry.getValue().getCargo().getKeyCargo()
-                                            ));
-                                            wagon.setListRoutes(list);
-                                        } else {
-                                            copyListOfWagon.remove(getKeyNumber);
-                                        }
-
-                                        // Уменьшаем количество рейсов у маршрута
-                                        tempMapOfRoutes.put(entry.getKey(), new Route(tempMapOfRoutes.get(entry.getKey()).getKeyOfStationDeparture(),
-                                                tempMapOfRoutes.get(entry.getKey()).getNameOfStationDeparture(),
-                                                tempMapOfRoutes.get(entry.getKey()).getRoadOfStationDeparture(),
-                                                tempMapOfRoutes.get(entry.getKey()).getKeyOfStationDestination(),
-                                                tempMapOfRoutes.get(entry.getKey()).getNameOfStationDestination(),
-                                                tempMapOfRoutes.get(entry.getKey()).getRoadOfStationDestination(),
-                                                tempMapOfRoutes.get(entry.getKey()).getDistanceOfWay(),
-                                                tempMapOfRoutes.get(entry.getKey()).getCustomer(),
-                                                tempMapOfRoutes.get(entry.getKey()).getCountOrders() - 1,
-                                                tempMapOfRoutes.get(entry.getKey()).getVolumePeriod().getVolumeFrom(),
-                                                tempMapOfRoutes.get(entry.getKey()).getVolumePeriod().getVolumeTo(),
-                                                tempMapOfRoutes.get(entry.getKey()).getNumberOrder(),
-                                                tempMapOfRoutes.get(entry.getKey()).getCargo().getNameCargo(),
-                                                tempMapOfRoutes.get(entry.getKey()).getCargo().getKeyCargo(),
-                                                tempMapOfRoutes.get(entry.getKey()).getWagonType().getWagonType()));
-
-                                        // Удаляем маршрут, если по нему 0 рейсов
-                                        /*
-                                        if (tempMapOfRoutes.get(entry.getKey()).getCountOrders() == 0) {
-                                            it.remove();
-                                        }
-                                        */
-                                        isOk = true;
-                                        // Выходим из цикла, так как с ним больше ничего не сделать
-                                        break outer;
-                                    }
-                                }
+                        for (Wagon _wagon : copyListOfWagon) {
+                            if (_wagon.getNumberOfWagon().equals(wagon.getNumberOfWagon())) {
+                                _wagon.setListRoutes(list);
                             }
                         }
+
+                        // Уменьшаем количество рейсов у маршрута
+                        for (Map.Entry<Integer, Route> entry : tempMapOfRoutes.entrySet()) {
+                            if (entry.getValue().equals(route)) {
+                                tempMapOfRoutes.put(entry.getKey(), new Route(tempMapOfRoutes.get(entry.getKey()).getKeyOfStationDeparture(),
+                                        tempMapOfRoutes.get(entry.getKey()).getNameOfStationDeparture(),
+                                        tempMapOfRoutes.get(entry.getKey()).getRoadOfStationDeparture(),
+                                        tempMapOfRoutes.get(entry.getKey()).getKeyOfStationDestination(),
+                                        tempMapOfRoutes.get(entry.getKey()).getNameOfStationDestination(),
+                                        tempMapOfRoutes.get(entry.getKey()).getRoadOfStationDestination(),
+                                        tempMapOfRoutes.get(entry.getKey()).getDistanceOfWay(),
+                                        tempMapOfRoutes.get(entry.getKey()).getCustomer(),
+                                        tempMapOfRoutes.get(entry.getKey()).getCountOrders() - 1,
+                                        tempMapOfRoutes.get(entry.getKey()).getVolumePeriod().getVolumeFrom(),
+                                        tempMapOfRoutes.get(entry.getKey()).getVolumePeriod().getVolumeTo(),
+                                        tempMapOfRoutes.get(entry.getKey()).getNumberOrder(),
+                                        tempMapOfRoutes.get(entry.getKey()).getCargo().getNameCargo(),
+                                        tempMapOfRoutes.get(entry.getKey()).getCargo().getKeyCargo(),
+                                        tempMapOfRoutes.get(entry.getKey()).getWagonType().getWagonType()));
+                            }
+                        }
+                        isOk = true;
                     }
+                } else {
+                    if (countCircleDays <= MAX_COUNT_DAYS_DECADE) {
+                        WagonFinalInfo wagonFinalInfo = tempMapWagonInfo.get(wagon.getNumberOfWagon());
+                        List<WagonFinalRouteInfo> wagonFinalRouteInfo = wagonFinalInfo.getListRouteInfo();
+                        wagonFinalRouteInfo.add(new WagonFinalRouteInfo(getFullMonthCircleOfWagonImpl.getListOfDaysOfWagon(wagon.getNumberOfWagon()).get(index),
+                                minDistance,
+                                wagon.getListRoutes().get(index).getNameOfStationDestination(),
+                                wagon.getListRoutes().get(index).getKeyOfStationDestination(),
+                                route.getNameOfStationDeparture(),
+                                route.getKeyOfStationDeparture(),
+                                route,
+                                wagon.getListRoutes().get(index).getCargo(),
+                                wagon.getListRoutes().get(index).getCargo().getCargoType())
+                        );
+                        tempMapWagonInfo.get(wagon.getNumberOfWagon()).setListRouteInfo(wagonFinalRouteInfo);
+                        tempMapWagonInfo.get(wagon.getNumberOfWagon()).setSizeArray(wagonFinalRouteInfo.size() - 1);
+                        // Добавляем информацию у вагона, добавляем новый рейс
+                        List<Route> list = wagon.getListRoutes();
+                        list.add(route);
+
+                        for (Wagon _wagon : copyListOfWagon) {
+                            if (_wagon.getNumberOfWagon().equals(wagon.getNumberOfWagon())) {
+                                _wagon.setListRoutes(list);
+                            }
+                        }
+
+                        // Уменьшаем количество рейсов у маршрута
+                        for (Map.Entry<Integer, Route> entry : tempMapOfRoutes.entrySet()) {
+                            if (entry.getValue().equals(route)) {
+                                tempMapOfRoutes.put(entry.getKey(), new Route(tempMapOfRoutes.get(entry.getKey()).getKeyOfStationDeparture(),
+                                        tempMapOfRoutes.get(entry.getKey()).getNameOfStationDeparture(),
+                                        tempMapOfRoutes.get(entry.getKey()).getRoadOfStationDeparture(),
+                                        tempMapOfRoutes.get(entry.getKey()).getKeyOfStationDestination(),
+                                        tempMapOfRoutes.get(entry.getKey()).getNameOfStationDestination(),
+                                        tempMapOfRoutes.get(entry.getKey()).getRoadOfStationDestination(),
+                                        tempMapOfRoutes.get(entry.getKey()).getDistanceOfWay(),
+                                        tempMapOfRoutes.get(entry.getKey()).getCustomer(),
+                                        tempMapOfRoutes.get(entry.getKey()).getCountOrders() - 1,
+                                        tempMapOfRoutes.get(entry.getKey()).getVolumePeriod().getVolumeFrom(),
+                                        tempMapOfRoutes.get(entry.getKey()).getVolumePeriod().getVolumeTo(),
+                                        tempMapOfRoutes.get(entry.getKey()).getNumberOrder(),
+                                        tempMapOfRoutes.get(entry.getKey()).getCargo().getNameCargo(),
+                                        tempMapOfRoutes.get(entry.getKey()).getCargo().getKeyCargo(),
+                                        tempMapOfRoutes.get(entry.getKey()).getWagonType().getWagonType()));
+                            }
+                        }
+                        isOk = true;
+                    } else {
+                        for (int i = 0; i < copyListOfWagon.size(); i++) {
+                            if (copyListOfWagon.get(i).getNumberOfWagon().equals(wagon.getNumberOfWagon())) {
+                                copyListOfWagon.remove(i);
+                            }
+                        }
+                        isOk = true;
+                    }
+
                 }
             }
         }
@@ -351,8 +308,31 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
         logger.info("Stop root method: {}", this.getClass().getSimpleName() + ".fillMapRouteIsOptimal");
     }
 
+    private boolean isCheckMore40(Wagon wagon, Route route) {
+        int sum = 0;
+        try {
+            if (getFullMonthCircleOfWagonImpl.getListOfDaysOfWagon(wagon.getNumberOfWagon()).isEmpty()) {
+                return false;
+            } else {
+                for (Integer list : getFullMonthCircleOfWagonImpl.getListOfDaysOfWagon(wagon.getNumberOfWagon())) {
+                    sum += list;
+                }
+                sum += Math.ceil(Integer.parseInt(route.getDistanceOfWay()) / PrepareDistanceOfDay.getDistanceOfDay(Integer.parseInt(route.getDistanceOfWay())));
+                sum += LOADING_WAGON;
+                if (sum >= MAX_COUNT_DAYS_DECADE) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+
     public void fillFinalMapByOrders() {
-        for (Map.Entry<Integer, Route> _map : rootMapRoute.entrySet()) {
+        mapFinalOrderInfo.clear();
+        for (Map.Entry<Integer, Route> _map : getListOfDistance.getMapOfRoutes().entrySet()) {
             for (Map.Entry<Integer, Route> _tempMap : tempMapTotalRoute.entrySet()) {
                 List<Integer> list = new ArrayList<>();
                 if (_map.getValue().getNumberOrder().equals(_tempMap.getValue().getNumberOrder())) {

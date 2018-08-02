@@ -19,7 +19,6 @@ import com.uraltranscom.dynamicdistributionpark.util.MultipartFileToFileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,10 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 
-@Controller
-public class BasicController {
+@org.springframework.stereotype.Controller
+public class Controller {
     // Подключаем логгер
-    private static Logger logger = LoggerFactory.getLogger(BasicController.class);
+    private static Logger logger = LoggerFactory.getLogger(Controller.class);
 
     @Autowired
     private BasicClassImpl basicClassImpl;
@@ -60,8 +59,8 @@ public class BasicController {
             model.addAttribute("reportListOfError", basicClassImpl.getListOfError());
             model.addAttribute("yield", basicClassImpl.getClassHandlerTotalCalculate().getYield());
             model.addAttribute("count", basicClassImpl.getClassHandlerLookingFor().getGetListOfDistance().getGetListOfRoutesImpl().getCount());
-            model.addAttribute("count30Days", basicClassImpl.getClassHandlerTotalCalculate().getCount30Days());
-            model.addAttribute("count45Days", basicClassImpl.getClassHandlerTotalCalculate().getCount45Days());
+            model.addAttribute("count30Days", basicClassImpl.getClassHandlerTotalCalculate().getCount31Days());
+            model.addAttribute("count45Days", basicClassImpl.getClassHandlerTotalCalculate().getCount40Days());
             return "welcome";
         }
     }
@@ -76,22 +75,24 @@ public class BasicController {
         model.addAttribute("reportListOfError", basicClassImpl.getListOfError());
         model.addAttribute("yield", basicClassImpl.getClassHandlerTotalCalculate().getYield());
         model.addAttribute("count", basicClassImpl.getClassHandlerLookingFor().getGetListOfDistance().getGetListOfRoutesImpl().getCount());
-        model.addAttribute("count30Days", basicClassImpl.getClassHandlerTotalCalculate().getCount30Days());
-        model.addAttribute("count45Days", basicClassImpl.getClassHandlerTotalCalculate().getCount45Days());
+        model.addAttribute("count30Days", basicClassImpl.getClassHandlerTotalCalculate().getCount31Days());
+        model.addAttribute("count45Days", basicClassImpl.getClassHandlerTotalCalculate().getCount40Days());
         return "welcome";
     }
 
+    /**
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
     public String routeList(Model model) {
         basicClassImpl.getClassHandlerLookingFor().fillFinalMapByOrders();
         model.addAttribute("finalRoutes", basicClassImpl.getClassHandlerLookingFor().getMapFinalOrderInfo());
         model.addAttribute("finalWagons", basicClassImpl.getClassHandlerLookingFor().getTotalListWagon());
         return "orders";
-    }
+    }*/
 
     // Выгрузка в Excel
     @RequestMapping(value = "/export", method = RequestMethod.GET)
     public void getXLS(HttpServletResponse response, Model model) {
+        basicClassImpl.getClassHandlerLookingFor().fillFinalMapByOrders();
         WriteToFileExcel.downloadFileExcel(response, basicClassImpl.getClassHandlerLookingFor().getMapFinalOrderInfo());
     }
 }

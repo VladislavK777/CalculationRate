@@ -171,9 +171,11 @@
                     <c:if test="${!empty finalWagons}">
                         <table class="table_report">
                             <c:forEach items="${finalWagons}" var="wagons">
-                                <tr>
-                                    <td>${wagons.get(i).getNumberOfWagon()}</td>
-                                </tr>
+                                <c:forEach var="i" begin="0" end="${wagons.size()}">
+                                    <tr>
+                                        <td>${wagons.get(i).getNumberOfWagon()}</td>
+                                    </tr>
+                                </c:forEach>
                             </c:forEach>
                         </table>
                     </c:if>

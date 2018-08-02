@@ -65,6 +65,7 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
     // TODO Переписать метод, избавиться от формата жесткого, необходимо и XLSX и XLS
     @Override
     public void fillMap() {
+        count = 0;
         mapOfRoutes.clear();
         writeToFileExcel.setFile(null);
         writeToFileExcel.setFile(file);

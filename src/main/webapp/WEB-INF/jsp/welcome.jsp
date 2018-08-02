@@ -184,7 +184,7 @@
 </div>
 
 <div class="one">
-    <h1>Сервис распределения вагонов</h1>
+    <h1>Динамическое распределения вагонов</h1>
     <div class="train">
     		<img src="resources/train.jpg">
     </div>
@@ -303,31 +303,30 @@
              </div>
              </section>
              <section id="content-tab2">
-                <p>
-                <table class="table_report">
-                    <tr>
-                        <td>Средняя доходность за 30 суток: </td>
-                        <td>${yield}</td>
-                    </tr>
-                    <tr>
-                        <td>Факт заявок за 30 дней: </td>
-                        <td>${count30Days}</td>
-                    </tr>
-                    <tr>
-                        <td>Факт заявок за 30 дней и декаду: </td>
-                        <td>${count45Days}</td>
-                    </tr>
-                        <td>Общие количество заявок: </td>
-                        <td>${count}</td>
-                    </tr>
-                    <tr>
-                        <td>Открыть невостребованные заявки и вагоны: </td>
-                        <form action="orders" method="get">
-                            <td><input type="submit" value="Открыть" class="bot1" /></td>
-                        </form>
-                    </tr>
-                </table>
-                </p>
+                <c:if test="${!empty yield}">
+                    <table class="table_report">
+                        <tr>
+                            <td>Средняя доходность за 30 суток: </td>
+                            <td>${yield}</td>
+                        </tr>
+                        <tr>
+                            <td>Факт заявок за 30 дней: </td>
+                            <td>${count30Days}</td>
+                        </tr>
+                        <tr>
+                            <td>Факт заявок за 30 дней и декаду: </td>
+                            <td>${count45Days}</td>
+                        </tr>
+                            <td>Общие количество заявок: </td>
+                            <td>${count}</td>
+                        </tr>
+                        <tr>
+                            <form action="export" method="get">
+                                <td><input type="submit" value="Скачать базу заявок" class="bot1" /></td>
+                            </form>
+                        </tr>
+                    </table>
+                </c:if>
             </section>
             <section id="content-tab3">
                 <c:if test="${!empty reportListOfError}">

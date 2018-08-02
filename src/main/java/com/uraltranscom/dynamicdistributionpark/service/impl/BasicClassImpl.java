@@ -1,7 +1,5 @@
 package com.uraltranscom.dynamicdistributionpark.service.impl;
 
-import com.uraltranscom.dynamicdistributionpark.model.Route;
-import com.uraltranscom.dynamicdistributionpark.model.Wagon;
 import com.uraltranscom.dynamicdistributionpark.service.BasicClass;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import org.slf4j.Logger;
@@ -11,8 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -40,6 +39,7 @@ public class BasicClassImpl extends JavaHelperBase implements BasicClass {
     private ClassHandlerTotalCalculateImpl classHandlerTotalCalculate;
 
     // Массив ошибок
+    private Set<String> setOfError = new HashSet<>();
     private List<String> listOfError = new ArrayList<>();
 
     // Флаг, что нужно заполнить или проверить ставку или тариф
@@ -51,23 +51,24 @@ public class BasicClassImpl extends JavaHelperBase implements BasicClass {
     @Override
     public void fillMapRouteIsOptimal() {
         // Очищаем массивы итоговые
+        setOfError.clear();
         listOfError.clear();
 
         // Запускаем метод заполненеия первоначальной мапы расстояний
         classHandlerLookingFor.getGetListOfDistance().fillMap();
 
-        // Заполняем мапы
-        Map<Integer, Route> tempMapRoutes = classHandlerLookingFor.getGetListOfDistance().getGetListOfRoutesImpl().getMapOfRoutes();
-        List<Wagon> tempListOfWagons = classHandlerLookingFor.getGetListOfDistance().getGetListOfWagonsImpl().getListOfWagons();
-
         // Запускаем распределение
-        if (!tempMapRoutes.isEmpty()) {
-            classHandlerLookingFor.lookingForOptimalMapOfRoute(tempMapRoutes, tempListOfWagons);
-        }
+        classHandlerLookingFor.lookingForOptimalMapOfRoute();
 
-        // очищаем мапы
-        tempListOfWagons.clear();
-        tempMapRoutes.clear();
+        set2list();
+    }
+
+    public Set<String> getSetOfError() {
+        return setOfError;
+    }
+
+    public void setSetOfError(Set<String> setOfError) {
+        this.setOfError = setOfError;
     }
 
     public List<String> getListOfError() {
@@ -101,4 +102,11 @@ public class BasicClassImpl extends JavaHelperBase implements BasicClass {
     public void setClassHandlerTotalCalculate(ClassHandlerTotalCalculateImpl classHandlerTotalCalculate) {
         this.classHandlerTotalCalculate = classHandlerTotalCalculate;
     }
+
+    private void set2list() {
+        for (String s: setOfError) {
+            listOfError.add(s);
+        }
+    }
+
 }
