@@ -97,9 +97,9 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
         int sumCountDays = 0;
         for (Map.Entry<String, WagonFinalInfo> _map : map.entrySet()) {
             for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
-                sumRate = sumRate+ (Double) _map.getValue().getListRouteInfo().get(i).getRate();
-                sumTariff = sumTariff + (Double) _map.getValue().getListRouteInfo().get(i).getTariff();
-                sumCountDays = sumCountDays + _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
+                sumRate += (Double) _map.getValue().getListRouteInfo().get(i).getRate();
+                sumTariff += (Double) _map.getValue().getListRouteInfo().get(i).getTariff();
+                sumCountDays += _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
             }
         }
         yield = Math.round(((sumRate - sumTariff) / sumCountDays) * 100) / 100.00d;
@@ -116,10 +116,11 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
                 tempCount = tempCount + _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
             }
             if (tempCount > 31) {
-                count40Days = count40Days + _map.getValue().getListRouteInfo().size();
+                count40Days += _map.getValue().getListRouteInfo().size();
                 count31Days++;
             } else {
-                count31Days = count31Days + _map.getValue().getListRouteInfo().size();
+                count40Days += _map.getValue().getListRouteInfo().size();
+                count31Days += _map.getValue().getListRouteInfo().size();
             }
         }
         logger.debug("count31Days: {}, count40Days: {}", count31Days, count40Days);

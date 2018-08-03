@@ -111,17 +111,14 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                         if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
                             if (getListOfDistance.getRootMapWithDistances().get(key).get(0) != -20000) {
                                 if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 0) {
-                                    switch (_wagons.getListRoutes().get(index).getCargo().getCargoType()) {
-                                        case 3:
-                                            if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 300) {
-                                                mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                            }
-                                            break;
-                                        default:
-                                            if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 600) {
-                                                mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                            }
-                                            break;
+                                    if (_wagons.getListRoutes().get(index).getCargo().getCargoType() == 3) {
+                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 300) {
+                                            mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
+                                        }
+                                    } else {
+                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 600) {
+                                            mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
+                                        }
                                     }
                                 } else if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 1) {
                                     if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 2500) {
@@ -139,17 +136,14 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                 if (listDistance != null) {
                                     if (listDistance.get(0) != -20000) {
                                         if (listDistance.get(1) == 0) {
-                                            switch (_wagons.getListRoutes().get(index).getCargo().getCargoType()) {
-                                                case 3:
-                                                    if (listDistance.get(0) <= 300) {
-                                                        mapDistance.put(list, listDistance.get(0));
-                                                    }
-                                                    break;
-                                                default:
-                                                    if (listDistance.get(0) <= 600) {
-                                                        mapDistance.put(list, listDistance.get(0));
-                                                    }
-                                                    break;
+                                            if (_wagons.getListRoutes().get(index).getCargo().getCargoType() == 3) {
+                                                if (listDistance.get(0) <= 300) {
+                                                    mapDistance.put(list, listDistance.get(0));
+                                                }
+                                            } else {
+                                                if (listDistance.get(0) <= 600) {
+                                                    mapDistance.put(list, listDistance.get(0));
+                                                }
                                             }
                                         } else if (listDistance.get(1) == 1) {
                                             if (listDistance.get(0) <= 2500) {
@@ -319,11 +313,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                 }
                 sum += Math.ceil(Integer.parseInt(route.getDistanceOfWay()) / PrepareDistanceOfDay.getDistanceOfDay(Integer.parseInt(route.getDistanceOfWay())));
                 sum += LOADING_WAGON;
-                if (sum >= MAX_COUNT_DAYS_DECADE) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return sum >= MAX_COUNT_DAYS_DECADE ? false : true;
             }
         } catch (NullPointerException e) {
             return false;

@@ -111,7 +111,7 @@ public class GetListOfDistanceImpl extends JavaHelperBase implements GetList {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.info("IO Exception", e.getMessage());
             }
         }
         try (FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -128,7 +128,7 @@ public class GetListOfDistanceImpl extends JavaHelperBase implements GetList {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.info("IO Exception", e.getMessage());
             }
         }
         Map<String, List<Integer>> map = new HashMap<>();
