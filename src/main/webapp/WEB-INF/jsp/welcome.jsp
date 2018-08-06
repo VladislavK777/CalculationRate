@@ -116,20 +116,14 @@
         #tab3:checked ~ #content-tab3 {
             display: block;
         }
-        /* Убираем текст с переключателей и оставляем иконки на малых экранах*/
-        @media screen and (max-width: 680px) {
+        @media screen and (max-width: 1500px) {
             .tabs > label {
-                font-size: 0;
+                font-size: 12px;
+                width: 180px;
             }
             .tabs > label:before {
                 margin: 0;
-                font-size: 18px;
-            }
-        }
-        /* Изменяем внутренние отступы переключателей для малых экранов */
-        @media screen and (max-width: 400px) {
-            .tabs > label {
-                padding: 15px;
+                font-size: 12px;
             }
         }
         /* Блокировка экрана */
@@ -184,9 +178,9 @@
 </div>
 
 <div class="one">
-    <h1>Динамическое распределения вагонов</h1>
+    <h1>ДИНАМИЧЕСКОЕ РАСПРЕДЕЛЕНИЕ ВАГОНОВ</h1>
     <div class="train">
-    		<img src="resources/train.jpg">
+    		<img class="image" src="resources/train.jpg">
     </div>
 </div>
 
@@ -195,10 +189,11 @@
 </div>
 
 <br><br><br><br><br>
-
 <div>
+<br><br><br>
     <c:if test="${empty finalWagonList}">
         <input type="button" value="Создать процесс" onclick="showPopup()" class="bot1" style="visibility:visible">
+        <br><br>
     </c:if>
 
     <c:if test="${!empty finalWagonList}">
@@ -206,7 +201,6 @@
             <input type="submit" value="Очистить форму" class="bot1">
         </form>
     </c:if>
-
     <table class="table_report">
         <tr>
             <td class="td_report">

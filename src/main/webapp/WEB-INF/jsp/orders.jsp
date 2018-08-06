@@ -114,9 +114,9 @@
 <body onload="cop()">
 
 <div class="one">
-    <h1>Сервис распределения вагонов</h1>
+    <h1>ДИНАМИЧЕСКОЕ РАСПРЕДЕЛЕНИЕ ВАГОНОВ</h1>
     <div class="train">
-    		<img src="resources/train.jpg">
+    		<img class="image" src="resources/train.jpg">
     </div>
 </div>
 
@@ -126,12 +126,14 @@
 <br><br><br><br><br>
 
 <div>
+<br><br><br>
 	<form action="/dynamicdistributionpark" method="get">
 		<input type="submit" value="Очистить форму" class="bot1">
 	</form>
 	<form action="export" method="get">
 		<input type="submit" value="Скачать базу заявок" class="bot1">
 		<div>
+		<br><br>
 			<div class="tabs">
 				<input id="tab1" type="radio" name="tabs" checked>
 				<label for="tab1" title="Нераспределнные заявки">Нераспределнные заявки</label>
