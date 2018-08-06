@@ -50,9 +50,6 @@
     </script>
 
     <style>
-        body {
-            font: 14px/1 "Open Sans", sans-serif;
-        }
         /* Настрйка вкладок*/
         /* Стили секций с содержанием */
         .tabs > section {
@@ -190,7 +187,6 @@
 
 <br><br><br><br><br>
 <div>
-<br><br><br>
     <c:if test="${empty finalWagonList}">
         <input type="button" value="Создать процесс" onclick="showPopup()" class="bot1" style="visibility:visible">
         <br><br>
@@ -340,7 +336,7 @@
 
 <br><br><br>
 
-<div align="center" id="footer">
+<div align="center" class="footer">
     Create by Vladislav Klochkov. All rights reserved, <span id="copy"></span>
 </div>
 
