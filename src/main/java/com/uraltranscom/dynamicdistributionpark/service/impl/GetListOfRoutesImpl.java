@@ -3,6 +3,7 @@ package com.uraltranscom.dynamicdistributionpark.service.impl;
 import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
+import com.uraltranscom.dynamicdistributionpark.service.export.WriteToFileExcel;
 import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -11,6 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -34,6 +36,7 @@ import java.util.Map;
  */
 
 @Service
+@Component
 public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetListOfRoutesImpl.class);
@@ -51,6 +54,8 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
     private XSSFSheet sheet;
 
     @Autowired
+    private WriteToFileExcel writeToFileExcel;
+    @Autowired
     private PropertyUtil propertyUtil;
 
     private GetListOfRoutesImpl() {
@@ -60,7 +65,11 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
     // TODO Переписать метод, избавиться от формата жесткого, необходимо и XLSX и XLS
     @Override
     public void fillMap() {
+        count = 0;
         mapOfRoutes.clear();
+        writeToFileExcel.setFile(null);
+        writeToFileExcel.setFile(file);
+
         // Получаем файл формата xls
         try {
             fileInputStream = new FileInputStream(this.file);
@@ -164,7 +173,7 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
             for (Map.Entry<Integer, Route> _map: mapOfRoutes.entrySet()) {
                 count = count + _map.getValue().getCountOrders();
             }
-            logger.info("count: {}", count);
+            logger.debug("count: {}", count);
         } catch (IOException e) {
             logger.error("Ошибка загруки файла - {}", e.getMessage());
         } catch (OLE2NotOfficeXmlFileException e1) {

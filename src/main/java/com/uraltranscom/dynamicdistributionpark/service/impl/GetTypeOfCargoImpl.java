@@ -26,6 +26,7 @@ import java.sql.SQLException;
  *
  */
 
+@Service
 @Component
 public class GetTypeOfCargoImpl extends ConnectionDB implements GetTypeOfCargo {
     // Подключаем логгер

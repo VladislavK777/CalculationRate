@@ -40,9 +40,15 @@ public class ClassHandlerInsertRateOrTariffImpl {
                     for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
                         if (!_map.getValue().equals(_newMap.getValue())) {
                             // Вставляем ставку в БД
-                            insertRate.insertRateOfTariff(_newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(), _newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDestination(), _newMap.getValue().getListRouteInfo().get(i).getRoute().getCargo().getCargoType(), (Double) _newMap.getValue().getListRouteInfo().get(i).getRate());
+                            insertRate.insertRateOfTariff(_newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(),
+                                    _newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDestination(),
+                                    _newMap.getValue().getListRouteInfo().get(i).getRoute().getCargo().getCargoType(),
+                                    (Double) _newMap.getValue().getListRouteInfo().get(i).getRate());
                             // Вставляем тариф в БД
-                            insertTariff.insertRateOfTariff(_newMap.getValue().getListRouteInfo().get(i).getCurrentKeyOfStationOfWagon(), _newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(), _newMap.getValue().getListRouteInfo().get(i).getCargoType(), (Double) _newMap.getValue().getListRouteInfo().get(i).getTariff());
+                            insertTariff.insertRateOfTariff(_newMap.getValue().getListRouteInfo().get(i).getCurrentKeyOfStationOfWagon(),
+                                    _newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(),
+                                    _newMap.getValue().getListRouteInfo().get(i).getCargoType(),
+                                    (Double) _newMap.getValue().getListRouteInfo().get(i).getTariff());
                         }
                     }
                 }

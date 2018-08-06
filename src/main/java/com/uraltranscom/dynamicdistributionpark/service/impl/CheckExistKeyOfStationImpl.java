@@ -4,6 +4,7 @@ import com.uraltranscom.dynamicdistributionpark.service.CheckExistKeyOfStation;
 import com.uraltranscom.dynamicdistributionpark.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
@@ -23,6 +24,7 @@ import java.sql.*;
  */
 
 @Service
+@Component
 public class CheckExistKeyOfStationImpl extends ConnectionDB implements CheckExistKeyOfStation {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(CheckExistKeyOfStationImpl.class);

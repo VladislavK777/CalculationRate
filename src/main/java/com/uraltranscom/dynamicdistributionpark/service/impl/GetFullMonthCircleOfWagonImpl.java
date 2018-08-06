@@ -5,6 +5,7 @@ import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBas
 import com.uraltranscom.dynamicdistributionpark.service.additional.PrepareDistanceOfDay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.Map;
  */
 
 @Service
+@Component
 public class GetFullMonthCircleOfWagonImpl extends JavaHelperBase implements GetFullMonthCircleOfWagon {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetFullMonthCircleOfWagonImpl.class);
@@ -40,7 +42,6 @@ public class GetFullMonthCircleOfWagonImpl extends JavaHelperBase implements Get
     public int fullDays(String numberOfWagon, Integer distanceOfEmpty, String distanceOfRoute) {
         List<Integer> list = new ArrayList<>();
         if (getNumberOfDaysOfWagon(numberOfWagon) == 0) {
-            int sumCountDays = 0;
             int fullMonthCircle = 0;
 
             // Прибавляем количество дней порожнего расстояния до станции отпраления следующего рейса
@@ -55,7 +56,7 @@ public class GetFullMonthCircleOfWagonImpl extends JavaHelperBase implements Get
             list.add(fullMonthCircle);
             mapOfDaysOfWagon.put(numberOfWagon, list);
 
-            return sumCountDays;
+            return fullMonthCircle;
         } else {
             int sumCountDays = getNumberOfDaysOfWagon(numberOfWagon);
             int fullMonthCircle = 0;
@@ -67,26 +68,25 @@ public class GetFullMonthCircleOfWagonImpl extends JavaHelperBase implements Get
             // Расчитываем количество дней следующего рейса
             fullMonthCircle += Math.ceil(Integer.parseInt(distanceOfRoute) / PrepareDistanceOfDay.getDistanceOfDay(Integer.parseInt(distanceOfRoute)));
             // Прибавляем количество дней разгрузки
-            //fullMonthCircle += UNLOADING_WAGON;
+            fullMonthCircle += UNLOADING_WAGON;
 
-            sumCountDays = sumCountDays + fullMonthCircle;
+            sumCountDays += fullMonthCircle;
             list = mapOfDaysOfWagon.get(numberOfWagon);
             list.add(fullMonthCircle);
             mapOfDaysOfWagon.replace(numberOfWagon, list);
 
             return sumCountDays;
         }
-
     }
 
     private Integer getNumberOfDaysOfWagon(String numberOfWagon) {
+        int number = 0;
         if (!mapOfDaysOfWagon.containsKey(numberOfWagon)) {
             return 0;
         } else {
-            int number = 0;
             List<Integer> list = mapOfDaysOfWagon.get(numberOfWagon);
             for(Integer _list: list) {
-                number = number + _list;
+                number += _list;
             }
             return number;
         }
@@ -94,5 +94,13 @@ public class GetFullMonthCircleOfWagonImpl extends JavaHelperBase implements Get
 
     public List<Integer> getListOfDaysOfWagon(String numberOfWagon) {
         return mapOfDaysOfWagon.getOrDefault(numberOfWagon, null);
+    }
+
+    public Map<String, List<Integer>> getMapOfDaysOfWagon() {
+        return mapOfDaysOfWagon;
+    }
+
+    public void setMapOfDaysOfWagon(Map<String, List<Integer>> mapOfDaysOfWagon) {
+        this.mapOfDaysOfWagon = mapOfDaysOfWagon;
     }
 }

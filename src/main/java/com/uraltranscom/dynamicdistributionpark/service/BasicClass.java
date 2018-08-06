@@ -13,6 +13,6 @@ package com.uraltranscom.dynamicdistributionpark.service;
  *   
  */
 
-public interface BasicClassLookingFor {
+public interface BasicClass {
     void fillMapRouteIsOptimal();
 }

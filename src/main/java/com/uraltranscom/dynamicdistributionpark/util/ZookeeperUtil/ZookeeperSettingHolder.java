@@ -60,10 +60,10 @@ public class ZookeeperSettingHolder implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         PropertyUtil propertyUtil = new PropertyUtil();
-        String zookeeperhost = propertyUtil.getProperty(PROPERTY_NAME_ZOOKEEPER_CONNECTION_STRING);
+        String zookeeperHost = propertyUtil.getProperty(PROPERTY_NAME_ZOOKEEPER_CONNECTION_STRING);
         secretKey = propertyUtil.getProperty(PROPERTY_FOR_SECRET_KEY);
 
-        try (CuratorFramework client = CuratorFrameworkFactory.newClient(zookeeperhost, new ExponentialBackoffRetry(1000,3))) {
+        try (CuratorFramework client = CuratorFrameworkFactory.newClient(zookeeperHost, new ExponentialBackoffRetry(1000,3))) {
             client.start();
             Field[] fields = getClass().getDeclaredFields();
             for (Field field : fields) {
