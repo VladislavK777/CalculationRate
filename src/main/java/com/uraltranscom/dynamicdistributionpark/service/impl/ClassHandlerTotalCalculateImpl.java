@@ -36,7 +36,7 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
     private static Logger logger = LoggerFactory.getLogger(ClassHandlerTotalCalculateImpl.class);
 
     @Autowired
-    ClassHandlerInsertRateOrTariffImpl classHandlerInsertRateOrTariff;
+    private ClassHandlerInsertRateOrTariffImpl classHandlerInsertRateOrTariff;
 
     private Map<String, WagonFinalInfo> newMapWagonFinalInfo = new HashMap<>();
     private double yield;
@@ -107,7 +107,7 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
         logger.debug("yield: {}", yield);
     }
 
-    public void calculateCountOrders(Map<String, WagonFinalInfo> map) {
+    private void calculateCountOrders(Map<String, WagonFinalInfo> map) {
         count31Days = 0;
         count40Days = 0;
         for (Map.Entry<String, WagonFinalInfo> _map : map.entrySet()) {
