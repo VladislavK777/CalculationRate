@@ -104,9 +104,7 @@ public class BasicClassImpl extends JavaHelperBase implements BasicClass {
     }
 
     private void set2list() {
-        for (String s: setOfError) {
-            listOfError.add(s);
-        }
+        listOfError.addAll(setOfError);
     }
 
 }
