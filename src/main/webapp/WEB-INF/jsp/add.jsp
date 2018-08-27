@@ -133,10 +133,9 @@
     <img class="logo" src="resources/logo.jpg">
 </div>
 
-<br><br><br><br><br>
+<br><br><br><br><br><br><br><br>
 
 <div>
-<br>
       <form action="/dynamicdistributionpark" method="get">
           <input type="submit" value="Очистить форму" class="bot1">
       </form>

@@ -68,7 +68,12 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
     @Override
     public void lookingForOptimalMapOfRoute() {
         logger.info("Start root method: {}", this.getClass().getSimpleName() + ".fillMapRouteIsOptimal");
+        // Очищаем мапы
         getFullMonthCircleOfWagonImpl.getMapOfDaysOfWagon().clear();
+        mapFinalOrderInfo.clear();
+        mapFinalWagonInfo.clear();
+        tempMapTotalRoute.clear();
+        totalListWagon.clear();
 
         // Заполняем мапы
         List<Wagon> copyListOfWagon = new ArrayList<>(getListOfDistance.getListOfWagons());

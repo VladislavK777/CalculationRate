@@ -185,11 +185,10 @@
     <img class="logo" src="resources/logo.jpg">
 </div>
 
-<br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 <div>
     <c:if test="${empty finalWagonList}">
         <input type="button" value="Создать процесс" onclick="showPopup()" class="bot1" style="visibility:visible">
-        <br><br>
     </c:if>
 
     <c:if test="${!empty finalWagonList}">
