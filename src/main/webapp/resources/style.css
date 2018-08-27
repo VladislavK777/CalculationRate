@@ -1,5 +1,5 @@
 body {
-        font-family: 'Calibri Light', serif;
+        font-family: 'Calibri Light', sans-serif;
 }
 
 .bot1 {
@@ -19,7 +19,7 @@ body {
     padding: 4px 6px;
     vertical-align: middle;
     text-decoration: none;
-    font-family: 'Calibri Light', serif;
+    font-family: 'Calibri Light', sans-serif;
     font-size: 18px;
 }
 
@@ -56,7 +56,7 @@ body {
 
 .attention {
     background: #f6cece;
-    font-family: 'Calibri Light', serif;
+    font-family: 'Calibri Light', sans-serif;
     color: #364274;
     font-size: 25px;
     font-weight: bold;
@@ -98,7 +98,7 @@ body {
 }
 
 .one h1 {
-    font-family: 'Calibri Light', serif;
+    font-family: 'Calibri Light', sans-serif;
     position: relative;
     color: #364274;
     font-size: 50px;
@@ -135,7 +135,7 @@ body {
     border: 1px solid #666666;
     border-radius: 20px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.9);
-    font-family: 'Calibri Light', serif;
+    font-family: 'Calibri Light', sans-serif;
     font-size: 20px;
 }
 
@@ -211,7 +211,7 @@ body {
         border: 1px solid #666666;
         border-radius: 20px;
         box-shadow: 0 0 3px rgba(0, 0, 0, 0.9);
-        font-family: 'Calibri Light', serif;
+        font-family: 'Calibri Light', sans-serif;
         font-size: 16px;
     }
     .bot1 {
@@ -231,7 +231,7 @@ body {
         padding: 4px 6px;
         vertical-align: middle;
         text-decoration: none;
-        font-family: 'Calibri Light', serif;
+        font-family: 'Calibri Light', sans-serif;
         font-size: 16px;
     }
 }
