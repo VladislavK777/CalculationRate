@@ -86,7 +86,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
         Map<List<Object>, Integer> mapDistance = new HashMap<>();
 
         // Запускаем цикл
-        Boolean isOk = true;
+        boolean isOk = true;
         while (isOk) {
             isOk = false;
             // Очищаем массивы
@@ -98,67 +98,66 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                 // Получаем код станции назначения вагона
                 String keyOfStationOfWagonDestination = _wagons.getListRoutes().get(index).getKeyOfStationDestination().trim();
 
-                // По каждому вагону высчитываем расстояние до каждой начальной станнции маршрутов
-                // Цикл расчета расстояния и заполнения мапы
-                for (Map.Entry<Integer, Route> _routes : tempMapOfRoutes.entrySet()) {
+                if (!_wagons.getListRoutes().get(index).getNameOfStationDestination().trim().equals("")) {
+                    // По каждому вагону высчитываем расстояние до каждой начальной станнции маршрутов
+                    // Цикл расчета расстояния и заполнения мапы
+                    for (Map.Entry<Integer, Route> _routes : tempMapOfRoutes.entrySet()) {
 
-                    List<Object> list = new ArrayList<>();
-                    // Станция отправления рейса
-                    String keyOfStationDeparture = _routes.getValue().getKeyOfStationDeparture();
-                    list.add(_wagons);
-                    list.add(_routes.getValue());
-                    if (_wagons.getVolume() >= _routes.getValue().getVolumePeriod().getVolumeFrom() && _wagons.getVolume() <= _routes.getValue().getVolumePeriod().getVolumeTo() &&
-                            _routes.getValue().getCountOrders() > 0 && !_wagons.getListRoutes().get(index).getKeyOfStationDestination().equals("")) {
-                        String key = keyOfStationOfWagonDestination + "_" + keyOfStationDeparture;
+                        List<Object> list = new ArrayList<>();
+                        // Станция отправления рейса
+                        String keyOfStationDeparture = _routes.getValue().getKeyOfStationDeparture();
+                        list.add(_wagons);
+                        list.add(_routes.getValue());
+                        if (_wagons.getVolume() >= _routes.getValue().getVolumePeriod().getVolumeFrom() && _wagons.getVolume() <= _routes.getValue().getVolumePeriod().getVolumeTo() &&
+                                _routes.getValue().getCountOrders() > 0) {
+                            String key = keyOfStationOfWagonDestination + "_" + keyOfStationDeparture;
 
-                        // Ищем в готовой мапе расстояние
-                        //TODO сделать компактнее
-                        if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
-                            if (getListOfDistance.getRootMapWithDistances().get(key).get(0) != -20000) {
-                                if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 0) {
+                            //TODO сделать компактнее
+                            if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
+                                if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == RUS_RUS) {
                                     if (_wagons.getListRoutes().get(index).getCargo().getCargoType() == 3) {
-                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 300) {
+                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= MAX_DISTANCE_RUS_TO_RUS_CLASS3) {
                                             mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
                                         }
                                     } else {
-                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 600) {
+                                        if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= MAX_DISTANCE_RUS_TO_RUS) {
                                             mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
                                         }
                                     }
-                                } else if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == 1) {
-                                    if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 2500) {
+                                } else if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == CIS_CIS) {
+                                    if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= MAX_DISTANCE_CIS_TO_CIS) {
                                         mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
                                     }
-                                } else {
-                                    if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= 1800) {
+                                } else if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == CIS_RUS) {
+                                    if (getListOfDistance.getRootMapWithDistances().get(key).get(0) <= MAX_DISTANCE_CIS_TO_RUS) {
                                         mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
                                     }
                                 }
-                            }
-                        } else {
-                            if (isCheckMore40(_wagons, _routes.getValue())) {
-                                List<Integer> listDistance = getListOfDistance.listDistance(keyOfStationOfWagonDestination, keyOfStationDeparture);
-                                if (listDistance != null) {
-                                    if (listDistance.get(0) != -20000) {
-                                        if (listDistance.get(1) == 0) {
+
+                            } else {
+                                if (isCheckMore40(_wagons, _routes.getValue())) {
+                                    List<Integer> listDistance = getListOfDistance.listDistance(keyOfStationOfWagonDestination, keyOfStationDeparture);
+                                    if (listDistance != null) {
+                                        if (listDistance.get(1) == RUS_RUS) {
                                             if (_wagons.getListRoutes().get(index).getCargo().getCargoType() == 3) {
-                                                if (listDistance.get(0) <= 300) {
+                                                if (listDistance.get(0) <= MAX_DISTANCE_RUS_TO_RUS_CLASS3) {
                                                     mapDistance.put(list, listDistance.get(0));
                                                 }
                                             } else {
-                                                if (listDistance.get(0) <= 600) {
+                                                if (listDistance.get(0) <= MAX_DISTANCE_RUS_TO_RUS) {
                                                     mapDistance.put(list, listDistance.get(0));
                                                 }
                                             }
-                                        } else if (listDistance.get(1) == 1) {
-                                            if (listDistance.get(0) <= 2500) {
+                                        } else if (listDistance.get(1) == CIS_CIS) {
+                                            if (listDistance.get(0) <= MAX_DISTANCE_CIS_TO_CIS) {
                                                 mapDistance.put(list, listDistance.get(0));
                                             }
-                                        } else {
-                                            if (listDistance.get(0) <= 1800) {
+                                        } else if (listDistance.get(1) == CIS_RUS) {
+                                            if (listDistance.get(0) <= MAX_DISTANCE_CIS_TO_RUS) {
                                                 mapDistance.put(list, listDistance.get(0));
                                             }
                                         }
+
                                     }
                                 }
                             }
@@ -166,6 +165,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                     }
                 }
             }
+
             int indexMap = mapDistance.size();
             CompareMapValue[] compareMapValues = new CompareMapValue[indexMap];
             indexMap = 0;

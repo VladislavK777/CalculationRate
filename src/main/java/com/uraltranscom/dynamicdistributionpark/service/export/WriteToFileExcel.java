@@ -18,10 +18,8 @@ import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBas
 import com.uraltranscom.dynamicdistributionpark.service.additional.PrefixOfDays;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.xssf.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -112,7 +110,11 @@ public class WriteToFileExcel extends JavaHelperBase {
                                         if (row.getCell(q).getStringCellValue().trim().equals("Факт.вагонов")) {
                                             Cell cell = xssfRow.createCell(q);
                                             cell.setCellValue(_map.getValue().get(1));
-                                            cell.setCellStyle(cellStyle(sheet));
+                                            if (_map.getValue().get(1) < _map.getKey().getCountOrders()) {
+                                                cell.setCellStyle(cellStyleRed(sheet));
+                                            } else {
+                                                cell.setCellStyle(cellStyle(sheet));
+                                            }
                                         }
                                     }
                                 }
@@ -140,6 +142,14 @@ public class WriteToFileExcel extends JavaHelperBase {
     private static XSSFCellStyle cellStyle(XSSFSheet sheet) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setBorderBottom(BorderStyle.THIN);
+        return cellStyle;
+    }
+
+    private static XSSFCellStyle cellStyleRed(XSSFSheet sheet) {
+        XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setBorderBottom(BorderStyle.THIN);
+        cellStyle.setFillForegroundColor(new XSSFColor(new java.awt.Color(250, 128, 114)));
+        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         return cellStyle;
     }
 

@@ -44,6 +44,7 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
     private int count40Days;
 
     public void updateMap(Map<String, WagonFinalInfo> map, String wagons, String rates, String tariffs, String routes) {
+        newMapWagonFinalInfo.clear();
         List<WagonRateAndTariff> listRateAndTariff = PrepareDateForInsert.fillListForUpdate(wagons, rates, tariffs, routes);
         Map<String, WagonFinalInfo> tempNewMap = new HashMap<>();
         //TODO Изменить на более изящно
