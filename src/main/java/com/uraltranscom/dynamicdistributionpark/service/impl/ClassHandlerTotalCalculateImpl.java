@@ -100,7 +100,7 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
             for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
                 sumRate += (Double) _map.getValue().getListRouteInfo().get(i).getRate();
                 sumTariff += (Double) _map.getValue().getListRouteInfo().get(i).getTariff();
-                sumCountDays += _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
+                sumCountDays = sumCountDays + _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
             }
         }
         yield = Math.round(((sumRate - sumTariff) / sumCountDays) * 100) / 100.00d;
