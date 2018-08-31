@@ -69,7 +69,8 @@ public class Controller {
     public String routeList(@RequestParam(value = "rates") String rates,
                             @RequestParam(value = "tariffs") String tariffs,
                             @RequestParam(value = "wagons") String wagons,
-                            @RequestParam(value = "routes") String routes, Model model) {
+                            @RequestParam(value = "routes") String routes,
+                            HttpServletResponse response, Model model) {
         basicClassImpl.getClassHandlerTotalCalculate().updateMap(basicClassImpl.getClassHandlerLookingFor().getMapFinalWagonInfo(), wagons, rates, tariffs, routes);
         model.addAttribute("finalWagonList", basicClassImpl.getClassHandlerTotalCalculate().getNewMapWagonFinalInfo());
         model.addAttribute("reportListOfError", basicClassImpl.getListOfError());
@@ -94,5 +95,12 @@ public class Controller {
     public void getXLS(HttpServletResponse response, Model model) {
         basicClassImpl.getClassHandlerLookingFor().fillFinalMapByOrders();
         WriteToFileExcel.downloadFileExcel(response, basicClassImpl.getClassHandlerLookingFor().getMapFinalOrderInfo());
+    }
+
+    // Выгрузка в Excel
+    @RequestMapping(value = "/exportWagons", method = RequestMethod.GET)
+    public void getXLSWagons(HttpServletResponse response, Model model) {
+        basicClassImpl.getClassHandlerLookingFor().fillFinalMapByOrders();
+        WriteToFileExcel.downloadWagonsFileExcel(response, basicClassImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
     }
 }

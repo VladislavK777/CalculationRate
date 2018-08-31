@@ -3,6 +3,7 @@ package com.uraltranscom.dynamicdistributionpark.service.impl;
 import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.model.Wagon;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
+import com.uraltranscom.dynamicdistributionpark.service.export.WriteToFileExcel;
 import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
@@ -53,6 +54,8 @@ public class GetListOfWagonsImpl implements GetList {
     private XSSFSheet sheet;
 
     @Autowired
+    private WriteToFileExcel writeToFileExcel;
+    @Autowired
     private PropertyUtil propertyUtil;
 
     private GetListOfWagonsImpl() {
@@ -63,6 +66,8 @@ public class GetListOfWagonsImpl implements GetList {
     @Override
     public void fillMap() {
         listOfWagons.clear();
+        writeToFileExcel.setFileWagons(null);
+        writeToFileExcel.setFileWagons(file);
 
         // Получаем файл формата xls
         try {

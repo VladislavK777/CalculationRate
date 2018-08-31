@@ -48,7 +48,8 @@ public class WagonFinalRouteInfo {
                               String keyOfStationDepartureOfWagon,
                               Route route,
                               CargoClass cargo,
-                              int cargoType) {
+                              int cargoType,
+                               Object rate) {
         this.countCircleDays = countCircleDays;
         this.distanceEmpty = distanceEmpty;
         this.currentNameOfStationOfWagon = currentNameOfStationOfWagon;
@@ -61,6 +62,7 @@ public class WagonFinalRouteInfo {
         this.isEmpty = false;
         this.isLoadingRateFromDB = false;
         this.isLoadingTariffFromDB = false;
+        this.rate = rate;
     }
 
     public WagonFinalRouteInfo(int countCircleDays,

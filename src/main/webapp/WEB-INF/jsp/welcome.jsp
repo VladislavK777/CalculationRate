@@ -314,6 +314,11 @@
                                 <td><input type="submit" value="Скачать базу заявок" class="bot1" /></td>
                             </form>
                         </tr>
+                        <tr>
+                        <form action="exportWagons" method="get">
+                                 <td><input type="submit" value="Скачать дислокацию вагонов" class="bot1" /></td>
+                             </form>
+                        </tr>
                     </table>
                 </c:if>
             </section>

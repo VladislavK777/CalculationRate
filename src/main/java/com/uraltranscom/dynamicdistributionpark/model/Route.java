@@ -38,6 +38,7 @@ public class Route {
     private String numberOrder; // Номер заявки
     private CargoClass cargo; // Груз
     private WagonType wagonType; // Тип вагона
+    private double rate; // Ставка
 
     public Route(String keyOfStationDeparture,
                  String nameOfStationDeparture,
@@ -51,7 +52,8 @@ public class Route {
                  int volumeFrom, int volumeTo,
                  String numberOrder,
                  String nameCargo, String keyCargo,
-                 String wagonType) {
+                 String wagonType,
+                 double rate) {
         this.keyOfStationDeparture = keyOfStationDeparture;
         this.nameOfStationDeparture = nameOfStationDeparture;
         this.roadOfStationDeparture = roadOfStationDeparture;
@@ -65,6 +67,7 @@ public class Route {
         this.numberOrder = numberOrder;
         this.cargo = new CargoClass(nameCargo, keyCargo);
         this.wagonType = new WagonType(wagonType);
+        this.rate = rate;
     }
 
     public Route(String keyOfStationDeparture,
@@ -191,12 +194,21 @@ public class Route {
         this.countOrders = countOrders;
     }
 
+    public double getRate() {
+        return rate;
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Route route = (Route) o;
         return countOrders == route.countOrders &&
+                Double.compare(route.rate, rate) == 0 &&
                 Objects.equals(keyOfStationDeparture, route.keyOfStationDeparture) &&
                 Objects.equals(nameOfStationDeparture, route.nameOfStationDeparture) &&
                 Objects.equals(roadOfStationDeparture, route.roadOfStationDeparture) &&
@@ -213,8 +225,7 @@ public class Route {
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(keyOfStationDeparture, nameOfStationDeparture, roadOfStationDeparture, keyOfStationDestination, nameOfStationDestination, roadOfStationDestination, distanceOfWay, customer, countOrders, volumePeriod, numberOrder, cargo, wagonType);
+        return Objects.hash(keyOfStationDeparture, nameOfStationDeparture, roadOfStationDeparture, keyOfStationDestination, nameOfStationDestination, roadOfStationDestination, distanceOfWay, customer, countOrders, volumePeriod, numberOrder, cargo, wagonType, rate);
     }
 
     @Override
@@ -233,6 +244,7 @@ public class Route {
                 ", numberOrder='" + numberOrder + '\'' +
                 ", cargo=" + cargo +
                 ", wagonType=" + wagonType +
+                ", rate=" + rate +
                 '}';
     }
 }
