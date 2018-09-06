@@ -1,8 +1,8 @@
 package com.uraltranscom.dynamicdistributionpark.service.impl;
 
-import com.uraltranscom.dynamicdistributionpark.model.EmptyRoute;
+import com.uraltranscom.dynamicdistributionpark.model.TariffClass;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
-import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
+import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -10,7 +10,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -36,12 +35,12 @@ import java.util.Map;
 
 @Service
 @Component
-public class GetListOfEmptyRoutesImpl implements GetList {
+public class GetListOfTariffsImpl implements GetList {
     // Подключаем логгер
-    private static Logger logger = LoggerFactory.getLogger(GetListOfEmptyRoutesImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(GetListOfTariffsImpl.class);
 
     // Основаная мапа, куда записываем все маршруты
-    private Map<Integer, EmptyRoute> mapOfEmptyRoutes = new HashMap<>();
+    private Map<Integer, TariffClass> mapOfEmptyRoutes = new HashMap<>();
 
     // Переменные для работы с файлами
     private File file;
@@ -51,10 +50,7 @@ public class GetListOfEmptyRoutesImpl implements GetList {
     private XSSFWorkbook xssfWorkbook;
     private XSSFSheet sheet;
 
-    @Autowired
-    private PropertyUtil propertyUtil;
-
-    private GetListOfEmptyRoutesImpl() {
+    private GetListOfTariffsImpl() {
     }
 
     // Заполняем Map вагонами
@@ -79,25 +75,25 @@ public class GetListOfEmptyRoutesImpl implements GetList {
                 double tariff = 0.00d;
 
                 for (int c = 0; c < row.getLastCellNum(); c++) {
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("emptyroute.namestationdeparture"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.TARIFF_NAME_STATION_DEPARTURE)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("emptyroute.namestationdestination"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.TARIFF_NAME_STATION_DESTINATION)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameOfStationDestination = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("emptyroute.lastcargo"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.TARIFF_LAST_CARGO)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameCargo = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("emptyroute.tariff"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.TARIFF_TARIFF)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         tariff = xssfRow.getCell(c).getNumericCellValue();
                     }
                 }
-                if (!mapOfEmptyRoutes.containsValue(new EmptyRoute(nameOfStationDeparture, nameOfStationDestination, nameCargo, tariff))) {
-                    mapOfEmptyRoutes.put(i, new EmptyRoute(nameOfStationDeparture, nameOfStationDestination, nameCargo, tariff));
+                if (!mapOfEmptyRoutes.containsValue(new TariffClass(nameOfStationDeparture, nameOfStationDestination, nameCargo, tariff))) {
+                    mapOfEmptyRoutes.put(i, new TariffClass(nameOfStationDeparture, nameOfStationDestination, nameCargo, tariff));
                     i++;
                 }
             }
@@ -109,11 +105,11 @@ public class GetListOfEmptyRoutesImpl implements GetList {
         }
     }
 
-    public Map<Integer, EmptyRoute> getMapOfEmptyRoutes() {
+    public Map<Integer, TariffClass> getMapOfEmptyRoutes() {
         return mapOfEmptyRoutes;
     }
 
-    public void setMapOfEmptyRoutes(Map<Integer, EmptyRoute> mapOfEmptyRoutes) {
+    public void setMapOfEmptyRoutes(Map<Integer, TariffClass> mapOfEmptyRoutes) {
         this.mapOfEmptyRoutes = mapOfEmptyRoutes;
     }
 

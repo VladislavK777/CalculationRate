@@ -175,7 +175,14 @@
                                               <td>${report.value.getNumberOfWagon()}</td>
                                               <td>${report.value.getListRouteInfo().get(i).getCurrentNameOfStationOfWagon()}</td>
                                               <td>${report.value.getListRouteInfo().get(i).getCargo().getNameCargo()}</td>
-                                              <td>${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                              <c:choose>
+                                                  <c:when test="${report.value.getListRouteInfo().get(i).getCargoType() == -1}">
+                                                      <td></td>
+                                                  </c:when>
+                                                  <c:otherwise>
+                                                      <td>${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                                  </c:otherwise>
+                                              </c:choose>
                                               <td>${report.value.getListRouteInfo().get(i).getNameOfStationDepartureOfWagon()}</td>
                                               <td>${report.value.getListRouteInfo().get(i).getDistanceEmpty()}</td>
                                               <c:choose>
@@ -191,7 +198,14 @@
                                               </c:choose>
                                               <td>${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDeparture()} - ${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDestination()}</td>
                                               <td>${report.value.getListRouteInfo().get(i).getRoute().getCargo().getNameCargo()}</td>
-                                              <td>${report.value.getListRouteInfo().get(i).getRoute().getCargo().getCargoType()}</td>
+                                              <c:choose>
+                                                <c:when test="${report.value.getListRouteInfo().get(i).getRoute().getCargo().getCargoType() == -1}">
+                                                    <td></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td>${report.value.getListRouteInfo().get(i).getRoute().getCargo().getCargoType()}</td>
+                                                </c:otherwise>
+                                              </c:choose>
                                               <td>${report.value.getListRouteInfo().get(i).getCountCircleDays()}</td>
                                               <c:choose>
                                                   <c:when test="${empty report.value.getListRouteInfo().get(i).getRate()}">

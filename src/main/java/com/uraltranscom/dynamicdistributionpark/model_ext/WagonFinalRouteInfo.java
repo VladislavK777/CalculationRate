@@ -28,7 +28,7 @@ public class WagonFinalRouteInfo {
     private int distanceEmpty; // Расстояние порожнее
     private String currentNameOfStationOfWagon; // Текущая станция вагона
     private String currentKeyOfStationOfWagon; // Код текущей станции
-    private String nameOfStationDepartureOfWagon; // Станция, куда едет вагон порожний
+    private String nameOfStationDepartureOfWagon; // Станция распределения
     private String keyOfStationDepartureOfWagon; // Код станции распределения
     private Route route; // Маршрут
     private CargoClass cargo; // Предыдущий груз

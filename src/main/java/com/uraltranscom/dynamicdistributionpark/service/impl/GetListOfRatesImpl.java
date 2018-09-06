@@ -2,7 +2,7 @@ package com.uraltranscom.dynamicdistributionpark.service.impl;
 
 import com.uraltranscom.dynamicdistributionpark.model.RateClass;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
-import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
+import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -10,7 +10,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -52,9 +51,6 @@ public class GetListOfRatesImpl implements GetList {
     private XSSFWorkbook xssfWorkbook;
     private XSSFSheet sheet;
 
-    @Autowired
-    private PropertyUtil propertyUtil;
-
     private GetListOfRatesImpl() {
     }
 
@@ -81,23 +77,23 @@ public class GetListOfRatesImpl implements GetList {
                 String keyCargo = null;
 
                 for (int c = 0; c < row.getLastCellNum(); c++) {
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("rateclass.namestationdeparture"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_NAME_STATION_DEPARTURE)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("rateclass.namestationdestination"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_NAME_STATION_DESTINATION)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameOfStationDestination = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("rateclass.customer"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_CUSTOMER)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         customer = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("rateclass.namecargo"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_NAME_CARGO)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameCargo = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("rateclass.keycargo"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_KEY_CARGO)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         if (xssfRow.getCell(c).getCellTypeEnum().equals(CellType.NUMERIC)) {
                             keyCargo = String.valueOf(xssfRow.getCell(c).getNumericCellValue());
@@ -105,11 +101,11 @@ public class GetListOfRatesImpl implements GetList {
                             keyCargo = xssfRow.getCell(c).getStringCellValue();
                         }
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("rateclass.rate"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_RATE)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         rate = xssfRow.getCell(c).getNumericCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("rateclass.dateloading"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_DATE_LOADING)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         dateLoading = xssfRow.getCell(c).getDateCellValue();
                         dateLoading.setHours(0);

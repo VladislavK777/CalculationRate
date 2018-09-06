@@ -40,6 +40,10 @@ public class GetTypeOfCargoImpl extends ConnectionDB implements GetTypeOfCargo {
 
         int type = 0;
 
+        if (key.equals("")) {
+            return -1;
+        }
+
         try (Connection connection = getDataSource().getConnection();
              CallableStatement callableStatement = createCallableStatement(connection, key);
              ResultSet resultSet = callableStatement.executeQuery()) {

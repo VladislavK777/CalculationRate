@@ -3,7 +3,7 @@ package com.uraltranscom.dynamicdistributionpark.service.impl;
 import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.model.Wagon;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
-import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
+import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +43,6 @@ public class GetListOfDistanceImpl implements GetList {
     private CheckExistKeyOfStationImpl checkExistKeyOfStationImpl;
     @Autowired
     private ClassHandlerLookingForImpl classHandlerLookingFor;
-    @Autowired
-    private PropertyUtil propertyUtil;
 
     // Основная мапа
     private Map<String, List<Integer>> rootMapWithDistances = new HashMap<>();
@@ -105,7 +103,7 @@ public class GetListOfDistanceImpl implements GetList {
     }
 
     private void serializeMap(HashMap<String, List<Integer>> map) {
-        File file = new File(propertyUtil.getProperty("pathsavefile"));
+        File file = new File(JavaHelperBase.PATH_SAVE_FILE_MAP);
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -124,7 +122,7 @@ public class GetListOfDistanceImpl implements GetList {
     }
 
     private Map<String, List<Integer>> deSerializeMap() {
-        File file = new File(propertyUtil.getProperty("pathsavefile"));
+        File file = new File(JavaHelperBase.PATH_SAVE_FILE_MAP);
         if (!file.exists()) {
             logger.info("Файл сериализации не найден");
             return null;

@@ -1,6 +1,6 @@
 package com.uraltranscom.dynamicdistributionpark.util.ZookeeperUtil;
 
-import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
+import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -32,8 +32,6 @@ public class ZookeeperSettingHolder implements InitializingBean {
     private static Logger logger = LoggerFactory.getLogger(ZookeeperSettingHolder.class);
 
     private static final String ZOOKEEPER_CHARSET_NAME = "UTF-8";
-    private static final String PROPERTY_NAME_ZOOKEEPER_CONNECTION_STRING = "common.zookeeperhost";
-    private static final String PROPERTY_FOR_SECRET_KEY = "common.secretkey";
     private static final String DB_SETTINGS_ROOT = "/zookeeper/DB_CONNECT";
 
     @Retention(RetentionPolicy.RUNTIME)
@@ -59,9 +57,8 @@ public class ZookeeperSettingHolder implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        PropertyUtil propertyUtil = new PropertyUtil();
-        String zookeeperHost = propertyUtil.getProperty(PROPERTY_NAME_ZOOKEEPER_CONNECTION_STRING);
-        secretKey = propertyUtil.getProperty(PROPERTY_FOR_SECRET_KEY);
+        String zookeeperHost = JavaHelperBase.ZOOKEEPER_HOST;
+        secretKey = JavaHelperBase.ZOOKEEPER_SECRET_KEY;
 
         try (CuratorFramework client = CuratorFrameworkFactory.newClient(zookeeperHost, new ExponentialBackoffRetry(1000,3))) {
             client.start();

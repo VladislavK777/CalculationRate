@@ -259,7 +259,14 @@
                                         <c:when test="${report.value.getListRouteInfo().get(i).getCargo().getNameCargo() == 'СБ.ПОВАГ.ОТП'}">
                                             <td style="background: #364274; color: #ffffff;">${report.value.getNumberOfWagon()}</td>
                                             <td style="background: #364274; color: #ffffff;">${report.value.getListRouteInfo().get(i).getCargo().getNameCargo()}</td>
-                                            <td style="background: #364274; color: #ffffff;">${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                            <c:choose>
+                                                <c:when test="${report.value.getListRouteInfo().get(i).getCargoType() == -1}">
+                                                    <td style="background: #364274; color: #ffffff;"></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td style="background: #364274; color: #ffffff;">${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <td style="background: #364274; color: #ffffff;">${report.value.getListRouteInfo().get(i).getNameOfStationDepartureOfWagon()}</td>
                                             <td style="background: #364274; color: #ffffff;">${report.value.getListRouteInfo().get(i).getDistanceEmpty()}</td>
                                             <td style="background: #364274; color: #ffffff;">${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDeparture()} - ${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDestination()}</td>
@@ -268,7 +275,14 @@
                                         <c:when test="${report.value.getListRouteInfo().get(i).getCountCircleDays() > 30}">
                                             <td style="background: #ff0000; color: #ffffff;">${report.value.getNumberOfWagon()}</td>
                                             <td style="background: #ff0000; color: #ffffff;">${report.value.getListRouteInfo().get(i).getCargo().getNameCargo()}</td>
-                                            <td style="background: #ff0000; color: #ffffff;">${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                            <c:choose>
+                                                <c:when test="${report.value.getListRouteInfo().get(i).getCargoType() == -1}">
+                                                    <td style="background: #ff0000; color: #ffffff;"></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td style="background: #ff0000; color: #ffffff;">${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <td style="background: #ff0000; color: #ffffff;">${report.value.getListRouteInfo().get(i).getNameOfStationDepartureOfWagon()}</td>
                                             <td style="background: #ff0000; color: #ffffff;">${report.value.getListRouteInfo().get(i).getDistanceEmpty()}</td>
                                             <td style="background: #ff0000; color: #ffffff;">${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDeparture()} - ${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDestination()}</td>
@@ -277,7 +291,14 @@
                                         <c:otherwise>
                                             <td style="background: #ffffff; color: #364274;">${report.value.getNumberOfWagon()}</td>
                                             <td style="background: #ffffff; color: #364274;">${report.value.getListRouteInfo().get(i).getCargo().getNameCargo()}</td>
-                                            <td style="background: #ffffff; color: #364274;">${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                            <c:choose>
+                                                <c:when test="${report.value.getListRouteInfo().get(i).getCargoType() == -1}">
+                                                    <td style="background: #ffffff; color: #364274;"></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td style="background: #ffffff; color: #364274;">${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <td style="background: #ffffff; color: #364274;">${report.value.getListRouteInfo().get(i).getNameOfStationDepartureOfWagon()}</td>
                                             <td style="background: #ffffff; color: #364274;">${report.value.getListRouteInfo().get(i).getDistanceEmpty()}</td>
                                             <td style="background: #ffffff; color: #364274;">${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDeparture()} - ${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDestination()}</td>
