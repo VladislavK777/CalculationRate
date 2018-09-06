@@ -391,7 +391,10 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                         if (!basicClass.isFlag()) {
                             basicClass.setFlag(Boolean.TRUE);
                         }
-                    } else {
+                    }
+
+                    //TODO Временная заглушка для автозаполнения тарифа. При накате на PROD убрать
+                    else {
                         double fixTariff = 300;
                         double distance = _map.getValue().getListRouteInfo().get(i).getDistanceEmpty();
                         if (distance == 0) {
@@ -411,6 +414,8 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                             }
                         }
                     }
+
+
                 }
 
                 // Не нашли ставку в файле, поищем в базе
