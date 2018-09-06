@@ -103,12 +103,12 @@
         /* Убираем текст с переключателей и оставляем иконки на малых экранах*/
          @media screen and (max-width: 1500px) {
                     .tabs > label {
-                        font-size: 12px;
+                        font-size: 14px;
                         width: 180px;
                     }
                     .tabs > label:before {
                         margin: 0;
-                        font-size: 12px;
+                        font-size: 14px;
                     }
                 }
         /* Изменяем внутренние отступы переключателей для малых экранов */
@@ -153,7 +153,7 @@
 
                   <section id="content-tab1">
                       <div>
-                          <table class="table_report">
+                          <table class="simple-little-table">
                               <tr>
                                   <th>Номер вагона</th>
                                   <th>Станция выгрузки</th>
