@@ -91,6 +91,8 @@ public class GetListOfWagonsImpl implements GetList {
                 int volume = 0;
                 String nameCargo = null;
                 String keyCargo = null;
+                String status = null;
+                String distance = null;
 
                 for (int c = 0; c < row.getLastCellNum(); c++) {
                     if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.numberwagon"))) {
@@ -137,6 +139,19 @@ public class GetListOfWagonsImpl implements GetList {
                         XSSFRow xssfRow = sheet.getRow(j);
                         keyCargo = xssfRow.getCell(c).getStringCellValue();
                     }
+                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.distance"))) {
+                        XSSFRow xssfRow = sheet.getRow(j);
+                        String val = Double.toString(xssfRow.getCell(c).getNumericCellValue());
+                        double valueDouble = xssfRow.getCell(c).getNumericCellValue();
+                        if ((valueDouble - (int) valueDouble) * 1000 == 0) {
+                            val = (int) valueDouble + "";
+                        }
+                        distance = val;
+                    }
+                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.status"))) {
+                        XSSFRow xssfRow = sheet.getRow(j);
+                        status = xssfRow.getCell(c).getStringCellValue();
+                    }
                 }
                 List<Route> list = new ArrayList<>();
                 list.add(new Route(
@@ -146,12 +161,13 @@ public class GetListOfWagonsImpl implements GetList {
                         keyOfStationDestination,
                         nameOfStationDestination,
                         roadOfStationDestination,
+                        distance,
                         customer,
                         volume,
                         volume,
                         nameCargo,
                         keyCargo));
-                listOfWagons.add(new Wagon(numberOfWagon, list, volume));
+                listOfWagons.add(new Wagon(numberOfWagon, list, volume, status));
             }
             logger.debug("Body wagon: {}", listOfWagons);
         } catch (IOException e) {

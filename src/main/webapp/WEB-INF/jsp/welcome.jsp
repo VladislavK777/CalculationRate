@@ -213,7 +213,7 @@
                                 Файл ставок: <input type="file" name="ratesFile" multiple accept="xlsx">
                             </p>
                             <p>
-                                Файл порожних вагонов: <input type="file" name="emptyRoutesFile" multiple accept="xlsx">
+                                Файл тарифов: <input type="file" name="emptyRoutesFile" multiple accept="xlsx">
                             </p>
                             <p>
                                 Файл дислокации вагонов: <input type="file" name="wagonsFile" multiple accept="xlsx">

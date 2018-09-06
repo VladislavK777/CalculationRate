@@ -96,7 +96,6 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
                 String nameCargo = null;
                 String keyCargo = null;
                 String wagonType = null;
-                double rate = 0.00d;
 
                 for (int c = 1; c < row.getLastCellNum(); c++) {
                     if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.keystationdeparture"))) {
@@ -164,13 +163,9 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
                         XSSFRow xssfRow = sheet.getRow(j);
                         keyCargo = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.rate"))) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        rate = xssfRow.getCell(c).getNumericCellValue();
-                    }
                 }
                 if (wagonType.equals(TYPE_OF_WAGON_KR)) {
-                    mapOfRoutes.put(i, new Route(keyOfStationDeparture, nameOfStationDeparture, roadOfStationDeparture, keyOfStationDestination, nameOfStationDestination, roadOfStationDestination, distanceOfWay, customer, countOrders, volumeFrom, volumeTo, numberOrder, nameCargo, keyCargo, wagonType, rate));
+                    mapOfRoutes.put(i, new Route(keyOfStationDeparture, nameOfStationDeparture, roadOfStationDeparture, keyOfStationDestination, nameOfStationDestination, roadOfStationDestination, distanceOfWay, customer, countOrders, volumeFrom, volumeTo, numberOrder, nameCargo, keyCargo, wagonType));
                     i++;
                 }
             }

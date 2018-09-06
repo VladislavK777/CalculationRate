@@ -148,14 +148,9 @@ public class GetListOfDistanceImpl implements GetList {
         listDistance = getDistanceBetweenStations.getDistanceBetweenStations(keyOfStationDeparture, keyOfStationDestination);
         int distance = listDistance.get(0);
         if (distance == -1) {
-            if (!checkExistKeyOfStationImpl.checkExistKey(keyOfStationDestination)) {
+            if (!checkExistKeyOfStationImpl.checkExistKey(keyOfStationDestination) || !checkExistKeyOfStationImpl.checkExistKey(keyOfStationDeparture)) {
                 classHandlerLookingFor.getBasicClass().getListOfError().add(String.format("Проверьте код станции %s в файле заявок", keyOfStationDestination));
                 logger.error(String.format("Проверьте код станции %s в файле заявок", keyOfStationDestination));
-                return null;
-            }
-            if (!checkExistKeyOfStationImpl.checkExistKey(keyOfStationDeparture)) {
-                classHandlerLookingFor.getBasicClass().getListOfError().add(String.format("Проверьте код станции %s в файле дислокации вагонов", keyOfStationDeparture));
-                logger.error("Проверьте код станции {}", String.format("%s в файле дислокации вагонов", keyOfStationDeparture));
                 return null;
             }
             if (checkExistKeyOfStationImpl.checkExistKey(keyOfStationDestination) && checkExistKeyOfStationImpl.checkExistKey(keyOfStationDeparture)) {
