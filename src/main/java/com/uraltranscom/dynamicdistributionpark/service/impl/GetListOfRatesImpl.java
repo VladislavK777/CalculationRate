@@ -96,7 +96,12 @@ public class GetListOfRatesImpl implements GetList {
                     if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_KEY_CARGO)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         if (xssfRow.getCell(c).getCellTypeEnum().equals(CellType.NUMERIC)) {
-                            keyCargo = String.valueOf(xssfRow.getCell(c).getNumericCellValue());
+                            String val = Double.toString(xssfRow.getCell(c).getNumericCellValue());
+                            double valueDouble = xssfRow.getCell(c).getNumericCellValue();
+                            if ((valueDouble - (int) valueDouble) * 1000 == 0) {
+                                val = (int) valueDouble + "";
+                            }
+                            keyCargo = val;
                         } else {
                             keyCargo = xssfRow.getCell(c).getStringCellValue();
                         }

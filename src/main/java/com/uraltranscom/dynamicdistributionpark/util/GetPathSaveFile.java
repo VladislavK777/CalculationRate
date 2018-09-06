@@ -21,9 +21,7 @@ public final class GetPathSaveFile {
     public static String getPathTomcat() {
         if(isWindows()){
             return PATH_TOMCAT + "\\save\\" + FILE_NAME;
-        } else if(isMac()){
-            return PATH_TOMCAT + "/save/" + FILE_NAME;
-        } else if(isUnix ()){
+        } else if(isMac() || isUnix ()){
             return PATH_TOMCAT + "/save/" + FILE_NAME;
         }
         return "Неизвестная OS";

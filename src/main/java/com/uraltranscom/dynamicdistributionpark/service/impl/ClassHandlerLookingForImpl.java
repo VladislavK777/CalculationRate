@@ -391,6 +391,25 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                         if (!basicClass.isFlag()) {
                             basicClass.setFlag(Boolean.TRUE);
                         }
+                    } else {
+                        double fixTariff = 300;
+                        double distance = _map.getValue().getListRouteInfo().get(i).getDistanceEmpty();
+                        if (distance == 0) {
+                            tariff = 0;
+                            _map.getValue().getListRouteInfo().get(i).setTariff(tariff);
+                            _map.getValue().getListRouteInfo().get(i).setLoadingTariffFromDB(Boolean.TRUE);
+                            if (!basicClass.isFlag()) {
+                                basicClass.setFlag(Boolean.TRUE);
+                            }
+                        } else {
+                            double round = Math.ceil(distance / 50.0);
+                            tariff = fixTariff * round;
+                            _map.getValue().getListRouteInfo().get(i).setTariff(tariff);
+                            _map.getValue().getListRouteInfo().get(i).setLoadingTariffFromDB(Boolean.TRUE);
+                            if (!basicClass.isFlag()) {
+                                basicClass.setFlag(Boolean.TRUE);
+                            }
+                        }
                     }
                 }
 
