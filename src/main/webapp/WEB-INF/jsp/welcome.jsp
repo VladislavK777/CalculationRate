@@ -185,11 +185,10 @@
     <img class="logo" src="resources/logo.jpg">
 </div>
 
-<br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 <div>
     <c:if test="${empty finalWagonList}">
         <input type="button" value="Создать процесс" onclick="showPopup()" class="bot1" style="visibility:visible">
-        <br><br>
     </c:if>
 
     <c:if test="${!empty finalWagonList}">
@@ -214,7 +213,7 @@
                                 Файл ставок: <input type="file" name="ratesFile" multiple accept="xlsx">
                             </p>
                             <p>
-                                Файл порожних вагонов: <input type="file" name="emptyRoutesFile" multiple accept="xlsx">
+                                Файл тарифов: <input type="file" name="emptyRoutesFile" multiple accept="xlsx">
                             </p>
                             <p>
                                 Файл дислокации вагонов: <input type="file" name="wagonsFile" multiple accept="xlsx">
@@ -314,6 +313,11 @@
                             <form action="export" method="get">
                                 <td><input type="submit" value="Скачать базу заявок" class="bot1" /></td>
                             </form>
+                        </tr>
+                        <tr>
+                        <form action="exportWagons" method="get">
+                                 <td><input type="submit" value="Скачать дислокацию вагонов" class="bot1" /></td>
+                             </form>
                         </tr>
                     </table>
                 </c:if>

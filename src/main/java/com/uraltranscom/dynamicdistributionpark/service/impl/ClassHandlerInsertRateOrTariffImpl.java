@@ -38,18 +38,20 @@ public class ClassHandlerInsertRateOrTariffImpl {
             for (Map.Entry<String, WagonFinalInfo> _newMap : newMap.entrySet()) {
                 if (_map.getKey().equals(_newMap.getKey())) {
                     for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
-                        if (!_map.getValue().equals(_newMap.getValue())) {
+                        //if (!_map.getValue().equals(_newMap.getValue())) {
                             // Вставляем ставку в БД
-                            insertRate.insertRateOfTariff(_newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(),
-                                    _newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDestination(),
-                                    _newMap.getValue().getListRouteInfo().get(i).getRoute().getCargo().getCargoType(),
-                                    (Double) _newMap.getValue().getListRouteInfo().get(i).getRate());
+                            if (!_map.getValue().getListRouteInfo().get(_map.getValue().getListRouteInfo().size() - 1).getRoute().getNameOfStationDestination().equals("")) {
+                                insertRate.insertRateOfTariff(_newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(),
+                                        _newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDestination(),
+                                        _newMap.getValue().getListRouteInfo().get(i).getRoute().getCargo().getCargoType(),
+                                        (Double) _newMap.getValue().getListRouteInfo().get(i).getRate());
+                            }
                             // Вставляем тариф в БД
                             insertTariff.insertRateOfTariff(_newMap.getValue().getListRouteInfo().get(i).getCurrentKeyOfStationOfWagon(),
                                     _newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(),
                                     _newMap.getValue().getListRouteInfo().get(i).getCargoType(),
                                     (Double) _newMap.getValue().getListRouteInfo().get(i).getTariff());
-                        }
+                        //}
                     }
                 }
             }

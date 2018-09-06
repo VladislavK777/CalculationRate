@@ -50,7 +50,7 @@ public class GetFullMonthCircleOfWagonImpl extends JavaHelperBase implements Get
             fullMonthCircle += LOADING_WAGON;
             // Расчитываем количество дней следующего рейса
             fullMonthCircle += Math.ceil(Integer.parseInt(distanceOfRoute) / PrepareDistanceOfDay.getDistanceOfDay(Integer.parseInt(distanceOfRoute)));
-            // Прибавляем количество дней разгрузки
+            // Прибавляем количество дней выгрузки
             fullMonthCircle += UNLOADING_WAGON;
 
             list.add(fullMonthCircle);
@@ -67,7 +67,7 @@ public class GetFullMonthCircleOfWagonImpl extends JavaHelperBase implements Get
             fullMonthCircle += LOADING_WAGON;
             // Расчитываем количество дней следующего рейса
             fullMonthCircle += Math.ceil(Integer.parseInt(distanceOfRoute) / PrepareDistanceOfDay.getDistanceOfDay(Integer.parseInt(distanceOfRoute)));
-            // Прибавляем количество дней разгрузки
+            // Прибавляем количество дней вызгрузки
             fullMonthCircle += UNLOADING_WAGON;
 
             sumCountDays += fullMonthCircle;

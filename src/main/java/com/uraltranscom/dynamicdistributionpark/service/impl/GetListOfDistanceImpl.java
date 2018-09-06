@@ -3,7 +3,6 @@ package com.uraltranscom.dynamicdistributionpark.service.impl;
 import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.model.Wagon;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
-import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,7 @@ import java.util.*;
 
 @Service
 @Component
-public class GetListOfDistanceImpl extends JavaHelperBase implements GetList {
+public class GetListOfDistanceImpl implements GetList {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetListOfDistanceImpl.class);
 
@@ -77,20 +76,20 @@ public class GetListOfDistanceImpl extends JavaHelperBase implements GetList {
                     int distance = listDistance.get(0);
                     if (distance == -1) {
                         if (!checkExistKeyOfStationImpl.checkExistKey(routeKeyOfStationDeparture)) {
-                            classHandlerLookingFor.getBasicClass().getSetOfError().add("Проверьте код станции " + routeKeyOfStationDeparture + " в файле заявок");
-                            logger.error("Проверьте код станции " + routeKeyOfStationDeparture + " в файле заявок");
+                            classHandlerLookingFor.getBasicClass().getSetOfError().add(String.format("Проверьте код станции %s в файле заявок", routeKeyOfStationDeparture));
+                            logger.error(String.format("Проверьте код станции %s в файле заявок", routeKeyOfStationDeparture));
                             iterator.remove();
                             break;
                         }
                         if (!checkExistKeyOfStationImpl.checkExistKey(wagonKeyOfStationDestination)) {
-                            classHandlerLookingFor.getBasicClass().getSetOfError().add("Проверьте код станции " + wagonKeyOfStationDestination + " в файле дислокации вагонов");
-                            logger.error("Проверьте код станции {}", wagonKeyOfStationDestination + " в файле дислокации вагонов");
+                            classHandlerLookingFor.getBasicClass().getSetOfError().add(String.format("Проверьте код станции %s в файле дислокации вагонов", wagonKeyOfStationDestination));
+                            logger.error("Проверьте код станции {}", String.format("%s в файле дислокации вагонов", wagonKeyOfStationDestination));
                             listOfWagons.remove(i);
                             break;
                         }
                         if (checkExistKeyOfStationImpl.checkExistKey(routeKeyOfStationDeparture) && checkExistKeyOfStationImpl.checkExistKey(wagonKeyOfStationDestination)) {
-                            classHandlerLookingFor.getBasicClass().getSetOfError().add("Не нашел расстояние между " + wagonKeyOfStationDestination + " и " + routeKeyOfStationDeparture);
-                            logger.error("Не нашел расстояние между " + wagonKeyOfStationDestination + " и " + routeKeyOfStationDeparture);
+                            classHandlerLookingFor.getBasicClass().getSetOfError().add(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
+                            logger.error(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
                             iterator.remove();
                             listOfWagons.remove(i);
                             break;
@@ -111,34 +110,33 @@ public class GetListOfDistanceImpl extends JavaHelperBase implements GetList {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                logger.info("IO Exception", e.getMessage());
+                logger.info("Файл не сериализации найден и был создан:", e.getMessage());
             }
         }
         try (FileOutputStream fileOutputStream = new FileOutputStream(file);
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream))
         {
             objectOutputStream.writeObject(map);
+            logger.info("Карты успешно сохранены");
         } catch (Exception e) {
-            logger.info("IO Exception", e.getMessage());
+            logger.error("IO Exception", e.getMessage());
         }
     }
+
     private Map<String, List<Integer>> deSerializeMap() {
         File file = new File(propertyUtil.getProperty("pathsavefile"));
         if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                logger.info("IO Exception", e.getMessage());
-            }
+            logger.info("Файл сериализации не найден");
+            return null;
         }
         Map<String, List<Integer>> map = new HashMap<>();
         try (FileInputStream fileInputStream = new FileInputStream (file);
              ObjectInputStream objectInputStream = new ObjectInputStream (fileInputStream))
         {
             map = (Map<String, List<Integer>>) objectInputStream.readObject();
-            logger.info("Deserialization success");
+            logger.info("Карты успешно загружены");
         } catch (Exception e) {
-            logger.info("IO Exception", e.getMessage());
+            logger.error("IO Exception", e.getMessage());
         }
         return map;
     }
@@ -150,27 +148,20 @@ public class GetListOfDistanceImpl extends JavaHelperBase implements GetList {
         listDistance = getDistanceBetweenStations.getDistanceBetweenStations(keyOfStationDeparture, keyOfStationDestination);
         int distance = listDistance.get(0);
         if (distance == -1) {
-            if (!checkExistKeyOfStationImpl.checkExistKey(keyOfStationDestination)) {
-                classHandlerLookingFor.getBasicClass().getListOfError().add("Проверьте код станции " + keyOfStationDestination + " в файле заявок");
-                logger.error("Проверьте код станции " + keyOfStationDestination + " в файле заявок");
-                return null;
-            }
-            if (!checkExistKeyOfStationImpl.checkExistKey(keyOfStationDeparture)) {
-                classHandlerLookingFor.getBasicClass().getListOfError().add("Проверьте код станции " + keyOfStationDeparture + " в файле дислокации вагонов");
-                logger.error("Проверьте код станции {}", keyOfStationDeparture + " в файле дислокации вагонов");
+            if (!checkExistKeyOfStationImpl.checkExistKey(keyOfStationDestination) || !checkExistKeyOfStationImpl.checkExistKey(keyOfStationDeparture)) {
+                classHandlerLookingFor.getBasicClass().getListOfError().add(String.format("Проверьте код станции %s в файле заявок", keyOfStationDestination));
+                logger.error(String.format("Проверьте код станции %s в файле заявок", keyOfStationDestination));
                 return null;
             }
             if (checkExistKeyOfStationImpl.checkExistKey(keyOfStationDestination) && checkExistKeyOfStationImpl.checkExistKey(keyOfStationDeparture)) {
-                classHandlerLookingFor.getBasicClass().getListOfError().add("Не нашел расстояние между " + keyOfStationDeparture + " и " + keyOfStationDestination);
-                logger.error("Не нашел расстояние между " + keyOfStationDeparture + " и " + keyOfStationDestination);
+                classHandlerLookingFor.getBasicClass().getListOfError().add(String.format("Не нашел расстояние между %s и %s", keyOfStationDeparture, keyOfStationDestination));
+                logger.error(String.format("Не нашел расстояние между %s и %s", keyOfStationDeparture, keyOfStationDestination));
                 return null;
             }
-        } else {
-            rootMapWithDistances.put(key, listDistance);
-            serializeMap((HashMap<String, List<Integer>>) rootMapWithDistances);
-            return listDistance;
         }
-        return null;
+        rootMapWithDistances.put(key, listDistance);
+        serializeMap((HashMap<String, List<Integer>>) rootMapWithDistances);
+        return listDistance;
     }
 
     public Map<String, List<Integer>> getRootMapWithDistances() {

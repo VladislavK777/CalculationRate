@@ -44,6 +44,7 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
     private int count40Days;
 
     public void updateMap(Map<String, WagonFinalInfo> map, String wagons, String rates, String tariffs, String routes) {
+        newMapWagonFinalInfo.clear();
         List<WagonRateAndTariff> listRateAndTariff = PrepareDateForInsert.fillListForUpdate(wagons, rates, tariffs, routes);
         Map<String, WagonFinalInfo> tempNewMap = new HashMap<>();
         //TODO Изменить на более изящно
@@ -99,7 +100,7 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
             for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
                 sumRate += (Double) _map.getValue().getListRouteInfo().get(i).getRate();
                 sumTariff += (Double) _map.getValue().getListRouteInfo().get(i).getTariff();
-                sumCountDays += _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
+                sumCountDays = sumCountDays + _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
             }
         }
         yield = Math.round(((sumRate - sumTariff) / sumCountDays) * 100) / 100.00d;

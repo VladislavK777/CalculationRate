@@ -29,12 +29,14 @@ public class Wagon extends JavaHelperBase {
     private WagonType wagonType; // Тип вагона
     private List<Route> listRoutes; // Список рейсов
     private int volume; // Объем вагона
+    private String status; // Статус вагона
 
-    public Wagon(String numberOfWagon, List<Route> listRoutes, int volume) {
+    public Wagon(String numberOfWagon, List<Route> listRoutes, int volume, String status) {
         this.wagonType = new WagonType(TYPE_OF_WAGON_KR);
         this.numberOfWagon = numberOfWagon;
         this.listRoutes = listRoutes;
         this.volume = volume;
+        this.status = status;
     }
 
     public String getNumberOfWagon() {
@@ -69,6 +71,14 @@ public class Wagon extends JavaHelperBase {
         this.volume = volume;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,13 +87,13 @@ public class Wagon extends JavaHelperBase {
         return volume == wagon.volume &&
                 Objects.equals(numberOfWagon, wagon.numberOfWagon) &&
                 Objects.equals(wagonType, wagon.wagonType) &&
-                Objects.equals(listRoutes, wagon.listRoutes);
+                Objects.equals(listRoutes, wagon.listRoutes) &&
+                Objects.equals(status, wagon.status);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(numberOfWagon, wagonType, listRoutes, volume);
+        return Objects.hash(numberOfWagon, wagonType, listRoutes, volume, status);
     }
 
     @Override
@@ -93,6 +103,7 @@ public class Wagon extends JavaHelperBase {
                 ", wagonType=" + wagonType +
                 ", listRoutes=" + listRoutes +
                 ", volume=" + volume +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

@@ -16,7 +16,7 @@ import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
  */
 
 public class JavaHelperBase {
-    public static PropertyUtil propertyUtil = new PropertyUtil();
+    private static PropertyUtil propertyUtil = new PropertyUtil();
 
     public static final int LOADING_WAGON = Integer.parseInt(propertyUtil.getProperty("loadingwagon"));
     public static final int UNLOADING_WAGON = Integer.parseInt(propertyUtil.getProperty("unloadingwagon"));
@@ -37,9 +37,11 @@ public class JavaHelperBase {
     public static final String PREFIX_5_10_DAYS = "дней";
 
     // Максимальное расстояние для пустого вагона
-    public static final int MAX_DISTANCE_RUS_TO_RUS = 600; // Внутри России
-    public static final int MAX_DISTANCE_CIS_TO_CIS = 2500; // Внутри СНГ
-    public static final int MAX_DISTANCE_RUS_TO_CIS_TO_RUS = 1800; // Между Россией_СНГ_Россией
+
+    public static final int MAX_DISTANCE_RUS_TO_RUS_CLASS3 = Integer.parseInt(propertyUtil.getProperty("distance.rustorus.cargoclass3")); // Внутри России груз класса 3
+    public static final int MAX_DISTANCE_RUS_TO_RUS = Integer.parseInt(propertyUtil.getProperty("distance.rustorus.cargoclassall")); // Внутри России
+    public static final int MAX_DISTANCE_CIS_TO_CIS = Integer.parseInt(propertyUtil.getProperty("distance.cistocis.cargoclassall")); // Внутри СНГ
+    public static final int MAX_DISTANCE_CIS_TO_RUS = Integer.parseInt(propertyUtil.getProperty("distance.cistorus.cargoclassall")); // Между Россией_СНГ_Россией
 
     // Код страны
     public static final int CODE_IS_RUSSIA = 11;
@@ -47,6 +49,5 @@ public class JavaHelperBase {
     // Коды проверок принадлежности стран
     public static final int RUS_RUS = 0; // Внутри России
     public static final int CIS_CIS = 1; // Внутри СНГ
-    public static final int RUS_CIS_RUS = 2; // Между Россией_СНГ_Россией
-
+    public static final int CIS_RUS = 2; // СНГ_Россией
 }

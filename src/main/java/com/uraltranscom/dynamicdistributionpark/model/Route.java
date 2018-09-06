@@ -73,6 +73,7 @@ public class Route {
                  String keyOfStationDestination,
                  String nameOfStationDestination,
                  String roadOfStationDestination,
+                 String distanceOfWay,
                  String customer,
                  int volumeFrom, int volumeTo,
                  String nameCargo, String keyCargo) {
@@ -82,6 +83,7 @@ public class Route {
         this.keyOfStationDestination = keyOfStationDestination;
         this.nameOfStationDestination = nameOfStationDestination;
         this.roadOfStationDestination = roadOfStationDestination;
+        this.distanceOfWay = distanceOfWay;
         this.customer = customer;
         this.volumePeriod = new VolumePeriod(volumeFrom, volumeTo);
         this.cargo = new CargoClass(nameCargo, keyCargo);
@@ -213,7 +215,6 @@ public class Route {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(keyOfStationDeparture, nameOfStationDeparture, roadOfStationDeparture, keyOfStationDestination, nameOfStationDestination, roadOfStationDestination, distanceOfWay, customer, countOrders, volumePeriod, numberOrder, cargo, wagonType);
     }
 

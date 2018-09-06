@@ -14,14 +14,14 @@ package com.uraltranscom.dynamicdistributionpark.service.export;
  */
 
 import com.uraltranscom.dynamicdistributionpark.model.Route;
+import com.uraltranscom.dynamicdistributionpark.model_ext.WagonFinalInfo;
+import com.uraltranscom.dynamicdistributionpark.model_ext.WagonFinalRouteInfo;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import com.uraltranscom.dynamicdistributionpark.service.additional.PrefixOfDays;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.xssf.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -48,6 +48,7 @@ public class WriteToFileExcel extends JavaHelperBase {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat();
 
     private static File file;
+    private static File fileWagons;
 
     private WriteToFileExcel() {
     }
@@ -92,6 +93,70 @@ public class WriteToFileExcel extends JavaHelperBase {
 
     }
 
+    public static void downloadWagonsFileExcel(HttpServletResponse response, Map<String, WagonFinalInfo> map) {
+        try {
+            String fileName = "Report_" + dateFormat.format(new Date()) + "_wagons.xlsx";
+            response.setHeader("Content-Disposition", "inline; filename=" + fileName);
+            response.setContentType("application/vnd.ms-excel");
+
+            writeToWagonsFileExcel(response, map);
+
+            isOk = true;
+        } catch (Exception e) {
+            logger.error("Ошибка записи в файл - {}", e.getMessage());
+            isOk = false;
+        }
+
+    }
+
+    public static synchronized void writeToWagonsFileExcel(HttpServletResponse response, Map<String, WagonFinalInfo> map) {
+        try {
+            ServletOutputStream outputStream = response.getOutputStream();
+
+            try (BufferedInputStream fis = new BufferedInputStream(new FileInputStream(fileWagons))) {
+
+                XSSFWorkbook xssfWorkbook = new XSSFWorkbook(fis);
+                XSSFSheet sheet = xssfWorkbook.getSheetAt(0);
+                for (int j = 1; j < sheet.getLastRowNum() + 1; j++) {
+                    XSSFRow row = sheet.getRow(0);
+                    for (int c = 0; c < row.getLastCellNum(); c++) {
+                        if (row.getCell(c).getStringCellValue().trim().equals("Номер вагона")) {
+                            XSSFRow xssfRow = sheet.getRow(j);
+                            String val = xssfRow.getCell(c).getStringCellValue();
+                            for (Map.Entry<String, WagonFinalInfo> _map : map.entrySet()) {
+                                if (val.equals(_map.getKey())) {
+                                    for (int q = 0; q < row.getLastCellNum(); q++) {
+                                        StringBuilder stationList = new StringBuilder();
+                                        StringBuilder distanceList = new StringBuilder();
+                                        for (WagonFinalRouteInfo wagonInfo : _map.getValue().getListRouteInfo()) {
+                                            stationList.append(wagonInfo.getNameOfStationDepartureOfWagon()).append("/");
+                                            distanceList.append(wagonInfo.getDistanceEmpty()).append("/");
+                                        }
+                                        if (row.getCell(q).getStringCellValue().trim().equals("Станция погрузки запланированная")) {
+                                            Cell cell = xssfRow.createCell(q);
+                                            cell.setCellValue(stationList.toString());
+                                            cell.setCellStyle(cellStyle(sheet));
+                                        }
+                                        if (row.getCell(q).getStringCellValue().trim().equals("Клиент Следующее задание")) {
+                                            Cell cell = xssfRow.createCell(q);
+                                            cell.setCellValue(distanceList.toString());
+                                            cell.setCellStyle(cellStyle(sheet));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                xssfWorkbook.write(outputStream);
+                outputStream.flush();
+                outputStream.close();
+            }
+        } catch (IOException e) {
+            logger.error("Ошибка записи в файл - {}", e.getMessage());
+        }
+    }
+
     public static synchronized void writeToFileExcel(HttpServletResponse response, Map<Route, List<Integer>> map) {
         try {
             ServletOutputStream outputStream = response.getOutputStream();
@@ -112,7 +177,11 @@ public class WriteToFileExcel extends JavaHelperBase {
                                         if (row.getCell(q).getStringCellValue().trim().equals("Факт.вагонов")) {
                                             Cell cell = xssfRow.createCell(q);
                                             cell.setCellValue(_map.getValue().get(1));
-                                            cell.setCellStyle(cellStyle(sheet));
+                                            if (_map.getValue().get(1) < _map.getKey().getCountOrders()) {
+                                                cell.setCellStyle(cellStyleRed(sheet));
+                                            } else {
+                                                cell.setCellStyle(cellStyle(sheet));
+                                            }
                                         }
                                     }
                                 }
@@ -140,6 +209,14 @@ public class WriteToFileExcel extends JavaHelperBase {
     private static XSSFCellStyle cellStyle(XSSFSheet sheet) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setBorderBottom(BorderStyle.THIN);
+        return cellStyle;
+    }
+
+    private static XSSFCellStyle cellStyleRed(XSSFSheet sheet) {
+        XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setBorderBottom(BorderStyle.THIN);
+        cellStyle.setFillForegroundColor(new XSSFColor(new java.awt.Color(250, 128, 114)));
+        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         return cellStyle;
     }
 
@@ -179,5 +256,13 @@ public class WriteToFileExcel extends JavaHelperBase {
 
     public static void setFile(File file) {
         WriteToFileExcel.file = file;
+    }
+
+    public static File getFileWagons() {
+        return fileWagons;
+    }
+
+    public static void setFileWagons(File fileWagons) {
+        WriteToFileExcel.fileWagons = fileWagons;
     }
 }
