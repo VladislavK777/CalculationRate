@@ -15,14 +15,16 @@ package com.uraltranscom.dynamicdistributionpark.util;
 
 public final class GetPathSaveFile {
     private static final String PATH_TOMCAT = System.getenv("CATALINA_HOME");
+    // Времянка
+    private static final String PATH_HOME_MAC = System.getenv("HOME") + "/Desktop/apache-tomcat-8.5.29";
     private static final String FILE_NAME = "saveDistanceMap.ser";
-    private static final String OS_NAME = System.getenv("OS").toLowerCase();
+    private static final String OS_NAME = System.getProperty("os.name").toLowerCase();
 
     public static String getPathTomcat() {
         if(isWindows()){
             return PATH_TOMCAT + "\\save\\" + FILE_NAME;
         } else if(isMac() || isUnix ()){
-            return PATH_TOMCAT + "/save/" + FILE_NAME;
+            return PATH_HOME_MAC + "/save/" + FILE_NAME;
         }
         return "Неизвестная OS";
     }
