@@ -3,8 +3,8 @@ package com.uraltranscom.dynamicdistributionpark.service.impl;
 import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.model.Wagon;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
+import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import com.uraltranscom.dynamicdistributionpark.service.export.WriteToFileExcel;
-import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -55,8 +55,6 @@ public class GetListOfWagonsImpl implements GetList {
 
     @Autowired
     private WriteToFileExcel writeToFileExcel;
-    @Autowired
-    private PropertyUtil propertyUtil;
 
     private GetListOfWagonsImpl() {
     }
@@ -95,51 +93,51 @@ public class GetListOfWagonsImpl implements GetList {
                 String distance = null;
 
                 for (int c = 0; c < row.getLastCellNum(); c++) {
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.numberwagon"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_NUMBER_WAGON)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         numberOfWagon = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.keystationdeparture"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_KEY_STATION_DEPARTURE)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         keyOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.namestationdeparture"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_NAME_STATION_DEPARTURE)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.roadstationdeparture"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_ROAD_STATION_DEPARTURE)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         roadOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.keystationdestination"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_KEY_STATION_DESTINATION)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         keyOfStationDestination = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.namestationdestination"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_NAME_STATION_DESTINATION)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameOfStationDestination = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.roadstationdestination"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_ROAD_STATION_DESTINATION)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         roadOfStationDestination = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.customer"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_CUSTOMER)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         customer = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.volume"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_VOLUME)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         volume = (int) xssfRow.getCell(c).getNumericCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.namecargo"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_NAME_CARGO)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameCargo = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.keycargo"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_KEY_CARGO)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         keyCargo = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.distance"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_DISTANCE)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         String val = Double.toString(xssfRow.getCell(c).getNumericCellValue());
                         double valueDouble = xssfRow.getCell(c).getNumericCellValue();
@@ -148,7 +146,7 @@ public class GetListOfWagonsImpl implements GetList {
                         }
                         distance = val;
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("wagon.status"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_STATUS)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         status = xssfRow.getCell(c).getStringCellValue();
                     }

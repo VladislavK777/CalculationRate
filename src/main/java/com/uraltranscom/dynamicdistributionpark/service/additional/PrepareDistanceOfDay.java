@@ -1,6 +1,5 @@
 package com.uraltranscom.dynamicdistributionpark.service.additional;
 
-import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,9 +21,11 @@ public class PrepareDistanceOfDay {
     private static Logger logger = LoggerFactory.getLogger(PrepareDistanceOfDay.class);
     private static float distanceOfDay;
 
+    private PrepareDistanceOfDay() {
+    }
+
     public static Float getDistanceOfDay(int distance) {
-        PropertyUtil propertyUtil = new PropertyUtil();
-        String stringDistanceOfDay = propertyUtil.getProperty("distanceday");
+        String stringDistanceOfDay = JavaHelperBase.DISTANCE_DAYS;
         String paramSplit [] = stringDistanceOfDay.split(";");
         for (String s : paramSplit) {
             String paramDistSplit [] = s.split("_");

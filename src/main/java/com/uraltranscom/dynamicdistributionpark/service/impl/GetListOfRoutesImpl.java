@@ -4,7 +4,6 @@ import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import com.uraltranscom.dynamicdistributionpark.service.export.WriteToFileExcel;
-import com.uraltranscom.dynamicdistributionpark.util.PropertyUtil;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -55,8 +54,6 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
 
     @Autowired
     private WriteToFileExcel writeToFileExcel;
-    @Autowired
-    private PropertyUtil propertyUtil;
 
     private GetListOfRoutesImpl() {
     }
@@ -98,31 +95,31 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
                 String wagonType = null;
 
                 for (int c = 1; c < row.getLastCellNum(); c++) {
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.keystationdeparture"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_KEY_STATION_DEPARTURE)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         keyOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.namestationdeparture"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_NAME_STATION_DEPARTURE)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.roadstationdeparture"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_ROAD_STATION_DEPARTURE)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         roadOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.keystationdestination"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_KEY_STATION_DESTINATION)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         keyOfStationDestination = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.namestationdestination"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_NAME_STATION_DESTINATION)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameOfStationDestination = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.roadstationdestination"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_ROAD_STATION_DESTINATION)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         roadOfStationDestination = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.distanceway"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_DISTANCE)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         String val = Double.toString(xssfRow.getCell(c).getNumericCellValue());
                         double valueDouble = xssfRow.getCell(c).getNumericCellValue();
@@ -131,35 +128,35 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
                         }
                         distanceOfWay = val;
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.customer"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_CUSTOMER)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         customer = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.countorders"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_COUNT_ORDERS)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         countOrders = (int) xssfRow.getCell(c).getNumericCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.volumefrom"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_VOLUME_FROM)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         volumeFrom = (int) xssfRow.getCell(c).getNumericCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.volumeto"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_VOLUME_TO)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         volumeTo = (int) xssfRow.getCell(c).getNumericCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.wagontype"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_WAGON_TYPE)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         wagonType = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.numberorder"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_NUMBER_ORDER)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         numberOrder = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.namecargo"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_NAME_CARGO)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         nameCargo = xssfRow.getCell(c).getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(propertyUtil.getProperty("route.keycargo"))) {
+                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_KEY_CARGO)) {
                         XSSFRow xssfRow = sheet.getRow(j);
                         keyCargo = xssfRow.getCell(c).getStringCellValue();
                     }

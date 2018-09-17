@@ -19,7 +19,7 @@ import java.util.Objects;
  *
  */
 
-public class EmptyRoute {
+public class TariffClass {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(Route.class);
 
@@ -28,7 +28,7 @@ public class EmptyRoute {
     private CargoClass cargo; // Груз
     private double tariff; // Тариф
 
-    public EmptyRoute(String nameOfStationDeparture, String nameOfStationDestination, String cargo, double tariff) {
+    public TariffClass(String nameOfStationDeparture, String nameOfStationDestination, String cargo, double tariff) {
         this.nameOfStationDeparture = nameOfStationDeparture;
         this.nameOfStationDestination = nameOfStationDestination;
         this.cargo = new CargoClass(null, cargo);
@@ -71,7 +71,7 @@ public class EmptyRoute {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EmptyRoute that = (EmptyRoute) o;
+        TariffClass that = (TariffClass) o;
         return Double.compare(that.tariff, tariff) == 0 &&
                 Objects.equals(nameOfStationDeparture, that.nameOfStationDeparture) &&
                 Objects.equals(nameOfStationDestination, that.nameOfStationDestination) &&
@@ -86,7 +86,7 @@ public class EmptyRoute {
 
     @Override
     public String toString() {
-        return "EmptyRoute{" +
+        return "TariffClass{" +
                 "nameOfStationDeparture='" + nameOfStationDeparture + '\'' +
                 ", nameOfStationDestination='" + nameOfStationDestination + '\'' +
                 ", cargo=" + cargo +

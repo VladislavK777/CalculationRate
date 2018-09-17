@@ -103,12 +103,12 @@
         /* Убираем текст с переключателей и оставляем иконки на малых экранах*/
          @media screen and (max-width: 1500px) {
                     .tabs > label {
-                        font-size: 12px;
+                        font-size: 14px;
                         width: 180px;
                     }
                     .tabs > label:before {
                         margin: 0;
-                        font-size: 12px;
+                        font-size: 14px;
                     }
                 }
         /* Изменяем внутренние отступы переключателей для малых экранов */
@@ -153,7 +153,7 @@
 
                   <section id="content-tab1">
                       <div>
-                          <table class="table_report">
+                          <table class="simple-little-table">
                               <tr>
                                   <th>Номер вагона</th>
                                   <th>Станция выгрузки</th>
@@ -175,7 +175,14 @@
                                               <td>${report.value.getNumberOfWagon()}</td>
                                               <td>${report.value.getListRouteInfo().get(i).getCurrentNameOfStationOfWagon()}</td>
                                               <td>${report.value.getListRouteInfo().get(i).getCargo().getNameCargo()}</td>
-                                              <td>${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                              <c:choose>
+                                                  <c:when test="${report.value.getListRouteInfo().get(i).getCargoType() == -1}">
+                                                      <td></td>
+                                                  </c:when>
+                                                  <c:otherwise>
+                                                      <td>${report.value.getListRouteInfo().get(i).getCargoType()}</td>
+                                                  </c:otherwise>
+                                              </c:choose>
                                               <td>${report.value.getListRouteInfo().get(i).getNameOfStationDepartureOfWagon()}</td>
                                               <td>${report.value.getListRouteInfo().get(i).getDistanceEmpty()}</td>
                                               <c:choose>
@@ -191,7 +198,14 @@
                                               </c:choose>
                                               <td>${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDeparture()} - ${report.value.getListRouteInfo().get(i).getRoute().getNameOfStationDestination()}</td>
                                               <td>${report.value.getListRouteInfo().get(i).getRoute().getCargo().getNameCargo()}</td>
-                                              <td>${report.value.getListRouteInfo().get(i).getRoute().getCargo().getCargoType()}</td>
+                                              <c:choose>
+                                                <c:when test="${report.value.getListRouteInfo().get(i).getRoute().getCargo().getCargoType() == -1}">
+                                                    <td></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td>${report.value.getListRouteInfo().get(i).getRoute().getCargo().getCargoType()}</td>
+                                                </c:otherwise>
+                                              </c:choose>
                                               <td>${report.value.getListRouteInfo().get(i).getCountCircleDays()}</td>
                                               <c:choose>
                                                   <c:when test="${empty report.value.getListRouteInfo().get(i).getRate()}">
