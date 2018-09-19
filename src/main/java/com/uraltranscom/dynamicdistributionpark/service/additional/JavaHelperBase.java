@@ -31,7 +31,7 @@ public class JavaHelperBase {
     public static final int MAX_COUNT_DAYS = 31;
 
     // Максимальное количество дней в декаде
-    public static final int MAX_COUNT_DAYS_DECADE = 40;
+    public static final int MAX_COUNT_DAYS_DECADE = 45;
 
     // Типы вагонов
     public static final String TYPE_OF_WAGON_KR = "КР";

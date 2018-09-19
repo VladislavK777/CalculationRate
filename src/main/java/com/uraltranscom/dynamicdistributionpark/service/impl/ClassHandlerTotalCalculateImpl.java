@@ -1,5 +1,6 @@
 package com.uraltranscom.dynamicdistributionpark.service.impl;
 
+import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.model.additional_model.WagonRateAndTariff;
 import com.uraltranscom.dynamicdistributionpark.model_ext.WagonFinalInfo;
 import com.uraltranscom.dynamicdistributionpark.model_ext.WagonFinalRouteInfo;
@@ -11,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -31,17 +29,17 @@ import java.util.Map;
 
 @Service
 @Component
-public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
+public class ClassHandlerTotalCalculateImpl {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(ClassHandlerTotalCalculateImpl.class);
 
     @Autowired
     private ClassHandlerInsertRateOrTariffImpl classHandlerInsertRateOrTariff;
+    @Autowired
+    private GetListOfRoutesImpl getListOfRoutes;
 
     private Map<String, WagonFinalInfo> newMapWagonFinalInfo = new HashMap<>();
-    private double yield;
-    private int count31Days;
-    private int count40Days;
+    private Map<Integer, List<Object>> finalCountOrdersWithVolume = new TreeMap<>();
 
     public void updateMap(Map<String, WagonFinalInfo> map, String wagons, String rates, String tariffs, String routes) {
         newMapWagonFinalInfo.clear();
@@ -92,41 +90,111 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
     }
 
     public void calculateYield(Map<String, WagonFinalInfo> map) {
-        yield = 0;
-        double sumRate = 0.00;
-        double sumTariff = 0.00;
-        int sumCountDays = 0;
+        finalCountOrdersWithVolume.clear();
         for (Map.Entry<String, WagonFinalInfo> _map : map.entrySet()) {
-            for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
-                sumRate += (Double) _map.getValue().getListRouteInfo().get(i).getRate();
-                sumTariff += (Double) _map.getValue().getListRouteInfo().get(i).getTariff();
-                sumCountDays = sumCountDays + _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
+            double sumRate = 0.00;
+            double sumTariff = 0.00;
+            int sumCountDays = 0;
+            int key = changeValueVolume(_map.getValue().getListRouteInfo().get(_map.getValue().getListRouteInfo().size() - 1).getRoute().getVolumePeriod().getVolumeFrom());
+            if (finalCountOrdersWithVolume.isEmpty() || !finalCountOrdersWithVolume.containsKey(key)) {
+                for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
+                    sumRate += (Double) _map.getValue().getListRouteInfo().get(i).getRate();
+                    sumTariff += (Double) _map.getValue().getListRouteInfo().get(i).getTariff();
+                    sumCountDays = sumCountDays + _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
+                }
+                List<Object> list = new ArrayList<>();
+                list.add(sumRate);
+                list.add(sumTariff);
+                list.add(sumCountDays);
+                finalCountOrdersWithVolume.put(key, list);
+            } else {
+                List<Object> list = finalCountOrdersWithVolume.get(key);
+                for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
+                    list.set(0, (Double) list.get(0) + (Double) _map.getValue().getListRouteInfo().get(i).getRate());
+                    list.set(1, (Double) list.get(1) + (Double) _map.getValue().getListRouteInfo().get(i).getTariff());
+                    list.set(2, (Integer) list.get(2) + (Integer) _map.getValue().getListRouteInfo().get(i).getCountCircleDays());
+                }
+                finalCountOrdersWithVolume.replace(key, list);
             }
         }
-        yield = Math.round(((sumRate - sumTariff) / sumCountDays) * 100) / 100.00d;
+        for (Map.Entry<Integer, List<Object>> _final : finalCountOrdersWithVolume.entrySet()) {
+            List<Object> list = _final.getValue();
+            Double yield = Math.round((((Double)list.get(0) - (Double)list.get(1)) / (Integer)list.get(2)) * 100) / 100.00d;
+            _final.getValue().clear();
+            _final.getValue().add(0, yield);
+            finalCountOrdersWithVolume.replace(_final.getKey(), _final.getValue());
+        }
+        //yield = Math.round(((sumRate - sumTariff) / sumCountDays) * 100) / 100.00d;
         calculateCountOrders(map);
-        logger.debug("yield: {}", yield);
     }
 
     private void calculateCountOrders(Map<String, WagonFinalInfo> map) {
-        count31Days = 0;
-        count40Days = 0;
         for (Map.Entry<String, WagonFinalInfo> _map : map.entrySet()) {
             int tempCount = 0;
+            int key = changeValueVolume(_map.getValue().getListRouteInfo().get(_map.getValue().getListRouteInfo().size() - 1).getRoute().getVolumePeriod().getVolumeFrom());
             for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
                 tempCount = tempCount + _map.getValue().getListRouteInfo().get(i).getCountCircleDays();
             }
-            if (tempCount > 31) {
-                count40Days += _map.getValue().getListRouteInfo().size();
-                count31Days++;
+            List<Object> list = finalCountOrdersWithVolume.get(key);
+            if (list.size() == 1) {
+                int count31Days = 0;
+                int count40Days = 0;
+                if (tempCount > JavaHelperBase.MAX_COUNT_DAYS) {
+                    count31Days++;
+                    count40Days += _map.getValue().getListRouteInfo().size();
+                } else {
+                    count31Days += _map.getValue().getListRouteInfo().size();
+                    count40Days += _map.getValue().getListRouteInfo().size();
+                }
+                list.add(1, count31Days);
+                list.add(2, count40Days);
+                finalCountOrdersWithVolume.replace(key, list);
             } else {
-                count40Days += _map.getValue().getListRouteInfo().size();
-                count31Days += _map.getValue().getListRouteInfo().size();
+                if (tempCount > JavaHelperBase.MAX_COUNT_DAYS) {
+                    list.set(1, (Integer) list.get(1) + 1);
+                    list.set(2, (Integer) list.get(2) + _map.getValue().getListRouteInfo().size());
+                } else {
+                    list.set(1, (Integer) list.get(1) + _map.getValue().getListRouteInfo().size());
+                    list.set(2, (Integer) list.get(2) + _map.getValue().getListRouteInfo().size());
+                }
+                finalCountOrdersWithVolume.replace(key, list);
             }
         }
-        logger.debug("count31Days: {}, count40Days: {}", count31Days, count40Days);
+        calculateTotalCountOrders();
     }
 
+    private void calculateTotalCountOrders() {
+        Map<Integer, Route> mapOfRoutes = getListOfRoutes.getMapOfRoutes();
+        for (Map.Entry<Integer, Route> _map : mapOfRoutes.entrySet()) {
+            int count = 0;
+            int key = changeValueVolume(_map.getValue().getVolumePeriod().getVolumeFrom());
+            if (finalCountOrdersWithVolume.containsKey(key)) {
+                List<Object> list = finalCountOrdersWithVolume.get(key);
+                if (list.size() == 3) {
+                    count = count + _map.getValue().getCountOrders();
+                    list.add(3, count);
+                } else {
+                    list.set(3, (Integer) list.get(3) + _map.getValue().getCountOrders());
+                }
+                finalCountOrdersWithVolume.replace(key, list);
+            }
+        }
+        logger.debug("finalCountOrdersWithVolume: {}", finalCountOrdersWithVolume);
+    }
+
+    private int changeValueVolume(int volume) {
+        if (volume == 122) return 120;
+        if (volume == 158) return 150;
+        else return volume;
+    }
+
+    public Map<Integer, List<Object>> getFinalCountOrdersWithVolume() {
+        return finalCountOrdersWithVolume;
+    }
+
+    public void setFinalCountOrdersWithVolume(Map<Integer, List<Object>> finalCountOrdersWithVolume) {
+        this.finalCountOrdersWithVolume = finalCountOrdersWithVolume;
+    }
 
     public Map<String, WagonFinalInfo> getNewMapWagonFinalInfo() {
         return newMapWagonFinalInfo;
@@ -134,29 +202,5 @@ public class ClassHandlerTotalCalculateImpl extends JavaHelperBase {
 
     public void setNewMapWagonFinalInfo(Map<String, WagonFinalInfo> newMapWagonFinalInfo) {
         this.newMapWagonFinalInfo = newMapWagonFinalInfo;
-    }
-
-    public double getYield() {
-        return yield;
-    }
-
-    public void setYield(double yield) {
-        this.yield = yield;
-    }
-
-    public int getCount31Days() {
-        return count31Days;
-    }
-
-    public void setCount31Days(int count31Days) {
-        this.count31Days = count31Days;
-    }
-
-    public int getCount40Days() {
-        return count40Days;
-    }
-
-    public void setCount40Days(int count40Days) {
-        this.count40Days = count40Days;
     }
 }

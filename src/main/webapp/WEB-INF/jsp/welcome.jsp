@@ -313,22 +313,38 @@
              </div>
              </section>
              <section id="content-tab2">
-                <c:if test="${!empty yield}">
+                <c:if test="${!empty finalCountOrdersWithVolume}">
+                    <c:forEach items="${finalCountOrdersWithVolume}" var="report">
+                        <table class="table_report">
+                            <tr>
+                                <th>Информация по объему ${report.key}</th>
+                            </tr>
+                            <tr>
+                                <td>Средняя доходность за 30 суток: </td>
+                                <td>${report.value.get(0)}</td>
+                            </tr>
+                            <tr>
+                                <td>Факт заявок за 30 дней: </td>
+                                <td>${report.value.get(1)}</td>
+                            </tr>
+                            <tr>
+                                <td>Факт заявок за 30 дней и декаду: </td>
+                                <td>${report.value.get(2)}</td>
+                            </tr>
+                            <tr>
+                                <td>Количество заявок: </td>
+                                <td>${report.value.get(3)}</td>
+                            </tr>
+                            <tr>
+                                <td>-------------------------------------------</td>
+                                <td>---------------</td>
+                            </tr>
+                        </table>
+                    </c:forEach>
                     <table class="table_report">
                         <tr>
-                            <td>Средняя доходность за 30 суток: </td>
-                            <td>${yield}</td>
-                        </tr>
-                        <tr>
-                            <td>Факт заявок за 30 дней: </td>
-                            <td>${count30Days}</td>
-                        </tr>
-                        <tr>
-                            <td>Факт заявок за 30 дней и декаду: </td>
-                            <td>${count45Days}</td>
-                        </tr>
-                            <td>Общие количество заявок: </td>
-                            <td>${count}</td>
+                            <th>Общие количество заявок: </td>
+                            <th>${count}</td>
                         </tr>
                         <tr>
                             <form action="export" method="get">
@@ -336,9 +352,9 @@
                             </form>
                         </tr>
                         <tr>
-                        <form action="exportWagons" method="get">
-                                 <td><input type="submit" value="Скачать дислокацию вагонов" class="bot1" /></td>
-                             </form>
+                            <form action="exportWagons" method="get">
+                                <td><input type="submit" value="Скачать дислокацию вагонов" class="bot1" /></td>
+                            </form>
                         </tr>
                     </table>
                 </c:if>

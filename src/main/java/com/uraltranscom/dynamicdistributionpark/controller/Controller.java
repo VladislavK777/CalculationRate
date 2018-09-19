@@ -57,10 +57,8 @@ public class Controller {
             basicClassImpl.getClassHandlerTotalCalculate().calculateYield(basicClassImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
             model.addAttribute("finalWagonList", basicClassImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
             model.addAttribute("reportListOfError", basicClassImpl.getListOfError());
-            model.addAttribute("yield", basicClassImpl.getClassHandlerTotalCalculate().getYield());
+            model.addAttribute("finalCountDaysWithVolume", basicClassImpl.getClassHandlerTotalCalculate().getFinalCountOrdersWithVolume());
             model.addAttribute("count", basicClassImpl.getClassHandlerLookingFor().getGetListOfDistance().getGetListOfRoutesImpl().getCount());
-            model.addAttribute("count30Days", basicClassImpl.getClassHandlerTotalCalculate().getCount31Days());
-            model.addAttribute("count45Days", basicClassImpl.getClassHandlerTotalCalculate().getCount40Days());
             return "welcome";
         }
     }
@@ -74,10 +72,8 @@ public class Controller {
         basicClassImpl.getClassHandlerTotalCalculate().updateMap(basicClassImpl.getClassHandlerLookingFor().getMapFinalWagonInfo(), wagons, rates, tariffs, routes);
         model.addAttribute("finalWagonList", basicClassImpl.getClassHandlerTotalCalculate().getNewMapWagonFinalInfo());
         model.addAttribute("reportListOfError", basicClassImpl.getListOfError());
-        model.addAttribute("yield", basicClassImpl.getClassHandlerTotalCalculate().getYield());
+        model.addAttribute("finalCountOrdersWithVolume", basicClassImpl.getClassHandlerTotalCalculate().getFinalCountOrdersWithVolume());
         model.addAttribute("count", basicClassImpl.getClassHandlerLookingFor().getGetListOfDistance().getGetListOfRoutesImpl().getCount());
-        model.addAttribute("count30Days", basicClassImpl.getClassHandlerTotalCalculate().getCount31Days());
-        model.addAttribute("count45Days", basicClassImpl.getClassHandlerTotalCalculate().getCount40Days());
         return "welcome";
     }
 

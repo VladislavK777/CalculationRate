@@ -40,7 +40,6 @@ public class VolumePeriod {
 
     @Override
     public String toString() {
-        return volumeFrom +
-                ", " + volumeTo;
+        return volumeFrom + " - " + volumeTo;
     }
 }
