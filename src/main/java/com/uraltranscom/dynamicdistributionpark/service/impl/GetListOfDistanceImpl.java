@@ -125,7 +125,7 @@ public class GetListOfDistanceImpl implements GetList {
         File file = new File(JavaHelperBase.PATH_SAVE_FILE_MAP);
         if (!file.exists()) {
             logger.info("Файл сериализации не найден");
-            return null;
+            return new HashMap<>();
         }
         Map<String, List<Integer>> map = new HashMap<>();
         try (FileInputStream fileInputStream = new FileInputStream (file);

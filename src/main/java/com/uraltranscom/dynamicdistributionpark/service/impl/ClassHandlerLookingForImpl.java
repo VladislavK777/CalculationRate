@@ -126,7 +126,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                     }
 
                                 } else {
-                                    if (isCheckMore40(_wagons, _routes.getValue())) {
+                                    if (isCheckMore45(_wagons, _routes.getValue())) {
                                         List<Integer> listDistance = getListOfDistance.listDistance(keyOfStationOfWagonDestination, keyOfStationDeparture);
                                         if (listDistance != null) {
                                             if (listDistance.get(1) == RUS_RUS) {
@@ -304,7 +304,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
         logger.info("Stop root method: {}", this.getClass().getSimpleName() + ".fillMapRouteIsOptimal");
     }
 
-    private boolean isCheckMore40(Wagon wagon, Route route) {
+    private boolean isCheckMore45(Wagon wagon, Route route) {
         int sum = 0;
         try {
             if (getFullMonthCircleOfWagonImpl.getListOfDaysOfWagon(wagon.getNumberOfWagon()).isEmpty()) {
