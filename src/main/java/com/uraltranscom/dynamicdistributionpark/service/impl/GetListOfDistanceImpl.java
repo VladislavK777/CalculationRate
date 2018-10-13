@@ -47,10 +47,10 @@ public class GetListOfDistanceImpl implements GetList {
     private ClassHandlerLookingForImpl classHandlerLookingFor;
 
     // Основная мапа
-    private Map<String, List<Integer>> rootMapWithDistances = new HashMap<>();
+    private Map<String, List<Integer>> rootMapWithDistances;
 
-    private Map<Integer, Route> mapOfRoutes = new HashMap<>();
-    private List<Wagon> listOfWagons = new ArrayList<>();
+    private Map<Integer, Route> mapOfRoutes;
+    private List<Wagon> listOfWagons;
 
     @Override
     public void fillMap() {
@@ -58,43 +58,6 @@ public class GetListOfDistanceImpl implements GetList {
         rootMapWithDistances = deSerializeMap();
         mapOfRoutes = new HashMap<>(getListOfRoutesImpl.getMapOfRoutes());
         listOfWagons = new ArrayList<>(getListOfWagonsImpl.getListOfWagons());
-
-        Iterator<Map.Entry<Integer, Route>> iterator = mapOfRoutes.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<Integer, Route> entry = iterator.next();
-            for (int i = 0; i < listOfWagons.size(); i++) {
-                int index = listOfWagons.get(i).getListRoutes().size() - 1;
-
-                String wagonKeyOfStationDestination = listOfWagons.get(i).getListRoutes().get(index).getKeyOfStationDestination();
-                String routeKeyOfStationDeparture = entry.getValue().getKeyOfStationDeparture();
-                String keyCargo = listOfWagons.get(i).getListRoutes().get(index).getCargo().getKeyCargo();
-                String key = wagonKeyOfStationDestination + "_" + routeKeyOfStationDeparture + "_" + keyCargo;
-
-                if (keyCargo.equals("000000")) {
-                    List<Integer> listDistance = new ArrayList<>();
-                    listDistance.add(0);
-                    listDistance.add(0);
-                    listDistance.add(0);
-                    rootMapWithDistances.put(key, listDistance);
-                } else {
-                    // Заполняем мапы расстояний
-                    if (!rootMapWithDistances.containsKey(key)) {
-                        List<Integer> listDistance = getDistanceBetweenStations.getDistanceBetweenStations(wagonKeyOfStationDestination, routeKeyOfStationDeparture, keyCargo);
-                        int distance = listDistance.get(0);
-                        if (distance == -20000) {
-                            classHandlerLookingFor.getBasicClass().getSetOfError().add(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
-                            logger.error(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
-                            iterator.remove();
-                            listOfWagons.remove(i);
-                            break;
-                        } else {
-                            rootMapWithDistances.put(key, listDistance);
-                        }
-                    }
-                }
-            }
-        }
-        serializeMap((HashMap<String, List<Integer>>) rootMapWithDistances);
         logger.info("Stop process fill map with distances");
     }
 
@@ -155,6 +118,45 @@ public class GetListOfDistanceImpl implements GetList {
         rootMapWithDistances.put(key, listDistance);
         serializeMap((HashMap<String, List<Integer>>) rootMapWithDistances);
         return listDistance;
+    }
+
+    public void fillRootMapWithDistances(List<Wagon> listWagon, Map<Integer, Route> mapRoutes) {
+        Iterator<Map.Entry<Integer, Route>> iterator = mapRoutes.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, Route> entry = iterator.next();
+            for (int i = 0; i < listWagon.size(); i++) {
+                int index = listWagon.get(i).getListRoutes().size() - 1;
+
+                String wagonKeyOfStationDestination = listWagon.get(i).getListRoutes().get(index).getKeyOfStationDestination();
+                String routeKeyOfStationDeparture = entry.getValue().getKeyOfStationDeparture();
+                String keyCargo = listWagon.get(i).getListRoutes().get(index).getCargo().getKeyCargo();
+                String key = wagonKeyOfStationDestination + "_" + routeKeyOfStationDeparture + "_" + keyCargo;
+
+                if (keyCargo.equals("000000")) {
+                    List<Integer> listDistance = new ArrayList<>();
+                    listDistance.add(0);
+                    listDistance.add(0);
+                    listDistance.add(0);
+                    rootMapWithDistances.put(key, listDistance);
+                } else {
+                    // Заполняем мапы расстояний
+                    if (!rootMapWithDistances.containsKey(key)) {
+                        List<Integer> listDistance = getDistanceBetweenStations.getDistanceBetweenStations(wagonKeyOfStationDestination, routeKeyOfStationDeparture, keyCargo);
+                        int distance = listDistance.get(0);
+                        if (distance == -20000) {
+                            classHandlerLookingFor.getBasicClass().getSetOfError().add(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
+                            logger.error(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
+                            iterator.remove();
+                            listWagon.remove(i);
+                            break;
+                        } else {
+                            rootMapWithDistances.put(key, listDistance);
+                        }
+                    }
+                }
+            }
+        }
+        serializeMap((HashMap<String, List<Integer>>) rootMapWithDistances);
     }
 
     public Map<String, List<Integer>> getRootMapWithDistances() {

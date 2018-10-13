@@ -58,6 +58,8 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
     private Map<Route, List<Integer>> mapFinalOrderInfo = new HashMap<>();
     // Временная мапа после отработки главного метода
     private Map<Integer, Route> tempMapTotalRoute = new HashMap<>();
+    // Мапа расстояний
+    private Map<List<Object>, Integer> mapDistance = new HashMap<>();
 
     private ClassHandlerLookingForImpl() {
     }
@@ -77,71 +79,16 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
         // Временная выходная мапа
         Map<String, WagonFinalInfo> tempMapWagonInfo = new HashMap<>();
 
-        // Мапа расстояний
-        Map<List<Object>, Integer> mapDistance = new HashMap<>();
-
         // Запускаем цикл
         boolean isOk = true;
         while (isOk) {
             isOk = false;
-            // Очищаем мапу расстояний
-            mapDistance.clear();
-            for (Wagon _wagons : copyListOfWagon) {
-                // Индекс последнего маршрута
-                int index = _wagons.getListRoutes().size() - 1;
-                // Получаем код станции назначения вагона
-                String keyOfStationOfWagonDestination = _wagons.getListRoutes().get(index).getKeyOfStationDestination().trim();
-                String nameOfStationOfWagonDestination = _wagons.getListRoutes().get(index).getNameOfStationDestination().trim();
-                String keyCargo = _wagons.getListRoutes().get(index).getCargo().getKeyCargo();
 
-                if (!nameOfStationOfWagonDestination.equals("")) {
-                    // По каждому вагону высчитываем расстояние до каждой начальной станнции маршрутов
-                    // Цикл расчета расстояния и заполнения мапы
-                    for (Map.Entry<Integer, Route> _routes : tempMapOfRoutes.entrySet()) {
-                        List<Object> list = new ArrayList<>();
-                        // Станция отправления рейса
-                        String keyOfStationDeparture = _routes.getValue().getKeyOfStationDeparture();
-                        list.add(_wagons);
-                        list.add(_routes.getValue());
-                        if (_wagons.getVolume() >= _routes.getValue().getVolumePeriod().getVolumeFrom() &&
-                                _wagons.getVolume() <= _routes.getValue().getVolumePeriod().getVolumeTo() &&
-                                _routes.getValue().getCountOrders() > 0) {
-                            if (_wagons.getStatus().equals(STATUS_FULL)) {
-                                String key = keyOfStationOfWagonDestination + "_" + keyOfStationDeparture + "_" + keyCargo;
+            // Заполняем мапу расстояниями
+            getListOfDistance.fillRootMapWithDistances(copyListOfWagon, tempMapOfRoutes);
+            //Запускаем метод поиска расстоняий
+            lookingForMinDistance(copyListOfWagon, tempMapOfRoutes);
 
-                                // Ищем расстояние
-                                if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
-                                    if (getListOfDistance.getRootMapWithDistances().get(key).get(2) != -1) {
-                                        list.add(getListOfDistance.getRootMapWithDistances().get(key));
-                                        mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(2));
-                                    }
-                                } else {
-                                    if (isCheckMore45(_wagons, _routes.getValue())) {
-                                        List<Integer> listDistance = getListOfDistance.listDistance(keyOfStationOfWagonDestination, keyOfStationDeparture, keyCargo);
-                                        if (listDistance != null) {
-                                            if (listDistance.get(2) != -1) {
-                                                list.add(listDistance);
-                                                mapDistance.put(list, listDistance.get(2));
-                                            }
-                                        } else {
-                                            return;
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (_wagons.getListRoutes().get(0).getKeyOfStationDestination().equals(keyOfStationDeparture)) {
-                                    List<Integer> listDistance = new ArrayList<>();
-                                    listDistance.add(0);
-                                    listDistance.add(0);
-                                    listDistance.add(0);
-                                    list.add(listDistance);
-                                    mapDistance.put(list, Integer.parseInt(_wagons.getListRoutes().get(0).getDistanceOfWay()));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
             int indexMap = mapDistance.size();
             CompareMapValue[] compareMapValues = new CompareMapValue[indexMap];
             indexMap = 0;
@@ -448,6 +395,57 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                     _map.getValue().getListRouteInfo().get(i).setEmpty(Boolean.TRUE);
                     if (!basicClass.isFlag()) {
                         basicClass.setFlag(Boolean.TRUE);
+                    }
+                }
+            }
+        }
+    }
+
+    private void lookingForMinDistance(List<Wagon> copyListOfWagon, Map<Integer, Route> tempMapOfRoutes) {
+        // Очищаем мапу расстояний
+        mapDistance.clear();
+        for (Wagon _wagons : copyListOfWagon) {
+            // Индекс последнего маршрута
+            int index = _wagons.getListRoutes().size() - 1;
+            // Получаем код станции назначения вагона
+            String keyOfStationOfWagonDestination = _wagons.getListRoutes().get(index).getKeyOfStationDestination().trim();
+            String nameOfStationOfWagonDestination = _wagons.getListRoutes().get(index).getNameOfStationDestination().trim();
+            String keyCargo = _wagons.getListRoutes().get(index).getCargo().getKeyCargo();
+
+            if (!nameOfStationOfWagonDestination.equals("")) {
+                // По каждому вагону высчитываем расстояние до каждой начальной станнции маршрутов
+                // Цикл расчета расстояния и заполнения мапы
+                for (Map.Entry<Integer, Route> _routes : tempMapOfRoutes.entrySet()) {
+                    List<Object> list = new ArrayList<>();
+                    // Станция отправления рейса
+                    String keyOfStationDeparture = _routes.getValue().getKeyOfStationDeparture();
+                    list.add(_wagons);
+                    list.add(_routes.getValue());
+                    if (_wagons.getVolume() >= _routes.getValue().getVolumePeriod().getVolumeFrom() &&
+                            _wagons.getVolume() <= _routes.getValue().getVolumePeriod().getVolumeTo() &&
+                            _routes.getValue().getCountOrders() > 0) {
+                        if (_wagons.getStatus().equals(STATUS_FULL)) {
+                            String key = keyOfStationOfWagonDestination + "_" + keyOfStationDeparture + "_" + keyCargo;
+
+                            // Ищем расстояние
+                            if (isCheckMore45(_wagons, _routes.getValue())) {
+                                if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
+                                    if (getListOfDistance.getRootMapWithDistances().get(key).get(2) != -1) {
+                                        list.add(getListOfDistance.getRootMapWithDistances().get(key));
+                                        mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(2));
+                                    }
+                                }
+                            }
+                        } else {
+                            if (_wagons.getListRoutes().get(0).getKeyOfStationDestination().equals(keyOfStationDeparture)) {
+                                List<Integer> listDistance = new ArrayList<>();
+                                listDistance.add(0);
+                                listDistance.add(0);
+                                listDistance.add(0);
+                                list.add(listDistance);
+                                mapDistance.put(list, Integer.parseInt(_wagons.getListRoutes().get(0).getDistanceOfWay()));
+                            }
+                        }
                     }
                 }
             }
