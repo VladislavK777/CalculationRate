@@ -1,6 +1,7 @@
 package com.uraltranscom.dynamicdistributionpark.service.impl;
 
-import com.uraltranscom.dynamicdistributionpark.service.GetRateOrTariff;
+
+import com.uraltranscom.dynamicdistributionpark.service.GetTariff;
 import com.uraltranscom.dynamicdistributionpark.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,20 +16,22 @@ import java.sql.SQLException;
 /**
  *
  * Класс получения ставки
- * Implementation for {@link GetRateOrTariff} interface
+ * Implementation for {@link GetTariff} interface
  *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @version 2.0
  * @create 26.07.2018
  *
  * 26.07.2018
  *   1. Версия 1.0
+ * 12.10.2018
+ *   1. Версия 2.0
  *
  */
 
 @Service
 @Component
-public class GetTariffImpl extends ConnectionDB implements GetRateOrTariff {
+public class GetTariffImpl extends ConnectionDB implements GetTariff {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetTariffImpl.class);
 
@@ -36,12 +39,12 @@ public class GetTariffImpl extends ConnectionDB implements GetRateOrTariff {
     }
 
     @Override
-    public Object getRateOrTariff(String keyOfStationDeparture, String keyOfStationDestination, int cargoType) {
+    public Object getTariff(String keyOfStationDeparture, String keyOfStationDestination, int distanceStart, int distanceEnd, int distance, String keyCargo) {
 
         Object tariff = null;
 
         try (Connection connection = getDataSource().getConnection();
-             CallableStatement callableStatement = createCallableStatement(connection, keyOfStationDeparture, keyOfStationDestination, cargoType);
+             CallableStatement callableStatement = createCallableStatement(connection, keyOfStationDeparture, keyOfStationDestination, distanceStart, distanceEnd, distance, keyCargo);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
                 if (resultSet.getObject(1) == null) {
@@ -50,18 +53,21 @@ public class GetTariffImpl extends ConnectionDB implements GetRateOrTariff {
                     tariff = Math.round((resultSet.getDouble(1)) * 100) / 100.00d;
                 }
             }
-            logger.debug("Get tariff: {}", keyOfStationDeparture + " " + keyOfStationDestination + ": " + tariff);
+            logger.debug("Get tariff: {}", keyOfStationDeparture + " " + keyOfStationDestination + "_" + keyCargo + ": " + tariff);
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }
         return tariff;
     }
 
-    private CallableStatement createCallableStatement(Connection connection, String keyOfStationDeparture, String keyOfStationDestination, int cargoType) throws SQLException {
-        CallableStatement callableStatement = connection.prepareCall(" { call gettariff(?,?,?) } ");
+    private CallableStatement createCallableStatement(Connection connection, String keyOfStationDeparture, String keyOfStationDestination, int distanceStart, int distanceEnd, int distance, String keyCargo) throws SQLException {
+        CallableStatement callableStatement = connection.prepareCall(" { call test_tariff.get_tariff(?,?,?,?,?,?) } ");
         callableStatement.setString(1, keyOfStationDeparture);
         callableStatement.setString(2, keyOfStationDestination);
-        callableStatement.setInt(3, cargoType);
+        callableStatement.setInt(3, distanceStart);
+        callableStatement.setInt(4, distanceEnd);
+        callableStatement.setInt(5, distance);
+        callableStatement.setString(6, keyCargo);
         return callableStatement;
     }
 }

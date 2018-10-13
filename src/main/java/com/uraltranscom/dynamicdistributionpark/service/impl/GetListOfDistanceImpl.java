@@ -19,11 +19,13 @@ import java.util.*;
  * Implementation for {@link GetList} interface
  *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @version 2.0
  * @create 19.07.2018
  *
  * 19.07.2018
  *   1. Версия 1.0
+ * 13.10.2018
+ *   1. Версия 2.0
  *
  */
 
@@ -39,8 +41,8 @@ public class GetListOfDistanceImpl implements GetList {
     private GetDistanceBetweenStationsImpl getDistanceBetweenStations;
     @Autowired
     private GetListOfWagonsImpl getListOfWagonsImpl;
-    @Autowired
-    private CheckExistKeyOfStationImpl checkExistKeyOfStationImpl;
+    //@Autowired
+    //private CheckExistKeyOfStationImpl checkExistKeyOfStationImpl;
     @Autowired
     private ClassHandlerLookingForImpl classHandlerLookingFor;
 
@@ -65,35 +67,29 @@ public class GetListOfDistanceImpl implements GetList {
 
                 String wagonKeyOfStationDestination = listOfWagons.get(i).getListRoutes().get(index).getKeyOfStationDestination();
                 String routeKeyOfStationDeparture = entry.getValue().getKeyOfStationDeparture();
+                String keyCargo = listOfWagons.get(i).getListRoutes().get(index).getCargo().getKeyCargo();
+                String key = wagonKeyOfStationDestination + "_" + routeKeyOfStationDeparture + "_" + keyCargo;
 
-                String key = wagonKeyOfStationDestination + "_" + routeKeyOfStationDeparture;
-
-                // Заполняем мапы расстояний
-                if (!rootMapWithDistances.containsKey(key)) {
-                    List<Integer> listDistance = getDistanceBetweenStations.getDistanceBetweenStations(wagonKeyOfStationDestination, routeKeyOfStationDeparture);
-                    int distance = listDistance.get(0);
-                    if (distance == -1) {
-                        if (!checkExistKeyOfStationImpl.checkExistKey(routeKeyOfStationDeparture)) {
-                            classHandlerLookingFor.getBasicClass().getSetOfError().add(String.format("Проверьте код станции %s в файле заявок", routeKeyOfStationDeparture));
-                            logger.error(String.format("Проверьте код станции %s в файле заявок", routeKeyOfStationDeparture));
-                            iterator.remove();
-                            break;
-                        }
-                        if (!checkExistKeyOfStationImpl.checkExistKey(wagonKeyOfStationDestination)) {
-                            classHandlerLookingFor.getBasicClass().getSetOfError().add(String.format("Проверьте код станции %s в файле дислокации вагонов", wagonKeyOfStationDestination));
-                            logger.error("Проверьте код станции {}", String.format("%s в файле дислокации вагонов", wagonKeyOfStationDestination));
-                            listOfWagons.remove(i);
-                            break;
-                        }
-                        if (checkExistKeyOfStationImpl.checkExistKey(routeKeyOfStationDeparture) && checkExistKeyOfStationImpl.checkExistKey(wagonKeyOfStationDestination)) {
+                if (keyCargo.equals("000000")) {
+                    List<Integer> listDistance = new ArrayList<>();
+                    listDistance.add(0);
+                    listDistance.add(0);
+                    listDistance.add(0);
+                    rootMapWithDistances.put(key, listDistance);
+                } else {
+                    // Заполняем мапы расстояний
+                    if (!rootMapWithDistances.containsKey(key)) {
+                        List<Integer> listDistance = getDistanceBetweenStations.getDistanceBetweenStations(wagonKeyOfStationDestination, routeKeyOfStationDeparture, keyCargo);
+                        int distance = listDistance.get(0);
+                        if (distance == -20000) {
                             classHandlerLookingFor.getBasicClass().getSetOfError().add(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
                             logger.error(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
                             iterator.remove();
                             listOfWagons.remove(i);
                             break;
+                        } else {
+                            rootMapWithDistances.put(key, listDistance);
                         }
-                    } else {
-                        rootMapWithDistances.put(key, listDistance);
                     }
                 }
             }
@@ -140,18 +136,17 @@ public class GetListOfDistanceImpl implements GetList {
     }
 
     //TODO Улучшить
-    public List<Integer> listDistance (String keyOfStationDeparture, String keyOfStationDestination) {
-        String key = keyOfStationDeparture + "_" + keyOfStationDestination;
-        List<Integer> listDistance;
-        listDistance = getDistanceBetweenStations.getDistanceBetweenStations(keyOfStationDeparture, keyOfStationDestination);
-        int distance = listDistance.get(0);
-        if (distance == -1) {
-            if (!checkExistKeyOfStationImpl.checkExistKey(keyOfStationDestination) || !checkExistKeyOfStationImpl.checkExistKey(keyOfStationDeparture)) {
-                classHandlerLookingFor.getBasicClass().getListOfError().add(String.format("Проверьте код станции %s в файле заявок", keyOfStationDestination));
-                logger.error(String.format("Проверьте код станции %s в файле заявок", keyOfStationDestination));
-                return null;
-            }
-            if (checkExistKeyOfStationImpl.checkExistKey(keyOfStationDestination) && checkExistKeyOfStationImpl.checkExistKey(keyOfStationDeparture)) {
+    public List<Integer> listDistance (String keyOfStationDeparture, String keyOfStationDestination, String keyCargo) {
+        String key = keyOfStationDeparture + "_" + keyOfStationDestination + "_" + keyCargo;
+        List<Integer> listDistance = new ArrayList<>();
+        if (keyCargo.equals("000000")) {
+            listDistance.add(0);
+            listDistance.add(0);
+            listDistance.add(0);
+        } else {
+            listDistance = getDistanceBetweenStations.getDistanceBetweenStations(keyOfStationDeparture, keyOfStationDestination, keyCargo);
+            int distance = listDistance.get(0);
+            if (distance == -20000) {
                 classHandlerLookingFor.getBasicClass().getListOfError().add(String.format("Не нашел расстояние между %s и %s", keyOfStationDeparture, keyOfStationDestination));
                 logger.error(String.format("Не нашел расстояние между %s и %s", keyOfStationDeparture, keyOfStationDestination));
                 return null;

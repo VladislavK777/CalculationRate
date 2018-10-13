@@ -210,13 +210,10 @@
                                 Файл заявок: <input type="file" name="routesFile" multiple accept="xlsx">
                             </p>
                             <p>
-                                Файл ставок: <input type="file" name="ratesFile" multiple accept="xlsx">
-                            </p>
-                            <p>
-                                Файл тарифов: <input type="file" name="emptyRoutesFile" multiple accept="xlsx">
-                            </p>
-                            <p>
                                 Файл дислокации вагонов: <input type="file" name="wagonsFile" multiple accept="xlsx">
+                            </p>
+                            <p>
+                                Файл ставок: <input type="file" name="ratesFile" multiple accept="xlsx">
                             </p>
                             <p>
                                 <input type="submit" value="Загрузить" class="bot1" id="input_form" onclick="lockScreen();">

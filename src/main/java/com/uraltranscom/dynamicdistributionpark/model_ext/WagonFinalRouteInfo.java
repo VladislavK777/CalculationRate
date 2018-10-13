@@ -12,11 +12,13 @@ import java.util.Objects;
  * Класс для формирвоания итоговой информации маршрутов для вагона
  *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @version 2.0
  * @create 27.07.2018
  *
  * 27.07.2018
  *   1. Версия 1.0
+ * 13.10.2018
+ *   1. Версия 2.0
  *
  */
 
@@ -48,7 +50,8 @@ public class WagonFinalRouteInfo {
                               String keyOfStationDepartureOfWagon,
                               Route route,
                               CargoClass cargo,
-                              int cargoType) {
+                              int cargoType,
+                               Object tariff) {
         this.countCircleDays = countCircleDays;
         this.distanceEmpty = distanceEmpty;
         this.currentNameOfStationOfWagon = currentNameOfStationOfWagon;
@@ -58,6 +61,7 @@ public class WagonFinalRouteInfo {
         this.route = route;
         this.cargo = cargo;
         this.cargoType = cargoType;
+        this.tariff = tariff;
         this.isEmpty = false;
         this.isLoadingRateFromDB = false;
         this.isLoadingTariffFromDB = false;

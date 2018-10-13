@@ -5,11 +5,13 @@ package com.uraltranscom.dynamicdistributionpark.controller;
  * Контроллер
  *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @version 2.0
  * @create 19.07.2018
  *
  * 19.07.2018
  *   1. Версия 1.0
+ * 13.10.2018
+ *   1. Версия 2.0
  *
  */
 
@@ -43,12 +45,10 @@ public class Controller {
     @RequestMapping(value = "/reports", method = RequestMethod.POST)
     public String routeList(@RequestParam(value = "routesFile") MultipartFile routesFile,
                             @RequestParam(value = "wagonsFile") MultipartFile wagonsFile,
-                            @RequestParam(value = "ratesFile") MultipartFile ratesFile,
-                            @RequestParam(value = "emptyRoutesFile") MultipartFile emptyRoutesFile, Model model) {
+                            @RequestParam(value = "ratesFile") MultipartFile ratesFile, Model model) {
         basicClassImpl.getClassHandlerLookingFor().getGetListOfDistance().getGetListOfRoutesImpl().setFile(MultipartFileToFileUtil.multipartToFile(routesFile));
         basicClassImpl.getClassHandlerLookingFor().getGetListOfDistance().getGetListOfWagonsImpl().setFile(MultipartFileToFileUtil.multipartToFile(wagonsFile));
         basicClassImpl.getClassHandlerLookingFor().getGetListOfRates().setFile(MultipartFileToFileUtil.multipartToFile(ratesFile));
-        basicClassImpl.getClassHandlerLookingFor().getGetListOfEmptyRoutes().setFile(MultipartFileToFileUtil.multipartToFile(emptyRoutesFile));
         basicClassImpl.fillMapRouteIsOptimal();
         if (basicClassImpl.isFlag()) {
             model.addAttribute("needFillRateOrTariff", basicClassImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());

@@ -17,11 +17,13 @@ import java.util.List;
  * Implementation for {@link GetDistanceBetweenStations} interface
  *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @version 2.0
  * @create 19.07.2018
  *
  * 19.07.2018
  *   1. Версия 1.0
+ * 13.10.2018
+ *   1. Версия 2.0
  *
  */
 
@@ -35,27 +37,28 @@ public class GetDistanceBetweenStationsImpl extends ConnectionDB implements GetD
     }
 
     @Override
-    public List<Integer> getDistanceBetweenStations(String keyOfStationDeparture, String keyOfStationDestination) {
+    public List<Integer> getDistanceBetweenStations(String keyOfStationDeparture, String keyOfStationDestination, String keyCargo) {
 
         List<Integer> listResult = new ArrayList<>();
 
         try (Connection connection = getDataSource().getConnection();
-             CallableStatement callableStatement = createCallableStatement(connection, keyOfStationDeparture, keyOfStationDestination);
+             CallableStatement callableStatement = createCallableStatement(connection, keyOfStationDeparture, keyOfStationDestination, keyCargo);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
                 listResult.add(resultSet.getInt(1));
             }
-            logger.debug("Get distance for: {}", keyOfStationDeparture + "_" + keyOfStationDestination + ": " + listResult.get(0));
+            logger.debug("Get distance for: {}", keyOfStationDeparture + "_" + keyOfStationDestination + ": " + listResult.get(2));
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }
         return listResult;
     }
 
-    private CallableStatement createCallableStatement(Connection connection, String keyOfStationDeparture, String keyOfStationDestination) throws SQLException {
-        CallableStatement callableStatement = connection.prepareCall(" { call getdistancetest(?,?) } ");
+    private CallableStatement createCallableStatement(Connection connection, String keyOfStationDeparture, String keyOfStationDestination, String keyCargo) throws SQLException {
+        CallableStatement callableStatement = connection.prepareCall(" { call  test_distance.get_root_distance2(?,?,?) } ");
         callableStatement.setString(1, keyOfStationDeparture);
         callableStatement.setString(2, keyOfStationDestination);
+        callableStatement.setString(3, keyCargo);
         return callableStatement;
     }
 }
