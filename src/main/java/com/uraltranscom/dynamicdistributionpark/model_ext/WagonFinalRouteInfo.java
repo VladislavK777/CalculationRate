@@ -51,7 +51,8 @@ public class WagonFinalRouteInfo {
                               Route route,
                               CargoClass cargo,
                               int cargoType,
-                               Object tariff) {
+                               Object tariff,
+                               boolean isLoadingTariffFromDB) {
         this.countCircleDays = countCircleDays;
         this.distanceEmpty = distanceEmpty;
         this.currentNameOfStationOfWagon = currentNameOfStationOfWagon;
@@ -64,7 +65,7 @@ public class WagonFinalRouteInfo {
         this.tariff = tariff;
         this.isEmpty = false;
         this.isLoadingRateFromDB = false;
-        this.isLoadingTariffFromDB = false;
+        this.isLoadingTariffFromDB = isLoadingTariffFromDB;
     }
 
     public WagonFinalRouteInfo(int countCircleDays,

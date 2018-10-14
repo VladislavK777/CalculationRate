@@ -105,16 +105,19 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                 int minDistance = compareMapValues[0].distance;
                 int index = wagon.getListRoutes().size() - 1;
                 Double tariff;
+                boolean isLoadingTariffFromDB = false;
                 if (wagon.getStatus().equals(STATUS_EMPTY) || listDistanceForTariff.get(2) == 0) {
                     tariff = 0.00;
                 } else {
-                    tariff = (Double) getTariff.getTariff(
+                    List<Double> listTariff = getTariff.getTariff(
                             wagon.getListRoutes().get(index).getKeyOfStationDestination(),
                             route.getKeyOfStationDeparture(),
                             listDistanceForTariff.get(0),
                             listDistanceForTariff.get(1),
                             listDistanceForTariff.get(2),
                             wagon.getListRoutes().get(index).getCargo().getKeyCargo());
+                    tariff = Math.round(listTariff.get(0)* 100) / 100.00d;
+                    isLoadingTariffFromDB = listTariff.get(1) == 1;
                 }
 
                 // Число дней пройденных вагоном
@@ -134,7 +137,8 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                     route,
                                     wagon.getListRoutes().get(index).getCargo(),
                                     wagon.getListRoutes().get(index).getCargo().getCargoType(),
-                                    tariff)
+                                    tariff,
+                                    isLoadingTariffFromDB)
                             );
                         } else {
                             listInfo.add(new WagonFinalRouteInfo(getFullMonthCircleOfWagonImpl.getListOfDaysOfWagon(wagon.getNumberOfWagon()).get(index),
@@ -146,7 +150,8 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                     route,
                                     wagon.getListRoutes().get(index).getCargo(),
                                     wagon.getListRoutes().get(index).getCargo().getCargoType(),
-                                    tariff)
+                                    tariff,
+                                    isLoadingTariffFromDB)
                             );
                         }
                         tempMapWagonInfo.put(wagon.getNumberOfWagon(), new WagonFinalInfo(wagon.getNumberOfWagon(), listInfo));
@@ -195,7 +200,8 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                 route,
                                 wagon.getListRoutes().get(index).getCargo(),
                                 wagon.getListRoutes().get(index).getCargo().getCargoType(),
-                                tariff)
+                                tariff,
+                                isLoadingTariffFromDB)
                         );
                         tempMapWagonInfo.get(wagon.getNumberOfWagon()).setListRouteInfo(wagonFinalRouteInfo);
                         tempMapWagonInfo.get(wagon.getNumberOfWagon()).setSizeArray(wagonFinalRouteInfo.size() - 1);

@@ -12,6 +12,8 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -39,25 +41,26 @@ public class GetTariffImpl extends ConnectionDB implements GetTariff {
     }
 
     @Override
-    public Object getTariff(String keyOfStationDeparture, String keyOfStationDestination, int distanceStart, int distanceEnd, int distance, String keyCargo) {
+    public List<Double> getTariff(String keyOfStationDeparture, String keyOfStationDestination, int distanceStart, int distanceEnd, int distance, String keyCargo) {
 
-        Object tariff = null;
+        List<Double> listResult = new ArrayList<>();
 
         try (Connection connection = getDataSource().getConnection();
              CallableStatement callableStatement = createCallableStatement(connection, keyOfStationDeparture, keyOfStationDestination, distanceStart, distanceEnd, distance, keyCargo);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
-                if (resultSet.getObject(1) == null) {
+                listResult.add(resultSet.getDouble(1));
+                /**if (resultSet.getObject(1) == null) {
                     tariff = null;
                 } else {
                     tariff = Math.round((resultSet.getDouble(1)) * 100) / 100.00d;
-                }
+                }**/
             }
-            logger.debug("Get tariff: {}", keyOfStationDeparture + " " + keyOfStationDestination + "_" + keyCargo + ": " + tariff);
+            logger.debug("Get tariff: {}", keyOfStationDeparture + " " + keyOfStationDestination + "_" + keyCargo + ": " + listResult);
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }
-        return tariff;
+        return listResult;
     }
 
     private CallableStatement createCallableStatement(Connection connection, String keyOfStationDeparture, String keyOfStationDestination, int distanceStart, int distanceEnd, int distance, String keyCargo) throws SQLException {

@@ -1,5 +1,7 @@
 package com.uraltranscom.dynamicdistributionpark.service;
 
+import java.util.List;
+
 /**
  *
  * Интерфейс получения тирифв
@@ -14,5 +16,5 @@ package com.uraltranscom.dynamicdistributionpark.service;
  */
 
 public interface GetTariff {
-    Object getTariff(String keyOfStationDeparture, String keyOfStationDestination, int distanceStart, int distanceEnd, int distance, String keyCargo);
+    List<Double> getTariff(String keyOfStationDeparture, String keyOfStationDestination, int distanceStart, int distanceEnd, int distance, String keyCargo);
 }
