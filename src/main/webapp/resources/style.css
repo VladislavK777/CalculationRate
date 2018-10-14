@@ -272,7 +272,7 @@ body {
 	}
 
     .one h1 {
-        font-size: 42px;
+        font-size: 38px;
     }
 
     .one h1:before {
@@ -299,7 +299,7 @@ body {
         width: 100%;
         border-collapse: collapse;
         text-align: left;
-        font-size: 16px;
+        font-size: 12px;
         color: #364274;
     }
 
@@ -316,7 +316,7 @@ body {
         border-radius: 20px;
         box-shadow: 0 0 3px rgba(0, 0, 0, 0.9);
         font-family: 'Calibri Light', sans-serif;
-        font-size: 16px;
+        font-size: 12px;
     }
 
     .bot1 {
@@ -328,7 +328,6 @@ body {
         color: #555555;
         width: auto;
         margin: auto;
-        font-size: 14px;
         text-align: center;
         height: auto;
         line-height: 20px;
@@ -337,15 +336,34 @@ body {
         vertical-align: middle;
         text-decoration: none;
         font-family: 'Calibri Light', sans-serif;
-        font-size: 16px;
+        font-size: 12px;
     }
 
     .simple-little-table {
-        font-size:14px;
+        font-size: 11px;
         width: 100%;
     }
 
     .simple-little-table tr:hover td{
-        font-size:16px;
+        font-size: 12px;
+    }
+
+    .attention {
+        background: #f6cece;
+        font-family: 'Calibri Light', sans-serif;
+        color: #364274;
+        font-size: 18px;
+        font-weight: bold;
+        text-align:center;
+    }
+
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        background: #364274;
+        color: #fff;
+        width: 100%;
+        font: 14px 'Calibri Light', sans-serif;
     }
 }
