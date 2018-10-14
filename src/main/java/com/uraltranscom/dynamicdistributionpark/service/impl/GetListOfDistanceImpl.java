@@ -61,7 +61,7 @@ public class GetListOfDistanceImpl implements GetList {
         logger.info("Stop process fill map with distances");
     }
 
-    private void serializeMap(HashMap<String, List<Integer>> map) {
+    void serializeMap(HashMap<String, List<Integer>> map) {
         File file = new File(JavaHelperBase.PATH_SAVE_FILE_MAP);
         if (!file.exists()) {
             try {
@@ -121,6 +121,7 @@ public class GetListOfDistanceImpl implements GetList {
     }
 
     public void fillRootMapWithDistances(List<Wagon> listWagon, Map<Integer, Route> mapRoutes) {
+        //logger.info("Start method fillRootMapWithDistances");
         Iterator<Map.Entry<Integer, Route>> iterator = mapRoutes.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<Integer, Route> entry = iterator.next();
@@ -132,31 +133,33 @@ public class GetListOfDistanceImpl implements GetList {
                 String keyCargo = listWagon.get(i).getListRoutes().get(index).getCargo().getKeyCargo();
                 String key = wagonKeyOfStationDestination + "_" + routeKeyOfStationDeparture + "_" + keyCargo;
 
-                if (keyCargo.equals("000000")) {
-                    List<Integer> listDistance = new ArrayList<>();
-                    listDistance.add(0);
-                    listDistance.add(0);
-                    listDistance.add(0);
-                    rootMapWithDistances.put(key, listDistance);
-                } else {
-                    // Заполняем мапы расстояний
-                    if (!rootMapWithDistances.containsKey(key)) {
-                        List<Integer> listDistance = getDistanceBetweenStations.getDistanceBetweenStations(wagonKeyOfStationDestination, routeKeyOfStationDeparture, keyCargo);
-                        int distance = listDistance.get(0);
-                        if (distance == -20000) {
-                            classHandlerLookingFor.getBasicClass().getSetOfError().add(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
-                            logger.error(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
-                            iterator.remove();
-                            listWagon.remove(i);
-                            break;
-                        } else {
-                            rootMapWithDistances.put(key, listDistance);
+                if (!wagonKeyOfStationDestination.equals("")) {
+                    if (keyCargo.equals("000000")) {
+                        List<Integer> listDistance = new ArrayList<>();
+                        listDistance.add(0);
+                        listDistance.add(0);
+                        listDistance.add(0);
+                        rootMapWithDistances.put(key, listDistance);
+                    } else {
+                        // Заполняем мапы расстояний
+                        if (!rootMapWithDistances.containsKey(key)) {
+                            List<Integer> listDistance = getDistanceBetweenStations.getDistanceBetweenStations(wagonKeyOfStationDestination, routeKeyOfStationDeparture, keyCargo);
+                            int distance = listDistance.get(0);
+                            if (distance == -20000) {
+                                classHandlerLookingFor.getBasicClass().getSetOfError().add(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
+                                logger.error(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
+                                iterator.remove();
+                                listWagon.remove(i);
+                                break;
+                            } else {
+                                rootMapWithDistances.put(key, listDistance);
+                            }
                         }
                     }
                 }
             }
         }
-        serializeMap((HashMap<String, List<Integer>>) rootMapWithDistances);
+        //serializeMap((HashMap<String, List<Integer>>) rootMapWithDistances);
     }
 
     public Map<String, List<Integer>> getRootMapWithDistances() {

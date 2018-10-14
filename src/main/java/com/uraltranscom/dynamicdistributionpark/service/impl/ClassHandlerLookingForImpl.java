@@ -109,8 +109,8 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                     tariff = 0.00;
                 } else {
                     tariff = (Double) getTariff.getTariff(
-                            route.getKeyOfStationDeparture(),
                             wagon.getListRoutes().get(index).getKeyOfStationDestination(),
+                            route.getKeyOfStationDeparture(),
                             listDistanceForTariff.get(0),
                             listDistanceForTariff.get(1),
                             listDistanceForTariff.get(2),
@@ -326,6 +326,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
         }
         mapFinalWagonInfo.putAll(tempResultMap);
         lookingForRateInDB(mapFinalWagonInfo);
+        getListOfDistance.serializeMap((HashMap<String, List<Integer>>) getListOfDistance.getRootMapWithDistances());
     }
 
     private void lookingForRateInDB(Map<String, WagonFinalInfo> map) {
@@ -402,6 +403,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
     }
 
     private void lookingForMinDistance(List<Wagon> copyListOfWagon, Map<Integer, Route> tempMapOfRoutes) {
+        //logger.info("Start method lookingForMinDistance");
         // Очищаем мапу расстояний
         mapDistance.clear();
         for (Wagon _wagons : copyListOfWagon) {
@@ -428,14 +430,14 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                             String key = keyOfStationOfWagonDestination + "_" + keyOfStationDeparture + "_" + keyCargo;
 
                             // Ищем расстояние
-                            if (isCheckMore45(_wagons, _routes.getValue())) {
+                            //if (isCheckMore45(_wagons, _routes.getValue())) {
                                 if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
                                     if (getListOfDistance.getRootMapWithDistances().get(key).get(2) != -1) {
                                         list.add(getListOfDistance.getRootMapWithDistances().get(key));
                                         mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(2));
                                     }
                                 }
-                            }
+                           // }
                         } else {
                             if (_wagons.getListRoutes().get(0).getKeyOfStationDestination().equals(keyOfStationDeparture)) {
                                 List<Integer> listDistance = new ArrayList<>();

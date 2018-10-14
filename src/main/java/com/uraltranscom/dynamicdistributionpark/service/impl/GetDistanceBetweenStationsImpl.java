@@ -47,7 +47,7 @@ public class GetDistanceBetweenStationsImpl extends ConnectionDB implements GetD
             while (resultSet.next()) {
                 listResult.add(resultSet.getInt(1));
             }
-            logger.debug("Get distance for: {}", keyOfStationDeparture + "_" + keyOfStationDestination + ": " + listResult.get(2));
+            logger.debug("Get distance for: {}", keyOfStationDeparture + "_" + keyOfStationDestination + ": " + listResult);
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }
