@@ -41,8 +41,6 @@ public class GetListOfDistanceImpl implements GetList {
     private GetDistanceBetweenStationsImpl getDistanceBetweenStations;
     @Autowired
     private GetListOfWagonsImpl getListOfWagonsImpl;
-    //@Autowired
-    //private CheckExistKeyOfStationImpl checkExistKeyOfStationImpl;
     @Autowired
     private ClassHandlerLookingForImpl classHandlerLookingFor;
 
@@ -98,28 +96,6 @@ public class GetListOfDistanceImpl implements GetList {
         return map;
     }
 
-    //TODO Улучшить
-    public List<Integer> listDistance (String keyOfStationDeparture, String keyOfStationDestination, String keyCargo) {
-        String key = keyOfStationDeparture + "_" + keyOfStationDestination + "_" + keyCargo;
-        List<Integer> listDistance = new ArrayList<>();
-        if (keyCargo.equals("000000")) {
-            listDistance.add(0);
-            listDistance.add(0);
-            listDistance.add(0);
-        } else {
-            listDistance = getDistanceBetweenStations.getDistanceBetweenStations(keyOfStationDeparture, keyOfStationDestination, keyCargo);
-            int distance = listDistance.get(0);
-            if (distance == -20000) {
-                classHandlerLookingFor.getBasicClass().getListOfError().add(String.format("Не нашел расстояние между %s и %s", keyOfStationDeparture, keyOfStationDestination));
-                logger.error(String.format("Не нашел расстояние между %s и %s", keyOfStationDeparture, keyOfStationDestination));
-                return null;
-            }
-        }
-        rootMapWithDistances.put(key, listDistance);
-        serializeMap((HashMap<String, List<Integer>>) rootMapWithDistances);
-        return listDistance;
-    }
-
     public void fillRootMapWithDistances(List<Wagon> listWagon, Map<Integer, Route> mapRoutes) {
         //logger.info("Start method fillRootMapWithDistances");
         Iterator<Map.Entry<Integer, Route>> iterator = mapRoutes.entrySet().iterator();
@@ -159,7 +135,6 @@ public class GetListOfDistanceImpl implements GetList {
                 }
             }
         }
-        //serializeMap((HashMap<String, List<Integer>>) rootMapWithDistances);
     }
 
     public Map<String, List<Integer>> getRootMapWithDistances() {

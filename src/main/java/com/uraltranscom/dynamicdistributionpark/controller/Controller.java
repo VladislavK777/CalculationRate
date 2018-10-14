@@ -77,15 +77,6 @@ public class Controller {
         return "welcome";
     }
 
-    /**
-    @RequestMapping(value = "/orders", method = RequestMethod.GET)
-    public String routeList(Model model) {
-        basicClassImpl.getClassHandlerLookingFor().fillFinalMapByOrders();
-        model.addAttribute("finalRoutes", basicClassImpl.getClassHandlerLookingFor().getMapFinalOrderInfo());
-        model.addAttribute("finalWagons", basicClassImpl.getClassHandlerLookingFor().getTotalListWagon());
-        return "orders";
-    }*/
-
     // Выгрузка в Excel
     @RequestMapping(value = "/export", method = RequestMethod.GET)
     public void getXLS(HttpServletResponse response, Model model) {
