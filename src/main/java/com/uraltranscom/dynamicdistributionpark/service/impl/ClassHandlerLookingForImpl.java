@@ -101,25 +101,29 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                 List<Object> listRouteMinDistance = compareMapValues[0].list;
                 Wagon wagon = (Wagon) listRouteMinDistance.get(0);
                 Route route = (Route) listRouteMinDistance.get(1);
-                List<Integer> listDistanceForTariff = (ArrayList) listRouteMinDistance.get(2);
+                List<Object> listDistanceForTariff = (ArrayList) listRouteMinDistance.get(2);
                 int minDistance = compareMapValues[0].distance;
                 int index = wagon.getListRoutes().size() - 1;
                 Double tariff;
                 boolean isLoadingTariffFromDB = false;
-                if (wagon.getStatus().equals(STATUS_EMPTY) || listDistanceForTariff.get(2) == 0) {
-                    tariff = 0.00;
+                List<Object> result;
+                if (listDistanceForTariff.get(2) instanceof String) {
+                    if (Integer.parseInt((String)listDistanceForTariff.get(2)) == 0) {
+                        tariff = 0.00;
+                    } else {
+                        result = getTariffOut(listDistanceForTariff, wagon.getListRoutes().get(index).getCargo().getKeyCargo());
+                        tariff = (Double) result.get(0);
+                        isLoadingTariffFromDB = (Boolean) result.get(1);
+                    }
                 } else {
-                    List<Double> listTariff = getTariff.getTariff(
-                            wagon.getListRoutes().get(index).getKeyOfStationDestination(),
-                            route.getKeyOfStationDeparture(),
-                            listDistanceForTariff.get(0),
-                            listDistanceForTariff.get(1),
-                            listDistanceForTariff.get(2),
-                            wagon.getListRoutes().get(index).getCargo().getKeyCargo());
-                    tariff = Math.round(listTariff.get(0)* 100) / 100.00d;
-                    isLoadingTariffFromDB = listTariff.get(1) == 1;
+                    if ((Integer)listDistanceForTariff.get(2) == 0) {
+                        tariff = 0.00;
+                    } else {
+                        result = getTariffOut(listDistanceForTariff, wagon.getListRoutes().get(index).getCargo().getKeyCargo());
+                        tariff = (Double) result.get(0);
+                        isLoadingTariffFromDB = (Boolean) result.get(1);
+                    }
                 }
-
                 // Число дней пройденных вагоном
                 int countCircleDays = getFullMonthCircleOfWagonImpl.fullDays(wagon.getNumberOfWagon(), minDistance, route.getDistanceOfWay());
 
@@ -321,7 +325,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
         }
         mapFinalWagonInfo.putAll(tempResultMap);
         lookingForRateInDB(mapFinalWagonInfo);
-        getListOfDistance.serializeMap((HashMap<String, List<Integer>>) getListOfDistance.getRootMapWithDistances());
+        getListOfDistance.serializeMap((HashMap<String, List<Object>>) getListOfDistance.getRootMapWithDistances());
     }
 
     private void lookingForRateInDB(Map<String, WagonFinalInfo> map) {
@@ -389,9 +393,9 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                             // Ищем расстояние
                             //if (isCheckMore45(_wagons, _routes.getValue())) {
                                 if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
-                                    if (getListOfDistance.getRootMapWithDistances().get(key).get(2) != -1) {
+                                    if (Integer.parseInt((String)getListOfDistance.getRootMapWithDistances().get(key).get(2)) != -1) {
                                         list.add(getListOfDistance.getRootMapWithDistances().get(key));
-                                        mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(2));
+                                        mapDistance.put(list, Integer.parseInt((String)getListOfDistance.getRootMapWithDistances().get(key).get(2)));
                                     }
                                 }
                            // }
@@ -401,6 +405,8 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                 listDistance.add(0);
                                 listDistance.add(0);
                                 listDistance.add(0);
+                                listDistance.add(null);
+                                listDistance.add(null);
                                 list.add(listDistance);
                                 mapDistance.put(list, Integer.parseInt(_wagons.getListRoutes().get(0).getDistanceOfWay()));
                             }
@@ -409,6 +415,49 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                 }
             }
         }
+    }
+
+    private List<Object> getTariffOut(List<Object> listDistanceForTariff, String keyCargo) {
+        Double tariff = 0.00;
+        boolean isLoadingTariffFromDB = false;
+        String codeCountry = (String) listDistanceForTariff.get(3);
+        String [] codeCountryArray = codeCountry.split("/");
+        List<Integer> listFlag = new ArrayList<>();
+        List<Object> result = new ArrayList<>();
+        if (codeCountryArray.length == 1) {
+            tariff = getTariff.getTariff(
+                    Integer.parseInt(codeCountryArray[0]),
+                    Integer.parseInt((String)listDistanceForTariff.get(2)),
+                    keyCargo).get(0);
+        } else {
+            String [] distanceTransitArray;
+            List<Integer> distanceList = new ArrayList<>();
+            int distanceStart = Integer.parseInt((String)listDistanceForTariff.get(0));
+            int distanceEnd = Integer.parseInt((String)listDistanceForTariff.get(1));
+            distanceList.add(distanceStart);
+            String routeDistance = (String)listDistanceForTariff.get(4);
+            if (!routeDistance.isEmpty()) {
+                String distanceTransit = (String) listDistanceForTariff.get(4);
+                distanceTransitArray = distanceTransit.split("/");
+                for (String s: distanceTransitArray) {
+                    distanceList.add(Integer.parseInt(s));
+                }
+            }
+            distanceList.add(distanceEnd);
+            for (int i = 0; i < codeCountryArray.length; i++) {
+                List<Double> listTariff = getTariff.getTariff(
+                        Integer.parseInt(codeCountryArray[i]),
+                        distanceList.get(i),
+                        keyCargo);
+                tariff = tariff + listTariff.get(0);
+                listFlag.add(listTariff.get(1).intValue());
+            }
+        }
+        tariff = Math.round(tariff* 100) / 100.00d;
+        isLoadingTariffFromDB = listFlag.contains(1) == true;
+        result.add(tariff);
+        result.add(isLoadingTariffFromDB);
+        return result;
     }
 
     public BasicClassImpl getBasicClass() {

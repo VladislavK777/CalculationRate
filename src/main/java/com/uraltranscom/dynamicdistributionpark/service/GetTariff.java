@@ -16,5 +16,5 @@ import java.util.List;
  */
 
 public interface GetTariff {
-    List<Double> getTariff(String keyOfStationDeparture, String keyOfStationDestination, int distanceStart, int distanceEnd, int distance, String keyCargo);
+    List<Double> getTariff(int countryKey, int distance, String keyCargo);
 }

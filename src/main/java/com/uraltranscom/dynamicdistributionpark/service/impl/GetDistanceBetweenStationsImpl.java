@@ -37,15 +37,15 @@ public class GetDistanceBetweenStationsImpl extends ConnectionDB implements GetD
     }
 
     @Override
-    public List<Integer> getDistanceBetweenStations(String keyOfStationDeparture, String keyOfStationDestination, String keyCargo) {
+    public List<Object> getDistanceBetweenStations(String keyOfStationDeparture, String keyOfStationDestination, String keyCargo) {
 
-        List<Integer> listResult = new ArrayList<>();
+        List<Object> listResult = new ArrayList<>();
 
         try (Connection connection = getDataSource().getConnection();
              CallableStatement callableStatement = createCallableStatement(connection, keyOfStationDeparture, keyOfStationDestination, keyCargo);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
-                listResult.add(resultSet.getInt(1));
+                listResult.add(resultSet.getObject(1));
             }
             logger.debug("Get distance for: {}", keyOfStationDeparture + "_" + keyOfStationDestination + ": " + listResult);
         } catch (SQLException sqlEx) {

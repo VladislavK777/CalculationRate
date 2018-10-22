@@ -41,12 +41,12 @@ public class GetTariffImpl extends ConnectionDB implements GetTariff {
     }
 
     @Override
-    public List<Double> getTariff(String keyOfStationDeparture, String keyOfStationDestination, int distanceStart, int distanceEnd, int distance, String keyCargo) {
+    public List<Double> getTariff(int countryKey, int distance, String keyCargo) {
 
         List<Double> listResult = new ArrayList<>();
 
         try (Connection connection = getDataSource().getConnection();
-             CallableStatement callableStatement = createCallableStatement(connection, keyOfStationDeparture, keyOfStationDestination, distanceStart, distanceEnd, distance, keyCargo);
+             CallableStatement callableStatement = createCallableStatement(connection, countryKey, distance, keyCargo);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
                 listResult.add(resultSet.getDouble(1));
@@ -56,21 +56,18 @@ public class GetTariffImpl extends ConnectionDB implements GetTariff {
                     tariff = Math.round((resultSet.getDouble(1)) * 100) / 100.00d;
                 }**/
             }
-            logger.debug("Get tariff: {}", keyOfStationDeparture + " " + keyOfStationDestination + "_" + keyCargo + ": " + listResult);
+            logger.debug("Get tariff: {}", countryKey + " " + distance + "_" + keyCargo + ": " + listResult);
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }
         return listResult;
     }
 
-    private CallableStatement createCallableStatement(Connection connection, String keyOfStationDeparture, String keyOfStationDestination, int distanceStart, int distanceEnd, int distance, String keyCargo) throws SQLException {
-        CallableStatement callableStatement = connection.prepareCall(" { call test_tariff.get_tariff(?,?,?,?,?,?) } ");
-        callableStatement.setString(1, keyOfStationDeparture);
-        callableStatement.setString(2, keyOfStationDestination);
-        callableStatement.setInt(3, distanceStart);
-        callableStatement.setInt(4, distanceEnd);
-        callableStatement.setInt(5, distance);
-        callableStatement.setString(6, keyCargo);
+    private CallableStatement createCallableStatement(Connection connection, int countryKey, int distance, String keyCargo) throws SQLException {
+        CallableStatement callableStatement = connection.prepareCall(" { call test_tariff.get_tariff2(?,?,?) } ");
+        callableStatement.setInt(1, countryKey);
+        callableStatement.setInt(2, distance);
+        callableStatement.setString(3, keyCargo);
         return callableStatement;
     }
 }

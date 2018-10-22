@@ -42,20 +42,6 @@ public class JavaHelperBase {
     public static final String PREFIX_2_4_DAYS = "дня";
     public static final String PREFIX_5_10_DAYS = "дней";
 
-    // Максимальное расстояние для пустого вагона
-    public static final int MAX_DISTANCE_RUS_TO_RUS_CLASS3 = Integer.parseInt(propertyUtil.getProperty("distance.rustorus.cargoclass3")); // Внутри России груз класса 3
-    public static final int MAX_DISTANCE_RUS_TO_RUS = Integer.parseInt(propertyUtil.getProperty("distance.rustorus.cargoclassall")); // Внутри России
-    public static final int MAX_DISTANCE_CIS_TO_CIS = Integer.parseInt(propertyUtil.getProperty("distance.cistocis.cargoclassall")); // Внутри СНГ
-    public static final int MAX_DISTANCE_CIS_TO_RUS = Integer.parseInt(propertyUtil.getProperty("distance.cistorus.cargoclassall")); // Между Россией_СНГ_Россией
-
-    // Код страны Россия
-    public static final int CODE_IS_RUSSIA = 11;
-
-    // Коды проверок принадлежности стран
-    public static final int RUS_RUS = 0; // Внутри России
-    public static final int CIS_CIS = 1; // Внутри СНГ
-    public static final int CIS_RUS = 2; // СНГ_Россией
-
     // Путь к файлу серилизации сохраненных карт расстояний
     public static final String PATH_SAVE_FILE_MAP = GetPathSaveFile.getPathTomcat();
 

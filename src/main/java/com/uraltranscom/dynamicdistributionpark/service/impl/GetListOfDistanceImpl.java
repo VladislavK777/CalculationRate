@@ -45,7 +45,7 @@ public class GetListOfDistanceImpl implements GetList {
     private ClassHandlerLookingForImpl classHandlerLookingFor;
 
     // Основная мапа
-    private Map<String, List<Integer>> rootMapWithDistances;
+    private Map<String, List<Object>> rootMapWithDistances;
 
     private Map<Integer, Route> mapOfRoutes;
     private List<Wagon> listOfWagons;
@@ -59,7 +59,7 @@ public class GetListOfDistanceImpl implements GetList {
         logger.info("Stop process fill map with distances");
     }
 
-    void serializeMap(HashMap<String, List<Integer>> map) {
+    void serializeMap(HashMap<String, List<Object>> map) {
         File file = new File(JavaHelperBase.PATH_SAVE_FILE_MAP);
         if (!file.exists()) {
             try {
@@ -78,17 +78,17 @@ public class GetListOfDistanceImpl implements GetList {
         }
     }
 
-    private Map<String, List<Integer>> deSerializeMap() {
+    private Map<String, List<Object>> deSerializeMap() {
         File file = new File(JavaHelperBase.PATH_SAVE_FILE_MAP);
         if (!file.exists()) {
             logger.info("Файл сериализации не найден");
             return new HashMap<>();
         }
-        Map<String, List<Integer>> map = new HashMap<>();
+        Map<String, List<Object>> map = new HashMap<>();
         try (FileInputStream fileInputStream = new FileInputStream (file);
              ObjectInputStream objectInputStream = new ObjectInputStream (fileInputStream))
         {
-            map = (Map<String, List<Integer>>) objectInputStream.readObject();
+            map = (Map<String, List<Object>>) objectInputStream.readObject();
             logger.info("Карты успешно загружены");
         } catch (Exception e) {
             logger.error("IO Exception", e.getMessage());
@@ -111,16 +111,18 @@ public class GetListOfDistanceImpl implements GetList {
 
                 if (!wagonKeyOfStationDestination.equals("")) {
                     if (keyCargo.equals("000000")) {
-                        List<Integer> listDistance = new ArrayList<>();
+                        List<Object> listDistance = new ArrayList<>();
                         listDistance.add(0);
                         listDistance.add(0);
                         listDistance.add(0);
+                        listDistance.add(null);
+                        listDistance.add(null);
                         rootMapWithDistances.put(key, listDistance);
                     } else {
                         // Заполняем мапы расстояний
                         if (!rootMapWithDistances.containsKey(key)) {
-                            List<Integer> listDistance = getDistanceBetweenStations.getDistanceBetweenStations(wagonKeyOfStationDestination, routeKeyOfStationDeparture, keyCargo);
-                            int distance = listDistance.get(0);
+                            List<Object> listDistance = getDistanceBetweenStations.getDistanceBetweenStations(wagonKeyOfStationDestination, routeKeyOfStationDeparture, keyCargo);
+                            int distance = Integer.parseInt((String)listDistance.get(0));
                             if (distance == -20000) {
                                 classHandlerLookingFor.getBasicClass().getSetOfError().add(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
                                 logger.error(String.format("Не нашел расстояние между %s и %s", wagonKeyOfStationDestination, routeKeyOfStationDeparture));
@@ -137,11 +139,11 @@ public class GetListOfDistanceImpl implements GetList {
         }
     }
 
-    public Map<String, List<Integer>> getRootMapWithDistances() {
+    public Map<String, List<Object>> getRootMapWithDistances() {
         return rootMapWithDistances;
     }
 
-    public void setRootMapWithDistances(Map<String, List<Integer>> rootMapWithDistances) {
+    public void setRootMapWithDistances(Map<String, List<Object>> rootMapWithDistances) {
         this.rootMapWithDistances = rootMapWithDistances;
     }
 

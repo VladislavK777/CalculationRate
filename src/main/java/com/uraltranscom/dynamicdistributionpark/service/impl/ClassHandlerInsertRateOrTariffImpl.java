@@ -48,11 +48,13 @@ public class ClassHandlerInsertRateOrTariffImpl {
                                         _newMap.getValue().getListRouteInfo().get(i).getRoute().getCargo().getCargoType(),
                                         (Double) _newMap.getValue().getListRouteInfo().get(i).getRate());
                             }
+                            /**
                             // Вставляем тариф в БД
                             insertTariff.insertTariff(_newMap.getValue().getListRouteInfo().get(i).getCurrentKeyOfStationOfWagon(),
                                     _newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(),
                                     _newMap.getValue().getListRouteInfo().get(i).getCargo().getKeyCargo(),
                                     (Double) _newMap.getValue().getListRouteInfo().get(i).getTariff());
+                             */
                         //}
                     }
                 }
