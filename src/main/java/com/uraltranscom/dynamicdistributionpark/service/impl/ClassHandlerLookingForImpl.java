@@ -454,7 +454,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
             }
         }
         tariff = Math.round(tariff* 100) / 100.00d;
-        isLoadingTariffFromDB = listFlag.contains(1) == true;
+        isLoadingTariffFromDB = listFlag.contains(1);
         result.add(tariff);
         result.add(isLoadingTariffFromDB);
         return result;
