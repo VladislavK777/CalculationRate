@@ -3,8 +3,10 @@ package com.uraltranscom.dynamicdistributionpark.service.impl;
 import com.uraltranscom.dynamicdistributionpark.model.RateClass;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,11 +46,12 @@ public class GetListOfRatesImpl implements GetList {
 
     // Переменные для работы с файлами
     private File file;
-    private FileInputStream fileInputStream;
 
     // Переменные для работы с Excel файлом(формат XLSX)
     private XSSFWorkbook xssfWorkbook;
     private XSSFSheet sheet;
+
+    private RateClass rateClass = null;
 
     private GetListOfRatesImpl() {
     }
@@ -59,14 +61,14 @@ public class GetListOfRatesImpl implements GetList {
         mapOfRates.clear();
         // Получаем файл формата xls
         try {
-            fileInputStream = new FileInputStream(this.file);
-            xssfWorkbook = new XSSFWorkbook(fileInputStream);
+            xssfWorkbook = new XSSFWorkbook(this.file);
 
             // Заполняем Map данными
-            sheet = xssfWorkbook.getSheetAt(0);
             int i = 0;
+            sheet = xssfWorkbook.getSheetAt(0);
+            XSSFRow row = sheet.getRow(0);
             for (int j = 1; j < sheet.getLastRowNum() + 1; j++) {
-                XSSFRow row = sheet.getRow(0);
+                XSSFRow xssfRow = sheet.getRow(j);
 
                 String nameOfStationDeparture = null;
                 String nameOfStationDestination = null;
@@ -77,58 +79,54 @@ public class GetListOfRatesImpl implements GetList {
                 String keyCargo = null;
 
                 for (int c = 0; c < row.getLastCellNum(); c++) {
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_NAME_STATION_DEPARTURE)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        nameOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
+                    String headerCell = row.getCell(c).getStringCellValue().trim();
+                    XSSFCell cell = xssfRow.getCell(c);
+
+                    if (headerCell.equals(JavaHelperBase.RATE_NAME_STATION_DEPARTURE)) {
+                        nameOfStationDeparture = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_NAME_STATION_DESTINATION)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        nameOfStationDestination = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.RATE_NAME_STATION_DESTINATION)) {
+                        nameOfStationDestination = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_CUSTOMER)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        customer = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.RATE_CUSTOMER)) {
+                        customer = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_NAME_CARGO)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        nameCargo = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.RATE_NAME_CARGO)) {
+                        nameCargo = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_KEY_CARGO)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        if (xssfRow.getCell(c).getCellTypeEnum().equals(CellType.NUMERIC)) {
-                            String val = Double.toString(xssfRow.getCell(c).getNumericCellValue());
-                            double valueDouble = xssfRow.getCell(c).getNumericCellValue();
-                            if ((valueDouble - (int) valueDouble) * 1000 == 0) {
-                                val = (int) valueDouble + "";
-                            }
-                            keyCargo = val;
+                    if (headerCell.equals(JavaHelperBase.RATE_KEY_CARGO)) {
+                        if (cell.getCellTypeEnum().equals(CellType.NUMERIC)) {
+                            Double numericCellValue = cell.getNumericCellValue();
+                            keyCargo = numericCellValue.intValue() + "";
                         } else {
-                            keyCargo = xssfRow.getCell(c).getStringCellValue();
+                            keyCargo = cell.getStringCellValue();
                         }
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_RATE)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        rate = xssfRow.getCell(c).getNumericCellValue();
+                    if (headerCell.equals(JavaHelperBase.RATE_RATE)) {
+                        rate = cell.getNumericCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.RATE_DATE_LOADING)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        dateLoading = xssfRow.getCell(c).getDateCellValue();
+                    if (headerCell.equals(JavaHelperBase.RATE_DATE_LOADING)) {
+                        dateLoading = cell.getDateCellValue();
                         dateLoading.setHours(0);
                         dateLoading.setMinutes(0);
                         dateLoading.setSeconds(0);
                         if (dateLoading == null) dateLoading = new Date();
                     }
                 }
-                if (!mapOfRates.containsValue(new RateClass(nameOfStationDeparture, nameOfStationDestination, customer, nameCargo, keyCargo, rate, dateLoading))) {
-                    mapOfRates.put(i, new RateClass(nameOfStationDeparture, nameOfStationDestination, customer, nameCargo, keyCargo, rate, dateLoading));
+                rateClass = new RateClass(nameOfStationDeparture, nameOfStationDestination, customer, nameCargo, keyCargo, rate, dateLoading);
+                if (!mapOfRates.containsValue(rateClass)) {
+                    mapOfRates.put(i, rateClass);
                     i++;
                 }
+                rateClass = null;
             }
             logger.debug("Body rates: {}", mapOfRates);
         } catch (IOException e) {
             logger.error("Ошибка загруки файла - {}", e.getMessage());
         } catch (OLE2NotOfficeXmlFileException e1) {
             logger.error("Некорректный формат файла заявок, необходим формат xlsx");
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
         }
     }
 

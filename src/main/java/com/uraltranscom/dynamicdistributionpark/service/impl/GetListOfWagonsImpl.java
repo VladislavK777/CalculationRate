@@ -5,8 +5,10 @@ import com.uraltranscom.dynamicdistributionpark.model.Wagon;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import com.uraltranscom.dynamicdistributionpark.service.export.WriteToFileExcel;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -17,7 +19,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,6 @@ public class GetListOfWagonsImpl implements GetList {
 
     // Переменные для работы с файлами
     private File file ;
-    private FileInputStream fileInputStream;
 
     // Переменные для работы с Excel файлом(формат XLSX)
     private XSSFWorkbook xssfWorkbook;
@@ -70,13 +70,13 @@ public class GetListOfWagonsImpl implements GetList {
         // Получаем файл формата xls
         try {
             ZipSecureFile.setMinInflateRatio(-1.0d);
-            fileInputStream = new FileInputStream(this.file);
-            xssfWorkbook = new XSSFWorkbook(fileInputStream);
+            xssfWorkbook = new XSSFWorkbook(this.file);
 
             // Заполняем мапу данными
             sheet = xssfWorkbook.getSheetAt(0);
+            XSSFRow row = sheet.getRow(0);
             for (int j = 1; j < sheet.getLastRowNum() + 1; j++) {
-                XSSFRow row = sheet.getRow(0);
+                XSSFRow xssfRow = sheet.getRow(j);
 
                 String numberOfWagon = null;
                 String keyOfStationDeparture = null;
@@ -93,62 +93,52 @@ public class GetListOfWagonsImpl implements GetList {
                 String distance = null;
 
                 for (int c = 0; c < row.getLastCellNum(); c++) {
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_NUMBER_WAGON)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        numberOfWagon = xssfRow.getCell(c).getStringCellValue();
+                    String headerCell = row.getCell(c).getStringCellValue().trim();
+                    XSSFCell cell = xssfRow.getCell(c);
+
+                    if (headerCell.equals(JavaHelperBase.WAGON_NUMBER_WAGON)) {
+                        numberOfWagon = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_KEY_STATION_DEPARTURE)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        keyOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.WAGON_KEY_STATION_DEPARTURE)) {
+                        keyOfStationDeparture = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_NAME_STATION_DEPARTURE)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        nameOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.WAGON_NAME_STATION_DEPARTURE)) {
+                        nameOfStationDeparture = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_ROAD_STATION_DEPARTURE)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        roadOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.WAGON_ROAD_STATION_DEPARTURE)) {
+                        roadOfStationDeparture = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_KEY_STATION_DESTINATION)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        keyOfStationDestination = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.WAGON_KEY_STATION_DESTINATION)) {
+                        keyOfStationDestination = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_NAME_STATION_DESTINATION)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        nameOfStationDestination = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.WAGON_NAME_STATION_DESTINATION)) {
+                        nameOfStationDestination = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_ROAD_STATION_DESTINATION)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        roadOfStationDestination = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.WAGON_ROAD_STATION_DESTINATION)) {
+                        roadOfStationDestination = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_CUSTOMER)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        customer = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.WAGON_CUSTOMER)) {
+                        customer = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_VOLUME)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        volume = (int) xssfRow.getCell(c).getNumericCellValue();
+                    if (headerCell.trim().equals(JavaHelperBase.WAGON_VOLUME)) {
+                        volume = (int) cell.getNumericCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_NAME_CARGO)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        nameCargo = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.WAGON_NAME_CARGO)) {
+                        nameCargo = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_KEY_CARGO)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        keyCargo = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.WAGON_KEY_CARGO)) {
+                        keyCargo = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_DISTANCE)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        String val = Double.toString(xssfRow.getCell(c).getNumericCellValue());
-                        double valueDouble = xssfRow.getCell(c).getNumericCellValue();
+                    if (headerCell.equals(JavaHelperBase.WAGON_DISTANCE)) {
+                        String val = Double.toString(cell.getNumericCellValue());
+                        double valueDouble = cell.getNumericCellValue();
                         if ((valueDouble - (int) valueDouble) * 1000 == 0) {
                             val = (int) valueDouble + "";
                         }
                         distance = val;
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.WAGON_STATUS)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        status = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.WAGON_STATUS)) {
+                        status = cell.getStringCellValue();
                     }
                 }
                 List<Route> list = new ArrayList<>();
@@ -172,6 +162,8 @@ public class GetListOfWagonsImpl implements GetList {
             logger.error("Ошибка загруки файла - {}", e.getMessage());
         } catch (OLE2NotOfficeXmlFileException e1) {
             logger.error("Некорректный формат файла дислокации, необходим формат xlsx");
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
         }
 
     }
