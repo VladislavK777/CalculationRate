@@ -1,6 +1,5 @@
 package com.uraltranscom.dynamicdistributionpark.service.impl;
 
-import com.uraltranscom.dynamicdistributionpark.model.TariffClass;
 import com.uraltranscom.dynamicdistributionpark.model.RateClass;
 import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.model.Wagon;
@@ -24,11 +23,13 @@ import java.util.*;
  * Implementation for {@link ClassHandlerLookingFor} interface
  *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @version 2.0
  * @create 19.07.2018
  *
  * 19.07.2018
  *   1. Версия 1.0
+ * 13.10.2018
+ *   1. Версия 2.0
  *
  */
 
@@ -45,8 +46,6 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
     @Autowired
     private BasicClassImpl basicClass;
     @Autowired
-    private GetListOfTariffsImpl getListOfEmptyRoutes;
-    @Autowired
     private GetListOfRatesImpl getListOfRates;
     @Autowired
     private GetRateImpl getRate;
@@ -59,6 +58,8 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
     private Map<Route, List<Integer>> mapFinalOrderInfo = new HashMap<>();
     // Временная мапа после отработки главного метода
     private Map<Integer, Route> tempMapTotalRoute = new HashMap<>();
+    // Мапа расстояний
+    private Map<List<Object>, Integer> mapDistance = new HashMap<>();
 
     private ClassHandlerLookingForImpl() {
     }
@@ -78,84 +79,16 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
         // Временная выходная мапа
         Map<String, WagonFinalInfo> tempMapWagonInfo = new HashMap<>();
 
-        // Мапа расстояний
-        Map<List<Object>, Integer> mapDistance = new HashMap<>();
-
         // Запускаем цикл
         boolean isOk = true;
         while (isOk) {
             isOk = false;
-            // Очищаем мапу расстояний
-            mapDistance.clear();
-            for (Wagon _wagons : copyListOfWagon) {
-                // Индекс последнего маршрута
-                int index = _wagons.getListRoutes().size() - 1;
-                // Получаем код станции назначения вагона
-                String keyOfStationOfWagonDestination = _wagons.getListRoutes().get(index).getKeyOfStationDestination().trim();
-                String nameOfStationOfWagonDestination = _wagons.getListRoutes().get(index).getNameOfStationDestination().trim();
 
-                if (!nameOfStationOfWagonDestination.equals("")) {
-                    // По каждому вагону высчитываем расстояние до каждой начальной станнции маршрутов
-                    // Цикл расчета расстояния и заполнения мапы
-                    for (Map.Entry<Integer, Route> _routes : tempMapOfRoutes.entrySet()) {
-                        List<Object> list = new ArrayList<>();
-                        // Станция отправления рейса
-                        String keyOfStationDeparture = _routes.getValue().getKeyOfStationDeparture();
-                        list.add(_wagons);
-                        list.add(_routes.getValue());
-                        if (_wagons.getVolume() >= _routes.getValue().getVolumePeriod().getVolumeFrom() &&
-                                _wagons.getVolume() <= _routes.getValue().getVolumePeriod().getVolumeTo() &&
-                                _routes.getValue().getCountOrders() > 0) {
-                            if (_wagons.getStatus().equals(STATUS_FULL)) {
-                                String key = keyOfStationOfWagonDestination + "_" + keyOfStationDeparture;
+            // Заполняем мапу расстояниями
+            getListOfDistance.fillRootMapWithDistances(copyListOfWagon, tempMapOfRoutes);
+            //Запускаем метод поиска расстоняий
+            lookingForMinDistance(copyListOfWagon, tempMapOfRoutes);
 
-                                // Ищем расстояние
-                                if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
-                                    if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == RUS_RUS) {
-                                        if (_wagons.getListRoutes().get(index).getCargo().getCargoType() == 3 &&
-                                                getListOfDistance.getRootMapWithDistances().get(key).get(0) <= MAX_DISTANCE_RUS_TO_RUS_CLASS3 ||
-                                                getListOfDistance.getRootMapWithDistances().get(key).get(0) <= MAX_DISTANCE_RUS_TO_RUS) {
-                                            mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                        }
-                                    } else if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == CIS_CIS &&
-                                            getListOfDistance.getRootMapWithDistances().get(key).get(0) <= MAX_DISTANCE_CIS_TO_CIS) {
-                                        mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                    } else if (getListOfDistance.getRootMapWithDistances().get(key).get(1) == CIS_RUS &&
-                                            getListOfDistance.getRootMapWithDistances().get(key).get(0) <= MAX_DISTANCE_CIS_TO_RUS) {
-                                        mapDistance.put(list, getListOfDistance.getRootMapWithDistances().get(key).get(0));
-                                    }
-
-                                } else {
-                                    if (isCheckMore40(_wagons, _routes.getValue())) {
-                                        List<Integer> listDistance = getListOfDistance.listDistance(keyOfStationOfWagonDestination, keyOfStationDeparture);
-                                        if (listDistance != null) {
-                                            if (listDistance.get(1) == RUS_RUS) {
-                                                if (_wagons.getListRoutes().get(index).getCargo().getCargoType() == 3 &&
-                                                        listDistance.get(0) <= MAX_DISTANCE_RUS_TO_RUS_CLASS3 ||
-                                                        listDistance.get(0) <= MAX_DISTANCE_RUS_TO_RUS) {
-                                                    mapDistance.put(list, listDistance.get(0));
-                                                }
-                                            } else if (listDistance.get(1) == CIS_CIS &&
-                                                    listDistance.get(0) <= MAX_DISTANCE_CIS_TO_CIS) {
-                                                mapDistance.put(list, listDistance.get(0));
-                                            } else if (listDistance.get(1) == CIS_RUS &&
-                                                    listDistance.get(0) <= MAX_DISTANCE_CIS_TO_RUS) {
-                                                mapDistance.put(list, listDistance.get(0));
-                                            }
-                                        } else {
-                                            return;
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (_wagons.getListRoutes().get(0).getKeyOfStationDestination().equals(keyOfStationDeparture)) {
-                                    mapDistance.put(list, Integer.parseInt(_wagons.getListRoutes().get(0).getDistanceOfWay()));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
             int indexMap = mapDistance.size();
             CompareMapValue[] compareMapValues = new CompareMapValue[indexMap];
             indexMap = 0;
@@ -166,11 +99,31 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
 
             if (compareMapValues.length != 0) {
                 List<Object> listRouteMinDistance = compareMapValues[0].list;
-                Route route = (Route) listRouteMinDistance.get(1);
                 Wagon wagon = (Wagon) listRouteMinDistance.get(0);
+                Route route = (Route) listRouteMinDistance.get(1);
+                List<Object> listDistanceForTariff = (ArrayList) listRouteMinDistance.get(2);
                 int minDistance = compareMapValues[0].distance;
                 int index = wagon.getListRoutes().size() - 1;
-
+                Double tariff;
+                boolean isLoadingTariffFromDB = false;
+                List<Object> result;
+                if (listDistanceForTariff.get(2) instanceof String) {
+                    if (Integer.parseInt((String)listDistanceForTariff.get(2)) == 0) {
+                        tariff = 0.00;
+                    } else {
+                        result = getTariffOut(listDistanceForTariff, wagon.getListRoutes().get(index).getCargo().getKeyCargo());
+                        tariff = (Double) result.get(0);
+                        isLoadingTariffFromDB = (Boolean) result.get(1);
+                    }
+                } else {
+                    if ((Integer)listDistanceForTariff.get(2) == 0) {
+                        tariff = 0.00;
+                    } else {
+                        result = getTariffOut(listDistanceForTariff, wagon.getListRoutes().get(index).getCargo().getKeyCargo());
+                        tariff = (Double) result.get(0);
+                        isLoadingTariffFromDB = (Boolean) result.get(1);
+                    }
+                }
                 // Число дней пройденных вагоном
                 int countCircleDays = getFullMonthCircleOfWagonImpl.fullDays(wagon.getNumberOfWagon(), minDistance, route.getDistanceOfWay());
 
@@ -187,7 +140,9 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                     wagon.getListRoutes().get(index).getKeyOfStationDestination(),
                                     route,
                                     wagon.getListRoutes().get(index).getCargo(),
-                                    wagon.getListRoutes().get(index).getCargo().getCargoType())
+                                    wagon.getListRoutes().get(index).getCargo().getCargoType(),
+                                    tariff,
+                                    isLoadingTariffFromDB)
                             );
                         } else {
                             listInfo.add(new WagonFinalRouteInfo(getFullMonthCircleOfWagonImpl.getListOfDaysOfWagon(wagon.getNumberOfWagon()).get(index),
@@ -198,7 +153,9 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                     route.getKeyOfStationDeparture(),
                                     route,
                                     wagon.getListRoutes().get(index).getCargo(),
-                                    wagon.getListRoutes().get(index).getCargo().getCargoType())
+                                    wagon.getListRoutes().get(index).getCargo().getCargoType(),
+                                    tariff,
+                                    isLoadingTariffFromDB)
                             );
                         }
                         tempMapWagonInfo.put(wagon.getNumberOfWagon(), new WagonFinalInfo(wagon.getNumberOfWagon(), listInfo));
@@ -246,7 +203,9 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                                 route.getKeyOfStationDeparture(),
                                 route,
                                 wagon.getListRoutes().get(index).getCargo(),
-                                wagon.getListRoutes().get(index).getCargo().getCargoType())
+                                wagon.getListRoutes().get(index).getCargo().getCargoType(),
+                                tariff,
+                                isLoadingTariffFromDB)
                         );
                         tempMapWagonInfo.get(wagon.getNumberOfWagon()).setListRouteInfo(wagonFinalRouteInfo);
                         tempMapWagonInfo.get(wagon.getNumberOfWagon()).setSizeArray(wagonFinalRouteInfo.size() - 1);
@@ -296,7 +255,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
             }
         }
 
-        putRateAndTariff(tempMapWagonInfo);
+        putRate(tempMapWagonInfo);
         checkEmptyTariffOrRate(mapFinalWagonInfo);
         tempMapTotalRoute.putAll(tempMapOfRoutes);
 
@@ -304,7 +263,7 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
         logger.info("Stop root method: {}", this.getClass().getSimpleName() + ".fillMapRouteIsOptimal");
     }
 
-    private boolean isCheckMore40(Wagon wagon, Route route) {
+    private boolean isCheckMore45(Wagon wagon, Route route) {
         int sum = 0;
         try {
             if (getFullMonthCircleOfWagonImpl.getListOfDaysOfWagon(wagon.getNumberOfWagon()).isEmpty()) {
@@ -336,10 +295,10 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
         }
     }
 
-    private void putRateAndTariff(Map<String, WagonFinalInfo> map) {
+    private void putRate(Map<String, WagonFinalInfo> map) {
         Map<String, WagonFinalInfo> tempResultMap = new HashMap<>();
         Map<Integer, RateClass> tempMapRates = new HashMap<>(getListOfRates.getMapOfRates());
-        Map<Integer, TariffClass> tempMapEmptyRoutes = new HashMap<>(getListOfEmptyRoutes.getMapOfEmptyRoutes());
+        //Map<Integer, TariffClass> tempMapEmptyRoutes = new HashMap<>(getListOfEmptyRoutes.getMapOfEmptyRoutes());
 
         for (Map.Entry<String, WagonFinalInfo> _map : map.entrySet()) {
             // Подбираем ставку из файле
@@ -361,66 +320,22 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                 Collections.sort(tempListSelectedRates);
                 if (!tempListSelectedRates.isEmpty())
                     _map.getValue().getListRouteInfo().get(i).setRate(Math.round((tempListSelectedRates.get(0).getRate()) * 100) / 100.00d);
-
-                // Подбираем тариф из файле
-                for (Map.Entry<Integer, TariffClass> _tempMapEmptyRoutes : tempMapEmptyRoutes.entrySet()) {
-                    if (_map.getValue().getListRouteInfo().get(i).getCurrentNameOfStationOfWagon().equals(_tempMapEmptyRoutes.getValue().getNameOfStationDeparture()) &&
-                            _map.getValue().getListRouteInfo().get(i).getRoute().getNameOfStationDeparture().equals(_tempMapEmptyRoutes.getValue().getNameOfStationDestination()) &&
-                            _map.getValue().getListRouteInfo().get(i).getCargoType() == _tempMapEmptyRoutes.getValue().getCargo().getCargoType()) {
-                        _map.getValue().getListRouteInfo().get(i).setTariff(Math.round((_tempMapEmptyRoutes.getValue().getTariff()) * 100) / 100.00d);
-                    }
-                }
             }
             tempResultMap.put(_map.getKey(), _map.getValue());
         }
         mapFinalWagonInfo.putAll(tempResultMap);
-        lookingForRateAndTariffInDB(mapFinalWagonInfo);
+        lookingForRateInDB(mapFinalWagonInfo);
+        getListOfDistance.serializeMap((HashMap<String, List<Object>>) getListOfDistance.getRootMapWithDistances());
     }
 
-    private void lookingForRateAndTariffInDB(Map<String, WagonFinalInfo> map) {
+    private void lookingForRateInDB(Map<String, WagonFinalInfo> map) {
         for (Map.Entry<String, WagonFinalInfo> _map : map.entrySet()) {
+
             // Не нашли тариф в файле, поищем в базе
             for (int i = 0; i < _map.getValue().getListRouteInfo().size(); i++) {
-                if (_map.getValue().getListRouteInfo().get(i).getTariff() == null) {
-                    Object tariff = getTariff.getRateOrTariff(_map.getValue().getListRouteInfo().get(i).getCurrentKeyOfStationOfWagon(),
-                            _map.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(),
-                            _map.getValue().getListRouteInfo().get(i).getCargoType());
-                    if (tariff != null) {
-                        _map.getValue().getListRouteInfo().get(i).setTariff(Math.round(((Double)tariff) * 100) / 100.00d);
-                        _map.getValue().getListRouteInfo().get(i).setLoadingTariffFromDB(Boolean.TRUE);
-                        if (!basicClass.isFlag()) {
-                            basicClass.setFlag(Boolean.TRUE);
-                        }
-                    }
-
-                    //TODO Временная заглушка для автозаполнения тарифа. При накате на PROD убрать
-                    else {
-                        double fixTariff = 300;
-                        double distance = _map.getValue().getListRouteInfo().get(i).getDistanceEmpty();
-                        if (distance == 0) {
-                            tariff = 0;
-                            _map.getValue().getListRouteInfo().get(i).setTariff(tariff);
-                            _map.getValue().getListRouteInfo().get(i).setLoadingTariffFromDB(Boolean.TRUE);
-                            if (!basicClass.isFlag()) {
-                                basicClass.setFlag(Boolean.TRUE);
-                            }
-                        } else {
-                            double round = Math.ceil(distance / 50.0);
-                            tariff = fixTariff * round;
-                            _map.getValue().getListRouteInfo().get(i).setTariff(tariff);
-                            _map.getValue().getListRouteInfo().get(i).setLoadingTariffFromDB(Boolean.TRUE);
-                            if (!basicClass.isFlag()) {
-                                basicClass.setFlag(Boolean.TRUE);
-                            }
-                        }
-                    }
-
-
-                }
-
                 // Не нашли ставку в файле, поищем в базе
                 if (_map.getValue().getListRouteInfo().get(i).getRate() == null) {
-                    Object rate = getRate.getRateOrTariff(_map.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(),
+                    Object rate = getRate.getRate(_map.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(),
                             _map.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDestination(),
                             _map.getValue().getListRouteInfo().get(i).getRoute().getCargo().getCargoType());
                     if (rate != null) {
@@ -446,6 +361,103 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
                 }
             }
         }
+    }
+
+    private void lookingForMinDistance(List<Wagon> copyListOfWagon, Map<Integer, Route> tempMapOfRoutes) {
+        //logger.info("Start method lookingForMinDistance");
+        // Очищаем мапу расстояний
+        mapDistance.clear();
+        for (Wagon _wagons : copyListOfWagon) {
+            // Индекс последнего маршрута
+            int index = _wagons.getListRoutes().size() - 1;
+            // Получаем код станции назначения вагона
+            String keyOfStationOfWagonDestination = _wagons.getListRoutes().get(index).getKeyOfStationDestination().trim();
+            String nameOfStationOfWagonDestination = _wagons.getListRoutes().get(index).getNameOfStationDestination().trim();
+            String keyCargo = _wagons.getListRoutes().get(index).getCargo().getKeyCargo();
+
+            if (!nameOfStationOfWagonDestination.equals("")) {
+                // По каждому вагону высчитываем расстояние до каждой начальной станнции маршрутов
+                // Цикл расчета расстояния и заполнения мапы
+                for (Map.Entry<Integer, Route> _routes : tempMapOfRoutes.entrySet()) {
+                    List<Object> list = new ArrayList<>();
+                    // Станция отправления рейса
+                    String keyOfStationDeparture = _routes.getValue().getKeyOfStationDeparture();
+                    list.add(_wagons);
+                    list.add(_routes.getValue());
+                    if (_wagons.getVolume() >= _routes.getValue().getVolumePeriod().getVolumeFrom() &&
+                            _wagons.getVolume() <= _routes.getValue().getVolumePeriod().getVolumeTo() &&
+                            _routes.getValue().getCountOrders() > 0) {
+                        if (_wagons.getStatus().equals(STATUS_FULL)) {
+                            String key = keyOfStationOfWagonDestination + "_" + keyOfStationDeparture + "_" + keyCargo;
+
+                            // Ищем расстояние
+                            //if (isCheckMore45(_wagons, _routes.getValue())) {
+                                if (getListOfDistance.getRootMapWithDistances().containsKey(key)) {
+                                    if (Integer.parseInt((String)getListOfDistance.getRootMapWithDistances().get(key).get(2)) != -1) {
+                                        list.add(getListOfDistance.getRootMapWithDistances().get(key));
+                                        mapDistance.put(list, Integer.parseInt((String)getListOfDistance.getRootMapWithDistances().get(key).get(2)));
+                                    }
+                                }
+                           // }
+                        } else {
+                            if (_wagons.getListRoutes().get(0).getKeyOfStationDestination().equals(keyOfStationDeparture)) {
+                                List<Integer> listDistance = new ArrayList<>();
+                                listDistance.add(0);
+                                listDistance.add(0);
+                                listDistance.add(0);
+                                listDistance.add(null);
+                                listDistance.add(null);
+                                list.add(listDistance);
+                                mapDistance.put(list, Integer.parseInt(_wagons.getListRoutes().get(0).getDistanceOfWay()));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private List<Object> getTariffOut(List<Object> listDistanceForTariff, String keyCargo) {
+        Double tariff = 0.00;
+        boolean isLoadingTariffFromDB = false;
+        String codeCountry = (String) listDistanceForTariff.get(3);
+        String [] codeCountryArray = codeCountry.split("/");
+        List<Integer> listFlag = new ArrayList<>();
+        List<Object> result = new ArrayList<>();
+        if (codeCountryArray.length == 1) {
+            tariff = getTariff.getTariff(
+                    Integer.parseInt(codeCountryArray[0]),
+                    Integer.parseInt((String)listDistanceForTariff.get(2)),
+                    keyCargo).get(0);
+        } else {
+            String [] distanceTransitArray;
+            List<Integer> distanceList = new ArrayList<>();
+            int distanceStart = Integer.parseInt((String)listDistanceForTariff.get(0));
+            int distanceEnd = Integer.parseInt((String)listDistanceForTariff.get(1));
+            distanceList.add(distanceStart);
+            String routeDistance = (String)listDistanceForTariff.get(4);
+            if (!routeDistance.isEmpty()) {
+                String distanceTransit = (String) listDistanceForTariff.get(4);
+                distanceTransitArray = distanceTransit.split("/");
+                for (String s: distanceTransitArray) {
+                    distanceList.add(Integer.parseInt(s));
+                }
+            }
+            distanceList.add(distanceEnd);
+            for (int i = 0; i < codeCountryArray.length; i++) {
+                List<Double> listTariff = getTariff.getTariff(
+                        Integer.parseInt(codeCountryArray[i]),
+                        distanceList.get(i),
+                        keyCargo);
+                tariff = tariff + listTariff.get(0);
+                listFlag.add(listTariff.get(1).intValue());
+            }
+        }
+        tariff = Math.round(tariff* 100) / 100.00d;
+        isLoadingTariffFromDB = listFlag.contains(1);
+        result.add(tariff);
+        result.add(isLoadingTariffFromDB);
+        return result;
     }
 
     public BasicClassImpl getBasicClass() {
@@ -478,14 +490,6 @@ public class ClassHandlerLookingForImpl extends JavaHelperBase implements ClassH
 
     public void setMapFinalOrderInfo(Map<Route, List<Integer>> mapFinalOrderInfo) {
         this.mapFinalOrderInfo = mapFinalOrderInfo;
-    }
-
-    public GetListOfTariffsImpl getGetListOfEmptyRoutes() {
-        return getListOfEmptyRoutes;
-    }
-
-    public void setGetListOfEmptyRoutes(GetListOfTariffsImpl getListOfEmptyRoutes) {
-        this.getListOfEmptyRoutes = getListOfEmptyRoutes;
     }
 
     public GetListOfRatesImpl getGetListOfRates() {

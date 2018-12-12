@@ -1,6 +1,6 @@
 package com.uraltranscom.dynamicdistributionpark.service.impl;
 
-import com.uraltranscom.dynamicdistributionpark.service.GetRateOrTariff;
+import com.uraltranscom.dynamicdistributionpark.service.GetRate;
 import com.uraltranscom.dynamicdistributionpark.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,20 +15,22 @@ import java.sql.SQLException;
 /**
  *
  * Класс получения ставки
- * Implementation for {@link GetRateOrTariff} interface
+ * Implementation for {@link GetRate} interface
  *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @version 2.0
  * @create 26.07.2018
  *
  * 26.07.2018
  *   1. Версия 1.0
+ * 13.10.2018
+ *   1. Версия 2.0
  *
  */
 
 @Service
 @Component
-public class GetRateImpl extends ConnectionDB implements GetRateOrTariff {
+public class GetRateImpl extends ConnectionDB implements GetRate {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetRateImpl.class);
 
@@ -36,7 +38,7 @@ public class GetRateImpl extends ConnectionDB implements GetRateOrTariff {
     }
 
     @Override
-    public Object getRateOrTariff(String keyOfStationDeparture, String keyOfStationDestination, int cargoType) {
+    public Object getRate(String keyOfStationDeparture, String keyOfStationDestination, int cargoType) {
 
         Object rate = null;
 

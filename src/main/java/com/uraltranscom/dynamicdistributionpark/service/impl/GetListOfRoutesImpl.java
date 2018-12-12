@@ -4,7 +4,10 @@ import com.uraltranscom.dynamicdistributionpark.model.Route;
 import com.uraltranscom.dynamicdistributionpark.service.GetList;
 import com.uraltranscom.dynamicdistributionpark.service.additional.JavaHelperBase;
 import com.uraltranscom.dynamicdistributionpark.service.export.WriteToFileExcel;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;
+import org.apache.poi.openxml4j.util.ZipSecureFile;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -15,7 +18,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +48,6 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
 
     // Переменные для работы с файлами
     private File file;
-    private FileInputStream fileInputStream;
 
     // Переменные для работы с Excel файлом(формат XLSX)
     private XSSFWorkbook xssfWorkbook;
@@ -69,14 +70,15 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
 
         // Получаем файл формата xls
         try {
-            fileInputStream = new FileInputStream(this.file);
-            xssfWorkbook = new XSSFWorkbook(fileInputStream);
+            ZipSecureFile.setMinInflateRatio(-1.0d);
+            xssfWorkbook = new XSSFWorkbook(this.file);
 
             // Заполняем Map данными
-            sheet = xssfWorkbook.getSheetAt(0);
             int i = 0;
+            sheet = xssfWorkbook.getSheetAt(0);
+            XSSFRow row = sheet.getRow(1);
             for (int j = 2; j < sheet.getLastRowNum() + 1; j++) {
-                XSSFRow row = sheet.getRow(1);
+                XSSFRow xssfRow = sheet.getRow(j);
 
                 String keyOfStationDeparture = null;
                 String nameOfStationDeparture = null;
@@ -95,70 +97,58 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
                 String wagonType = null;
 
                 for (int c = 1; c < row.getLastCellNum(); c++) {
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_KEY_STATION_DEPARTURE)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        keyOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
+                    String headerCell = row.getCell(c).getStringCellValue().trim();
+                    XSSFCell cell = xssfRow.getCell(c);
+
+                    if (headerCell.equals(JavaHelperBase.ROUTE_KEY_STATION_DEPARTURE)) {
+                        keyOfStationDeparture = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_NAME_STATION_DEPARTURE)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        nameOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_NAME_STATION_DEPARTURE)) {
+                        nameOfStationDeparture = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_ROAD_STATION_DEPARTURE)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        roadOfStationDeparture = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_ROAD_STATION_DEPARTURE)) {
+                        roadOfStationDeparture = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_KEY_STATION_DESTINATION)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        keyOfStationDestination = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_KEY_STATION_DESTINATION)) {
+                        keyOfStationDestination = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_NAME_STATION_DESTINATION)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        nameOfStationDestination = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_NAME_STATION_DESTINATION)) {
+                        nameOfStationDestination = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_ROAD_STATION_DESTINATION)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        roadOfStationDestination = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_ROAD_STATION_DESTINATION)) {
+                        roadOfStationDestination = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_DISTANCE)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        String val = Double.toString(xssfRow.getCell(c).getNumericCellValue());
-                        double valueDouble = xssfRow.getCell(c).getNumericCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_DISTANCE)) {
+                        String val = Double.toString(cell.getNumericCellValue());
+                        double valueDouble = cell.getNumericCellValue();
                         if ((valueDouble - (int) valueDouble) * 1000 == 0) {
                             val = (int) valueDouble + "";
                         }
                         distanceOfWay = val;
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_CUSTOMER)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        customer = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_CUSTOMER)) {
+                        customer = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_COUNT_ORDERS)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        countOrders = (int) xssfRow.getCell(c).getNumericCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_COUNT_ORDERS)) {
+                        countOrders = (int) cell.getNumericCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_VOLUME_FROM)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        volumeFrom = (int) xssfRow.getCell(c).getNumericCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_VOLUME_FROM)) {
+                        volumeFrom = (int) cell.getNumericCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_VOLUME_TO)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        volumeTo = (int) xssfRow.getCell(c).getNumericCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_VOLUME_TO)) {
+                        volumeTo = (int) cell.getNumericCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_WAGON_TYPE)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        wagonType = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_WAGON_TYPE)) {
+                        wagonType = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_NUMBER_ORDER)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        numberOrder = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_NUMBER_ORDER)) {
+                        numberOrder = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_NAME_CARGO)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        nameCargo = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_NAME_CARGO)) {
+                        nameCargo = cell.getStringCellValue();
                     }
-                    if (row.getCell(c).getStringCellValue().trim().equals(JavaHelperBase.ROUTE_KEY_CARGO)) {
-                        XSSFRow xssfRow = sheet.getRow(j);
-                        keyCargo = xssfRow.getCell(c).getStringCellValue();
+                    if (headerCell.equals(JavaHelperBase.ROUTE_KEY_CARGO)) {
+                        keyCargo = cell.getStringCellValue();
                     }
                 }
                 if (wagonType.equals(TYPE_OF_WAGON_KR)) {
@@ -175,6 +165,8 @@ public class GetListOfRoutesImpl extends JavaHelperBase implements GetList {
             logger.error("Ошибка загруки файла - {}", e.getMessage());
         } catch (OLE2NotOfficeXmlFileException e1) {
             logger.error("Некорректный формат файла заявок, необходим формат xlsx");
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
         }
     }
 

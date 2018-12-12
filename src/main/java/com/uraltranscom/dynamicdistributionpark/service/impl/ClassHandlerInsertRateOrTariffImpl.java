@@ -14,11 +14,13 @@ import java.util.Map;
  * Класс для инсерта в бд ставки и тарифа
  *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @version 2.0
  * @create 26.07.2018
  *
  * 26.07.2018
  *   1. Версия 1.0
+ * 13.10.2018
+ *   1. Версия 2.0
  *
  */
 
@@ -41,16 +43,18 @@ public class ClassHandlerInsertRateOrTariffImpl {
                         //if (!_map.getValue().equals(_newMap.getValue())) {
                             // Вставляем ставку в БД
                             if (!_map.getValue().getListRouteInfo().get(_map.getValue().getListRouteInfo().size() - 1).getRoute().getNameOfStationDestination().equals("")) {
-                                insertRate.insertRateOfTariff(_newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(),
+                                insertRate.insertRate(_newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(),
                                         _newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDestination(),
                                         _newMap.getValue().getListRouteInfo().get(i).getRoute().getCargo().getCargoType(),
                                         (Double) _newMap.getValue().getListRouteInfo().get(i).getRate());
                             }
+                            /**
                             // Вставляем тариф в БД
-                            insertTariff.insertRateOfTariff(_newMap.getValue().getListRouteInfo().get(i).getCurrentKeyOfStationOfWagon(),
+                            insertTariff.insertTariff(_newMap.getValue().getListRouteInfo().get(i).getCurrentKeyOfStationOfWagon(),
                                     _newMap.getValue().getListRouteInfo().get(i).getRoute().getKeyOfStationDeparture(),
-                                    _newMap.getValue().getListRouteInfo().get(i).getCargoType(),
+                                    _newMap.getValue().getListRouteInfo().get(i).getCargo().getKeyCargo(),
                                     (Double) _newMap.getValue().getListRouteInfo().get(i).getTariff());
+                             */
                         //}
                     }
                 }

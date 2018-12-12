@@ -1,6 +1,6 @@
 package com.uraltranscom.dynamicdistributionpark.service.impl;
 
-import com.uraltranscom.dynamicdistributionpark.service.InsertRateOrTariff;
+import com.uraltranscom.dynamicdistributionpark.service.InsertRate;
 import com.uraltranscom.dynamicdistributionpark.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,29 +14,31 @@ import java.sql.SQLException;
 /**
  *
  * Класс добавления ставки в БД
- * Implementation for {@link InsertRateOrTariff} interface
+ * Implementation for {@link InsertRate} interface
  *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @version 2.0
  * @create 26.07.2018
  *
  * 26.07.2018
  *   1. Версия 1.0
+ * 13.10.2018
+ *   1. Версия 2.0
  *
  */
 
 @Service
 @Component
-public class InsertRateImpl extends ConnectionDB implements InsertRateOrTariff {
+public class InsertRateImpl extends ConnectionDB implements InsertRate {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(InsertRateImpl.class);
 
     @Override
-    public void insertRateOfTariff(String keyOfStationDeparture, String keyOfStationDestination, int cargoType, double rateOrTariff) {
+    public void insertRate(String keyOfStationDeparture, String keyOfStationDestination, int cargoType, double rate) {
         try (Connection connection = getDataSource().getConnection();
-             CallableStatement callableStatement = createCallableStatement(connection, keyOfStationDeparture, keyOfStationDestination, cargoType, rateOrTariff)) {
+             CallableStatement callableStatement = createCallableStatement(connection, keyOfStationDeparture, keyOfStationDestination, cargoType, rate)) {
             callableStatement.executeQuery();
-            logger.debug("Insert rate: {}", keyOfStationDeparture + " " + keyOfStationDestination + ": " + rateOrTariff);
+            logger.debug("Insert rate: {}", keyOfStationDeparture + " " + keyOfStationDestination + ": " + rate);
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }
