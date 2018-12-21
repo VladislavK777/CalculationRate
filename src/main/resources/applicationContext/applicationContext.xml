@@ -10,11 +10,11 @@
     </bean>
 
     <!-- Инициализация бинов -->
-    <bean id="zkSettingsHolder" class="com.uraltranscom.dynamicdistributionpark.util.ZookeeperUtil.ZookeeperSettingHolder" />
+    <bean id="zkSettingsHolder" class="com.uraltranscom.calculaterate.util.ZookeeperUtil.ZookeeperSettingHolder" />
 
     <!-- дешифровка пароля -->
     <bean id="decodedPassword" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetClass" value="com.uraltranscom.dynamicdistributionpark.util.ZookeeperUtil.KeyMaster"/>
+        <property name="targetClass" value="com.uraltranscom.calculaterate.util.ZookeeperUtil.KeyMaster"/>
         <property name="targetMethod" value="dec"/>
         <property name="arguments">
             <list>
@@ -32,7 +32,7 @@
         <property name="password" value="#{decodedPassword}"/>
     </bean>
 
-    <bean class="com.uraltranscom.dynamicdistributionpark.util.ConnectUtil.ConnectionDB">
+    <bean class="com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 

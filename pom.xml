@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.uraltranscom.dynamicdistributionpark</groupId>
-    <artifactId>dynamicdistributionpark</artifactId>
-    <name>DynamicDistributionPark</name>
+    <groupId>com.uraltranscom.calculaterate</groupId>
+    <artifactId>calculaterate</artifactId>
+    <name>CalculateRate</name>
     <packaging>war</packaging>
     <version>1.0</version>
   
