@@ -27,7 +27,6 @@ import java.util.Map;
  *
  */
 
-@Service
 @Component
 public class GetFullMonthCircleOfWagonImpl extends JavaHelperBase implements GetFullMonthCircleOfWagon {
     // Подключаем логгер

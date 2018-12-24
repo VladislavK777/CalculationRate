@@ -41,7 +41,6 @@ public class Controller {
 
     @RequestMapping(value = "/reports", method = RequestMethod.POST)
     public String routeList(@RequestParam(value = "routesFile") MultipartFile routesFile, Model model) {
-
         return "welcome";
     }
 

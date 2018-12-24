@@ -29,12 +29,13 @@ public class Route {
     private RouteType routeType; //Тип рейса
     private int countDays; //Количество дней
 
-    public Route(Station stationDeparture, Station stationDestination, String distance, int volumeWagon, Cargo cargo, RouteType routeType) {
+    public Route(Station stationDeparture, Station stationDestination, String distance, int volumeWagon, Cargo cargo, RouteType routeType, int countDays) {
         this.stationDeparture = stationDeparture;
         this.stationDestination = stationDestination;
         this.distance = distance;
         this.volumeWagon = volumeWagon;
         this.cargo = cargo;
         this.routeType = routeType;
+        this.countDays = countDays;
     }
 }
