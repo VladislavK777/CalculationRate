@@ -29,36 +29,35 @@ import java.util.List;
 
 @Service
 @Component
-public class GetDistanceBetweenStationsImpl extends ConnectionDB implements GetDistanceBetweenStations {
+public class GetDistanceBetweenStationsImpl extends ConnectionDB {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetDistanceBetweenStationsImpl.class);
 
     private GetDistanceBetweenStationsImpl() {
     }
 
-    @Override
-    public List<Object> getDistanceBetweenStations(String keyOfStationDeparture, String keyOfStationDestination, String keyCargo) {
+    public static List<Object> getDistanceBetweenStations(String idStationDeparture, String idStationDestination, String idCargo) {
 
         List<Object> listResult = new ArrayList<>();
 
         try (Connection connection = getDataSource().getConnection();
-             CallableStatement callableStatement = createCallableStatement(connection, keyOfStationDeparture, keyOfStationDestination, keyCargo);
+             CallableStatement callableStatement = createCallableStatement(connection, idStationDeparture, idStationDestination, idCargo);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
                 listResult.add(resultSet.getObject(1));
             }
-            logger.debug("Get distance for: {}", keyOfStationDeparture + "_" + keyOfStationDestination + ": " + listResult);
+            logger.debug("Get distance for: {}", idStationDeparture + "_" + idStationDestination + ": " + listResult);
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }
         return listResult;
     }
 
-    private CallableStatement createCallableStatement(Connection connection, String keyOfStationDeparture, String keyOfStationDestination, String keyCargo) throws SQLException {
+    private static CallableStatement createCallableStatement(Connection connection, String idStationDeparture, String idStationDestination, String idCargo) throws SQLException {
         CallableStatement callableStatement = connection.prepareCall(" { call  test_distance.get_root_distance2(?,?,?) } ");
-        callableStatement.setString(1, keyOfStationDeparture);
-        callableStatement.setString(2, keyOfStationDestination);
-        callableStatement.setString(3, keyCargo);
+        callableStatement.setString(1, idStationDeparture);
+        callableStatement.setString(2, idStationDestination);
+        callableStatement.setString(3, idCargo);
         return callableStatement;
     }
 }

@@ -1,8 +1,6 @@
 package com.uraltranscom.calculaterate.service.impl;
 
-import com.uraltranscom.calculaterate.model.RateClass;
 import com.uraltranscom.calculaterate.model.Route;
-import com.uraltranscom.calculaterate.model.Wagon;
 import com.uraltranscom.calculaterate.model_ext.WagonFinalInfo;
 import com.uraltranscom.calculaterate.model_ext.WagonFinalRouteInfo;
 import com.uraltranscom.calculaterate.service.ClassHandlerLookingFor;

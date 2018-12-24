@@ -1,7 +1,7 @@
 package com.uraltranscom.calculaterate.model_ext;
 
 import com.uraltranscom.calculaterate.model.Route;
-import com.uraltranscom.calculaterate.model.additional_model.CargoClass;
+import com.uraltranscom.calculaterate.model.Cargo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,7 @@ public class WagonFinalRouteInfo {
     private String nameOfStationDepartureOfWagon; // Станция распределения
     private String keyOfStationDepartureOfWagon; // Код станции распределения
     private Route route; // Маршрут
-    private CargoClass cargo; // Предыдущий груз
+    private Cargo cargo; // Предыдущий груз
     private int cargoType; // Класс предыдущего груза
     private Object rate; // Ставка
     private Object tariff; // Тариф
@@ -49,7 +49,7 @@ public class WagonFinalRouteInfo {
                               String nameOfStationDepartureOfWagon,
                               String keyOfStationDepartureOfWagon,
                               Route route,
-                              CargoClass cargo,
+                              Cargo cargo,
                               int cargoType,
                                Object tariff,
                                boolean isLoadingTariffFromDB) {
@@ -74,7 +74,7 @@ public class WagonFinalRouteInfo {
                                String currentKeyOfStationOfWagon,
                                String nameOfStationDepartureOfWagon,
                                String keyOfStationDepartureOfWagon,
-                               Route route, CargoClass cargo,
+                               Route route, Cargo cargo,
                                int cargoType,
                                boolean isEmpty,
                                boolean isLoadingRateFromDB,
@@ -149,11 +149,11 @@ public class WagonFinalRouteInfo {
         this.route = route;
     }
 
-    public CargoClass getCargo() {
+    public Cargo getCargo() {
         return cargo;
     }
 
-    public void setCargo(CargoClass cargo) {
+    public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
 

@@ -1,6 +1,5 @@
 package com.uraltranscom.calculaterate.service.impl;
 
-import com.uraltranscom.calculaterate.model.TariffClass;
 import com.uraltranscom.calculaterate.service.GetList;
 import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
 import org.apache.poi.openxml4j.exceptions.OLE2NotOfficeXmlFileException;

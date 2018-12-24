@@ -1,6 +1,5 @@
 package com.uraltranscom.calculaterate.service.additional;
 
-import com.uraltranscom.calculaterate.model.additional_model.WagonRateAndTariff;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

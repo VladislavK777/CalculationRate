@@ -11,6 +11,8 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -28,38 +30,33 @@ import java.sql.SQLException;
 
 @Service
 @Component
-public class GetTypeOfCargoImpl extends ConnectionDB implements GetTypeOfCargo {
+public class GetTypeOfCargoImpl extends ConnectionDB {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetTypeOfCargoImpl.class);
 
-    public GetTypeOfCargoImpl() {
+    private GetTypeOfCargoImpl() {
     }
 
-    @Override
-    public int getTypeOfCargo(String key) {
+    public static List<String> getTypeOfCargo(String idCargo) {
 
-        int type = 0;
-
-        if (key.equals("")) {
-            return -1;
-        }
+        List<String> listResult = new ArrayList<>();
 
         try (Connection connection = getDataSource().getConnection();
-             CallableStatement callableStatement = createCallableStatement(connection, key);
+             CallableStatement callableStatement = createCallableStatement(connection, idCargo);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
-                type = resultSet.getInt(1);
+                listResult.add(resultSet.getString(1));
             }
-            logger.debug("Get type of cargo: {}", key + ": " + type);
+            logger.debug("Get type of cargo: {}", idCargo + ": " + listResult);
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }
-        return type;
+        return listResult;
     }
 
-    private CallableStatement createCallableStatement(Connection connection, String key) throws SQLException {
-        CallableStatement callableStatement = connection.prepareCall(" { call getclassofcargo(?) } ");
-        callableStatement.setString(1, key);
+    private static CallableStatement createCallableStatement(Connection connection, String idCargo) throws SQLException {
+        CallableStatement callableStatement = connection.prepareCall(" { call getclassofcargo2(?) } ");
+        callableStatement.setString(1, idCargo);
         return callableStatement;
     }
 }
