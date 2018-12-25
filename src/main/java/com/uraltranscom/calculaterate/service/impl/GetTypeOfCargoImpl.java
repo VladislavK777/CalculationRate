@@ -1,12 +1,10 @@
 package com.uraltranscom.calculaterate.service.impl;
 
 import com.uraltranscom.calculaterate.model.Cargo;
-import com.uraltranscom.calculaterate.service.GetTypeOfCargo;
 import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -19,7 +17,6 @@ import java.util.stream.Collectors;
 /**
  *
  * Класс получения класса груза
- * Implementation for {@link GetTypeOfCargo} interface
  *
  * @author Vladislav Klochkov
  * @version 1.0
@@ -30,7 +27,6 @@ import java.util.stream.Collectors;
  *
  */
 
-@Service
 @Component
 public class GetTypeOfCargoImpl extends ConnectionDB {
     // Подключаем логгер
@@ -39,7 +35,7 @@ public class GetTypeOfCargoImpl extends ConnectionDB {
     private GetTypeOfCargoImpl() {
     }
 
-    public static Cargo getTypeOfCargo(String idCargo) {
+    public static Cargo getObject(String idCargo) {
 
         List<String> listResult = new ArrayList<>();
 
@@ -54,6 +50,7 @@ public class GetTypeOfCargoImpl extends ConnectionDB {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }
         List<String> cargoInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
+        // TODO: 2018-12-25 Попробовать в стрим
         Cargo cargo = new Cargo(cargoInfo.get(0), cargoInfo.get(1), cargoInfo.get(2));
         return cargo;
     }

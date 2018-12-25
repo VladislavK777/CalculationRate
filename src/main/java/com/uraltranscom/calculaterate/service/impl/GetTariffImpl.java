@@ -1,12 +1,10 @@
 package com.uraltranscom.calculaterate.service.impl;
 
 
-import com.uraltranscom.calculaterate.service.GetTariff;
 import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -18,7 +16,6 @@ import java.util.List;
 /**
  *
  * Класс получения ставки
- * Implementation for {@link GetTariff} interface
  *
  * @author Vladislav Klochkov
  * @version 2.0
@@ -31,22 +28,20 @@ import java.util.List;
  *
  */
 
-@Service
 @Component
-public class GetTariffImpl extends ConnectionDB implements GetTariff {
+public class GetTariffImpl extends ConnectionDB {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetTariffImpl.class);
 
     private GetTariffImpl() {
     }
 
-    @Override
-    public List<Double> getTariff(int countryKey, int distance, String keyCargo) {
+    public List<Object> getObject(int idCountry, int distance, String idCargo) {
 
-        List<Double> listResult = new ArrayList<>();
+        List<Object> listResult = new ArrayList<>();
 
         try (Connection connection = getDataSource().getConnection();
-             CallableStatement callableStatement = createCallableStatement(connection, countryKey, distance, keyCargo);
+             CallableStatement callableStatement = createCallableStatement(connection, idCountry, distance, idCargo);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
                 listResult.add(resultSet.getDouble(1));
@@ -56,7 +51,7 @@ public class GetTariffImpl extends ConnectionDB implements GetTariff {
                     tariff = Math.round((resultSet.getDouble(1)) * 100) / 100.00d;
                 }**/
             }
-            logger.debug("Get tariff: {}", countryKey + " " + distance + "_" + keyCargo + ": " + listResult);
+            logger.debug("Get tariff: {}", idCountry + " " + distance + "_" + idCargo + ": " + listResult);
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }

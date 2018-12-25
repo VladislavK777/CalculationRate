@@ -25,16 +25,27 @@ public class CommonLogicClass {
     void startLogic(String idStationDeparture, String idStationDestination, String idCargo, int volumeWagon) {
         logger.info("Start process with entry params: idStationDeparture - {}; idStationDestination - {}; idCargo - {}; volumeWagon - {}", idStationDeparture, idStationDestination, idCargo, volumeWagon);
 
-        Station stationDeparture = GetStationInfo.getStationInfo(idStationDeparture);
-        Station stationDestination = GetStationInfo.getStationInfo(idStationDestination);
+        Station stationDeparture = GetStationInfo.getObject(idStationDeparture);
+        Station stationDestination = GetStationInfo.getObject(idStationDestination);
         List<String> listDistance = GetDistanceBetweenStationsImpl.getDistanceBetweenStations(idStationDeparture, idStationDestination, idCargo).stream().map(String::valueOf).collect(Collectors.toList());
-        Cargo cargo = GetTypeOfCargoImpl.getTypeOfCargo(idCargo);
+        Cargo cargo = GetTypeOfCargoImpl.getObject(idCargo);
 
         if (JavaHelperBase.LIST_ROADS_WITHOUT_CHECK_DIST.contains(stationDeparture.getRoadStation().getNameRoad())) {
             Route firstRoute = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, listDistance.get(0), volumeWagon, cargo, RouteType.FULL_ROUTE);
         } else if (JavaHelperBase.LIST_ROADS_PRIBALT.contains(stationDeparture.getRoadStation().getNameRoad())) {
-            Station stationDeparture1 = GetStationInfo.getStationInfo("273501");
-            Station stationDestination1 = GetStationInfo.getStationInfo("037202");
+            // TODO переделать
+            Station stationDeparture1 = GetStationInfo.getObject("273501");
+            Station stationDestination1 = GetStationInfo.getObject("037202");
+            Cargo cargo1 = GetTypeOfCargoImpl.getObject("094076");
+            String distance = "1236";
+            Route firstRoute = processingCreateRouteInstance.getRouteInstance(stationDeparture1, stationDestination1, distance, volumeWagon, cargo1, RouteType.FULL_ROUTE);
+            firstRoute.setCountDays(6);
+            firstRoute.setCountDaysLoadUnload(13);
+            firstRoute.setRate(52000);
+            Station stationDeparture2 = GetStationInfo.getObject("037202");
+            Station stationDestination2 = stationDeparture;
+
+
 
         }
     }
