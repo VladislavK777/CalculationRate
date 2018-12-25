@@ -14,8 +14,6 @@ package com.uraltranscom.calculaterate.service.export;
  */
 
 import com.uraltranscom.calculaterate.model.Route;
-import com.uraltranscom.calculaterate.model_ext.WagonFinalInfo;
-import com.uraltranscom.calculaterate.model_ext.WagonFinalRouteInfo;
 import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
 import com.uraltranscom.calculaterate.service.additional.PrefixOfDays;
 import org.apache.poi.ss.usermodel.BorderStyle;

@@ -1,6 +1,5 @@
 package com.uraltranscom.calculaterate.service.impl;
 
-import com.uraltranscom.calculaterate.model_ext.WagonFinalInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

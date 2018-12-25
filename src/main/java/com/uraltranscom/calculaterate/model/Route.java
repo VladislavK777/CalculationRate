@@ -1,5 +1,6 @@
 package com.uraltranscom.calculaterate.model;
 
+import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,10 @@ public class Route {
     private Cargo cargo; //Груз
     private RouteType routeType; //Тип рейса
     private int countDays; //Количество дней
+    private int countDaysLoadUnload; //Количество дней погрузки/выгрузки
+    private double rate; //Ставка
+    private double tariff; //Тариф
+    private boolean isSecond = Boolean.FALSE; //Является рейс вторым
 
     public Route(Station stationDeparture, Station stationDestination, String distance, int volumeWagon, Cargo cargo, RouteType routeType, int countDays) {
         this.stationDeparture = stationDeparture;
@@ -37,5 +42,10 @@ public class Route {
         this.cargo = cargo;
         this.routeType = routeType;
         this.countDays = countDays;
+        if (routeType.equals(RouteType.FULL_ROUTE)) {
+            this.countDaysLoadUnload = JavaHelperBase.LOADING_WAGON;
+        } else {
+            this.countDaysLoadUnload = JavaHelperBase.UNLOADING_WAGON;
+        }
     }
 }
