@@ -1,5 +1,6 @@
 package com.uraltranscom.calculaterate.service.impl;
 
+import com.uraltranscom.calculaterate.model.Cargo;
 import com.uraltranscom.calculaterate.service.GetTypeOfCargo;
 import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -37,7 +39,7 @@ public class GetTypeOfCargoImpl extends ConnectionDB {
     private GetTypeOfCargoImpl() {
     }
 
-    public static List<String> getTypeOfCargo(String idCargo) {
+    public static Cargo getTypeOfCargo(String idCargo) {
 
         List<String> listResult = new ArrayList<>();
 
@@ -51,7 +53,9 @@ public class GetTypeOfCargoImpl extends ConnectionDB {
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }
-        return listResult;
+        List<String> cargoInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
+        Cargo cargo = new Cargo(cargoInfo.get(0), cargoInfo.get(1), cargoInfo.get(2));
+        return cargo;
     }
 
     private static CallableStatement createCallableStatement(Connection connection, String idCargo) throws SQLException {
