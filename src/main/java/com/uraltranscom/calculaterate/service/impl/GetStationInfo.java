@@ -1,5 +1,8 @@
 package com.uraltranscom.calculaterate.service.impl;
 
+import com.uraltranscom.calculaterate.model.Country;
+import com.uraltranscom.calculaterate.model.RoadStation;
+import com.uraltranscom.calculaterate.model.Station;
 import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Vladislav.Klochkov
@@ -28,7 +32,7 @@ public class GetStationInfo extends ConnectionDB {
     private GetStationInfo() {
     }
 
-    public static List<Object> getStationInfo(String idStation) {
+    public static Station getStationInfo(String idStation) {
 
         List<Object> listResult = new ArrayList<>();
 
@@ -42,7 +46,16 @@ public class GetStationInfo extends ConnectionDB {
         } catch (SQLException sqlEx) {
             logger.error("Ошибка запроса: {}", sqlEx.getMessage());
         }
-        return listResult;
+        List<String> stationInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
+        Station station = new Station(stationInfo.get(0), stationInfo.get(1),
+                new RoadStation(stationInfo.get(2), stationInfo.get(3), stationInfo.get(4),
+                        new Country(
+                                stationInfo.get(5),
+                                stationInfo.get(6)
+                        )
+                )
+        );
+        return station;
     }
 
     private static CallableStatement createCallableStatement(Connection connection, String idStation) throws SQLException {

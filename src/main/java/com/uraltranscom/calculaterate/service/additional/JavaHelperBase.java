@@ -46,10 +46,7 @@ public class JavaHelperBase {
     // Список дорог, с которых расчет идет от станции Отправления
     public static final List<String> LIST_ROADS_WITHOUT_CHECK_DIST = Arrays.stream(new String[]{"МОСК", "ОКТ", "ПРИВ", "БЧ", "Ю-УР", "З-СИБ", "В-СИБ", "ГОРЬК", "Ю-ВОСТ"}).collect(Collectors.toList());
 
-    // Список дорог, с которых расчет идет проверка на мин расстояние от станции Отправления
-    public static final List<String> LIST_ROADS_WITH_CHECK_DIST = Arrays.stream(new String[]{"СЕВ", "КБШ"}).collect(Collectors.toList());
-
-    // Список опорных станций, с которых идет расчет
-    public static final List<String> LIST_STATIONS_WITH_CHECK_DIST = Arrays.stream(new String[]{"193805", "612003", "806708"}).collect(Collectors.toList());
+    // Список дорог Прибалтики
+    public static final List<String> LIST_ROADS_PRIBALT = Arrays.stream(new String[]{"ЛДЗ", "ЛГ", "ЭВР", "КЛНГ"}).collect(Collectors.toList());
 
 }
