@@ -1,12 +1,10 @@
 package com.uraltranscom.calculaterate.service.impl;
 
-import com.uraltranscom.calculaterate.service.GetFullMonthCircleOfWagon;
 import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
 import com.uraltranscom.calculaterate.service.additional.PrepareDistanceOfDay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;

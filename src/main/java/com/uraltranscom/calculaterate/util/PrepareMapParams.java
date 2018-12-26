@@ -7,10 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Vladislav.Klochkov
- * @project CalculationRate_1.0
- * @date 26.12.2018
+ *
+ * Класс подготовки мапы с параметрами
+ *
+ * @author Vladislav Klochkov
+ * @version 1.0
+ * @create 26.12.2018
+ *
+ * 26.12.2018
+ *   1. Версия 1.0
+ *
  */
+
 public final class PrepareMapParams {
     private static Logger logger = LoggerFactory.getLogger(PrepareMapParams.class);
     private static final String PREFIX_PARAM = "param";

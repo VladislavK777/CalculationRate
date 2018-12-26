@@ -1,6 +1,5 @@
 package com.uraltranscom.calculaterate.service.impl;
 
-import com.uraltranscom.calculaterate.service.InsertTariff;
 import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import java.sql.SQLException;
 /**
  *
  * Класс добавления тарифа в БД
- * Implementation for {@link InsertTariff} interface
  *
  * @author Vladislav Klochkov
  * @version 2.0
@@ -27,9 +25,8 @@ import java.sql.SQLException;
  *
  */
 
-@Service
 @Component
-public class InsertTariffImpl extends ConnectionDB implements InsertTariff {
+public class InsertTariffImpl {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(InsertTariffImpl.class);
 

@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
  *
  * @author Vladislav Klochkov
  * @version 1.0
- * @create 19.07.2018
+ * @create 26.12.2018
  *
- * 19.07.2018
+ * 26.12.2018
  *   1. Версия 1.0
  *
  */
@@ -45,7 +45,7 @@ public class GetTypeOfCargoImpl extends AbstractObjectFactory<Cargo> {
             while (resultSet.next()) {
                 listResult.add(resultSet.getObject(1));
             }
-            logger.debug("Get cargo info for: {}", params + ": " + listResult);
+            logger.debug("Get info for: {}", params + ": " + listResult);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
         }
@@ -55,6 +55,7 @@ public class GetTypeOfCargoImpl extends AbstractObjectFactory<Cargo> {
         return cargo;
     }
 
+    // TODO перенести в другое место
     private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
         CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
         for (int i = 1; i < params.size() + 1; i++) {

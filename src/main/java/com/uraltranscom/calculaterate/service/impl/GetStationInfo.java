@@ -18,9 +18,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author Vladislav.Klochkov
- * @project CalculationRate_1.0
- * @date 24.12.2018
+ *
+ * Класс получения станции
+ *
+ * @author Vladislav Klochkov
+ * @version 1.0
+ * @create 26.12.2018
+ *
+ * 26.12.2018
+ *   1. Версия 1.0
+ *
  */
 
 @Component
@@ -40,7 +47,7 @@ public class GetStationInfo extends AbstractObjectFactory<Station> {
             while (resultSet.next()) {
                 listResult.add(resultSet.getObject(1));
             }
-            logger.debug("Get station info for: {}", params + ": " + listResult);
+            logger.debug("Get info for: {}", params + ": " + listResult);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
         }

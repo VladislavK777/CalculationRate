@@ -1,7 +1,6 @@
 package com.uraltranscom.calculaterate.service.impl;
 
 import com.uraltranscom.calculaterate.model.Route;
-import com.uraltranscom.calculaterate.service.GetList;
 import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
