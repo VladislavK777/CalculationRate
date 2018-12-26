@@ -3,11 +3,10 @@ package com.uraltranscom.calculaterate.service.impl;
 import com.uraltranscom.calculaterate.model.Country;
 import com.uraltranscom.calculaterate.model.RoadStation;
 import com.uraltranscom.calculaterate.model.Station;
-import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
+import com.uraltranscom.calculaterate.service.AbstractObjectFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -15,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -23,30 +23,30 @@ import java.util.stream.Collectors;
  * @date 24.12.2018
  */
 
-@Service
 @Component
-public class GetStationInfo extends ConnectionDB {
-    // Подключаем логгер
+public class GetStationInfo extends AbstractObjectFactory<Station> {
     private static Logger logger = LoggerFactory.getLogger(GetStationInfo.class);
+    private static final String SQL_CALL_NAME = " { call  test_distance.get_station_info(?) } ";
 
     private GetStationInfo() {
     }
 
-    public static Station getStationInfo(String idStation) {
-
+    @Override
+    public Station getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();
 
-        try (Connection connection = getDataSource().getConnection();
-             CallableStatement callableStatement = createCallableStatement(connection, idStation);
+        try (CallableStatement callableStatement = createCallableStatement((Connection) getConnection(), params);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
                 listResult.add(resultSet.getObject(1));
             }
-            logger.debug("Get station info for: {}", idStation + ": " + listResult);
+            logger.debug("Get station info for: {}", params + ": " + listResult);
         } catch (SQLException sqlEx) {
-            logger.error("Ошибка запроса: {}", sqlEx.getMessage());
+            logger.error("Error query: {}", sqlEx.getMessage());
         }
         List<String> stationInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
+
+        // TODO переделать
         Station station = new Station(stationInfo.get(0), stationInfo.get(1),
                 new RoadStation(stationInfo.get(2), stationInfo.get(3), stationInfo.get(4),
                         new Country(
@@ -58,9 +58,11 @@ public class GetStationInfo extends ConnectionDB {
         return station;
     }
 
-    private static CallableStatement createCallableStatement(Connection connection, String idStation) throws SQLException {
-        CallableStatement callableStatement = connection.prepareCall(" { call  test_distance.get_station_info(?) } ");
-        callableStatement.setString(1, idStation);
+    private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
+        CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
+        for (int i = 1; i < params.size() + 1; i++) {
+            callableStatement.setObject(i, params.get("param" + i));
+        }
         return callableStatement;
     }
 }

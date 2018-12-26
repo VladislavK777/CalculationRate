@@ -1,7 +1,7 @@
 package com.uraltranscom.calculaterate.service.impl;
 
 import com.uraltranscom.calculaterate.model.Cargo;
-import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
+import com.uraltranscom.calculaterate.service.AbstractObjectFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -28,26 +29,25 @@ import java.util.stream.Collectors;
  */
 
 @Component
-public class GetTypeOfCargoImpl extends ConnectionDB {
-    // Подключаем логгер
+public class GetTypeOfCargoImpl extends AbstractObjectFactory<Cargo> {
     private static Logger logger = LoggerFactory.getLogger(GetTypeOfCargoImpl.class);
+    private static final String SQL_CALL_NAME = " { call getclassofcargo2(?) } ";
 
     private GetTypeOfCargoImpl() {
     }
 
-    public static Cargo getObject(String idCargo) {
+    @Override
+    public Cargo getObject(Map<String, Object> params) {
+        List<Object> listResult = new ArrayList<>();
 
-        List<String> listResult = new ArrayList<>();
-
-        try (Connection connection = getDataSource().getConnection();
-             CallableStatement callableStatement = createCallableStatement(connection, idCargo);
+        try (CallableStatement callableStatement = createCallableStatement((Connection) getConnection(), params);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
-                listResult.add(resultSet.getString(1));
+                listResult.add(resultSet.getObject(1));
             }
-            logger.debug("Get type of cargo: {}", idCargo + ": " + listResult);
+            logger.debug("Get cargo info for: {}", params + ": " + listResult);
         } catch (SQLException sqlEx) {
-            logger.error("Ошибка запроса: {}", sqlEx.getMessage());
+            logger.error("Error query: {}", sqlEx.getMessage());
         }
         List<String> cargoInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
         // TODO: 2018-12-25 Попробовать в стрим
@@ -55,9 +55,11 @@ public class GetTypeOfCargoImpl extends ConnectionDB {
         return cargo;
     }
 
-    private static CallableStatement createCallableStatement(Connection connection, String idCargo) throws SQLException {
-        CallableStatement callableStatement = connection.prepareCall(" { call getclassofcargo2(?) } ");
-        callableStatement.setString(1, idCargo);
+    private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
+        CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
+        for (int i = 1; i < params.size() + 1; i++) {
+            callableStatement.setObject(i, params.get("param" + i));
+        }
         return callableStatement;
     }
 }

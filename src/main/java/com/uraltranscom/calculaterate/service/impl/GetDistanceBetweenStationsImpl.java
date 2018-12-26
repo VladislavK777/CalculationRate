@@ -27,9 +27,8 @@ import java.util.List;
  *
  */
 
-@Service
 @Component
-public class GetDistanceBetweenStationsImpl extends ConnectionDB {
+public class GetDistanceBetweenStationsImpl {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(GetDistanceBetweenStationsImpl.class);
 
