@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,8 @@ public class CommonLogicClass {
     GetTypeOfCargoImpl getTypeOfCargo;
     @Autowired
     GetDistanceBetweenStationsImpl getDistanceBetweenStations;
+    @Autowired
+    GetTariffImpl getTariffImpl;
 
     void startLogic(String idStationDeparture, String idStationDestination, String idCargo, int volumeWagon) {
         logger.info("Start process with entry params: idStationDeparture - {}; idStationDestination - {}; idCargo - {}; volumeWagon - {}", idStationDeparture, idStationDestination, idCargo, volumeWagon);
@@ -50,21 +53,109 @@ public class CommonLogicClass {
             Route firstRoute = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
         } else if (JavaHelperBase.LIST_ROADS_PRIBALT.contains(stationDeparture.getRoadStation().getNameRoad())) {
             // TODO переделать
-            Station stationDeparture1 = getStationInfo.getObject(prepareMapWithParams("273501"));
-            Station stationDestination1 =getStationInfo.getObject(prepareMapWithParams("037202"));
-            Cargo cargo1 = getTypeOfCargo.getObject(prepareMapWithParams("094076"));
-            Distance distance1 = new Distance("1236", "", "", "", "");
+            Station stationDepartureFull = getStationInfo.getObject(prepareMapWithParams("273501"));
+            Station stationDestinationFull =getStationInfo.getObject(prepareMapWithParams("037202"));
+            Cargo cargoFull = getTypeOfCargo.getObject(prepareMapWithParams("094076"));
+            Distance distanceFull = new Distance("1236", "", "", "", "");
 
-            Route firstRoute = processingCreateRouteInstance.getRouteInstance(stationDeparture1, stationDestination1, distance1.getDistance(), volumeWagon, cargo1, RouteType.FULL_ROUTE);
-            firstRoute.setCountDays(6);
-            firstRoute.setCountDaysLoadUnload(13);
-            firstRoute.setRate(52000);
+            Route firstRouteFull = processingCreateRouteInstance.getRouteInstance(stationDepartureFull, stationDestinationFull, distanceFull.getDistance(), volumeWagon, cargoFull, RouteType.FULL_ROUTE);
+            firstRouteFull.setCountDaysLoadUnload(firstRouteFull.getCountDays() + JavaHelperBase.LOADING_WAGON);
+            firstRouteFull.setRate(52000);
 
-            Station stationDeparture2 = stationDestination1;
-            Station stationDestination2 = stationDeparture;
+            // Получить тариф порожнего рейса
+            Distance distanceFirstEmpty = getDistanceBetweenStations.getObject(prepareMapWithParams(stationDestinationFull.getIdStation(), stationDeparture.getIdStation(), cargoFull.getIdCargo()));
+            double tariffFirstEmpty = (Double) getTariff(distanceFirstEmpty, cargoFull.getIdCargo()).get(0);
+            Route routeFirstEmpty = processingCreateRouteInstance.getRouteInstance(stationDestinationFull, stationDeparture, distanceFirstEmpty.getDistance(), volumeWagon, cargoFull, RouteType.EMPTY_ROUTE);
+            routeFirstEmpty.setCountDaysLoadUnload(routeFirstEmpty.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
+            routeFirstEmpty.setTariff(tariffFirstEmpty);
 
+            // Create headRouteFull
+            Route headRouteFull = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
+            headRouteFull.setCountDaysLoadUnload(headRouteFull.getCountDays() + JavaHelperBase.LOADING_2_WAGON);
 
+            // Finish route
+            // stationDestination
+            // stationOpornic
+            // distance
+            // cargo
+            // volume
+            // type Route Empty
+            // tariff
+            // route.setFull(getDays() + 5)
+            // route.setTariff(tariff)
 
+        } else if (JavaHelperBase.LIST_STATIONS_KBSH_ROAD.contains(stationDeparture.getIdStation())) {
+            Station stationDepartureFull = getStationInfo.getObject(prepareMapWithParams("924605"));
+            Station stationDestinationFull =getStationInfo.getObject(prepareMapWithParams("648908"));
+            Cargo cargoFull = getTypeOfCargo.getObject(prepareMapWithParams("131071"));
+            Distance distanceFull = new Distance("3678", "", "", "", "");
+
+            Route firstRouteFull = processingCreateRouteInstance.getRouteInstance(stationDepartureFull, stationDestinationFull, distanceFull.getDistance(), volumeWagon, cargoFull, RouteType.FULL_ROUTE);
+            firstRouteFull.setCountDaysLoadUnload(firstRouteFull.getCountDays() + JavaHelperBase.LOADING_WAGON);
+            firstRouteFull.setRate(44365.48);
+
+            // Получить тариф порожнего рейса
+            Distance distanceFirstEmpty = getDistanceBetweenStations.getObject(prepareMapWithParams(stationDestinationFull.getIdStation(), stationDeparture.getIdStation(), cargoFull.getIdCargo()));
+            double tariffFirstEmpty = (Double) getTariff(distanceFirstEmpty, cargoFull.getIdCargo()).get(0);
+            Route routeFirstEmpty = processingCreateRouteInstance.getRouteInstance(stationDestinationFull, stationDeparture, distanceFirstEmpty.getDistance(), volumeWagon, cargoFull, RouteType.EMPTY_ROUTE);
+            routeFirstEmpty.setCountDaysLoadUnload(routeFirstEmpty.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
+            routeFirstEmpty.setTariff(tariffFirstEmpty);
+
+            // Create headRouteFull
+            Route headRouteFull = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
+            headRouteFull.setCountDaysLoadUnload(headRouteFull.getCountDays() + JavaHelperBase.LOADING_2_WAGON);
+
+            // Finish route
+            // stationDestination
+            // stationOpornic
+            // distance
+            // cargo
+            // volume
+            // type Route Empty
+            // tariff
+            // route.setFull(getDays() + 5)
+            // route.setTariff(tariff)
         }
+    }
+
+    private List<Object> getTariff(Distance distanceInfo, String idCargo) {
+        double tariff = 0.00;
+        boolean isLoadingTariffFromDB = false;
+        String [] codeCountryArray = distanceInfo.getRouteCountries().split("/");
+        List<Integer> listFlag = new ArrayList<>();
+        List<Object> result = new ArrayList<>();
+        if (codeCountryArray.length == 1) {
+            tariff = getTariffImpl.getObject(prepareMapWithParams(
+                    Integer.parseInt(codeCountryArray[0]),
+                    Integer.parseInt(distanceInfo.getRouteDistance()),
+                    idCargo)).getTariff();
+
+        } else {
+            String [] distanceTransitArray;
+            List<Integer> distanceList = new ArrayList<>();
+            int distanceStart = Integer.parseInt(distanceInfo.getDistanceStart());
+            int distanceEnd = Integer.parseInt(distanceInfo.getDistanceEnd());
+            distanceList.add(distanceStart);
+            if (!distanceInfo.getRouteDistance().isEmpty()) {
+                distanceTransitArray = distanceInfo.getRouteDistance().split("/");
+                for (String s: distanceTransitArray) {
+                    distanceList.add(Integer.parseInt(s));
+                }
+            }
+            distanceList.add(distanceEnd);
+            for (int i = 0; i < codeCountryArray.length; i++) {
+                Tariff tariffFull = getTariffImpl.getObject(prepareMapWithParams(
+                        Integer.parseInt(codeCountryArray[i]),
+                        distanceList.get(i),
+                        idCargo));
+                tariff = tariff + tariffFull.getTariff();
+                listFlag.add(tariffFull.getFlagDownloadFromDB());
+            }
+        }
+        tariff = Math.round(tariff* 100) / 100.00d;
+        isLoadingTariffFromDB = listFlag.contains(1);
+        result.add(tariff);
+        result.add(isLoadingTariffFromDB);
+        return result;
     }
 }

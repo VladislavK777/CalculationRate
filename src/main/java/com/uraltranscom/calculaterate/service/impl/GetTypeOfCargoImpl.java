@@ -51,8 +51,7 @@ public class GetTypeOfCargoImpl extends AbstractObjectFactory<Cargo> {
         }
         List<String> cargoInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
         // TODO: 2018-12-25 Попробовать в стрим
-        Cargo cargo = new Cargo(cargoInfo.get(0), cargoInfo.get(1), cargoInfo.get(2));
-        return cargo;
+        return new Cargo(cargoInfo.get(0), cargoInfo.get(1), cargoInfo.get(2));
     }
 
     // TODO перенести в другое место

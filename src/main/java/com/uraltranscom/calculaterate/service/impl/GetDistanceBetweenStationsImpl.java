@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Component
 public class GetDistanceBetweenStationsImpl extends AbstractObjectFactory<Distance> {
     private static Logger logger = LoggerFactory.getLogger(GetDistanceBetweenStationsImpl.class);
-    private static final String SQL_CALL_NAME = " { call  test_distance.get_root_distance2(?,?,?) } ";
+    private static final String SQL_CALL_NAME = " { call  test_distance.get_root_distance3(?,?,?) } ";
 
     private GetDistanceBetweenStationsImpl() {
     }
@@ -49,9 +49,7 @@ public class GetDistanceBetweenStationsImpl extends AbstractObjectFactory<Distan
             logger.error("Error query: {}", sqlEx.getMessage());
         }
         List<String> distanceInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
-        Distance distance = new Distance(distanceInfo.get(0), distanceInfo.get(1), distanceInfo.get(2), distanceInfo.get(3), distanceInfo.get(4));
-
-        return distance;
+        return new Distance(distanceInfo.get(0), distanceInfo.get(1), distanceInfo.get(2), distanceInfo.get(3), distanceInfo.get(4));
     }
 
     private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {

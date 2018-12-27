@@ -54,7 +54,7 @@ public class GetStationInfo extends AbstractObjectFactory<Station> {
         List<String> stationInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
 
         // TODO переделать
-        Station station = new Station(stationInfo.get(0), stationInfo.get(1),
+        return new Station(stationInfo.get(0), stationInfo.get(1),
                 new RoadStation(stationInfo.get(2), stationInfo.get(3), stationInfo.get(4),
                         new Country(
                                 stationInfo.get(5),
@@ -62,7 +62,6 @@ public class GetStationInfo extends AbstractObjectFactory<Station> {
                         )
                 )
         );
-        return station;
     }
 
     private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {

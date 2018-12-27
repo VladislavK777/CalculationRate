@@ -22,6 +22,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Cargo {
     private String nameCargo; //Груз
-    private String keyCargo; //Код груза
+    private String idCargo; //Код груза
     private String cargoType;  //Класс груза
 }

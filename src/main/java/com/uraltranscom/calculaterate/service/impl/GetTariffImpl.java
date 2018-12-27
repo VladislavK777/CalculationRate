@@ -1,6 +1,11 @@
 package com.uraltranscom.calculaterate.service.impl;
 
 
+import com.uraltranscom.calculaterate.model.Country;
+import com.uraltranscom.calculaterate.model.RoadStation;
+import com.uraltranscom.calculaterate.model.Station;
+import com.uraltranscom.calculaterate.model.Tariff;
+import com.uraltranscom.calculaterate.service.AbstractObjectFactory;
 import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +17,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -29,40 +36,37 @@ import java.util.List;
  */
 
 @Component
-public class GetTariffImpl extends ConnectionDB {
-    // Подключаем логгер
+public class GetTariffImpl extends AbstractObjectFactory<Tariff> {
     private static Logger logger = LoggerFactory.getLogger(GetTariffImpl.class);
+    private static final String SQL_CALL_NAME = " { call  test_distance.get_tariff2(?,?,?) } ";
 
     private GetTariffImpl() {
     }
 
-    public List<Object> getObject(int idCountry, int distance, String idCargo) {
-
+    @Override
+    public Tariff getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();
 
-        try (Connection connection = getDataSource().getConnection();
-             CallableStatement callableStatement = createCallableStatement(connection, idCountry, distance, idCargo);
+        try (CallableStatement callableStatement = createCallableStatement((Connection) getConnection(), params);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
-                listResult.add(resultSet.getDouble(1));
-                /**if (resultSet.getObject(1) == null) {
-                    tariff = null;
-                } else {
-                    tariff = Math.round((resultSet.getDouble(1)) * 100) / 100.00d;
-                }**/
+                listResult.add(resultSet.getObject(1));
             }
-            logger.debug("Get tariff: {}", idCountry + " " + distance + "_" + idCargo + ": " + listResult);
+            logger.debug("Get info for: {}", params + ": " + listResult);
         } catch (SQLException sqlEx) {
-            logger.error("Ошибка запроса: {}", sqlEx.getMessage());
+            logger.error("Error query: {}", sqlEx.getMessage());
         }
-        return listResult;
+        List<Object> tariffInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
+
+        // TODO переделать
+        return new Tariff((Double) tariffInfo.get(0), (boolean) tariffInfo.get(1));
     }
 
-    private CallableStatement createCallableStatement(Connection connection, int countryKey, int distance, String keyCargo) throws SQLException {
-        CallableStatement callableStatement = connection.prepareCall(" { call test_tariff.get_tariff2(?,?,?) } ");
-        callableStatement.setInt(1, countryKey);
-        callableStatement.setInt(2, distance);
-        callableStatement.setString(3, keyCargo);
+    private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
+        CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
+        for (int i = 1; i < params.size() + 1; i++) {
+            callableStatement.setObject(i, params.get("param" + i));
+        }
         return callableStatement;
     }
 }
