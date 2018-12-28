@@ -19,4 +19,15 @@ public class Distance {
     private String distanceEnd; //Дистанция от границы от станции Назначения
     private String routeCountries; //Карта дистанций по кодам стран
     private String routeDistance; //Карта дистанций между границами
+
+    @Override
+    public String toString() {
+        return "Distance{" +
+                "distance='" + distance + '\'' +
+                ", distanceStart='" + distanceStart + '\'' +
+                ", distanceEnd='" + distanceEnd + '\'' +
+                ", routeCountries='" + routeCountries + '\'' +
+                ", routeDistance='" + routeDistance + '\'' +
+                '}';
+    }
 }

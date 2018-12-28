@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Поддержка загрузки файлов -->
+    <bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10000000" />
+    </bean>
+
+    <!-- Инициализация бинов -->
+    <bean id="zkSettingsHolder" class="com.uraltranscom.calculaterate.util.ZookeeperUtil.ZookeeperSettingHolder" />
+
+    <!-- дешифровка пароля -->
+    <bean id="decodedPassword" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="com.uraltranscom.calculaterate.util.ZookeeperUtil.KeyMaster"/>
+        <property name="targetMethod" value="dec"/>
+        <property name="arguments">
+            <list>
+                <value>#{zkSettingsHolder.password}</value>
+                <value>#{zkSettingsHolder.secretKey}</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- устанавливаем соединение -->
+    <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" lazy-init="false"  destroy-method="close">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="#{zkSettingsHolder.dataBase}"/>
+        <property name="username" value="#{zkSettingsHolder.user}"/>
+        <property name="password" value="#{decodedPassword}"/>
+    </bean>
+
+    <bean class="com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="getStation" class="com.uraltranscom.calculaterate.service.impl.GetStationInfo" />
+    <bean id="commonLogicClass" class="com.uraltranscom.calculaterate.service.impl.CommonLogicClass" />
+    <bean id="processingCreateRouteInstance" class="com.uraltranscom.calculaterate.service.impl.GetTypeOfCargoImpl" />
+    <bean id="getTypeOfCargo" class="com.uraltranscom.calculaterate.service.impl.ProcessingCreateRouteInstance" />
+    <bean id="getDistanceBetweenStations" class="com.uraltranscom.calculaterate.service.impl.GetDistanceBetweenStationsImpl" />
+    <bean id="getTariffImpl" class="com.uraltranscom.calculaterate.service.impl.GetTariffImpl" />
+
+</beans>

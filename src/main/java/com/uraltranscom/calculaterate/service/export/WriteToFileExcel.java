@@ -13,31 +13,12 @@ package com.uraltranscom.calculaterate.service.export;
  *
  */
 
-import com.uraltranscom.calculaterate.model.Route;
 import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
-import com.uraltranscom.calculaterate.service.additional.PrefixOfDays;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.xssf.usermodel.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Component
 public class WriteToFileExcel extends JavaHelperBase {
-
+/*
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(WriteToFileExcel.class);
 
@@ -51,7 +32,7 @@ public class WriteToFileExcel extends JavaHelperBase {
     private WriteToFileExcel() {
     }
 
-    /*
+    *//*
     public static void downloadFileExcel(HttpServletResponse response, List<String>... listOfFinal) {
         try {
             xssfWorkbook = new XSSFWorkbook();
@@ -73,7 +54,7 @@ public class WriteToFileExcel extends JavaHelperBase {
             isOk = false;
         }
 
-    }*/
+    }*//*
 
     public static void downloadFileExcel(HttpServletResponse response, Map<Route, List<Integer>> map) {
         try {
@@ -219,7 +200,7 @@ public class WriteToFileExcel extends JavaHelperBase {
     }
 
     // Метод записи в файл
-    /*
+    *//*
     public static synchronized void writeToFileExcel(HttpServletResponse response, List<String>... listOfFinalArray) {
         try {
             ServletOutputStream outputStream = response.getOutputStream();
@@ -242,7 +223,7 @@ public class WriteToFileExcel extends JavaHelperBase {
         } catch (Exception e) {
             logger.error("Ошибка записи в файл - {}", e.getMessage());
         }
-    }*/
+    }*//*
 
     public static boolean isIsOk() {
         return isOk;
@@ -262,5 +243,5 @@ public class WriteToFileExcel extends JavaHelperBase {
 
     public static void setFileWagons(File fileWagons) {
         WriteToFileExcel.fileWagons = fileWagons;
-    }
+    }*/
 }

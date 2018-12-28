@@ -32,7 +32,6 @@ public class Route {
     private int countDaysLoadUnload; //Количество дней погрузки/выгрузки
     private double rate; //Ставка
     private double tariff; //Тариф
-    private boolean isSecond = Boolean.FALSE; //Является рейс вторым
 
     public Route(Station stationDeparture, Station stationDestination, String distance, int volumeWagon, Cargo cargo, RouteType routeType, int countDays) {
         this.stationDeparture = stationDeparture;
@@ -47,5 +46,21 @@ public class Route {
         } else {
             this.countDaysLoadUnload = JavaHelperBase.UNLOADING_WAGON;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "stationDeparture=" + stationDeparture +
+                ", stationDestination=" + stationDestination +
+                ", distance='" + distance + '\'' +
+                ", volumeWagon=" + volumeWagon +
+                ", cargo=" + cargo +
+                ", routeType=" + routeType +
+                ", countDays=" + countDays +
+                ", countDaysLoadUnload=" + countDaysLoadUnload +
+                ", rate=" + rate +
+                ", tariff=" + tariff +
+                '}';
     }
 }

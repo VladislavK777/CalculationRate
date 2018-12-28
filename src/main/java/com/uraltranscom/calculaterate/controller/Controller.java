@@ -13,22 +13,9 @@ package com.uraltranscom.calculaterate.controller;
  *
  */
 
-import com.uraltranscom.calculaterate.service.export.WriteToFileExcel;
-import com.uraltranscom.calculaterate.service.impl.BasicClassImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletResponse;
-
 @org.springframework.stereotype.Controller
 public class Controller {
-    // Подключаем логгер
+    /*// Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(Controller.class);
 
     @Autowired
@@ -49,5 +36,5 @@ public class Controller {
     public void getXLSWagons(HttpServletResponse response, Model model) {
         basicClassImpl.getClassHandlerLookingFor().fillFinalMapByOrders();
         WriteToFileExcel.downloadWagonsFileExcel(response, basicClassImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
-    }
+    }*/
 }

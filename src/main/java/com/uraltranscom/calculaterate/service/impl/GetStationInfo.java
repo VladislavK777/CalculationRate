@@ -42,7 +42,7 @@ public class GetStationInfo extends AbstractObjectFactory<Station> {
     public Station getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();
 
-        try (CallableStatement callableStatement = createCallableStatement((Connection) getConnection(), params);
+        try (CallableStatement callableStatement = createCallableStatement(getConnection(), params);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
                 listResult.add(resultSet.getObject(1));

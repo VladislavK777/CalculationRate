@@ -1,12 +1,8 @@
 package com.uraltranscom.calculaterate.service.impl;
 
 
-import com.uraltranscom.calculaterate.model.Country;
-import com.uraltranscom.calculaterate.model.RoadStation;
-import com.uraltranscom.calculaterate.model.Station;
 import com.uraltranscom.calculaterate.model.Tariff;
 import com.uraltranscom.calculaterate.service.AbstractObjectFactory;
-import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -47,7 +43,7 @@ public class GetTariffImpl extends AbstractObjectFactory<Tariff> {
     public Tariff getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();
 
-        try (CallableStatement callableStatement = createCallableStatement((Connection) getConnection(), params);
+        try (CallableStatement callableStatement = createCallableStatement(getConnection(), params);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
                 listResult.add(resultSet.getObject(1));
@@ -59,12 +55,13 @@ public class GetTariffImpl extends AbstractObjectFactory<Tariff> {
         List<Object> tariffInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
 
         // TODO переделать
-        return new Tariff((Double) tariffInfo.get(0), (boolean) tariffInfo.get(1));
+        return new Tariff((Double) tariffInfo.get(0), (int) tariffInfo.get(1));
     }
 
     private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
         CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
         for (int i = 1; i < params.size() + 1; i++) {
+            System.out.println(params.get(i));
             callableStatement.setObject(i, params.get("param" + i));
         }
         return callableStatement;

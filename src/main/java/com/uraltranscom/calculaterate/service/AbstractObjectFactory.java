@@ -1,7 +1,10 @@
 package com.uraltranscom.calculaterate.service;
 
 import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
+import lombok.Getter;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -9,13 +12,18 @@ import java.util.Map;
  * @create 2018-12-25
  */
 
-public abstract class AbstractObjectFactory<T> implements ObjectFactory {
-    private ConnectionDB connection = new ConnectionDB();
+@Getter
+public abstract class AbstractObjectFactory<T> extends ConnectionDB implements ObjectFactory {
+    private Connection connection;
+
+    {
+        try {
+            connection = getDataSource().getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public abstract T getObject(Map<String, Object> params);
-
-    public ConnectionDB getConnection() {
-        return connection;
-    }
 }

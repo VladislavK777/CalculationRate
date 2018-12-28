@@ -21,7 +21,16 @@ import lombok.Getter;
 @EqualsAndHashCode
 @AllArgsConstructor
 public class Cargo {
-    private String nameCargo; //Груз
     private String idCargo; //Код груза
     private String cargoType;  //Класс груза
+    private String nameCargo; //Груз
+
+    @Override
+    public String toString() {
+        return "Cargo{" +
+                "idCargo='" + idCargo + '\'' +
+                ", cargoType='" + cargoType + '\'' +
+                ", nameCargo='" + nameCargo + '\'' +
+                '}';
+    }
 }

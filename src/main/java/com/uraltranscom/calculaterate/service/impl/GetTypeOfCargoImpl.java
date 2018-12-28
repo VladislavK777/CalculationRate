@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Component
 public class GetTypeOfCargoImpl extends AbstractObjectFactory<Cargo> {
     private static Logger logger = LoggerFactory.getLogger(GetTypeOfCargoImpl.class);
-    private static final String SQL_CALL_NAME = " { call getclassofcargo2(?) } ";
+    private static final String SQL_CALL_NAME = " { call test_distance.get_cargo_type2(?) } ";
 
     private GetTypeOfCargoImpl() {
     }
@@ -40,7 +40,7 @@ public class GetTypeOfCargoImpl extends AbstractObjectFactory<Cargo> {
     public Cargo getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();
 
-        try (CallableStatement callableStatement = createCallableStatement((Connection) getConnection(), params);
+        try (CallableStatement callableStatement = createCallableStatement(getConnection(), params);
              ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
                 listResult.add(resultSet.getObject(1));
