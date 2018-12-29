@@ -4,6 +4,7 @@ import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  *
@@ -21,6 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 public class Route {
     private Station stationDeparture; //Станция отправления
     private Station stationDestination; //Станция назвачения
@@ -46,21 +48,5 @@ public class Route {
         } else {
             this.countDaysLoadUnload = JavaHelperBase.UNLOADING_WAGON;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Route{" +
-                "stationDeparture=" + stationDeparture +
-                ", stationDestination=" + stationDestination +
-                ", distance='" + distance + '\'' +
-                ", volumeWagon=" + volumeWagon +
-                ", cargo=" + cargo +
-                ", routeType=" + routeType +
-                ", countDays=" + countDays +
-                ", countDaysLoadUnload=" + countDaysLoadUnload +
-                ", rate=" + rate +
-                ", tariff=" + tariff +
-                '}';
     }
 }

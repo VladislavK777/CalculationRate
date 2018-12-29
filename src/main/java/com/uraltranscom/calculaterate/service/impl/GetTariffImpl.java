@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -34,7 +33,7 @@ import java.util.stream.Collectors;
 @Component
 public class GetTariffImpl extends AbstractObjectFactory<Tariff> {
     private static Logger logger = LoggerFactory.getLogger(GetTariffImpl.class);
-    private static final String SQL_CALL_NAME = " { call  test_distance.get_tariff2(?,?,?) } ";
+    private static final String SQL_CALL_NAME = " { call  test_tariff.get_tariff2(?,?,?) } ";
 
     private GetTariffImpl() {
     }
@@ -52,16 +51,14 @@ public class GetTariffImpl extends AbstractObjectFactory<Tariff> {
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
         }
-        List<Object> tariffInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
 
         // TODO переделать
-        return new Tariff((Double) tariffInfo.get(0), (int) tariffInfo.get(1));
+        return new Tariff((float)listResult.get(0), (float)listResult.get(1));
     }
 
     private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
         CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
         for (int i = 1; i < params.size() + 1; i++) {
-            System.out.println(params.get(i));
             callableStatement.setObject(i, params.get("param" + i));
         }
         return callableStatement;

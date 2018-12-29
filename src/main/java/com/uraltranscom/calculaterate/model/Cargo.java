@@ -3,6 +3,7 @@ package com.uraltranscom.calculaterate.model;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  *
@@ -20,17 +21,9 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @AllArgsConstructor
+@ToString
 public class Cargo {
     private String idCargo; //Код груза
     private String cargoType;  //Класс груза
     private String nameCargo; //Груз
-
-    @Override
-    public String toString() {
-        return "Cargo{" +
-                "idCargo='" + idCargo + '\'' +
-                ", cargoType='" + cargoType + '\'' +
-                ", nameCargo='" + nameCargo + '\'' +
-                '}';
-    }
 }

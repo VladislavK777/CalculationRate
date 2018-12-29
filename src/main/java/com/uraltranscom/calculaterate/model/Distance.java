@@ -3,6 +3,7 @@ package com.uraltranscom.calculaterate.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author Vladislav.Klochkov
@@ -13,21 +14,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 public class Distance {
-    private String distance; //Полная дистанция
     private String distanceStart; //Дистанция до границы от станции Отправления
     private String distanceEnd; //Дистанция от границы от станции Назначения
+    private String distance; //Полная дистанция
     private String routeCountries; //Карта дистанций по кодам стран
     private String routeDistance; //Карта дистанций между границами
-
-    @Override
-    public String toString() {
-        return "Distance{" +
-                "distance='" + distance + '\'' +
-                ", distanceStart='" + distanceStart + '\'' +
-                ", distanceEnd='" + distanceEnd + '\'' +
-                ", routeCountries='" + routeCountries + '\'' +
-                ", routeDistance='" + routeDistance + '\'' +
-                '}';
-    }
 }

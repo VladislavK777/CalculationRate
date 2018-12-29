@@ -3,6 +3,7 @@ package com.uraltranscom.calculaterate.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 
 /**
@@ -13,7 +14,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 public class Tariff {
-    private double tariff;
-    private int flagDownloadFromDB;
+    private float tariff;
+    private float flagDownloadFromDB;
 }

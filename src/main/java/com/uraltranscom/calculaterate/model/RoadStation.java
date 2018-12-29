@@ -3,6 +3,7 @@ package com.uraltranscom.calculaterate.model;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  *
@@ -20,6 +21,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 @AllArgsConstructor
+@ToString
 public class RoadStation {
     private String idRoad; //Идентификатор дороги
     private String nameRoad; //Название дороги
