@@ -39,21 +39,47 @@ public class CommonLogicClass {
     GetDistanceBetweenStationsImpl getDistanceBetweenStations;
     @Autowired
     GetTariffImpl getTariffImpl;
+    @Autowired
+    GetReturnStation getReturnStation;
 
     public void startLogic(String idStationDeparture, String idStationDestination, String idCargo, int volumeWagon) {
         logger.info("Start process with entry params: idStationDeparture - {}; idStationDestination - {}; idCargo - {}; volumeWagon - {}", idStationDeparture, idStationDestination, idCargo, volumeWagon);
 
         Station stationDeparture = getStationInfo.getObject(prepareMapWithParams(idStationDeparture));
-        System.out.println(stationDeparture.getNameStation());
         Station stationDestination = getStationInfo.getObject(prepareMapWithParams(idStationDestination));
-        System.out.println(stationDestination.getNameStation());
         Distance distance = getDistanceBetweenStations.getObject(prepareMapWithParams(idStationDeparture, idStationDestination, idCargo));
-        System.out.println(distance.toString());
         Cargo cargo = getTypeOfCargo.getObject(prepareMapWithParams(idCargo));
-
-        if (JavaHelperBase.LIST_ROADS_WITHOUT_CHECK_DIST.contains(stationDeparture.getRoadStation().getNameRoad())) {
+        if ((volumeWagon == 114 || volumeWagon == 120 || volumeWagon == 122 || volumeWagon == 138 || volumeWagon == 140) &&
+                (stationDeparture.getRoadStation().getIdRoad().equals("3") && stationDestination.getRoadStation().getIdRoad().equals("22")) ||
+                (stationDeparture.getRoadStation().getIdRoad().equals("22") && stationDestination.getRoadStation().getIdRoad().equals("3")) ||
+                JavaHelperBase.LIST_ROADS_PRIBALT.contains(stationDestination.getRoadStation().getNameRoad())) {
+            Route headRoute = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
+            headRoute.setCountDaysLoadUnload(headRoute.getCountDays() + JavaHelperBase.LOADING_WAGON);
+            double tariff = (Double) getTariff(distance, idCargo).get(0);
+            Route returnRoute = processingCreateRouteInstance.getRouteInstance(stationDestination, stationDeparture, distance.getDistance(), volumeWagon, cargo, RouteType.EMPTY_ROUTE);
+            returnRoute.setCountDaysLoadUnload(returnRoute.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
+            returnRoute.setTariff(tariff);
+        } else if (JavaHelperBase.LIST_ROADS_WITHOUT_CHECK_DIST.contains(stationDeparture.getRoadStation().getNameRoad())) {
             Route firstRoute = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
+            firstRoute.setCountDaysLoadUnload(firstRoute.getCountDays() + JavaHelperBase.LOADING_WAGON);
+            String returnStation = getReturnStation.getObject(prepareMapWithParams(stationDestination.getIdStation(), stationDestination.getRoadStation().getIdRoad(), volumeWagon, idCargo));
+            Station returnStationInfo = getStationInfo.getObject(prepareMapWithParams(returnStation));
+            Distance distanceReturnRoute = getDistanceBetweenStations.getObject(prepareMapWithParams(stationDestination.getIdStation(), returnStation, idCargo));
+            double tariffReturnRoute = (Double) getTariff(distanceReturnRoute, idCargo).get(0);
+            Route returnRoute = processingCreateRouteInstance.getRouteInstance(stationDestination, returnStationInfo, distanceReturnRoute.getDistance(), volumeWagon, cargo, RouteType.EMPTY_ROUTE);
+            returnRoute.setCountDaysLoadUnload(returnRoute.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
+            returnRoute.setTariff(tariffReturnRoute);
+            System.out.println(firstRoute);
+            System.out.println(returnRoute);
         } else if (JavaHelperBase.LIST_ROADS_PRIBALT.contains(stationDeparture.getRoadStation().getNameRoad())) {
+            if ((volumeWagon == 114 || volumeWagon == 120 || volumeWagon == 122 || volumeWagon == 138 || volumeWagon == 140) && stationDestination.getRoadStation().getIdRoad().equals("22")) {
+                Route headRoute = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
+                headRoute.setCountDaysLoadUnload(headRoute.getCountDays() + JavaHelperBase.LOADING_WAGON);
+                double tariff = (Double) getTariff(distance, idCargo).get(0);
+                Route returnRoute = processingCreateRouteInstance.getRouteInstance(stationDestination, stationDeparture, distance.getDistance(), volumeWagon, cargo, RouteType.EMPTY_ROUTE);
+                returnRoute.setCountDaysLoadUnload(returnRoute.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
+                returnRoute.setTariff(tariff);
+            }
             // TODO переделать
             Station stationDepartureFull = getStationInfo.getObject(prepareMapWithParams("273501"));
             Station stationDestinationFull = getStationInfo.getObject(prepareMapWithParams("037202"));
@@ -131,7 +157,7 @@ public class CommonLogicClass {
         if (codeCountryArray.length == 1) {
             tariff = getTariffImpl.getObject(prepareMapWithParams(
                     Integer.parseInt(codeCountryArray[0]),
-                    Integer.parseInt(distanceInfo.getRouteDistance()),
+                    Integer.parseInt(distanceInfo.getDistance()),
                     idCargo)).getTariff();
 
         } else {

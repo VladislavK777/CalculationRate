@@ -42,5 +42,6 @@
     <bean id="getTypeOfCargo" class="com.uraltranscom.calculaterate.service.impl.ProcessingCreateRouteInstance" />
     <bean id="getDistanceBetweenStations" class="com.uraltranscom.calculaterate.service.impl.GetDistanceBetweenStationsImpl" />
     <bean id="getTariffImpl" class="com.uraltranscom.calculaterate.service.impl.GetTariffImpl" />
+    <bean id="getReturn" class="com.uraltranscom.calculaterate.service.impl.GetReturnStation" />
 
 </beans>

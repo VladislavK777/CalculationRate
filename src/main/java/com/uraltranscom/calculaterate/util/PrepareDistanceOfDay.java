@@ -1,5 +1,6 @@
-package com.uraltranscom.calculaterate.service.additional;
+package com.uraltranscom.calculaterate.util;
 
+import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

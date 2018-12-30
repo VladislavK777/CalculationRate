@@ -4,7 +4,7 @@ import com.uraltranscom.calculaterate.model.Cargo;
 import com.uraltranscom.calculaterate.model.Route;
 import com.uraltranscom.calculaterate.model.RouteType;
 import com.uraltranscom.calculaterate.model.Station;
-import com.uraltranscom.calculaterate.service.additional.PrepareDistanceOfDay;
+import com.uraltranscom.calculaterate.util.PrepareDistanceOfDay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

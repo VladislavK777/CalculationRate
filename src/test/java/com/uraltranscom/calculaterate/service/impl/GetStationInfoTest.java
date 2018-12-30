@@ -36,6 +36,6 @@ public class GetStationInfoTest {
 
     @Test
     public void getCommon(){
-        commonLogicClass.startLogic("120005", "191104", "131071", 120);
+        commonLogicClass.startLogic("191104", "597104", "131071", 120);
     }
 }
