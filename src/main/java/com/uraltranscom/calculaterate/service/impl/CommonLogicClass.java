@@ -45,10 +45,13 @@ public class CommonLogicClass {
     public void startLogic(String idStationDeparture, String idStationDestination, String idCargo, int volumeWagon) {
         logger.info("Start process with entry params: idStationDeparture - {}; idStationDestination - {}; idCargo - {}; volumeWagon - {}", idStationDeparture, idStationDestination, idCargo, volumeWagon);
 
+        // Получаем информацию о станция главноего рейса
         Station stationDeparture = getStationInfo.getObject(prepareMapWithParams(idStationDeparture));
         Station stationDestination = getStationInfo.getObject(prepareMapWithParams(idStationDestination));
         Distance distance = getDistanceBetweenStations.getObject(prepareMapWithParams(idStationDeparture, idStationDestination, idCargo));
         Cargo cargo = getTypeOfCargo.getObject(prepareMapWithParams(idCargo));
+
+        // 120, 138 - БЧ-ОКТ ОКТ-БЧ+Прибалтика+Клнрг
         if ((volumeWagon == 114 || volumeWagon == 120 || volumeWagon == 122 || volumeWagon == 138 || volumeWagon == 140) &&
                 (stationDeparture.getRoadStation().getIdRoad().equals("3") && stationDestination.getRoadStation().getIdRoad().equals("22")) ||
                 (stationDeparture.getRoadStation().getIdRoad().equals("22") && stationDestination.getRoadStation().getIdRoad().equals("3")) ||
@@ -62,15 +65,18 @@ public class CommonLogicClass {
         } else if (JavaHelperBase.LIST_ROADS_WITHOUT_CHECK_DIST.contains(stationDeparture.getRoadStation().getNameRoad())) {
             Route firstRoute = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
             firstRoute.setCountDaysLoadUnload(firstRoute.getCountDays() + JavaHelperBase.LOADING_WAGON);
+
+            // TODO перенести в отдельный метод
             String returnStation = getReturnStation.getObject(prepareMapWithParams(stationDestination.getIdStation(), stationDestination.getRoadStation().getIdRoad(), volumeWagon, idCargo));
             Station returnStationInfo = getStationInfo.getObject(prepareMapWithParams(returnStation));
             Distance distanceReturnRoute = getDistanceBetweenStations.getObject(prepareMapWithParams(stationDestination.getIdStation(), returnStation, idCargo));
             double tariffReturnRoute = (Double) getTariff(distanceReturnRoute, idCargo).get(0);
-            Route returnRoute = processingCreateRouteInstance.getRouteInstance(stationDestination, returnStationInfo, distanceReturnRoute.getDistance(), volumeWagon, cargo, RouteType.EMPTY_ROUTE);
-            returnRoute.setCountDaysLoadUnload(returnRoute.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
-            returnRoute.setTariff(tariffReturnRoute);
-            System.out.println(firstRoute);
-            System.out.println(returnRoute);
+            if (stationDestination.getRoadStation().getIdRoad().equals("21")) {
+                Route returnRoute = processingCreateRouteInstance.getRouteInstance(stationDestination, returnStationInfo, distanceReturnRoute.getDistance(), volumeWagon, cargo, RouteType.EMPTY_ROUTE);
+                returnRoute.setCountDaysLoadUnload(returnRoute.getCountDays() + JavaHelperBase.UNLOADING_WAGON + 14);
+                returnRoute.setTariff(tariffReturnRoute + 23000.00);
+            }
+
         } else if (JavaHelperBase.LIST_ROADS_PRIBALT.contains(stationDeparture.getRoadStation().getNameRoad())) {
             if ((volumeWagon == 114 || volumeWagon == 120 || volumeWagon == 122 || volumeWagon == 138 || volumeWagon == 140) && stationDestination.getRoadStation().getIdRoad().equals("22")) {
                 Route headRoute = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
@@ -96,12 +102,10 @@ public class CommonLogicClass {
             Route routeFirstEmpty = processingCreateRouteInstance.getRouteInstance(stationDestinationFull, stationDeparture, distanceFirstEmpty.getDistance(), volumeWagon, cargoFull, RouteType.EMPTY_ROUTE);
             routeFirstEmpty.setCountDaysLoadUnload(routeFirstEmpty.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
             routeFirstEmpty.setTariff(tariffFirstEmpty);
-            System.out.println(routeFirstEmpty.toString());
 
             // Create headRouteFull
             Route headRouteFull = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
             headRouteFull.setCountDaysLoadUnload(headRouteFull.getCountDays() + JavaHelperBase.LOADING_2_WAGON);
-            System.out.println(headRouteFull.toString());
 
             // Finish route
             // stationDestination
@@ -148,7 +152,7 @@ public class CommonLogicClass {
         }
     }
 
-    private List<Object> getTariff(Distance distanceInfo, String idCargo) {
+    protected List<Object> getTariff(Distance distanceInfo, String idCargo) {
         double tariff = 0.00;
         boolean isLoadingTariffFromDB = false;
         String [] codeCountryArray = distanceInfo.getRouteCountries().split("/");
