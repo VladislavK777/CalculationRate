@@ -1,6 +1,5 @@
-package com.uraltranscom.calculaterate.service.impl;
+package com.uraltranscom.calculaterate.dao;
 
-import com.uraltranscom.calculaterate.service.AbstractObjectFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,8 +16,8 @@ import java.util.Map;
  * @project CalculationRate_1.0
  * @date 30.12.2018
  */
-public class GetReturnStation extends AbstractObjectFactory<String> {
-    private static Logger logger = LoggerFactory.getLogger(GetReturnStation.class);
+public class GetReturnStationDAO extends AbstractObjectFactory<String> {
+    private static Logger logger = LoggerFactory.getLogger(GetReturnStationDAO.class);
     private static final String SQL_CALL_NAME = " { call test_distance.get_return_station(?,?,?,?) } ";
 
     @Override

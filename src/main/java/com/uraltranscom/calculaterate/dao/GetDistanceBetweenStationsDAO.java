@@ -1,12 +1,9 @@
-package com.uraltranscom.calculaterate.service.impl;
+package com.uraltranscom.calculaterate.dao;
 
 import com.uraltranscom.calculaterate.model.Distance;
-import com.uraltranscom.calculaterate.service.AbstractObjectFactory;
-import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,11 +25,11 @@ import java.util.stream.Collectors;
  */
 
 @Component
-public class GetDistanceBetweenStationsImpl extends AbstractObjectFactory<Distance> {
-    private static Logger logger = LoggerFactory.getLogger(GetDistanceBetweenStationsImpl.class);
+public class GetDistanceBetweenStationsDAO extends AbstractObjectFactory<Distance> {
+    private static Logger logger = LoggerFactory.getLogger(GetDistanceBetweenStationsDAO.class);
     private static final String SQL_CALL_NAME = " { call  test_distance.get_root_distance3(?,?,?) } ";
 
-    private GetDistanceBetweenStationsImpl() {
+    private GetDistanceBetweenStationsDAO() {
     }
 
     @Override

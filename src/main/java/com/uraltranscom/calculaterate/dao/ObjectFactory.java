@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.service;
+package com.uraltranscom.calculaterate.dao;
 
 import java.util.Map;
 

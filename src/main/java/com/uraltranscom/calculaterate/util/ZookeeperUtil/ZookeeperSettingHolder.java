@@ -40,7 +40,7 @@ public class ZookeeperSettingHolder implements InitializingBean {
         String value();
     }
 
-    @ZookeeperSettings("database_test")
+    @ZookeeperSettings("database")
     private String dataBase;
 
     @ZookeeperSettings("user")

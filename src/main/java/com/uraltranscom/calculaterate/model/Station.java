@@ -25,5 +25,5 @@ import lombok.ToString;
 public class Station {
     private String idStation; //Код станции
     private String nameStation; //Название станция
-    private RoadStation roadStation; //Дорога станции
+    private Road road; //Дорога станции
 }

@@ -1,9 +1,7 @@
-package com.uraltranscom.calculaterate.service.impl;
+package com.uraltranscom.calculaterate.dao;
 
-import com.uraltranscom.calculaterate.model.Country;
-import com.uraltranscom.calculaterate.model.RoadStation;
-import com.uraltranscom.calculaterate.model.Station;
-import com.uraltranscom.calculaterate.service.AbstractObjectFactory;
+
+import com.uraltranscom.calculaterate.model.Tariff;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -15,31 +13,32 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  *
- * Класс получения станции
+ * Класс получения ставки
  *
  * @author Vladislav Klochkov
- * @version 1.0
- * @create 26.12.2018
+ * @version 2.0
+ * @create 26.07.2018
  *
- * 26.12.2018
+ * 26.07.2018
  *   1. Версия 1.0
+ * 12.10.2018
+ *   1. Версия 2.0
  *
  */
 
 @Component
-public class GetStationInfo extends AbstractObjectFactory<Station> {
-    private static Logger logger = LoggerFactory.getLogger(GetStationInfo.class);
-    private static final String SQL_CALL_NAME = " { call  test_distance.get_station_info(?) } ";
+public class GetTariffDAO extends AbstractObjectFactory<Tariff> {
+    private static Logger logger = LoggerFactory.getLogger(GetTariffDAO.class);
+    private static final String SQL_CALL_NAME = " { call  test_tariff.get_tariff2(?,?,?) } ";
 
-    private GetStationInfo() {
+    private GetTariffDAO() {
     }
 
     @Override
-    public Station getObject(Map<String, Object> params) {
+    public Tariff getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();
 
         try (CallableStatement callableStatement = createCallableStatement(getConnection(), params);
@@ -51,17 +50,9 @@ public class GetStationInfo extends AbstractObjectFactory<Station> {
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
         }
-        List<String> stationInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
 
         // TODO переделать
-        return new Station(stationInfo.get(0), stationInfo.get(1),
-                new RoadStation(stationInfo.get(2), stationInfo.get(3), stationInfo.get(4),
-                        new Country(
-                                stationInfo.get(5),
-                                stationInfo.get(6)
-                        )
-                )
-        );
+        return new Tariff((float)listResult.get(0), (float)listResult.get(1));
     }
 
     private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {

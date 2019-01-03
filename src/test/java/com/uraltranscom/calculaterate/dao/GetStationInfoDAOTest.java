@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.service.impl;
+package com.uraltranscom.calculaterate.dao;
 
 import com.uraltranscom.calculaterate.model.Station;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
@@ -17,25 +17,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext/applicationContext.xml"})
-public class GetStationInfoTest {
+public class GetStationInfoDAOTest {
 
     @Autowired
     @Qualifier("getStation")
-    private GetStationInfo getStationInfo;
-
-    @Autowired
-    @Qualifier("commonLogicClass")
-    private CommonLogicClass commonLogicClass;
+    private GetStationInfoDAO getStationInfoDAO;
 
     @Test
     public void getStation(){
-        Station station = getStationInfo.getObject(PrepareMapParams.prepareMapWithParams("037202"));
+        Station station = getStationInfoDAO.getObject(PrepareMapParams.prepareMapWithParams("037202"));
         System.out.println(station.getNameStation());
         //Assert.assertEquals("Щербинка", station.getNameStation());
-    }
-
-    @Test
-    public void getCommon(){
-        commonLogicClass.startLogic("191104", "597104", "131071", 120);
     }
 }

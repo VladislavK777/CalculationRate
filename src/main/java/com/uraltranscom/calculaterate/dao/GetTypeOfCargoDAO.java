@@ -1,7 +1,6 @@
-package com.uraltranscom.calculaterate.service.impl;
+package com.uraltranscom.calculaterate.dao;
 
 import com.uraltranscom.calculaterate.model.Cargo;
-import com.uraltranscom.calculaterate.service.AbstractObjectFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -29,11 +28,11 @@ import java.util.stream.Collectors;
  */
 
 @Component
-public class GetTypeOfCargoImpl extends AbstractObjectFactory<Cargo> {
-    private static Logger logger = LoggerFactory.getLogger(GetTypeOfCargoImpl.class);
+public class GetTypeOfCargoDAO extends AbstractObjectFactory<Cargo> {
+    private static Logger logger = LoggerFactory.getLogger(GetTypeOfCargoDAO.class);
     private static final String SQL_CALL_NAME = " { call test_distance.get_cargo_type2(?) } ";
 
-    private GetTypeOfCargoImpl() {
+    private GetTypeOfCargoDAO() {
     }
 
     @Override

@@ -22,7 +22,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @AllArgsConstructor
 @ToString
-public class RoadStation {
+public class Road {
     private String idRoad; //Идентификатор дороги
     private String nameRoad; //Название дороги
     private String fullNameRoad; //Полное название дороги
