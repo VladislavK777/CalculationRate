@@ -43,10 +43,5 @@ public class Route {
         this.cargo = cargo;
         this.routeType = routeType;
         this.countDays = countDays;
-        if (routeType.equals(RouteType.FULL_ROUTE)) {
-            this.countDaysLoadUnload = JavaHelperBase.LOADING_WAGON;
-        } else {
-            this.countDaysLoadUnload = JavaHelperBase.UNLOADING_WAGON;
-        }
     }
 }

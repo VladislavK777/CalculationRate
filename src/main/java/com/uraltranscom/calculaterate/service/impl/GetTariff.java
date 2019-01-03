@@ -28,7 +28,6 @@ public class GetTariff extends GetObject {
                     Integer.parseInt(codeCountryArray[0]),
                     Integer.parseInt(distanceInfo.getDistance()),
                     idCargo)).getTariff();
-
         } else {
             String [] distanceTransitArray;
             List<Integer> distanceList = new ArrayList<>();

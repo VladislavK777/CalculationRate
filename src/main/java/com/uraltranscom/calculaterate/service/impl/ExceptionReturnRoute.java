@@ -188,6 +188,8 @@ public class ExceptionReturnRoute extends GetObject {
         else {
             List<Route> routeList = new ArrayList<>();
             Route returnRoute = processingCreateRouteInstance.getRouteInstance(stationDestination, returnStationInfo, distanceReturnRoute.getDistance(), volumeWagon, cargo, RouteType.EMPTY_ROUTE);
+            returnRoute.setCountDaysLoadUnload(returnRoute.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
+            returnRoute.setTariff(tariffReturnRoute);
             routeList.add(returnRoute);
             return routeList;
         }

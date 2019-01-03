@@ -2,6 +2,7 @@ package com.uraltranscom.calculaterate.service.impl;
 
 import com.uraltranscom.calculaterate.model.Route;
 import com.uraltranscom.calculaterate.model_ex.ExitModel;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,11 +13,19 @@ import java.util.List;
  */
 
 @Component
+@Getter
 public class CalculationRate extends GetObject {
-    double yield = 2100.00;
+    double yield = 0.00;
     double rate = 0.00;
 
     public double getRate(String idStationDeparture, String idStationDestination, String idCargo, int volumeWagon) {
+        if (volumeWagon == 114 || volumeWagon == 120 || volumeWagon == 122) {
+            yield = 2000.00;
+        } else if (volumeWagon == 138 || volumeWagon == 141) {
+            yield = 2100.00;
+        } else {
+            yield = 2200.00;
+        }
         double sumCosts = 0.00;
         double sumCountDays = 0;
         commonLogicClass.startLogic(idStationDeparture, idStationDestination, idCargo, volumeWagon);
