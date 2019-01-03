@@ -22,6 +22,6 @@ public class CommonLogicClassTest {
 
     @Test
     public void getCommon(){
-        commonLogicClass.startLogic("191104", "597104", "131071", 120);
+        commonLogicClass.startLogic("840109", "722400", "131071", 138);
     }
 }

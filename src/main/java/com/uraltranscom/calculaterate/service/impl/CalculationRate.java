@@ -37,7 +37,9 @@ public class CalculationRate extends GetObject {
             sumCosts = sumCosts + route.getRate() + route.getTariff();
         }
         rate = (yield - (sumCosts/sumCountDays)) * sumCountDays;
-        System.out.println(list);
+        for(Route r: list) {
+            System.out.println(r);
+        }
         return rate;
     }
 }

@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.processing.RoundEnvironment;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,14 +58,14 @@ public class CommonLogicClass extends GetObject {
             routeList.add(returnRoute);
             exitModel = new ExitModel(routeList);
 
-        } else if (JavaHelperBase.LIST_ROADS_WITHOUT_CHECK_DIST.contains(stationDeparture.getRoad().getNameRoad())) {
+        } else if (JavaHelperBase.LIST_ROADS_WITHOUT_CHECK.contains(stationDeparture.getRoad().getIdRoad())) {
             Route firstRoute = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
             firstRoute.setCountDaysLoadUnload(firstRoute.getCountDays() + JavaHelperBase.LOADING_WAGON);
-            List<Route> routeList = exceptionReturnRoute.getListExceprionReturnRoutes(stationDestination, cargo, volumeWagon);
+            List<Route> routeList = exceptionReturnRoute.getListExceptionReturnRoutes(stationDestination, cargo, volumeWagon);
             routeList.add(firstRoute);
             exitModel = new ExitModel(routeList);
 
-        } else if (JavaHelperBase.LIST_ROADS_PRIBALT.contains(stationDeparture.getRoad().getNameRoad())) {
+        } else if (JavaHelperBase.LIST_ROADS_PRIBALT.contains(stationDeparture.getRoad().getIdRoad())) {
             List<Route> routeList = new ArrayList<>();
             if ((volumeWagon == 114 || volumeWagon == 120 || volumeWagon == 122 || volumeWagon == 138 || volumeWagon == 140) && stationDestination.getRoad().getIdRoad().equals("22")) {
                 Route headRoute = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
@@ -100,7 +99,7 @@ public class CommonLogicClass extends GetObject {
                 // Create headRouteFull
                 Route headRouteFull = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
                 headRouteFull.setCountDaysLoadUnload(headRouteFull.getCountDays() + JavaHelperBase.LOADING_2_WAGON);
-                routeList = exceptionReturnRoute.getListExceprionReturnRoutes(stationDestination, cargo, volumeWagon);
+                routeList = exceptionReturnRoute.getListExceptionReturnRoutes(stationDestination, cargo, volumeWagon);
                 routeList.add(firstRouteFull);
                 routeList.add(routeFirstEmpty);
                 routeList.add(headRouteFull);
@@ -130,7 +129,7 @@ public class CommonLogicClass extends GetObject {
             Route headRouteFull = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
             headRouteFull.setCountDaysLoadUnload(headRouteFull.getCountDays() + JavaHelperBase.LOADING_2_WAGON);
 
-            routeList = exceptionReturnRoute.getListExceprionReturnRoutes(stationDestination, cargo, volumeWagon);
+            routeList = exceptionReturnRoute.getListExceptionReturnRoutes(stationDestination, cargo, volumeWagon);
             routeList.add(firstRouteFull);
             routeList.add(routeFirstEmpty);
             routeList.add(headRouteFull);

@@ -21,15 +21,14 @@ import static com.uraltranscom.calculaterate.util.PrepareMapParams.prepareMapWit
 public class ExceptionReturnRoute extends GetObject {
     private final Logger logger = LoggerFactory.getLogger(ExceptionReturnRoute.class);
 
-    List<Route> getListExceprionReturnRoutes(Station stationDestination, Cargo cargo, int volumeWagon) {
-        String returnStation = getReturnStationDAO.getObject(prepareMapWithParams(stationDestination.getIdStation(), stationDestination.getRoad().getIdRoad(), volumeWagon, cargo.getIdCargo()));
-        Station returnStationInfo = getStationInfoDAO.getObject(prepareMapWithParams(returnStation));
-        Distance distanceReturnRoute = getDistanceBetweenStations.getObject(prepareMapWithParams(stationDestination.getIdStation(), returnStation, cargo.getIdCargo()));
-        double tariffReturnRoute = (Double) getTariff.getTariff(distanceReturnRoute, cargo.getIdCargo()).get(0);
-
+    List<Route> getListExceptionReturnRoutes(Station stationDestination, Cargo cargo, int volumeWagon) {
         // Если станция назначения Крым
         if (stationDestination.getRoad().getIdRoad().equals("21")) {
             List<Route> routeList = new ArrayList<>();
+            String returnStation = getReturnStationDAO.getObject(prepareMapWithParams(stationDestination.getIdStation(), stationDestination.getRoad().getIdRoad(), volumeWagon, cargo.getIdCargo()));
+            Station returnStationInfo = getStationInfoDAO.getObject(prepareMapWithParams(returnStation));
+            Distance distanceReturnRoute = getDistanceBetweenStations.getObject(prepareMapWithParams(stationDestination.getIdStation(), returnStation, cargo.getIdCargo()));
+            double tariffReturnRoute = (Double) getTariff.getTariff(distanceReturnRoute, cargo.getIdCargo()).get(0);
             Route returnRoute = processingCreateRouteInstance.getRouteInstance(stationDestination, returnStationInfo, distanceReturnRoute.getDistance(), volumeWagon, cargo, RouteType.EMPTY_ROUTE);
             returnRoute.setCountDaysLoadUnload(returnRoute.getCountDays() + JavaHelperBase.UNLOADING_WAGON + 14);
             returnRoute.setTariff(tariffReturnRoute + 23000.00);
@@ -63,7 +62,7 @@ public class ExceptionReturnRoute extends GetObject {
             Station stationEmptySecond = getStationInfoDAO.getObject(prepareMapWithParams("195800"));
             Route routeEmptySecond = processingCreateRouteInstance.getRouteInstance(stationFullSecond, stationEmptySecond, "311", volumeWagon, cargoRoute, RouteType.EMPTY_ROUTE);
             routeEmptySecond.setCountDaysLoadUnload(2 + JavaHelperBase.UNLOADING_WAGON);
-            routeEmptySecond.setTariff(12789.00);
+            routeEmptySecond.setTariff(-12789.00);
             routeList.add(routeEmptySecond);
             return routeList;
         }
@@ -93,7 +92,7 @@ public class ExceptionReturnRoute extends GetObject {
             Station stationEmptySecond = getStationInfoDAO.getObject(prepareMapWithParams("010906"));
             Route routeEmptySecond = processingCreateRouteInstance.getRouteInstance(stationFullSecond, stationEmptySecond, "476", volumeWagon, cargoRoute, RouteType.EMPTY_ROUTE);
             routeEmptySecond.setCountDaysLoadUnload(3 + JavaHelperBase.UNLOADING_WAGON);
-            routeEmptySecond.setTariff(14746.00);
+            routeEmptySecond.setTariff(-14746.00);
             routeList.add(routeEmptySecond);
             return routeList;
         }
@@ -121,7 +120,7 @@ public class ExceptionReturnRoute extends GetObject {
             Station stationEmptySecond = getStationInfoDAO.getObject(prepareMapWithParams("806708"));
             Route routeEmptySecond = processingCreateRouteInstance.getRouteInstance(stationFullSecond, stationEmptySecond, "226", volumeWagon, cargoRoute, RouteType.EMPTY_ROUTE);
             routeEmptySecond.setCountDaysLoadUnload(3 + JavaHelperBase.UNLOADING_WAGON);
-            routeEmptySecond.setTariff(6048.00);
+            routeEmptySecond.setTariff(-6048.00);
             routeList.add(routeEmptySecond);
             return routeList;
         }
@@ -150,7 +149,7 @@ public class ExceptionReturnRoute extends GetObject {
             Station stationEmptySecond = getStationInfoDAO.getObject(prepareMapWithParams("612003"));
             Route routeEmptySecond = processingCreateRouteInstance.getRouteInstance(stationFullSecond, stationEmptySecond, "1360", volumeWagon, cargoRoute, RouteType.EMPTY_ROUTE);
             routeEmptySecond.setCountDaysLoadUnload(7 + JavaHelperBase.UNLOADING_WAGON);
-            routeEmptySecond.setTariff(44909.00);
+            routeEmptySecond.setTariff(-44909.00);
             routeList.add(routeEmptySecond);
             return routeList;
         }
@@ -179,7 +178,7 @@ public class ExceptionReturnRoute extends GetObject {
             Station stationEmptySecond = getStationInfoDAO.getObject(prepareMapWithParams("195800"));
             Route routeEmptySecond = processingCreateRouteInstance.getRouteInstance(stationFullSecond, stationEmptySecond, "320", volumeWagon, cargoRoute, RouteType.EMPTY_ROUTE);
             routeEmptySecond.setCountDaysLoadUnload(routeEmptySecond.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
-            routeEmptySecond.setTariff(6759.00);
+            routeEmptySecond.setTariff(-6759.00);
             routeList.add(routeEmptySecond);
             return routeList;
         }
@@ -187,6 +186,10 @@ public class ExceptionReturnRoute extends GetObject {
         // Если нет в исключениях, то добавляем рейс до станции возврата
         else {
             List<Route> routeList = new ArrayList<>();
+            String returnStation = getReturnStationDAO.getObject(prepareMapWithParams(stationDestination.getIdStation(), stationDestination.getRoad().getIdRoad(), volumeWagon, cargo.getIdCargo()));
+            Station returnStationInfo = getStationInfoDAO.getObject(prepareMapWithParams(returnStation));
+            Distance distanceReturnRoute = getDistanceBetweenStations.getObject(prepareMapWithParams(stationDestination.getIdStation(), returnStation, cargo.getIdCargo()));
+            double tariffReturnRoute = (Double) getTariff.getTariff(distanceReturnRoute, cargo.getIdCargo()).get(0);
             Route returnRoute = processingCreateRouteInstance.getRouteInstance(stationDestination, returnStationInfo, distanceReturnRoute.getDistance(), volumeWagon, cargo, RouteType.EMPTY_ROUTE);
             returnRoute.setCountDaysLoadUnload(returnRoute.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
             returnRoute.setTariff(tariffReturnRoute);

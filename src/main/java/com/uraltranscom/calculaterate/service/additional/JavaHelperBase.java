@@ -44,11 +44,11 @@ public class JavaHelperBase {
     public static final String DISTANCE_DAYS = propertyUtil.getProperty("distanceday");
 
     // Список дорог, с которых расчет идет от станции Отправления
-    public static final List<String> LIST_ROADS_WITHOUT_CHECK_DIST = Arrays.stream(new String[]{"МОСК", "ОКТ", "ПРИВ", "БЧ", "Ю-УР", "З-СИБ", "В-СИБ", "ГОРЬК", "Ю-ВОСТ", "СВЕРД"}).collect(Collectors.toList());
+    public static final List<String> LIST_ROADS_WITHOUT_CHECK = Arrays.stream(new String[]{"13", "22", "23", "3", "29", "12", "11", "14", "28", "25"}).collect(Collectors.toList());
 
     // Список дорог Прибалтики
-    public static final List<String> LIST_ROADS_PRIBALT = Arrays.stream(new String[]{"ЛДЗ", "ЛГ", "ЭВР", "КЛНГ"}).collect(Collectors.toList());
+    public static final List<String> LIST_ROADS_PRIBALT = Arrays.stream(new String[]{"7", "8", "39", "19"}).collect(Collectors.toList());
 
     // Список станций КБШ не попадающие под общее правило
-    public static final List<String> LIST_STATIONS_KBSH_ROAD = Arrays.asList(new String[]{"657907", "645401", "645100", "645505", "645609", "644803"});
+    public static final List<String> LIST_STATIONS_KBSH_ROAD = Arrays.asList("657907", "645401", "645100", "645505", "645609", "644803");
 }

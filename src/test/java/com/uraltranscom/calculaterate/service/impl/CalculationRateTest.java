@@ -20,7 +20,7 @@ public class CalculationRateTest {
 
     @Test
     public void getRate() {
-        calculationRate.getRate("195800", "597104", "131071", 120);
+        calculationRate.getRate("140009", "070501", "131071", 138);
         System.out.println(calculationRate.getRate());
     }
 }

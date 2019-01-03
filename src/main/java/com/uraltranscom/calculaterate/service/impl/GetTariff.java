@@ -5,6 +5,7 @@ import com.uraltranscom.calculaterate.model.Tariff;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.uraltranscom.calculaterate.util.PrepareMapParams.prepareMapWithParams;
@@ -28,6 +29,20 @@ public class GetTariff extends GetObject {
                     Integer.parseInt(codeCountryArray[0]),
                     Integer.parseInt(distanceInfo.getDistance()),
                     idCargo)).getTariff();
+        } else if (codeCountryArray.length == 2) {
+            List<Integer> distanceList = new ArrayList<>();
+            int distanceStart = Integer.parseInt(distanceInfo.getDistanceStart());
+            int distanceEnd = Integer.parseInt(distanceInfo.getDistanceEnd());
+            distanceList.add(distanceStart);
+            distanceList.add(distanceEnd);
+            for (int i = 0; i < codeCountryArray.length; i++) {
+                Tariff tariffFull = getTariffDAO.getObject(prepareMapWithParams(
+                        Integer.parseInt(codeCountryArray[i]),
+                        distanceList.get(i),
+                        idCargo));
+                tariff = tariff + tariffFull.getTariff();
+                listFlag.add((int)tariffFull.getFlagDownloadFromDB());
+            }
         } else {
             String [] distanceTransitArray;
             List<Integer> distanceList = new ArrayList<>();
