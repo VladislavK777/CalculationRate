@@ -31,7 +31,7 @@ public class ExceptionReturnRoute extends GetObject {
             double tariffReturnRoute = (Double) getTariff.getTariff(distanceReturnRoute, cargo.getIdCargo()).get(0);
             Route returnRoute = processingCreateRouteInstance.getRouteInstance(stationDestination, returnStationInfo, distanceReturnRoute.getDistance(), volumeWagon, cargo, RouteType.EMPTY_ROUTE);
             returnRoute.setCountDaysLoadUnload(returnRoute.getCountDays() + JavaHelperBase.UNLOADING_WAGON + 14);
-            returnRoute.setTariff(tariffReturnRoute + 23000.00);
+            returnRoute.setTariff(tariffReturnRoute + (-23000.00));
             routeList.add(returnRoute);
             return routeList;
         }
@@ -54,14 +54,16 @@ public class ExceptionReturnRoute extends GetObject {
             // Получаем второй маршрут
             Station stationFullSecond = getStationInfoDAO.getObject(prepareMapWithParams("230309"));
             Route routeFullSecond = processingCreateRouteInstance.getRouteInstance(stationEmptyFirst, stationFullSecond, "3096", volumeWagon, cargoRoute, RouteType.FULL_ROUTE);
-            routeFullSecond.setCountDaysLoadUnload(15 + JavaHelperBase.LOADING_2_WAGON);
+            routeFullSecond.setCountDays(15);
+            routeFullSecond.setCountDaysLoadUnload(routeFullSecond.getCountDays() + JavaHelperBase.LOADING_2_WAGON);
             routeFullSecond.setRate(14000.00);
             routeList.add(routeFullSecond);
 
             // Получаем маршрут второго порожнего рейса до опорной станции
             Station stationEmptySecond = getStationInfoDAO.getObject(prepareMapWithParams("195800"));
             Route routeEmptySecond = processingCreateRouteInstance.getRouteInstance(stationFullSecond, stationEmptySecond, "311", volumeWagon, cargoRoute, RouteType.EMPTY_ROUTE);
-            routeEmptySecond.setCountDaysLoadUnload(2 + JavaHelperBase.UNLOADING_WAGON);
+            routeEmptySecond.setCountDays(2);
+            routeEmptySecond.setCountDaysLoadUnload(routeEmptySecond.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
             routeEmptySecond.setTariff(-12789.00);
             routeList.add(routeEmptySecond);
             return routeList;
@@ -84,14 +86,16 @@ public class ExceptionReturnRoute extends GetObject {
             // Получаем второй маршрут
             Station stationFullSecond = getStationInfoDAO.getObject(prepareMapWithParams("035601"));
             Route routeFullSecond = processingCreateRouteInstance.getRouteInstance(stationEmptyFirst, stationFullSecond, "2672", volumeWagon, cargoRoute, RouteType.FULL_ROUTE);
-            routeFullSecond.setCountDaysLoadUnload(11 + JavaHelperBase.LOADING_2_WAGON);
+            routeFullSecond.setCountDays(11);
+            routeFullSecond.setCountDaysLoadUnload(routeFullSecond.getCountDays() + JavaHelperBase.LOADING_2_WAGON);
             routeFullSecond.setRate(45697.00);
             routeList.add(routeFullSecond);
 
             // Получаем маршрут второго порожнего рейса до опорной станции
             Station stationEmptySecond = getStationInfoDAO.getObject(prepareMapWithParams("010906"));
             Route routeEmptySecond = processingCreateRouteInstance.getRouteInstance(stationFullSecond, stationEmptySecond, "476", volumeWagon, cargoRoute, RouteType.EMPTY_ROUTE);
-            routeEmptySecond.setCountDaysLoadUnload(3 + JavaHelperBase.UNLOADING_WAGON);
+            routeEmptySecond.setCountDays(3);
+            routeEmptySecond.setCountDaysLoadUnload(routeEmptySecond.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
             routeEmptySecond.setTariff(-14746.00);
             routeList.add(routeEmptySecond);
             return routeList;
@@ -112,14 +116,16 @@ public class ExceptionReturnRoute extends GetObject {
             // Получаем второй маршрут
             Station stationFullSecond = getStationInfoDAO.getObject(prepareMapWithParams("800101"));
             Route routeFullSecond = processingCreateRouteInstance.getRouteInstance(stationEmptyFirst, stationFullSecond, "7277", volumeWagon, cargoRoute, RouteType.FULL_ROUTE);
-            routeFullSecond.setCountDaysLoadUnload(18 + JavaHelperBase.LOADING_2_WAGON);
+            routeFullSecond.setCountDays(18);
+            routeFullSecond.setCountDaysLoadUnload(routeFullSecond.getCountDays() + JavaHelperBase.LOADING_2_WAGON);
             routeFullSecond.setRate(1694.92);
             routeList.add(routeFullSecond);
 
             // Получаем маршрут второго порожнего рейса до опорной станции
             Station stationEmptySecond = getStationInfoDAO.getObject(prepareMapWithParams("806708"));
             Route routeEmptySecond = processingCreateRouteInstance.getRouteInstance(stationFullSecond, stationEmptySecond, "226", volumeWagon, cargoRoute, RouteType.EMPTY_ROUTE);
-            routeEmptySecond.setCountDaysLoadUnload(3 + JavaHelperBase.UNLOADING_WAGON);
+            routeEmptySecond.setCountDays(3);
+            routeEmptySecond.setCountDaysLoadUnload(routeEmptySecond.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
             routeEmptySecond.setTariff(-6048.00);
             routeList.add(routeEmptySecond);
             return routeList;
@@ -141,14 +147,16 @@ public class ExceptionReturnRoute extends GetObject {
             // Получаем второй маршрут
             Station stationFullSecond = getStationInfoDAO.getObject(prepareMapWithParams("548004"));
             Route routeFullSecond = processingCreateRouteInstance.getRouteInstance(stationEmptyFirst, stationFullSecond, "3728", volumeWagon, cargoRoute, RouteType.FULL_ROUTE);
-            routeFullSecond.setCountDaysLoadUnload(11 + JavaHelperBase.LOADING_2_WAGON);
+            routeFullSecond.setCountDays(11);
+            routeFullSecond.setCountDaysLoadUnload(routeFullSecond.getCountDays() + JavaHelperBase.LOADING_2_WAGON);
             routeFullSecond.setRate(130000.00);
             routeList.add(routeFullSecond);
 
             // Получаем маршрут второго порожнего рейса до опорной станции
             Station stationEmptySecond = getStationInfoDAO.getObject(prepareMapWithParams("612003"));
             Route routeEmptySecond = processingCreateRouteInstance.getRouteInstance(stationFullSecond, stationEmptySecond, "1360", volumeWagon, cargoRoute, RouteType.EMPTY_ROUTE);
-            routeEmptySecond.setCountDaysLoadUnload(7 + JavaHelperBase.UNLOADING_WAGON);
+            routeEmptySecond.setCountDays(7);
+            routeEmptySecond.setCountDaysLoadUnload(routeEmptySecond.getCountDays() + JavaHelperBase.UNLOADING_WAGON);
             routeEmptySecond.setTariff(-44909.00);
             routeList.add(routeEmptySecond);
             return routeList;

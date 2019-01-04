@@ -46,7 +46,7 @@ public class CommonLogicClass extends GetObject {
         if ((volumeWagon == 114 || volumeWagon == 120 || volumeWagon == 122 || volumeWagon == 138 || volumeWagon == 140) &&
                 (stationDeparture.getRoad().getIdRoad().equals("3") && stationDestination.getRoad().getIdRoad().equals("22")) ||
                 (stationDeparture.getRoad().getIdRoad().equals("22") && stationDestination.getRoad().getIdRoad().equals("3")) ||
-                JavaHelperBase.LIST_ROADS_PRIBALT.contains(stationDestination.getRoad().getNameRoad())) {
+                JavaHelperBase.LIST_ROADS_PRIBALT.contains(stationDestination.getRoad().getIdRoad())) {
             List<Route> routeList = new ArrayList<>();
             Route headRoute = processingCreateRouteInstance.getRouteInstance(stationDeparture, stationDestination, distance.getDistance(), volumeWagon, cargo, RouteType.FULL_ROUTE);
             headRoute.setCountDaysLoadUnload(headRoute.getCountDays() + JavaHelperBase.LOADING_WAGON);

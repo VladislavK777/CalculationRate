@@ -1,5 +1,14 @@
 package com.uraltranscom.calculaterate.controller;
 
+import com.uraltranscom.calculaterate.service.impl.CalculationRate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 /**
  *
  * Контроллер
@@ -15,26 +24,20 @@ package com.uraltranscom.calculaterate.controller;
 
 @org.springframework.stereotype.Controller
 public class Controller {
-    /*// Подключаем логгер
+    // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(Controller.class);
 
     @Autowired
-    private BasicClassImpl basicClassImpl;
+    private CalculationRate calculationRate;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
-        return "welcome";
+        calculationRate.getRate("840109", "722400", "131071", 138);
+        model.addAttribute("list", calculationRate.getExitModel().getExitList());
+        model.addAttribute("rate", calculationRate.getRate());
+        model.addAttribute("countDays", calculationRate.getSumCountDays());
+        model.addAttribute("countCost", calculationRate.getSumCosts());
+        model.addAttribute("yield", calculationRate.getYield());
+    return "welcome";
     }
-
-    @RequestMapping(value = "/reports", method = RequestMethod.POST)
-    public String routeList(@RequestParam(value = "routesFile") MultipartFile routesFile, Model model) {
-        return "welcome";
-    }
-
-    // Выгрузка в Excel
-    @RequestMapping(value = "/exportWagons", method = RequestMethod.GET)
-    public void getXLSWagons(HttpServletResponse response, Model model) {
-        basicClassImpl.getClassHandlerLookingFor().fillFinalMapByOrders();
-        WriteToFileExcel.downloadWagonsFileExcel(response, basicClassImpl.getClassHandlerLookingFor().getMapFinalWagonInfo());
-    }*/
 }
