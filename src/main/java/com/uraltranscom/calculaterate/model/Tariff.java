@@ -1,9 +1,6 @@
 package com.uraltranscom.calculaterate.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 
 /**
@@ -14,6 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @AllArgsConstructor
+@EqualsAndHashCode
 @ToString
 public class Tariff {
     private float tariff;

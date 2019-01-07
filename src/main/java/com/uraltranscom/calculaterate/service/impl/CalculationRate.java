@@ -2,11 +2,15 @@ package com.uraltranscom.calculaterate.service.impl;
 
 import com.uraltranscom.calculaterate.model.Route;
 import com.uraltranscom.calculaterate.model_ex.ExitModel;
+import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
+import javax.tools.JavaCompiler;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.uraltranscom.calculaterate.util.GetVolumeGroup.getVolumeGroup;
 
 /**
  * @author Vladislav Klochkov
@@ -25,9 +29,9 @@ public class CalculationRate extends GetObject {
     ExitModel exitModel;
 
     public void getRate(String idStationDeparture, String idStationDestination, String idCargo, int volumeWagon) {
-        if (volumeWagon == 114 || volumeWagon == 120 || volumeWagon == 122) {
+        if (getVolumeGroup(volumeWagon) == 120) {
             yield = 2000.00;
-        } else if (volumeWagon == 138 || volumeWagon == 141) {
+        } else if (getVolumeGroup(volumeWagon) == 138) {
             yield = 2100.00;
         } else {
             yield = 2200.00;
@@ -44,6 +48,7 @@ public class CalculationRate extends GetObject {
         }
         rate = Math.round(((yield - (sumCosts / sumFullCountDays)) * sumFullCountDays) * 100) / 100.00d;
         exitModel = reCalcValues();
+        check2load();
     }
 
     private ExitModel reCalcValues() {
@@ -57,5 +62,17 @@ public class CalculationRate extends GetObject {
             yield = Math.round((sumCosts / sumFullCountDays) * 100) / 100.00d;
         }
         return exitModel;
+    }
+
+    private void check2load() {
+        boolean flag = false;
+        for (Route route: exitModel.getExitList()) {
+            if (route.getCountDaysLoadAndUnload() == JavaHelperBase.LOADING_2_WAGON && !flag) {
+                flag = true;
+            } else if (route.getCountDaysLoadAndUnload() == JavaHelperBase.LOADING_2_WAGON && flag) {
+                route.setNewCountDaysLoadAndUnload(JavaHelperBase.LOADING_WAGON);
+                flag = false;
+            }
+        }
     }
 }

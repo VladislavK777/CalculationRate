@@ -27,7 +27,7 @@ public class Route {
     private Station stationDeparture; //Станция отправления
     private Station stationDestination; //Станция назвачения
     private String distance; //Расстояние маршрута
-    private int volumeWagon; //Объем вагона
+    private Volume volumeWagon; //Объем вагона
     private Cargo cargo; //Груз
     private RouteType routeType; //Тип рейса
     private int countDays; //Количество дней
@@ -41,11 +41,22 @@ public class Route {
         this.stationDeparture = stationDeparture;
         this.stationDestination = stationDestination;
         this.distance = distance;
-        this.volumeWagon = volumeWagon;
+        this.volumeWagon = new Volume(volumeWagon);
         this.cargo = cargo;
         this.routeType = routeType;
         this.countDays = countDays;
         this.countDaysLoadAndUnload = countDaysLoadAndUnload;
+        this.fullCountDays = countDays + countDaysLoadAndUnload;
         this.flagNeedCalc = flagNeedCalc;
+    }
+
+    public void setNewCountDays(int countDays) {
+        this.countDays = countDays;
+        this.fullCountDays = countDays + this.countDaysLoadAndUnload;
+    }
+
+    public void setNewCountDaysLoadAndUnload(int newCountDaysLoadAndUnload) {
+        setCountDaysLoadAndUnload(newCountDaysLoadAndUnload);
+        this.fullCountDays = this.countDays + newCountDaysLoadAndUnload;
     }
 }

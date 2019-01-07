@@ -1,5 +1,6 @@
 package com.uraltranscom.calculaterate.controller;
 
+import com.uraltranscom.calculaterate.dao.SearchCargoDAO;
 import com.uraltranscom.calculaterate.dao.SearchStationDAO;
 import com.uraltranscom.calculaterate.service.impl.CalculationRate;
 import com.uraltranscom.calculaterate.util.ParserInputName;
@@ -38,13 +39,13 @@ public class Controller {
 
     @Autowired
     CalculationRate calculationRate;
-
     @Autowired
     SearchStationDAO searchStationDAO;
+    @Autowired
+    SearchCargoDAO searchCargoDAO;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
-
         return "welcome";
     }
 
@@ -53,7 +54,7 @@ public class Controller {
                        @RequestParam(value = "station_to") String station_to,
                        @RequestParam(value = "cargo") String cargo,
                        @RequestParam(value = "volume") int volume, Model model) {
-        calculationRate.getRate(getId(station_from), getId(station_to), "131071", 138);
+        calculationRate.getRate(getId(station_from), getId(station_to), getId(cargo), volume);
         model.addAttribute("list", calculationRate.getExitModel().getExitList());
         model.addAttribute("rate", calculationRate.getRate());
         model.addAttribute("fullCountDays", calculationRate.getSumFullCountDays());
@@ -64,9 +65,13 @@ public class Controller {
         return "add";
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public @ResponseBody List<Object> search(@RequestParam(value = "station") String station) {
-        List<Object> listResult = searchStationDAO.getObject(PrepareMapParams.prepareMapWithParams(station));
-        return listResult;
+    @RequestMapping(value = "/station/search", method = RequestMethod.GET)
+    public @ResponseBody List<Object> stationSearch(@RequestParam(value = "station") String station) {
+        return searchStationDAO.getObject(PrepareMapParams.prepareMapWithParams(station));
+    }
+
+    @RequestMapping(value = "/cargo/search", method = RequestMethod.GET)
+    public @ResponseBody List<Object> cargoSearch(@RequestParam(value = "cargo") String cargo) {
+        return searchCargoDAO.getObject(PrepareMapParams.prepareMapWithParams(cargo));
     }
 }

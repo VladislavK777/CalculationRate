@@ -1,11 +1,9 @@
 package com.uraltranscom.calculaterate.dao;
 
-import com.uraltranscom.calculaterate.model.Station;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,15 +17,14 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext/applicationContext.xml"})
-public class SearchStationDAOTest {
+public class SearchCargoDAOTest {
 
     @Autowired
-    private SearchStationDAO searchStationDAO;
+    private SearchCargoDAO searchCargoDAO;
 
     @Test
     public void getStation(){
-        List<Object> list = searchStationDAO.getObject(PrepareMapParams.prepareMapWithParams("Ташкент-"));
+        List<Object> list = searchCargoDAO.getObject(PrepareMapParams.prepareMapWithParams("510"));
         System.out.println(list);
-        //Assert.assertEquals("Щербинка", station.getNameStation());
     }
 }

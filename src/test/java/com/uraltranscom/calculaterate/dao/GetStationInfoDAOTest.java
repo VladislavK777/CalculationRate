@@ -2,6 +2,7 @@ package com.uraltranscom.calculaterate.dao;
 
 import com.uraltranscom.calculaterate.model.Station;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class GetStationInfoDAOTest {
 
     @Test
     public void getStation(){
-        Station station = getStationInfoDAO.getObject(PrepareMapParams.prepareMapWithParams("037202"));
+        Station station = getStationInfoDAO.getObject(PrepareMapParams.prepareMapWithParams("191104"));
         System.out.println(station.getNameStation());
-        //Assert.assertEquals("Щербинка", station.getNameStation());
+        Assert.assertEquals("Щербинка", station.getNameStation());
     }
 }

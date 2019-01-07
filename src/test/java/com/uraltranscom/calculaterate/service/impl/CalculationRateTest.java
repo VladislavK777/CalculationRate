@@ -1,5 +1,6 @@
 package com.uraltranscom.calculaterate.service.impl;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class CalculationRateTest {
 
     @Test
     public void getRate() {
-        calculationRate.getRate("817600", "639608", "232431", 150);
-        //System.out.println(calculationRate.getRate());
+        calculationRate.getRate("120005", "722400", "131071", 138);
+        Assert.assertFalse("Error", calculationRate.getRate() == 0);
     }
 }

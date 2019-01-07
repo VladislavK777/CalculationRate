@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 
-public class PrepareDistanceOfDay {
+public final class PrepareDistanceOfDay {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(PrepareDistanceOfDay.class);
     private static float distanceOfDay;
