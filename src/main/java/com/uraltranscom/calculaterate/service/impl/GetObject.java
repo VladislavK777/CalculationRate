@@ -27,7 +27,7 @@ public abstract class GetObject {
     @Autowired
     ExceptionReturnRoute exceptionReturnRoute;
     @Autowired
-    CalculationRate calculationRate;
+    protected CalculationRate calculationRate;
     @Autowired
     CommonLogicClass commonLogicClass;
 }

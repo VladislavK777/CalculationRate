@@ -46,5 +46,6 @@
     <bean id="getTariff" class="com.uraltranscom.calculaterate.service.impl.GetTariff" />
     <bean id="exceptionReturnRoute" class="com.uraltranscom.calculaterate.service.impl.ExceptionReturnRoute" />
     <bean id="calculationRate" class="com.uraltranscom.calculaterate.service.impl.CalculationRate" />
+    <bean id="searchStation" class="com.uraltranscom.calculaterate.dao.SearchStationDAO" />
 
 </beans>

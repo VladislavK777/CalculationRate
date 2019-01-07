@@ -31,11 +31,13 @@ public class Route {
     private Cargo cargo; //Груз
     private RouteType routeType; //Тип рейса
     private int countDays; //Количество дней
-    private int countDaysLoadUnload; //Количество дней погрузки/выгрузки
+    private int countDaysLoadAndUnload; //Количество дней погрузки/выгрузки
+    private int fullCountDays; //Полное количество дней
     private double rate; //Ставка
     private double tariff; //Тариф
+    private boolean flagNeedCalc; //Флаг, ставку который расчитываем (true - да)
 
-    public Route(Station stationDeparture, Station stationDestination, String distance, int volumeWagon, Cargo cargo, RouteType routeType, int countDays) {
+    public Route(Station stationDeparture, Station stationDestination, String distance, int volumeWagon, Cargo cargo, RouteType routeType, int countDays, int countDaysLoadAndUnload, boolean flagNeedCalc) {
         this.stationDeparture = stationDeparture;
         this.stationDestination = stationDestination;
         this.distance = distance;
@@ -43,5 +45,7 @@ public class Route {
         this.cargo = cargo;
         this.routeType = routeType;
         this.countDays = countDays;
+        this.countDaysLoadAndUnload = countDaysLoadAndUnload;
+        this.flagNeedCalc = flagNeedCalc;
     }
 }

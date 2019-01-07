@@ -1,13 +1,12 @@
 package com.uraltranscom.calculaterate.service.impl;
 
-import com.uraltranscom.calculaterate.dao.AbstractObjectFactory;
 import com.uraltranscom.calculaterate.model.Route;
 import com.uraltranscom.calculaterate.model_ex.ExitModel;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Vladislav Klochkov
@@ -20,10 +19,12 @@ public class CalculationRate extends GetObject {
     double yield = 0.00;
     double rate = 0.00;
     double sumCosts = 0.00;
-    double sumCountDays = 0;
+    int sumCountDays = 0;
+    int sumFullCountDays = 0;
+    int sumDistance = 0;
     ExitModel exitModel;
 
-    public double getRate(String idStationDeparture, String idStationDestination, String idCargo, int volumeWagon) {
+    public void getRate(String idStationDeparture, String idStationDestination, String idCargo, int volumeWagon) {
         if (volumeWagon == 114 || volumeWagon == 120 || volumeWagon == 122) {
             yield = 2000.00;
         } else if (volumeWagon == 138 || volumeWagon == 141) {
@@ -36,13 +37,25 @@ public class CalculationRate extends GetObject {
         List<Route> list = exitModel.getExitList();
 
         for (Route route: list) {
-            sumCountDays = sumCountDays + route.getCountDaysLoadUnload();
+            sumFullCountDays = sumFullCountDays + route.getFullCountDays();
             sumCosts = sumCosts + route.getRate() + route.getTariff();
+            sumCountDays = sumCountDays + route.getCountDays();
+            sumDistance = sumDistance + Integer.parseInt(route.getDistance());
         }
-        rate = (yield - (sumCosts/sumCountDays)) * sumCountDays;
-        for(Route r: list) {
-            System.out.println(r);
+        rate = Math.round(((yield - (sumCosts / sumFullCountDays)) * sumFullCountDays) * 100) / 100.00d;
+        exitModel = reCalcValues();
+    }
+
+    private ExitModel reCalcValues() {
+        sumCosts = 0.00;
+        exitModel.getExitList().stream()
+                .filter(Route::isFlagNeedCalc)
+                .peek(route -> route.setRate(rate))
+                .collect(Collectors.toList());
+        for (Route route: exitModel.getExitList()) {
+            sumCosts =  Math.round((sumCosts + route.getRate() + route.getTariff()) * 100) / 100.00d;
+            yield = Math.round((sumCosts / sumFullCountDays) * 100) / 100.00d;
         }
-        return rate;
+        return exitModel;
     }
 }
