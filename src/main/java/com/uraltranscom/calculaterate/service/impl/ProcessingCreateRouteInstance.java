@@ -44,7 +44,7 @@ public class ProcessingCreateRouteInstance {
                 flagNeedCalc
         );
 
-        logger.info("Route: {}", route.toString());
+        logger.debug("Route: {}", route.toString());
         return route;
     }
 }
