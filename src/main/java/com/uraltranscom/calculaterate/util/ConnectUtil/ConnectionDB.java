@@ -18,6 +18,21 @@ import javax.sql.DataSource;
 public class ConnectionDB {
     private static DataSource dataSource;
 
+    private static volatile ConnectionDB instance;
+
+    public static ConnectionDB getInstance() {
+        ConnectionDB localInstance = instance;
+        if (localInstance == null) {
+            synchronized (ConnectionDB.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new ConnectionDB();
+                }
+            }
+        }
+        return localInstance;
+    }
+
     public static DataSource getDataSource() {
         return dataSource;
     }

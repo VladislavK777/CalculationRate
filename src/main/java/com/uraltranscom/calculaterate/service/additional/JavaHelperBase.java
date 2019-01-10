@@ -3,6 +3,10 @@ package com.uraltranscom.calculaterate.service.additional;
 import com.uraltranscom.calculaterate.util.GetPathSaveFile;
 import com.uraltranscom.calculaterate.util.PropertyUtil;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  *
  * Класс-помощник содержит основные константы
@@ -38,4 +42,13 @@ public class JavaHelperBase {
 
     // Строка соотношения расстояния ко дням
     public static final String DISTANCE_DAYS = propertyUtil.getProperty("distanceday");
+
+    // Список дорог, с которых расчет идет от станции Отправления
+    public static final List<String> LIST_ROADS_WITHOUT_CHECK = Arrays.stream(new String[]{"13", "22", "23", "3", "29", "12", "11", "14", "28", "25"}).collect(Collectors.toList());
+
+    // Список дорог Прибалтики
+    public static final List<String> LIST_ROADS_PRIBALT = Arrays.stream(new String[]{"7", "8", "39", "19"}).collect(Collectors.toList());
+
+    // Список станций КБШ не попадающие под общее правило
+    public static final List<String> LIST_STATIONS_KBSH_ROAD = Arrays.asList("657907", "645401", "645100", "645505", "645609", "644803");
 }

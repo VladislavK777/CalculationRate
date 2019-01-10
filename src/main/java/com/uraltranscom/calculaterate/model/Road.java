@@ -7,7 +7,7 @@ import lombok.ToString;
 
 /**
  *
- * Класс Страна
+ * Класс Дорога
  *
  * @author Vladislav Klochkov
  * @version 1.0
@@ -22,7 +22,9 @@ import lombok.ToString;
 @EqualsAndHashCode
 @AllArgsConstructor
 @ToString
-public class Country {
-    private String idCountry; //Код страны
-    private String nameCountry; //Название страны
+public class Road {
+    private String idRoad; //Идентификатор дороги
+    private String nameRoad; //Название дороги
+    private String fullNameRoad; //Полное название дороги
+    private Country countryRoad; //Код страны дороги
 }

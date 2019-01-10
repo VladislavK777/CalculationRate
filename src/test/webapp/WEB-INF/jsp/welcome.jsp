@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Vladislav.Klochkov
+  Date: 15.01.2018
+  Time: 12:47
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
@@ -25,7 +32,14 @@
 <body onload="cop()">
 
 <div class="one">
-    <h1>РАСЧЕТ СТАВКИ</h1>
+    <h1>ДИНАМИЧЕСКОЕ РАСПРЕДЕЛЕНИЕ ВАГОНОВ</h1>
+    <div class="train">
+    		<img class="image" src="resources/train.jpg">
+    </div>
+</div>
+
+<div>
+    <img class="logo" src="resources/logo.jpg">
 </div>
 
 <div>
@@ -59,35 +73,18 @@
                 <tr>
                     <td class="td_table2">${route.getStationDeparture().getNameStation()} (${route.getStationDeparture().getRoad().getNameRoad()})</td>
                     <td class="td_table2">${route.getStationDestination().getNameStation()} (${route.getStationDestination().getRoad().getNameRoad()})</td>
-                    <c:choose>
-                        <c:when test="${route.getRouteType().getCode() == 'ГРУЖ'}">
-                            <td class="td_table2">${route.getCargo().getNameCargo()}</td>
-                        </c:when>
-                        <c:otherwise>
-                            <td class="td_table2">ПОРОЖНИЙ</td>
-                        </c:otherwise>
-                    </c:choose>
+                    <td class="td_table2">${route.getCargo.getNameCargo()}</td>
                     <td class="td_table2">${route.getDistance()}</td>
                     <td class="td_table2">${route.getCountDays()}</td>
-                    <td class="td_table2">${route.getCountDaysLoadAndUnload()}</td>
-                    <td class="td_table2">${route.getFullCountDays()}</td>
+                    <td class="td_table2"></td>
+                    <td class="td_table2">${route.countDaysLoadUnload()}</td>
                     <td class="td_table2">поваг</td>
                     <c:choose>
                         <c:when test="${route.getRouteType().getCode() == 'ГРУЖ'}">
-                            <c:choose>
-                                <c:when test="${route.isFlagNeedCalc()}">
-                                    <td class="td_table_rate">${route.getRate()}</td>
-                                    <td class="td_table2"></td>
-                                    <td class="td_table2">${route.getRate()}</td>
-                                    <td class="td_table2"></td>
-                                </c:when>
-                                <c:otherwise>
-                                    <td class="td_table2">${route.getRate()}</td>
-                                    <td class="td_table2"></td>
-                                    <td class="td_table2">${route.getRate()}</td>
-                                    <td class="td_table2"></td>
-                                </c:otherwise>
-                            </c:choose>
+                            <td class="td_table2">${route.getRate()}</td>
+                            <td class="td_table2"></td>
+                            <td class="td_table2">${route.getRate()}</td>
+                            <td class="td_table2"></td>
                         </c:when>
                         <c:otherwise>
                             <td class="td_table2"></td>
@@ -100,15 +97,15 @@
             </c:forEach>
             <tr>
                 <td class="td_table3" colspan="3"></td>
-                <td class="td_table3">${countDistance}</td>
-                <td class="td_table3">${countDays}</td>
-                <td class="td_table3"></td>
-                <td class="td_table3">${fullCountDays}</td>
                 <td class="td_table3"></td>
                 <td class="td_table3"></td>
                 <td class="td_table3"></td>
-                <td class="td_table3">${countCost}</td>
-                <td class="td_table3">${yield}</td>
+                <td class="td_table3"></td>
+                <td class="td_table3"></td>
+                <td class="td_table3"></td>
+                <td class="td_table3"></td>
+                <td class="td_table3"></td>
+                <td class="td_table3">${rate}</td>
             </tr>
         </tbody>
     </table>
