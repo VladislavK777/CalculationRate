@@ -1,9 +1,10 @@
 package com.uraltranscom.calculaterate.controller;
 
+import com.uraltranscom.calculaterate.dao.GetSettingDAO;
 import com.uraltranscom.calculaterate.dao.SearchCargoDAO;
 import com.uraltranscom.calculaterate.dao.SearchStationDAO;
+import com.uraltranscom.calculaterate.model.Setting;
 import com.uraltranscom.calculaterate.service.impl.CalculationRate;
-import com.uraltranscom.calculaterate.util.ParserInputName;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.uraltranscom.calculaterate.util.ParserInputName.getId;
 
@@ -32,17 +34,17 @@ import static com.uraltranscom.calculaterate.util.ParserInputName.getId;
  */
 
 @org.springframework.stereotype.Controller
-
 public class Controller {
-    // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(Controller.class);
 
     @Autowired
-    CalculationRate calculationRate;
+    private CalculationRate calculationRate;
     @Autowired
-    SearchStationDAO searchStationDAO;
+    private SearchStationDAO searchStationDAO;
     @Autowired
-    SearchCargoDAO searchCargoDAO;
+    private SearchCargoDAO searchCargoDAO;
+    @Autowired
+    private GetSettingDAO getSettingDAO;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
@@ -55,7 +57,7 @@ public class Controller {
                        @RequestParam(value = "cargo") String cargo,
                        @RequestParam(value = "volume") int volume, Model model) {
         calculationRate.getRate(getId(station_from), getId(station_to), getId(cargo), volume);
-        model.addAttribute("list", calculationRate.getExitModel().getExitList());
+        model.addAttribute("list", calculationRate.getTotalModel().getExitList());
         model.addAttribute("rate", calculationRate.getRate());
         model.addAttribute("fullCountDays", calculationRate.getSumFullCountDays());
         model.addAttribute("countDays", calculationRate.getSumCountDays());
@@ -74,4 +76,12 @@ public class Controller {
     public @ResponseBody List<Object> cargoSearch(@RequestParam(value = "cargo") String cargo) {
         return searchCargoDAO.getObject(PrepareMapParams.prepareMapWithParams(cargo));
     }
+
+    @RequestMapping(value = "/setting", method = RequestMethod.GET)
+    public String setting(Model model) {
+        Map<String, List<Setting>> map = getSettingDAO.getObject(PrepareMapParams.prepareMapWithParams("name"));
+        model.addAttribute("map", map);
+        return "settings";
+    }
+
 }

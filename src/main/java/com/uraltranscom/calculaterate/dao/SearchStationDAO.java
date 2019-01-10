@@ -22,6 +22,9 @@ public class SearchStationDAO extends AbstractObjectFactory<List<Object>> {
     private static Logger logger = LoggerFactory.getLogger(SearchStationDAO.class);
     private static final String SQL_CALL_NAME = " { call test_distance.get_station_search(?) } ";
 
+    public SearchStationDAO() {
+    }
+
     @Override
     public List<Object> getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();

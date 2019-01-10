@@ -36,17 +36,4 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="getStation" class="com.uraltranscom.calculaterate.dao.GetStationInfoDAO" />
-    <bean id="commonLogicClass" class="com.uraltranscom.calculaterate.service.impl.CommonLogicClass" />
-    <bean id="processingCreateRouteInstance" class="com.uraltranscom.calculaterate.dao.GetTypeOfCargoDAO" />
-    <bean id="getTypeOfCargo" class="com.uraltranscom.calculaterate.service.impl.ProcessingCreateRouteInstance" />
-    <bean id="getDistanceBetweenStations" class="com.uraltranscom.calculaterate.dao.GetDistanceBetweenStationsDAO" />
-    <bean id="getTariffImpl" class="com.uraltranscom.calculaterate.dao.GetTariffDAO" />
-    <bean id="getReturn" class="com.uraltranscom.calculaterate.dao.GetReturnStationDAO" />
-    <bean id="getTariff" class="com.uraltranscom.calculaterate.service.impl.GetTariff" />
-    <bean id="exceptionReturnRoute" class="com.uraltranscom.calculaterate.service.impl.ExceptionReturnRoute" />
-    <bean id="calculationRate" class="com.uraltranscom.calculaterate.service.impl.CalculationRate" />
-    <bean id="searchStation" class="com.uraltranscom.calculaterate.dao.SearchStationDAO" />
-    <bean id="searchCargo" class="com.uraltranscom.calculaterate.dao.SearchCargoDAO" />
-
 </beans>

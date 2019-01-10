@@ -1,9 +1,11 @@
 package com.uraltranscom.calculaterate.service.impl;
 
+import com.uraltranscom.calculaterate.dao.*;
 import com.uraltranscom.calculaterate.model.*;
 import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,8 +20,21 @@ import static com.uraltranscom.calculaterate.util.PrepareMapParams.prepareMapWit
  */
 
 @Component
-public class ExceptionReturnRoute extends GetObject {
+public class ExceptionReturnRoute {
     private final Logger logger = LoggerFactory.getLogger(ExceptionReturnRoute.class);
+
+    @Autowired
+    private ProcessingCreateRouteInstance processingCreateRouteInstance;
+    @Autowired
+    private GetStationInfoDAO getStationInfoDAO;
+    @Autowired
+    private GetTypeOfCargoDAO getTypeOfCargo;
+    @Autowired
+    private GetDistanceBetweenStationsDAO getDistanceBetweenStations;
+    @Autowired
+    private GetReturnStationDAO getReturnStationDAO;
+    @Autowired
+    private GetTariff getTariff;
 
     List<Route> getListExceptionReturnRoutes(List<Route> routeList, Station stationDestination, Cargo cargo, int volumeWagon) {
         // Если станция назначения Крым
@@ -89,7 +104,7 @@ public class ExceptionReturnRoute extends GetObject {
             routeList.add(routeFullSecond);
 
             // Получаем маршрут второго порожнего рейса до опорной станции
-            Station stationEmptySecond = getStationInfoDAO.getObject(prepareMapWithParams("010906"));
+            Station stationEmptySecond = getStationInfoDAO.getObject(prepareMapWithParams("010905"));
             Route routeEmptySecond = processingCreateRouteInstance.getRouteInstance(stationFullSecond, stationEmptySecond, "476", volumeWagon, cargoRoute, RouteType.EMPTY_ROUTE, JavaHelperBase.UNLOADING_WAGON,false);
             routeEmptySecond.setNewCountDays(3);
             //routeEmptySecond.setFullCountDays(routeEmptySecond.getCountDays() + JavaHelperBase.UNLOADING_WAGON);

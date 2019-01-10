@@ -1,11 +1,2 @@
-#Ignore IntelliJ IDEA files
-*.idea
-\.idea
 .idea
 *.iml
-
-*.pck
-*.~*
-*.bak
-*.log
-*.tst

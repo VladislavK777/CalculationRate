@@ -34,7 +34,7 @@ public class GetTariffDAO extends AbstractObjectFactory<Tariff> {
     private static Logger logger = LoggerFactory.getLogger(GetTariffDAO.class);
     private static final String SQL_CALL_NAME = " { call  test_tariff.get_tariff2(?,?,?) } ";
 
-    private GetTariffDAO() {
+    public GetTariffDAO() {
     }
 
     @Override

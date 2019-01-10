@@ -1,6 +1,5 @@
 package com.uraltranscom.calculaterate.model;
 
-import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

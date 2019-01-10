@@ -26,9 +26,6 @@ import org.springframework.stereotype.Component;
 public class ProcessingCreateRouteInstance {
     private final Logger logger = LoggerFactory.getLogger(ProcessingCreateRouteInstance.class);
 
-    private ProcessingCreateRouteInstance() {
-    }
-
     public Route getRouteInstance(Station stationDeparture, Station stationDestination, String distance, int volumeWagon, Cargo cargo, RouteType routeType, int countDaysLoadAndUnload, boolean flagNeedCalc) {
         logger.info("Start process create Route");
 

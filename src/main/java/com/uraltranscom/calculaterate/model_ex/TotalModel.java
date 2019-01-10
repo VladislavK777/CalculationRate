@@ -15,6 +15,6 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class ExitModel {
+public class TotalModel {
     List<Route> exitList = new ArrayList<>();
 }

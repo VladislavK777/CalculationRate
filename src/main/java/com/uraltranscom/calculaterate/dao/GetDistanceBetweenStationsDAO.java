@@ -5,7 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +32,7 @@ public class GetDistanceBetweenStationsDAO extends AbstractObjectFactory<Distanc
     private static Logger logger = LoggerFactory.getLogger(GetDistanceBetweenStationsDAO.class);
     private static final String SQL_CALL_NAME = " { call  test_distance.get_root_distance3(?,?,?) } ";
 
-    private GetDistanceBetweenStationsDAO() {
+    public GetDistanceBetweenStationsDAO() {
     }
 
     @Override

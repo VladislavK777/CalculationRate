@@ -34,7 +34,7 @@ public class GetStationInfoDAO extends AbstractObjectFactory<Station> {
     private static Logger logger = LoggerFactory.getLogger(GetStationInfoDAO.class);
     private static final String SQL_CALL_NAME = " { call  test_distance.get_station_info(?) } ";
 
-    private GetStationInfoDAO() {
+    public GetStationInfoDAO() {
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.uraltranscom.calculaterate.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -16,9 +17,14 @@ import java.util.Map;
  * @project CalculationRate_1.0
  * @date 30.12.2018
  */
+
+@Component
 public class GetReturnStationDAO extends AbstractObjectFactory<String> {
     private static Logger logger = LoggerFactory.getLogger(GetReturnStationDAO.class);
     private static final String SQL_CALL_NAME = " { call test_distance.get_return_station(?,?,?,?) } ";
+
+    public GetReturnStationDAO() {
+    }
 
     @Override
     public String getObject(Map<String, Object> params) {

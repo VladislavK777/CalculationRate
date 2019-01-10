@@ -2,6 +2,7 @@ package com.uraltranscom.calculaterate.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -16,9 +17,13 @@ import java.util.Map;
  * @create 2019-01-07
  */
 
+@Component
 public class SearchCargoDAO extends AbstractObjectFactory<List<Object>> {
-    private static Logger logger = LoggerFactory.getLogger(SearchStationDAO.class);
+    private static Logger logger = LoggerFactory.getLogger(SearchCargoDAO.class);
     private static final String SQL_CALL_NAME = " { call test_distance.get_cargo_search(?) } ";
+
+    public SearchCargoDAO() {
+    }
 
     @Override
     public List<Object> getObject(Map<String, Object> params) {

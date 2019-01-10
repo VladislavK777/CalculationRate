@@ -1,11 +1,12 @@
 package com.uraltranscom.calculaterate.service.impl;
 
+import com.uraltranscom.calculaterate.dao.GetTariffDAO;
 import com.uraltranscom.calculaterate.model.Distance;
 import com.uraltranscom.calculaterate.model.Tariff;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.uraltranscom.calculaterate.util.PrepareMapParams.prepareMapWithParams;
@@ -16,7 +17,9 @@ import static com.uraltranscom.calculaterate.util.PrepareMapParams.prepareMapWit
  */
 
 @Component
-public class GetTariff extends GetObject {
+public class GetTariff {
+    @Autowired
+    protected GetTariffDAO getTariffDAO;
 
     public List<Object> getTariff(Distance distanceInfo, String idCargo) {
         double tariff = 0.00;

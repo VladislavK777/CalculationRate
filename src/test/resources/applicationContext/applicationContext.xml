@@ -48,5 +48,6 @@
     <bean id="calculationRate" class="com.uraltranscom.calculaterate.service.impl.CalculationRate" />
     <bean id="searchStation" class="com.uraltranscom.calculaterate.dao.SearchStationDAO" />
     <bean id="searchCargo" class="com.uraltranscom.calculaterate.dao.SearchCargoDAO" />
+    <bean id="getSetting" class="com.uraltranscom.calculaterate.dao.GetSettingDAO" />
 
 </beans>

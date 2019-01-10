@@ -32,7 +32,7 @@ public class GetTypeOfCargoDAO extends AbstractObjectFactory<Cargo> {
     private static Logger logger = LoggerFactory.getLogger(GetTypeOfCargoDAO.class);
     private static final String SQL_CALL_NAME = " { call test_distance.get_cargo_type2(?) } ";
 
-    private GetTypeOfCargoDAO() {
+    public GetTypeOfCargoDAO() {
     }
 
     @Override
