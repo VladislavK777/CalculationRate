@@ -41,7 +41,7 @@ public class WebController {
 
     @RequestMapping(value = "/setting", method = RequestMethod.GET)
     public String setting(Model model) {
-        Map<String, List<Setting>> map = getSettingDAO.getObject(PrepareMapParams.prepareMapWithParams("name"));
+        Map<String, List<Setting>> map = getSettingDAO.getObject(PrepareMapParams.prepareMapWithParams(""));
         model.addAttribute("map", map);
         return "settings";
     }

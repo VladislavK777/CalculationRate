@@ -23,7 +23,7 @@ import java.util.Map;
 @Component
 public class GetSettingDAO extends AbstractObjectFactory<Map<String, List<Setting>>> {
     private static Logger logger = LoggerFactory.getLogger(GetSettingDAO.class);
-    private static final String SQL_CALL_NAME = "select * from test_distance.get_setting()";
+    private static final String SQL_CALL_NAME = "select * from test_setting.get_setting()";
 
     public GetSettingDAO() {
     }
