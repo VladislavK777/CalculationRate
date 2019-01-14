@@ -24,6 +24,5 @@ import lombok.ToString;
 @ToString
 public class Cargo {
     private String idCargo; //Код груза
-    private String cargoType;  //Класс груза
     private String nameCargo; //Груз
 }
