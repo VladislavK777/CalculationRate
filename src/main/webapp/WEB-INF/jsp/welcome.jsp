@@ -14,7 +14,7 @@
         word = $(el).val();
         var window = $("#listResult");
         $.ajax({
-            url: 'search?station=' + word,
+            url: 'search/station?station=' + word,
             cache: false,
             success: function(response) {
                 for (var i in response) {

@@ -1,19 +1,11 @@
 package com.uraltranscom.calculaterate.dao;
 
-import com.uraltranscom.calculaterate.model_ex.TotalModel;
-import com.uraltranscom.calculaterate.util.PrepareMapParams;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 /**
  * @author vladislav.klochkov
  * @project CalculationRate_1.0
  * @date 09.01.2019
  */
-
+/*
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext/applicationContext.xml"})
 public class GetTotalModelDAOTest {
@@ -25,4 +17,4 @@ public class GetTotalModelDAOTest {
         TotalModel totalModel = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams("120005", "722400", "094076", PrepareMapParams.prepareMapWithParams(122)));
         System.out.println(totalModel);
     }
-}
+}*/

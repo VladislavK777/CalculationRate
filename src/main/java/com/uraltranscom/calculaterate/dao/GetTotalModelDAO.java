@@ -25,7 +25,7 @@ import java.util.Map;
 
 @Component
 public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
-    private static Logger logger = LoggerFactory.getLogger(GetTariffDAO.class);
+    private static Logger logger = LoggerFactory.getLogger(GetTotalModelDAO.class);
     private static final String SQL_CALL_NAME = " { call  test_rate.get_list_routes_and_rate(?,?,?,?) } ";
 
     @Override
@@ -33,9 +33,17 @@ public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
         List<Route> totalListRoute = new ArrayList<>();
         TotalModel totalModel = null;
 
-        try (CallableStatement callableStatement = createCallableStatement(getConnection(), params);
-             ResultSet resultSet = callableStatement.executeQuery()) {
-            while (resultSet.next()) {
+        Connection connection = getConnection();
+        CallableStatement callableStatement = null;
+
+        try {
+            callableStatement = connection.prepareCall(SQL_CALL_NAME);
+            for (int i = 1; i < params.size() + 1; i++) {
+                callableStatement.setObject(i, params.get("param" + i));
+            }
+            ResultSet resultSet = callableStatement.executeQuery();
+
+            if (resultSet.next()) {
                 ResultSet routesSet = (ResultSet) resultSet.getObject(1);
                 while (routesSet.next()) {
                     int idGroup = routesSet.getInt(2);
@@ -73,34 +81,49 @@ public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
                             )
                     );
                 }
-                ResultSet paramsRoutSet = (ResultSet) resultSet.getObject(2);
+            }
+
+            if (resultSet.next()) {
+                ResultSet paramsRoutSet = (ResultSet) resultSet.getObject(1);
                 while (paramsRoutSet.next()) {
                     int idGroup = paramsRoutSet.getInt(2);
                     int sumDistance = paramsRoutSet.getInt(3);
                     int sumCountDays = paramsRoutSet.getInt(4);
                     int sumCountDaysLoadAndUnload = paramsRoutSet.getInt(5);
                     int sumFullCountDays = paramsRoutSet.getInt(6);
-                    double sumRateOrTariff = paramsRoutSet.getDouble(7);;
+                    double sumRateOrTariff = paramsRoutSet.getDouble(7);
 
                     double yield = sumRateOrTariff / sumFullCountDays;
 
                     totalModel = new TotalModel(totalListRoute, idGroup, sumDistance, sumCountDays, sumCountDaysLoadAndUnload, sumFullCountDays, sumRateOrTariff, yield);
                 }
-
             }
-            logger.debug("Get info for: {}", params + ": " + totalModel);
+            logger.debug("Get info for: {}: {}", params, totalModel);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                logger.error("Rollback transaction!");
+            }
+        } finally {
+            try {
+                if (callableStatement != null) {
+                    callableStatement.close();
+                }
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                logger.debug("Error close connection!");
+            }
         }
-
         return totalModel;
     }
 
-    private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
+    /*private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
         CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
         for (int i = 1; i < params.size() + 1; i++) {
             callableStatement.setObject(i, params.get("param" + i));
         }
         return callableStatement;
-    }
+    }*/
 }

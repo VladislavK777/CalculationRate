@@ -44,6 +44,7 @@ public class SearchStationDAO extends AbstractObjectFactory<List<Object>> {
 
     // TODO перенести в другое место
     private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
+        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
         for (int i = 1; i < params.size() + 1; i++) {
             callableStatement.setObject(i, params.get("param" + i));

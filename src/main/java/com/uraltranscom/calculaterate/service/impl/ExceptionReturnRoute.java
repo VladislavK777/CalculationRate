@@ -1,25 +1,12 @@
 package com.uraltranscom.calculaterate.service.impl;
 
-import com.uraltranscom.calculaterate.dao.*;
-import com.uraltranscom.calculaterate.model.*;
-import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-
-import static com.uraltranscom.calculaterate.util.GetVolumeGroup.getVolumeGroup;
-import static com.uraltranscom.calculaterate.util.PrepareMapParams.prepareMapWithParams;
-
 /**
  * @author vladislav.klochkov
  * @project CalculationRate_1.0
  * @date 30.12.2018
  */
 
-@Component
+/*@Component
 public class ExceptionReturnRoute {
     private final Logger logger = LoggerFactory.getLogger(ExceptionReturnRoute.class);
 
@@ -213,4 +200,4 @@ public class ExceptionReturnRoute {
             return routeList;
         }
     }
-}
+}*/

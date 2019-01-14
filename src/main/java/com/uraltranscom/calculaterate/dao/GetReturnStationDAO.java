@@ -1,23 +1,12 @@
 package com.uraltranscom.calculaterate.dao;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 /**
  * @author vladislav.klochkov
  * @project CalculationRate_1.0
  * @date 30.12.2018
  */
 
+/*
 @Component
 public class GetReturnStationDAO extends AbstractObjectFactory<String> {
     private static Logger logger = LoggerFactory.getLogger(GetReturnStationDAO.class);
@@ -52,3 +41,4 @@ public class GetReturnStationDAO extends AbstractObjectFactory<String> {
         return callableStatement;
     }
 }
+*/

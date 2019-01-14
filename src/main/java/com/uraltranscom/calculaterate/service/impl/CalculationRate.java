@@ -1,22 +1,11 @@
 package com.uraltranscom.calculaterate.service.impl;
 
-import com.uraltranscom.calculaterate.model.Route;
-import com.uraltranscom.calculaterate.model_ex.TotalModel;
-import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
-import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static com.uraltranscom.calculaterate.util.GetVolumeGroup.getVolumeGroup;
-
 /**
  * @author Vladislav Klochkov
  * @create 2019-01-01
  */
 
+/*
 @Component
 @Getter
 public class CalculationRate {
@@ -79,3 +68,4 @@ public class CalculationRate {
         }
     }
 }
+*/
