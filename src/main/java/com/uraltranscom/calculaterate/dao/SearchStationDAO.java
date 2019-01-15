@@ -1,5 +1,6 @@
 package com.uraltranscom.calculaterate.dao;
 
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -18,38 +19,40 @@ import java.util.Map;
  */
 
 @Component
+@NoArgsConstructor
 public class SearchStationDAO extends AbstractObjectFactory<List<Object>> {
     private static Logger logger = LoggerFactory.getLogger(SearchStationDAO.class);
     private static final String SQL_CALL_NAME = " { call test_distance.get_station_search(?) } ";
-
-    public SearchStationDAO() {
-    }
 
     @Override
     public List<Object> getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();
 
-        try (CallableStatement callableStatement = createCallableStatement(getConnection(), params);
-             ResultSet resultSet = callableStatement.executeQuery()) {
+        Connection connection = getConnection();
+        CallableStatement callableStatement = null;
+
+        try {
+            callableStatement = connection.prepareCall(SQL_CALL_NAME);
+            for (int i = 1; i < params.size() + 1; i++) {
+                callableStatement.setObject(i, params.get("param" + i));
+            }
+            ResultSet resultSet = callableStatement.executeQuery();
             while (resultSet.next()) {
                 listResult.add(resultSet.getObject(1));
             }
             logger.debug("Get info for: {}", params + ": " + listResult);
+
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
+        } finally {
+            try {
+                if (callableStatement != null) {
+                    callableStatement.close();
+                }
+            } catch (SQLException e) {
+                logger.debug("Error close connection!");
+            }
         }
-        // TODO: 2018-12-25 Попробовать в стрим
         return listResult;
-    }
-
-    // TODO перенести в другое место
-    private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
-        connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
-        for (int i = 1; i < params.size() + 1; i++) {
-            callableStatement.setObject(i, params.get("param" + i));
-        }
-        //connection.close();
-        return callableStatement;
     }
 }

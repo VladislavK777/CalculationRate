@@ -5,6 +5,7 @@ import com.uraltranscom.calculaterate.model.Road;
 import com.uraltranscom.calculaterate.model.Route;
 import com.uraltranscom.calculaterate.model.Station;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -24,9 +25,10 @@ import java.util.Map;
  */
 
 @Component
+@NoArgsConstructor
 public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
     private static Logger logger = LoggerFactory.getLogger(GetTotalModelDAO.class);
-    private static final String SQL_CALL_NAME = " { call  test_rate.get_list_routes_and_rate(?,?,?,?) } ";
+    private static final String SQL_CALL_NAME = " { call  test_rate.list_routes_and_rate(?,?,?,?) } ";
 
     @Override
     public TotalModel getObject(Map<String, Object> params) {
@@ -37,6 +39,7 @@ public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
         CallableStatement callableStatement = null;
 
         try {
+            connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
             for (int i = 1; i < params.size() + 1; i++) {
                 callableStatement.setObject(i, params.get("param" + i));
@@ -98,6 +101,7 @@ public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
                     totalModel = new TotalModel(totalListRoute, idGroup, sumDistance, sumCountDays, sumCountDaysLoadAndUnload, sumFullCountDays, sumRateOrTariff, yield);
                 }
             }
+            connection.commit();
             logger.debug("Get info for: {}: {}", params, totalModel);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
@@ -118,12 +122,4 @@ public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
         }
         return totalModel;
     }
-
-    /*private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
-        CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
-        for (int i = 1; i < params.size() + 1; i++) {
-            callableStatement.setObject(i, params.get("param" + i));
-        }
-        return callableStatement;
-    }*/
 }

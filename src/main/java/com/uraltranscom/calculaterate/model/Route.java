@@ -1,6 +1,8 @@
 package com.uraltranscom.calculaterate.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  *
@@ -15,9 +17,7 @@ import lombok.*;
  *
  */
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @EqualsAndHashCode
 @ToString
 public class Route {
@@ -31,4 +31,17 @@ public class Route {
     private double rate; //Ставка
     private double tariff; //Тариф
     private boolean flagNeedCalc; //Флаг, ставку который расчитываем (true - да)
+
+    public Route(Station stationDeparture, Station stationDestination, int distance, Cargo cargo, int countDays, int countDaysLoadAndUnload, int fullCountDays, double rate, double tariff, boolean flagNeedCalc) {
+        this.stationDeparture = stationDeparture;
+        this.stationDestination = stationDestination;
+        this.distance = distance;
+        this.cargo = cargo;
+        this.countDays = countDays;
+        this.countDaysLoadAndUnload = countDaysLoadAndUnload;
+        this.fullCountDays = fullCountDays;
+        this.rate = Math.round(rate * 100) / 100.00d;
+        this.tariff = Math.round(tariff * 100) / 100.00d;
+        this.flagNeedCalc = flagNeedCalc;
+    }
 }

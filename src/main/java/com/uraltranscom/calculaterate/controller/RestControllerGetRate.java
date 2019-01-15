@@ -1,11 +1,19 @@
 package com.uraltranscom.calculaterate.controller;
 
+import com.uraltranscom.calculaterate.model.HttpBodyRate;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.uraltranscom.calculaterate.util.ParserInputName.getId;
 
 /**
  * @author vladislav.klochkov
@@ -16,28 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("rate")
 public class RestControllerGetRate {
+    private static Logger logger = LoggerFactory.getLogger(RestControllerGetRate.class);
 
     @Autowired
     private CommonLogicClass commonLogicClass;
 
-    @RequestMapping(value = "/info", method = RequestMethod.GET, produces = "application/json")
-    public TotalModel totalModel() {
-        commonLogicClass.startLogic("191104", "722400", "131071", 138);
-        return commonLogicClass.getTotalModel();
+    @PostMapping(value = "/info")
+    public ResponseEntity<TotalModel> totalModel(@RequestBody HttpBodyRate object) {
+        commonLogicClass.startLogic(getId(object.getStationFrom()), getId(object.getStationTo()), getId(object.getCargo()), object.getVolume());
+        return new ResponseEntity<>(commonLogicClass.getTotalModel(), HttpStatus.OK);
     }
-    /*@RequestMapping(value = "/rate", method = RequestMethod.GET)
-    public String rate(@RequestParam(value = "station_from") String station_from,
-                       @RequestParam(value = "station_to") String station_to,
-                       @RequestParam(value = "cargo") String cargo,
-                       @RequestParam(value = "volume") int volume, Model model) {
-        calculationRate.getRate(getId(station_from), getId(station_to), getId(cargo), volume);
-        model.addAttribute("list", calculationRate.getTotalModel().getExitList());
-        model.addAttribute("rate", calculationRate.getRate());
-        model.addAttribute("fullCountDays", calculationRate.getSumFullCountDays());
-        model.addAttribute("countDays", calculationRate.getSumCountDays());
-        model.addAttribute("countCost", calculationRate.getSumCosts());
-        model.addAttribute("yield", calculationRate.getYield());
-        model.addAttribute("countDistance", calculationRate.getSumDistance());
-        return "add";
-    }*/
 }

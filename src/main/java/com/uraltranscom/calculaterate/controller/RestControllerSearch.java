@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("search")
 public class RestControllerSearch {
+
     @Autowired
     private SearchStationDAO searchStationDAO;
     @Autowired
