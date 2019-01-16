@@ -1,33 +1,32 @@
-package com.uraltranscom.calculaterate.dao;
+package com.uraltranscom.calculaterate.dao.deprecated;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
- * @author vladislav.klochkov
- * @project CalculationRate_1.0
- * @date 30.12.2018
+ *
+ * Класс получения ставки
+ *
+ * @author Vladislav Klochkov
+ * @version 2.0
+ * @create 26.07.2018
+ *
+ * 26.07.2018
+ *   1. Версия 1.0
+ * 12.10.2018
+ *   1. Версия 2.0
+ *
  */
 
+/*
 @Component
-public class GetReturnStationDAO extends AbstractObjectFactory<String> {
-    private static Logger logger = LoggerFactory.getLogger(GetReturnStationDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_distance.get_return_station(?,?,?,?) } ";
+public class GetTariffDAO extends AbstractObjectFactory<Tariff> {
+    private static Logger logger = LoggerFactory.getLogger(GetTariffDAO.class);
+    private static final String SQL_CALL_NAME = " { call  test_tariff.get_tariff2(?,?,?) } ";
 
-    public GetReturnStationDAO() {
+    public GetTariffDAO() {
     }
 
     @Override
-    public String getObject(Map<String, Object> params) {
+    public Tariff getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();
 
         try (CallableStatement callableStatement = createCallableStatement(getConnection(), params);
@@ -39,11 +38,11 @@ public class GetReturnStationDAO extends AbstractObjectFactory<String> {
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
         }
-        // TODO: 2018-12-25 Попробовать в стрим
-        return String.valueOf(listResult.get(0));
+
+        // TODO переделать
+        return new Tariff((float)listResult.get(0), (float)listResult.get(1));
     }
 
-    // TODO перенести в другое место
     private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
         CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
         for (int i = 1; i < params.size() + 1; i++) {
@@ -52,3 +51,4 @@ public class GetReturnStationDAO extends AbstractObjectFactory<String> {
         return callableStatement;
     }
 }
+*/

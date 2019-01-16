@@ -1,44 +1,29 @@
-package com.uraltranscom.calculaterate.dao;
-
-
-import com.uraltranscom.calculaterate.model.Tariff;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+package com.uraltranscom.calculaterate.dao.deprecated;
 
 /**
  *
- * Класс получения ставки
+ * Класс получения класса груза
  *
  * @author Vladislav Klochkov
- * @version 2.0
- * @create 26.07.2018
+ * @version 1.0
+ * @create 26.12.2018
  *
- * 26.07.2018
+ * 26.12.2018
  *   1. Версия 1.0
- * 12.10.2018
- *   1. Версия 2.0
  *
  */
 
+/*
 @Component
-public class GetTariffDAO extends AbstractObjectFactory<Tariff> {
-    private static Logger logger = LoggerFactory.getLogger(GetTariffDAO.class);
-    private static final String SQL_CALL_NAME = " { call  test_tariff.get_tariff2(?,?,?) } ";
+public class GetTypeOfCargoDAO extends AbstractObjectFactory<Cargo> {
+    private static Logger logger = LoggerFactory.getLogger(GetTypeOfCargoDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_distance.get_cargo_type2(?) } ";
 
-    public GetTariffDAO() {
+    public GetTypeOfCargoDAO() {
     }
 
     @Override
-    public Tariff getObject(Map<String, Object> params) {
+    public Cargo getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();
 
         try (CallableStatement callableStatement = createCallableStatement(getConnection(), params);
@@ -50,11 +35,12 @@ public class GetTariffDAO extends AbstractObjectFactory<Tariff> {
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
         }
-
-        // TODO переделать
-        return new Tariff((float)listResult.get(0), (float)listResult.get(1));
+        List<String> cargoInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
+        // TODO: 2018-12-25 Попробовать в стрим
+        return new Cargo(cargoInfo.get(0), cargoInfo.get(1), cargoInfo.get(2));
     }
 
+    // TODO перенести в другое место
     private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
         CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
         for (int i = 1; i < params.size() + 1; i++) {
@@ -63,3 +49,4 @@ public class GetTariffDAO extends AbstractObjectFactory<Tariff> {
         return callableStatement;
     }
 }
+*/

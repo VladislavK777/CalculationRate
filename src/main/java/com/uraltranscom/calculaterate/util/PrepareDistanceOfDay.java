@@ -1,9 +1,5 @@
 package com.uraltranscom.calculaterate.util;
 
-import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  *
  * Класс расчета суточного пробега в зависимости от расстонояния
@@ -17,6 +13,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 
+/*
 public final class PrepareDistanceOfDay {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(PrepareDistanceOfDay.class);
@@ -38,3 +35,4 @@ public final class PrepareDistanceOfDay {
     }
 
 }
+*/

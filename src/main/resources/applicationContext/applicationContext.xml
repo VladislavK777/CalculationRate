@@ -30,6 +30,7 @@
         <property name="url" value="#{zkSettingsHolder.dataBase}"/>
         <property name="username" value="#{zkSettingsHolder.user}"/>
         <property name="password" value="#{decodedPassword}"/>
+
     </bean>
 
     <bean class="com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB">

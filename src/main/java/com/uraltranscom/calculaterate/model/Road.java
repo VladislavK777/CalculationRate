@@ -25,6 +25,4 @@ import lombok.ToString;
 public class Road {
     private String idRoad; //Идентификатор дороги
     private String nameRoad; //Название дороги
-    private String fullNameRoad; //Полное название дороги
-    private Country countryRoad; //Код страны дороги
 }

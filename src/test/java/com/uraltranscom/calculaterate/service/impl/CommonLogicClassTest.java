@@ -3,7 +3,6 @@ package com.uraltranscom.calculaterate.service.impl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -17,11 +16,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class CommonLogicClassTest {
 
     @Autowired
-    @Qualifier("commonLogicClass")
     private CommonLogicClass commonLogicClass;
 
     @Test
     public void getCommon(){
-        commonLogicClass.startLogic("840109", "722400", "131071", 138);
+        commonLogicClass.startLogic("190900", "191104", "131071", 138);
+        System.out.println(commonLogicClass.totalModel);
+        //Assert.assertEquals(TotalModel.class.getSimpleName(), commonLogicClass.getTotalModel().getClass().getSimpleName());
     }
 }

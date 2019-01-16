@@ -1,13 +1,4 @@
-package com.uraltranscom.calculaterate.service.impl;
-
-import com.uraltranscom.calculaterate.model.Cargo;
-import com.uraltranscom.calculaterate.model.Route;
-import com.uraltranscom.calculaterate.model.RouteType;
-import com.uraltranscom.calculaterate.model.Station;
-import com.uraltranscom.calculaterate.util.PrepareDistanceOfDay;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+package com.uraltranscom.calculaterate.service.impl.deprecated;
 
 /**
  *
@@ -21,6 +12,7 @@ import org.springframework.stereotype.Component;
  *   1. Версия 1.0
  *
  */
+/*
 
 @Component
 public class ProcessingCreateRouteInstance {
@@ -45,3 +37,4 @@ public class ProcessingCreateRouteInstance {
         return route;
     }
 }
+*/

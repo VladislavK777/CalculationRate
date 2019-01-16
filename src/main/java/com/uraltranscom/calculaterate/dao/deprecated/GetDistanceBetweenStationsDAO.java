@@ -1,18 +1,4 @@
-package com.uraltranscom.calculaterate.dao;
-
-import com.uraltranscom.calculaterate.model.Distance;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+package com.uraltranscom.calculaterate.dao.deprecated;
 
 /**
  *
@@ -27,6 +13,7 @@ import java.util.stream.Collectors;
  *
  */
 
+/*
 @Component
 public class GetDistanceBetweenStationsDAO extends AbstractObjectFactory<Distance> {
     private static Logger logger = LoggerFactory.getLogger(GetDistanceBetweenStationsDAO.class);
@@ -60,3 +47,4 @@ public class GetDistanceBetweenStationsDAO extends AbstractObjectFactory<Distanc
         return callableStatement;
     }
 }
+*/

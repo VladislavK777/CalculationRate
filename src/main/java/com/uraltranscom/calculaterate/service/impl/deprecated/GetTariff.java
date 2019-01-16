@@ -1,20 +1,10 @@
-package com.uraltranscom.calculaterate.service.impl;
-
-import com.uraltranscom.calculaterate.dao.GetTariffDAO;
-import com.uraltranscom.calculaterate.model.Distance;
-import com.uraltranscom.calculaterate.model.Tariff;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.uraltranscom.calculaterate.util.PrepareMapParams.prepareMapWithParams;
+package com.uraltranscom.calculaterate.service.impl.deprecated;
 
 /**
  * @author Vladislav Klochkov
  * @create 2019-01-01
  */
+/*
 
 @Component
 public class GetTariff {
@@ -75,3 +65,4 @@ public class GetTariff {
         return result;
     }
 }
+*/
