@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.dao;
+package com.uraltranscom.calculaterate.dao.deprecated;
 
 
 /**

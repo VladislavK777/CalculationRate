@@ -10,11 +10,11 @@ package com.uraltranscom.calculaterate.dao;
 @ContextConfiguration(locations = {"classpath:applicationContext/applicationContext.xml"})
 public class GetSettingDAOTest {
     @Autowired
-    GetSettingDAO getSettingDAO;
+    GetSettingReturnStationsDAO getSettingDAO;
 
     @Test
     public void testGetSetting() {
-        Map<String, List<Setting>> map = getSettingDAO.getObject(PrepareMapParams.prepareMapWithParams("name"));
+        Map<String, List<SettingReturnStations>> map = getSettingDAO.getObject(PrepareMapParams.prepareMapWithParams("name"));
         System.out.println(map);
     }
 }*/

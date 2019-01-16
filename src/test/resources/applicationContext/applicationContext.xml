@@ -40,7 +40,7 @@
     <bean id="commonLogicClass" class="com.uraltranscom.calculaterate.service.impl.CommonLogicClass" />
     <bean id="searchStation" class="com.uraltranscom.calculaterate.dao.SearchStationDAO" />
     <bean id="searchCargo" class="com.uraltranscom.calculaterate.dao.SearchCargoDAO" />
-    <bean id="getSetting" class="com.uraltranscom.calculaterate.dao.GetSettingDAO" />
+    <bean id="getSetting" class="com.uraltranscom.calculaterate.dao.setting.GetSettingReturnStationsDAO" />
     <bean id="getTotalModel" class="com.uraltranscom.calculaterate.dao.GetTotalModelDAO" />
 
 </beans>

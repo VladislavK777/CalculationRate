@@ -4,331 +4,331 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
-	<title>UralTransCom|DynamicDistributionPark</title>
+    <title>UralTransCom|DynamicDistributionPark</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href="resources/style.css" rel="stylesheet" type="text/css"/>
     <link rel="shortcut icon" href="resources/favicon.ico" type="image/x-icon">
+    <script type="text/javascript"
+            src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
+    </script>
+
+    <!-- Копирайт -->
+    <script>
+        function cop() {
+            document.getElementById("copy").innerText = new Date().getFullYear();
+        }
+    </script>
+
+
 </head>
-<body>
-
 <style>
-#searchfield{width: 250px; height: 18px;}
-
-
-/* suggestions box */
-/* js code generates unordered list */
-.sf_suggestion{
-	position:relative;
-}
-/* Это стиль выползающего блока */
-.sf_suggestion ul{
-    border:1px #222 solid;
-	position:absolute;
-	margin:0;
-	padding:0;
-	background:#fff;
-	top:0;
-	left:0;
-
-}
-/* Стиль появляющегося списка */
-.sf_suggestion li{
-	margin:0;
-	padding:0;
-	list-style:none;
-}
-/* Стиль сылок в блоке */
-.sf_suggestion li a{
-	display:block;
-	text-indent:5px;
-	color:#444;
-	text-decoration:none;
-}
-/* Стиль при выборе одного из пунктов */
-.sf_suggestion li.selected a{
-	background:#ccc;
-}
+        /* Настрйка вкладок*/
+        /* Стили секций с содержанием */
+        .tabs > section {
+            display: none;
+            max-width: 100%;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #ddd;
+        }
+        .tabs > section > p {
+            margin: 0 0 5px;
+            line-height: 1.5;
+            color: #383838;
+            /* прикрутим анимацию */
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            -webkit-animation-name: fadeIn;
+            animation-name: fadeIn;
+        }
+        /* Прячем чекбоксы */
+        .tabs > input {
+            display: none;
+            position: absolute;
+        }
+        /* Стили переключателей вкладок (табов) */
+        .tabs > label {
+            display: inline-block;
+            margin: 0 0 -1px;
+            padding: 15px 25px;
+            font-weight: 600;
+            text-align: center;
+            color: #aaa;
+            border: 0px solid #ddd;
+            border-width: 1px 1px 1px 1px;
+            background: #f1f1f1;
+            border-radius: 3px 3px 0 0;
+        }
+        /* Шрифт-иконки от Font Awesome в формате Unicode */
+        .tabs > label:before {
+            font-family: fontawesome;
+            font-weight: normal;
+            margin-right: 10px;
+        }
+        /* Изменения стиля переключателей вкладок при наведении */
+        .tabs > label:hover {
+            color: #888;
+            cursor: pointer;
+        }
+        /* Стили для активной вкладки */
+        .tabs > input:checked + label {
+            color: #555;
+            border-top: 1px solid #364274;
+            border-bottom: 1px solid #fff;
+            background: #fff;
+        }
+        /* Активация секций с помощью псевдокласса :checked */
+        #tab1:checked ~ #content-tab1,
+        #tab2:checked ~ #content-tab2,
+        #tab3:checked ~ #content-tab3,
+        #tab4:checked ~ #content-tab4,
+        #tab5:checked ~ #content-tab5,
+        #tab6:checked ~ #content-tab6 {
+            display: block;
+        }
+        @media screen and (max-width: 1500px) {
+            .tabs > label {
+                font-size: 12px;
+                width: 180px;
+            }
+            .tabs > label:before {
+                margin: 0;
+                font-size: 12px;
+            }
+        }
 </style>
+
+<body onload="cop()">
+
+<div>
+    <div class="tabs">
+            <input id="tab1" type="radio" name="tabs" checked>
+            <label for="tab1" title="1">1</label>
+
+            <input id="tab2" type="radio" name="tabs">
+            <label for="tab2" title="2">2</label>
+
+            <input id="tab3" type="radio" name="tabs">
+            <label for="tab3" title="3">3</label>
+
+            <input id="tab4" type="radio" name="tabs">
+            <label for="tab4" title="4">4</label>
+
+            <input id="tab5" type="radio" name="tabs">
+            <label for="tab5" title="5">5</label>
+
+            <input id="tab6" type="radio" name="tabs">
+            <label for="tab6" title="6">6</label>
+
+            <section id="content-tab1">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Дорога</th>
+                            <th>Станция</th>
+                            <th>Объем</th>
+                            <th>Станция возврата</th>
+                        </tr>
+                        <c:forEach items="${mapReturnStations}" var="total">
+                            <c:forEach items="${total.value}" var="setting">
+                             <tr>
+                                <input value='${setting.getId()}' type="hidden" />
+                                <td>${total.key}</td>
+                                <td>${setting.getIdStationString()}</td>
+                                <td>${setting.getVolumeGroupsString()}</td>
+                                <td>${setting.getNameStationReturn()}</td>
+                             </tr>
+                            </c:forEach>
+                        </c:forEach>
+                    </tbody>
+                </table>
+
+             </section>
+             <section id="content-tab2">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Порядок</th>
+                            <th>Дорога</th>
+                            <th>Станция</th>
+                            <th>Объем</th>
+                            <th>Станция отправления</th>
+                            <th>Станция назначения</th>
+                            <th>Груз</th>
+                            <th>Класс груза</th>
+                            <th>Тип рейса</th>
+                            <th>Расстояние</th>
+                            <th>Дней</th>
+                            <th>Ставка</th>
+                            <th>Тариф</th>
+                        </tr>
+                        <c:forEach items="${mapReturnException}" var="total">
+                            <c:forEach items="${total.value}" var="setting">
+                             <tr>
+                                <input value='${setting.getId()}' type="hidden" />
+                                <td>${setting.getNum()}</td>
+                                <td>${total.key}</td>
+                                <td>${setting.getIdStationString()}</td>
+                                <td>${setting.getVolumeGroupsString()}</td>
+                                <td>${setting.getStationFrom().getNameStation()}</td>
+                                <td>${setting.getStationTo().getNameStation()}</td>
+                                <td>${setting.getCargo().getNameCargo()}</td>
+                                <td>${setting.getCargoTypeString()}</td>
+                                <td>${setting.getRouteType()}</td>
+                                <td>${setting.getDistance()}</td>
+                                <td>${setting.getCountDays()}</td>
+                                <td>${setting.getRate()}</td>
+                                <td>${setting.getTariff()}</td>
+                             </tr>
+                            </c:forEach>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </section>
+            <section id="content-tab3">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Порядок</th>
+                            <th>Дорога</th>
+                            <th>Станция</th>
+                            <th>Объем</th>
+                            <th>Станция отправления</th>
+                            <th>Станция назначения</th>
+                            <th>Груз</th>
+                            <th>Класс груза</th>
+                            <th>Тип рейса</th>
+                            <th>Расстояние</th>
+                            <th>Дней</th>
+                            <th>Ставка</th>
+                            <th>Тариф</th>
+                        </tr>
+                        <c:forEach items="${mapBeginningException}" var="total">
+                            <c:forEach items="${total.value}" var="setting">
+                                 <tr>
+                                    <input value='${setting.getId()}' type="hidden" />
+                                    <td>${setting.getNum()}</td>
+                                    <td>${total.key}</td>
+                                    <td>${setting.getIdStationString()}</td>
+                                    <td>${setting.getVolumeGroupsString()}</td>
+                                    <td>${setting.getStationFrom().getNameStation()}</td>
+                                    <td>${setting.getStationTo().getNameStation()}</td>
+                                    <td>${setting.getCargo().getNameCargo()}</td>
+                                    <td>${setting.getCargoTypeString()}</td>
+                                    <td>${setting.getRouteType()}</td>
+                                    <td>${setting.getDistance()}</td>
+                                    <td>${setting.getCountDays()}</td>
+                                    <td>${setting.getRate()}</td>
+                                    <td>${setting.getTariff()}</td>
+                                 </tr>
+                            </c:forEach>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </section>
+            <section id="content-tab4">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>От</th>
+                            <th>До</th>
+                            <th>Коэффициент</th>
+                        </tr>
+                        <c:forEach items="${listBorderDistance}" var="setting">
+                         <tr>
+                            <input value='${setting.getId()}' type="hidden" />
+                            <td>${setting.getDistanceFrom()}</td>
+                            <td>${setting.getDistanceTo()}</td>
+                            <td>${setting.getCoefficient()}</td>
+                         </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </section>
+            <section id="content-tab5">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Имя</th>
+                            <th>Значение</th>
+                        </tr>
+                            <c:forEach items="${listLoadUnload}" var="setting">
+                                 <tr>
+                                    <input value='${setting.getId()}' type="hidden" />
+                                    <td>${setting.getName()}</td>
+                                    <td>${setting.getValue()}</td>
+                                 </tr>
+                            </c:forEach>
+                    </tbody>
+                </table>
+            </section>
+            <section id="content-tab6">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Объем</th>
+                            <th>Доходность</th>
+                        </tr>
+                        <c:forEach items="${listYield}" var="setting">
+                             <tr id="context">
+                                <input id="id" value='${setting.getId()}' type="hidden" />
+                                <td><input id="volumeGroup" value='${setting.getVolumeGroup()}' disabled /></td>
+                                <td><input id="yield" value='${setting.getYield()}' disabled /></td>
+								<td><button onclick="edit('context')">ОК</button></td>
+                             </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </section>
+
+    </div>
+</div>
 <script>
-	function calcRate() {
-		var input1 = $('input[name="station_from"]').val();
-		var input2 = $('input[name="station_to"]').val();
-		var input3 = $('input[name="cargo"]').val();
-		var input4 = $('input[name="volume"]').val();
-		$.ajax({
-			url: 'rate/info',
+function edit(id) {
+	var context = document.getElementById(id);
+	var yield = context.querySelector("#yield");
+	yield.disabled = false;
+	var value1 = volumeGroup.value;
+	var value2 = yield.value;
+	var td = document.createElement("td");
+	var bt = document.createElement("input");
+	bt.value = "Update";
+	bt.id = "bt";
+	bt.type="submit";
+	bt.setAttribute('onclick', 'update(\'context\')');
+	td.appendChild(bt);
+	context.appendChild(td);
+}
+
+function update(id) {
+	var context = document.getElementById(id);
+	var value1 = context.querySelector("#volumeGroup").value;
+	var value2 = context.querySelector("#yield").value;
+	var id = context.querySelector("#id").value;
+
+	$.ajax({
+			url: 'settings/update',
 			datatype : 'json',
-			type : "post",
+			type : "put",
 			contentType : "application/json",
 			data : JSON.stringify({
-				stationFrom : input1,
-				stationTo : input2,
-				cargo : input3,
-				volume : input4
+				id : id,
+				volumeGroup : value1,
+				yield : value2
 			}),
 			success: function(response) {
-				for (var i in response.totalList) {
-					$content = $('<tr>').append(
-						$('<td class="td_table2">').text(response.totalList[i].stationDeparture.nameStation),
-						$('<td class="td_table2">').text(response.totalList[i].stationDeparture.road.nameRoad),
-						$('<td class="td_table2">').text(response.totalList[i].stationDestination.nameStation),
-						$('<td class="td_table2">').text(response.totalList[i].stationDestination.road.nameRoad),
-						$('<td class="td_table2">').text(response.totalList[i].cargo.nameCargo),
-						$('<td class="td_table2">').text(response.totalList[i].distance),
-						$('<td class="td_table2">').text(response.totalList[i].countDays),
-						$('<td class="td_table2">').text(response.totalList[i].countDaysLoadAndUnload),
-						$('<td class="td_table2">').text(response.totalList[i].fullCountDays),
-						$('<td class="td_table2">').text('поваг'),
-						$('<td class="td_table2">').text(
-							function() {
-								if (response.totalList[i].rate == 0) {
-									return ''
-								} else {
-									return response.totalList[i].rate
-								}
-							}
-						),
-						$('<td class="td_table2">').text(
-							function() {
-								if (response.totalList[i].tariff == 0) {
-									return ''
-								} else {
-									return response.totalList[i].tariff
-								}
-							}
-						),
-						$('<td class="td_table2">').text(
-							function() {
-								return response.totalList[i].rate + response.totalList[i].tariff
-							}
-						),
-						$('<td class="td_table2">').text("")
-					);
-					$('#total').append($content);
-				}
-
-				$sum = $('<tr>').append(
-						$('<td class="td_table3" colspan="5">').text(""),
-						$('<td class="td_table3">').text(response.sumDistance),
-						$('<td class="td_table3">').text(response.sumCountDays),
-						$('<td class="td_table3">').text(""),
-						$('<td class="td_table3">').text(response.sumFullCountDays),
-						$('<td class="td_table3">').text(""),
-						$('<td class="td_table3">').text(""),
-						$('<td class="td_table3">').text(""),
-						$('<td class="td_table3">').text(response.sumRateOrTariff),
-						$('<td class="td_table3">').text(response.yield)
-					);
-
-					$('#total').append($sum);
+				context.querySelector("#yield").disabled = true;
+				context.querySelector("#bt").type = 'hidden';
 			}
 		});
-	}
+}
 
-	this.searchfield = function(name){
-		var request;
-		var num;
-		if (name == 'station1') {
-			request = 'search/station?station=';
-			num = 0;
-		} else if (name == 'station2') {
-			request = 'search/station?station=';
-			num = 1;
-		} else {
-			request = 'search/cargo?cargo=';
-			num = 2;
-		}
-		var suggestion = true;
-		var field = document.getElementById(name);
-		var classInactive = "sf_inactive";
-		var classActive = "sf_active";
-		var classText = "sf_text";
-		var classSuggestion = "sf_suggestion";
-		this.safari = ((parseInt(navigator.productSub)>=20020000)&&(navigator.vendor.indexOf("Apple Computer")!=-1));
-		if(field && !safari){
-			field.c = field.className;
-			field.className = field.c + " " + classInactive;
-			field.onfocus = function(){
-				this.className = this.c + " "  + classActive;
-				this.value = (this.value == "") ?  "" : this.value;
-			};
-			field.onblur = function(){
-				this.className = (this.value != "") ? this.c + " " +  classText : this.c + " " +  classInactive;
-				this.value = (this.value != "") ?  this.value : "";
-				clearList();
-			};
-			if (suggestion){
-
-				var selectedIndex = 0;
-
-				field.setAttribute("autocomplete", "off");
-				var div = document.createElement("div");
-				var list = document.createElement("ul");
-				list.style.display = "none";
-				div.className = classSuggestion;
-				list.style.width = field.offsetWidth + "px";
-				list.style.left = num * field.offsetWidth + "px";
-				div.appendChild(list);
-				field.parentNode.appendChild(div);
-
-				field.onkeypress = function(e){
-
-					var key = getKeyCode(e);
-
-					if(key == 13){ // enter
-						selectList();
-						selectedIndex = 0;
-						return false;
-					};
-				};
-
-				field.onkeyup = function(e){
-
-					var key = getKeyCode(e);
-
-					switch(key){
-					case 13:
-						return false;
-						break;
-					case 27:  // esc
-						field.value = "";
-						selectedIndex = 0;
-						clearList();
-						break;
-					case 38: // up
-						navList("up");
-						break;
-					case 40: // down
-						navList("down");
-						break;
-					default:
-						setTimeout(createList(field.value), 400);
-						break;
-					};
-				};
-
-				this.createList = function(value){
-					resetList();
-					$.ajax({
-						url: request + value,
-						cache: false,
-						success: function(response) {
-							if(response.length > 0) {
-								for(i=0;i<response.length;i++){
-									li = document.createElement("li");
-									a = document.createElement("a");
-									a.href = "javascript:void(0);";
-									a.i = i+1;
-									a.innerHTML = response[i];
-									li.i = i+1;
-									li.onmouseover = function(){
-										navListItem(this.i);
-									};
-									a.onmousedown = function(){
-										selectedIndex = this.i;
-										selectList(this.i);
-										return false;
-									};
-									li.appendChild(a);
-									list.setAttribute("tabindex", "-1");
-									list.appendChild(li);
-								};
-								list.style.display = "block";
-							} else {
-								clearList();
-							};
-						}
-					});
-				};
-
-				this.resetList = function(){
-					var li = list.getElementsByTagName("li");
-					var len = li.length;
-					for(var i=0;i<len;i++){
-						list.removeChild(li[0]);
-					};
-				};
-
-				this.navList = function(dir){
-					selectedIndex += (dir == "down") ? 1 : -1;
-					li = list.getElementsByTagName("li");
-					if (selectedIndex < 1) selectedIndex =  li.length;
-					if (selectedIndex > li.length) selectedIndex =  1;
-					navListItem(selectedIndex);
-				};
-
-				this.navListItem = function(index){
-					selectedIndex = index;
-					li = list.getElementsByTagName("li");
-					for(var i=0;i<li.length;i++){
-						li[i].className = (i==(selectedIndex-1)) ? "selected" : "";
-					};
-				};
-
-				this.selectList = function(){
-					li = list.getElementsByTagName("li");
-					a = li[selectedIndex-1].getElementsByTagName("a")[0];
-					field.value = a.innerHTML;
-					clearList();
-				};
-
-			};
-		};
-
-		this.clearList = function(){
-			if(list){
-				list.style.display = "none";
-				selectedIndex = 0;
-			};
-		};
-		this.getKeyCode = function(e){
-			var code;
-			if (!e) var e = window.event;
-			if (e.keyCode) code = e.keyCode;
-			return code;
-		};
-	};
 </script>
 
-<div>
-	<input type="text" id="station1" onkeyup="searchfield('station1')" value="" name="station_from" />
-	<input type="text" id="station2" onkeyup="searchfield('station2')" value="" name="station_to" />
-	<input type="text" id="cargo1" onkeyup="searchfield('cargo1')" value="" name="cargo" />
-	<input type="text" name="volume" />
-	<input type="button" onclick="calcRate()" value="Рассчитать ставку" />
-</div>
-<div>
-    <table class="table_calculate" id="total">
-        <tbody>
-            <tr>
-                <td class="td_table1" rowspan="3">Станция отправления</td>
-                <td class="td_table1" rowspan="3">Дорога отправления</td>
-                <td class="td_table1" rowspan="3">Станция назначения</td>
-                <td class="td_table1" rowspan="3">Дорога назначения</td>
-                <td class="td_table1" rowspan="3">Наименование груза</td>
-                <td class="td_table1" rowspan="3">Расст., км</td>
-                <td class="td_table1" rowspan="3">Время в пути, сут</td>
-                <td class="td_table1" rowspan="3">Погр. / выгр.</td>
-                <td class="td_table1" rowspan="3">Оборот, сут.</td>
-                <td class="td_table1" rowspan="3">ВО</td>
-                <td class="td_table1" rowspan="2">ДОХОД</td>
-                <td class="td_table1">РАСХОД</td>
-                <td class="td_table1" colspan="2">ПРИБЫЛЬ</td>
-            </tr>
-            <tr>
-                <td class="td_table1">Тариф в собств. вагонах</td>
-                <td class="td_table1">За нахождение в пути</td>
-                <td class="td_table1">В сутки</td>
-            </tr>
-            <tr>
-                <td class="td_table1">руб/ваг.</td>
-                <td class="td_table1">руб/ваг.</td>
-                <td class="td_table1">руб/ваг.</td>
-                <td class="td_table1">руб/ваг/сут.</td>
-            </tr>
-        </tbody>
-    </table>
+<div align="center" class="footer">
+    Create by Vladislav Klochkov. All rights reserved, <span id="copy"></span>
 </div>
 
 </body>

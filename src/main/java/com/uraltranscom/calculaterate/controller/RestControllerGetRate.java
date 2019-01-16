@@ -1,6 +1,6 @@
 package com.uraltranscom.calculaterate.controller;
 
-import com.uraltranscom.calculaterate.model.HttpBodyRate;
+import com.uraltranscom.calculaterate.model.pojo.HttpBodyRate;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
 import org.slf4j.Logger;

@@ -1,22 +1,29 @@
-package com.uraltranscom.calculaterate.dao;
+package com.uraltranscom.calculaterate.dao.deprecated;
 
 /**
- * @author vladislav.klochkov
- * @project CalculationRate_1.0
- * @date 30.12.2018
+ *
+ * Класс получения класса груза
+ *
+ * @author Vladislav Klochkov
+ * @version 1.0
+ * @create 26.12.2018
+ *
+ * 26.12.2018
+ *   1. Версия 1.0
+ *
  */
 
 /*
 @Component
-public class GetReturnStationDAO extends AbstractObjectFactory<String> {
-    private static Logger logger = LoggerFactory.getLogger(GetReturnStationDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_distance.get_return_station(?,?,?,?) } ";
+public class GetTypeOfCargoDAO extends AbstractObjectFactory<Cargo> {
+    private static Logger logger = LoggerFactory.getLogger(GetTypeOfCargoDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_distance.get_cargo_type2(?) } ";
 
-    public GetReturnStationDAO() {
+    public GetTypeOfCargoDAO() {
     }
 
     @Override
-    public String getObject(Map<String, Object> params) {
+    public Cargo getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();
 
         try (CallableStatement callableStatement = createCallableStatement(getConnection(), params);
@@ -28,8 +35,9 @@ public class GetReturnStationDAO extends AbstractObjectFactory<String> {
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
         }
+        List<String> cargoInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
         // TODO: 2018-12-25 Попробовать в стрим
-        return String.valueOf(listResult.get(0));
+        return new Cargo(cargoInfo.get(0), cargoInfo.get(1), cargoInfo.get(2));
     }
 
     // TODO перенести в другое место

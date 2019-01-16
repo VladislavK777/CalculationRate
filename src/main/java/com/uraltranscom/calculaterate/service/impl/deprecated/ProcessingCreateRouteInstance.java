@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.service.impl;
+package com.uraltranscom.calculaterate.service.impl.deprecated;
 
 /**
  *

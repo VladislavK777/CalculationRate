@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.model;
+package com.uraltranscom.calculaterate.model.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

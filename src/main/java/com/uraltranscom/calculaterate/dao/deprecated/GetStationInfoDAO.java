@@ -1,8 +1,8 @@
-package com.uraltranscom.calculaterate.dao;
+package com.uraltranscom.calculaterate.dao.deprecated;
 
 /**
  *
- * Класс получения класса груза
+ * Класс получения станции
  *
  * @author Vladislav Klochkov
  * @version 1.0
@@ -15,15 +15,15 @@ package com.uraltranscom.calculaterate.dao;
 
 /*
 @Component
-public class GetTypeOfCargoDAO extends AbstractObjectFactory<Cargo> {
-    private static Logger logger = LoggerFactory.getLogger(GetTypeOfCargoDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_distance.get_cargo_type2(?) } ";
+public class GetStationInfoDAO extends AbstractObjectFactory<Station> {
+    private static Logger logger = LoggerFactory.getLogger(GetStationInfoDAO.class);
+    private static final String SQL_CALL_NAME = " { call  test_distance.get_station_info(?) } ";
 
-    public GetTypeOfCargoDAO() {
+    public GetStationInfoDAO() {
     }
 
     @Override
-    public Cargo getObject(Map<String, Object> params) {
+    public Station getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();
 
         try (CallableStatement callableStatement = createCallableStatement(getConnection(), params);
@@ -35,12 +35,19 @@ public class GetTypeOfCargoDAO extends AbstractObjectFactory<Cargo> {
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
         }
-        List<String> cargoInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
-        // TODO: 2018-12-25 Попробовать в стрим
-        return new Cargo(cargoInfo.get(0), cargoInfo.get(1), cargoInfo.get(2));
+        List<String> stationInfo = listResult.stream().map(String::valueOf).collect(Collectors.toList());
+
+        // TODO переделать
+        return new Station(stationInfo.get(0), stationInfo.get(1),
+                new Road(stationInfo.get(2), stationInfo.get(3), stationInfo.get(4),
+                        new Country(
+                                stationInfo.get(5),
+                                stationInfo.get(6)
+                        )
+                )
+        );
     }
 
-    // TODO перенести в другое место
     private static CallableStatement createCallableStatement(Connection connection, Map<String, Object> params) throws SQLException {
         CallableStatement callableStatement = connection.prepareCall(SQL_CALL_NAME);
         for (int i = 1; i < params.size() + 1; i++) {

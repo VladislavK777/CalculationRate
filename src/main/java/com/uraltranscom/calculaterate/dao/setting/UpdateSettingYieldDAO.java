@@ -1,5 +1,6 @@
-package com.uraltranscom.calculaterate.dao;
+package com.uraltranscom.calculaterate.dao.setting;
 
+import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,40 +8,36 @@ import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
- * @author Vladislav Klochkov
- * @create 2019-01-07
+ * @author vladislav.klochkov
+ * @project CalculationRate_1.0
+ * @date 09.01.2019
  */
 
 @Component
 @NoArgsConstructor
-public class SearchCargoDAO extends AbstractObjectFactory<List<Object>> {
-    private static Logger logger = LoggerFactory.getLogger(SearchCargoDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_distance.get_cargo_search(?) } ";
+public class UpdateSettingYieldDAO extends ConnectionDB {
+    private static Logger logger = LoggerFactory.getLogger(UpdateSettingYieldDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_yield(?,?) } ";
 
-    @Override
-    public List<Object> getObject(Map<String, Object> params) {
-        List<Object> listResult = new ArrayList<>();
-
-        Connection connection = getConnection();
+    public void updateObject(Map<String, Object> params) {
+        logger.info("params: {}", params);
+        Connection connection;
         CallableStatement callableStatement = null;
 
         try {
+            connection = getDataSource().getConnection();
+            connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
             for (int i = 1; i < params.size() + 1; i++) {
                 callableStatement.setObject(i, params.get("param" + i));
             }
-            ResultSet resultSet = callableStatement.executeQuery();
-            while (resultSet.next()) {
-                listResult.add(resultSet.getObject(1));
-            }
-            logger.debug("Get info for: {}", params + ": " + listResult);
+            logger.info("f: {}", callableStatement.getConnection().getSchema());
+            callableStatement.executeQuery();
+            connection.commit();
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
         } finally {
@@ -52,7 +49,5 @@ public class SearchCargoDAO extends AbstractObjectFactory<List<Object>> {
                 logger.debug("Error close connection!");
             }
         }
-
-        return listResult;
     }
 }
