@@ -8,9 +8,9 @@ import lombok.*;
  * @date 16.01.2019
  */
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 @ToString
 public class SettingLoadUnload {

@@ -15,9 +15,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author vladislav.klochkov
@@ -33,7 +33,7 @@ public class GetSettingBeginningExceptionsDAO extends AbstractObjectFactory<Map<
 
     @Override
     public Map<String, List<SettingReturnExceptions>> getObject(Map<String, Object> params) {
-        Map<String, List<SettingReturnExceptions>> mapSetting = new HashMap<>();
+        TreeMap<String, List<SettingReturnExceptions>> mapSetting = new TreeMap<>();
 
         Connection connection = getConnection();
         CallableStatement callableStatement = null;
@@ -47,7 +47,7 @@ public class GetSettingBeginningExceptionsDAO extends AbstractObjectFactory<Map<
                 while (resultSe2.next()) {
                     int id = resultSe2.getInt(1);
                     int num = resultSe2.getInt(2);
-                    String idRoad = resultSe2.getString(3);
+                    int idRoad = resultSe2.getInt(3);
                     String shortNameRoad = resultSe2.getString(4);
                     String idStationString = resultSe2.getString(5);
                     String volumeGroupsString = resultSe2.getString(6);

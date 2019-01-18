@@ -12,4 +12,8 @@ public class ParserInputName {
         String[] s = input.split(PREFIX_SPLIT);
         return s[0];
     }
+
+    public static String getIdRoad(String input) {
+        return input.replaceAll("[^0-9\\+]", "");
+    }
 }

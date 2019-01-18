@@ -53,11 +53,11 @@ public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
                     int num = routesSet.getInt(3);
                     String idStationDeparture = routesSet.getString(4);
                     String nameStationDeparture = routesSet.getString(5);
-                    String idRoadDeparture = routesSet.getString(6);
+                    int idRoadDeparture = routesSet.getInt(6);
                     String nameRoadDeparture = routesSet.getString(7);
                     String idStationDestination = routesSet.getString(8);
                     String nameStationDestination = routesSet.getString(9);
-                    String idRoadDestination = routesSet.getString(10);
+                    int idRoadDestination = routesSet.getInt(10);
                     String nameRoadDestination = routesSet.getString(11);
                     String idCargo = routesSet.getString(12);
                     String nameCargo = routesSet.getString(13);

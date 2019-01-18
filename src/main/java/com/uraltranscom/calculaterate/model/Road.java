@@ -1,9 +1,6 @@
 package com.uraltranscom.calculaterate.model;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  *
@@ -18,11 +15,12 @@ import lombok.ToString;
  *
  */
 
-@Getter
+@Data
 @EqualsAndHashCode
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class Road {
-    private String idRoad; //Идентификатор дороги
+    private int idRoad; //Идентификатор дороги
     private String nameRoad; //Название дороги
 }
