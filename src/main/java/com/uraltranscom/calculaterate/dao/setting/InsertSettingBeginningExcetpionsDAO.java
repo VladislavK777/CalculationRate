@@ -19,11 +19,11 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class UpdateSettingYieldDAO extends ConnectionDB {
-    private static Logger logger = LoggerFactory.getLogger(UpdateSettingYieldDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_yield(?,?) } ";
+public class InsertSettingBeginningExcetpionsDAO extends ConnectionDB {
+    private static Logger logger = LoggerFactory.getLogger(InsertSettingBeginningExcetpionsDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_beginning_exception(?,?,?,?,?,?,?,?,?,?,?,?) } ";
 
-    public void updateObject(Map<String, Object> params) {
+    public void insertObject(Map<String, Object> params) {
         Connection connection;
         CallableStatement callableStatement = null;
 

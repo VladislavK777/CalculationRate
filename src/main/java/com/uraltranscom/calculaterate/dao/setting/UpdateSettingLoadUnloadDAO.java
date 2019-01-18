@@ -19,9 +19,9 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class UpdateSettingYieldDAO extends ConnectionDB {
-    private static Logger logger = LoggerFactory.getLogger(UpdateSettingYieldDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_yield(?,?) } ";
+public class UpdateSettingLoadUnloadDAO extends ConnectionDB {
+    private static Logger logger = LoggerFactory.getLogger(UpdateSettingLoadUnloadDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_loading_unloading(?,?) } ";
 
     public void updateObject(Map<String, Object> params) {
         Connection connection;

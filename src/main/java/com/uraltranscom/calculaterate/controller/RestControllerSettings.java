@@ -20,8 +20,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("settings")
-public class ControllerSettings {
-    private static Logger logger = LoggerFactory.getLogger(ControllerSettings.class);
+public class RestControllerSettings {
+    private static Logger logger = LoggerFactory.getLogger(RestControllerSettings.class);
 
     @Autowired
     private GetSettingReturnStationsDAO getSettingReturnStationsDAO;
@@ -36,7 +36,6 @@ public class ControllerSettings {
     @Autowired
     private GetSettingYieldDAO getSettingYieldDAO;
     @Autowired
-    private UpdateSettingYieldDAO updateSettingYieldDAO;
 
     @GetMapping
     public ModelAndView setting() {
@@ -62,10 +61,4 @@ public class ControllerSettings {
         mav.addObject("listYield", listYield);
         return mav;
     }
-
-    @PutMapping("/update")
-    public void update(@RequestBody SettingYield settingYield) {
-        updateSettingYieldDAO.updateObject(PrepareMapParams.prepareMapWithParams(settingYield.getId(), settingYield.getYield()));
-    }
-
 }

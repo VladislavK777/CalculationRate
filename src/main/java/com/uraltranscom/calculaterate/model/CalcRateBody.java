@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.model.pojo;
+package com.uraltranscom.calculaterate.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HttpBodyRate {
+public class CalcRateBody {
     private String stationFrom;
     private String stationTo;
     private String cargo;

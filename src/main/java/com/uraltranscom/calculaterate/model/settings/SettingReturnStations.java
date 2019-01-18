@@ -9,9 +9,9 @@ import lombok.*;
  * @date 09.01.2019
  */
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 @ToString
 public class SettingReturnStations {

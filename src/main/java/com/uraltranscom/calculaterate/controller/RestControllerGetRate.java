@@ -1,6 +1,6 @@
 package com.uraltranscom.calculaterate.controller;
 
-import com.uraltranscom.calculaterate.model.pojo.HttpBodyRate;
+import com.uraltranscom.calculaterate.model.CalcRateBody;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public class RestControllerGetRate {
     private CommonLogicClass commonLogicClass;
 
     @PostMapping(value = "/info")
-    public ResponseEntity<TotalModel> totalModel(@RequestBody HttpBodyRate object) {
+    public ResponseEntity<TotalModel> totalModel(@RequestBody CalcRateBody object) {
         commonLogicClass.startLogic(getId(object.getStationFrom()), getId(object.getStationTo()), getId(object.getCargo()), object.getVolume());
         return new ResponseEntity<>(commonLogicClass.getTotalModel(), HttpStatus.OK);
     }
