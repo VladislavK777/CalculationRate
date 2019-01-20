@@ -1,112 +1,65 @@
-(function() {
-    var startingTime = new Date().getTime();
-    // Load the script
-    var script = document.createElement("scritp");
-    script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js';
-    document.getElementsByTagName("head")[0].appendChild(script);
-})();
-
-function editField(id) {
-	var context = document.getElementById(id);
-	var yield = context.querySelector("#yieldYield");
-	var valueYield = yield.value;
-	yield.disabled = false;
-	var bt = context.querySelector("#btEditYield");
-	yield.setAttribute('onkeyup',"check('" + valueYield + "','" + id + "');");
-	bt.value = "Отмена";
+function cop() {
+	document.getElementById("copy").innerText = new Date().getFullYear();
 }
+	
 function check(valueYield,id) {
 	var yield = document.getElementById(id).querySelector("#yieldYield");
 	var bt = document.getElementById(id).querySelector("#btEditYield");
-		if (valueYield != yield.value) {
-			bt.value = 'Сохранить';
-			bt.setAttribute("onclick", "update('" + id + "','" + yield.value + "');");
-		} else {
-			bt.value = "Отмена";
-		}
-	};
-function update(id,value) {
-	var context = document.getElementById(id);
-	var value1 = context.querySelector("#volumeGroupYield").value;
-	var id = context.querySelector("#idYield").value;
-	var bt = context.querySelector("#btEditYield");
+	if (valueYield != yield.value) {
+		bt.value = 'Сохранить';
+		bt.setAttribute("onclick", "update('" + id + "','" + yield.value + "');");
+	} else {
+		bt.value = "Отмена";
+	}
+}
+
+function showPopup() {
+	$(popup).fadeIn(800);
+}
+
+function createField() {
+	var context = document.getElementById('root');
+	context.hidden = false;
+
+	showPopup();
+
+	$(document).ready(function () {
+		$(popup_bg).click(function () {
+			$(popup).fadeOut(800);
+		});
+	});
+}
+
+function update(request,json) {
 	$.ajax({
-		url: "update/updateYield",
+		url: "update" + request,
 		type : "put",
 		contentType : "application/json",
-		data : JSON.stringify({
-			id : id,
-			volumeGroup : value1,
-			yield : value
-		}),
+		data : json,
 		success: function(response) {
-			location.reload();
+			//location.reload();
+			console.log("ok");
 		}
 	});
 }
 
-function deleteField(id) {
-	var context = document.getElementById(id);
-	var id = context.querySelector("#idReturnStations").value;
-
+function deleteField(request) {
 	$.ajax({
-		url: "delete/deleteReturnStations/" + id,
+		url: "delete" + request,
 		type : "delete",
 		success: function(response) {
-			console.log('OK');
+			//location.reload();
+			console.log("ok");
 		}
 	});
 }
 
-function createField(id) {
-	var context = document.getElementById(id);
-	var div = document.createElement("div");
-	var inputNum1 = document.createElement("input");
-	inputNum1.id = "road";
-	inputNum1.setAttribute("onclick", "searchfield('" + inputNum1.id + "');");
-	div.appendChild(inputNum1);
-
-	var inputNum2 = document.createElement("input");
-	inputNum2.id = "inputNum2";
-	div.appendChild(inputNum2);
-
-	var inputNum3 = document.createElement("input");
-	inputNum3.id = "inputNum3";
-	div.appendChild(inputNum3);
-
-	var inputNum4 = document.createElement("input");
-	inputNum4.id = "station";
-	inputNum4.setAttribute("onclick", "searchfield('" + inputNum4.id + "');");
-	div.appendChild(inputNum4);
-
-	var inputNum5 = document.createElement("input");
-	inputNum5.type = "button";
-	inputNum5.value = "Добвить";
-	inputNum5.setAttribute("onclick", "insert('" + id + "');");
-	div.appendChild(inputNum5);
-
-	context.appendChild(div);
-}
-
-function insert(id) {
-	var context = document.getElementById(id);
-	var value1 = context.querySelector("#road").value;
-	value1 = value1.replace(/[^\d]/g, "");
-	var value2 = context.querySelector("#inputNum2").value;
-	var value3 = context.querySelector("#inputNum3").value;
-	var value4 = context.querySelector("#station").value;
-	value4 = value4.replace(/[^\d{6}]/g, "");
-
+function insert(request,json) {
 	$.ajax({
-		url: "add/addReturnStations",
+		url: "add" + request,
 		type : "post",
 		contentType : "application/json",
-		data : JSON.stringify({
-			road : {idRoad : value1},
-			idStationString : value2,
-			volumeGroupsString : value3,
-			idStationReturn : value4
-		}),
+		data : json,
 		success: function(response) {
 			console.log('OK');
 		}
@@ -116,9 +69,9 @@ function insert(id) {
 this.searchfield = function (name){
         var request;
 		var num;
-		if (name == 'station') {
+		if (name.indexOf('station') > -1) {
 			request = 'search/station?station=';
-			num = 4;
+			num = 0;
 		} else {
 			request = 'search/road?road=';
 			num = 0;
