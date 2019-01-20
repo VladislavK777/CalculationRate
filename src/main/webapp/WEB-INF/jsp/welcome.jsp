@@ -6,10 +6,10 @@
 
         <head>
           <script async src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-          <script src="resources/search.js"></script>
+          <script src="resources/javascript/search.js"></script>
           <title>UralTransCom|DynamicDistributionPark</title>
           <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-          <link href="resources/style.css" rel="stylesheet" type="text/css" />
+          <link href="resources/css/style.css" rel="stylesheet" type="text/css" />
           <link rel="shortcut icon" href="resources/favicon.ico" type="image/x-icon">
 
         </head>
@@ -96,40 +96,40 @@
                 <td>
                   <p for="inp" class="inp">
                     <label>
-      <input type="text" id="stationFrom" placeholder="&nbsp;" name="station_from" onkeyup="search(this.id)"/>
-      <span class="label">Станция отправления</span>
-      <span class="border" />
-    </label>
+                      <input type="text" id="stationFrom" placeholder="&nbsp;" name="station_from" onkeyup="search(this.id)"/>
+                      <span class="label">Станция отправления</span>
+                      <span class="border" />
+                    </label>
                   </p>
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;</td>
                 <td>
                   <p for="inp" class="inp">
                     <label>
-      <input type="text" id="stationTo" placeholder="&nbsp;" name="station_to" onkeyup="search(this.id)"/>
-      <span class="label">Станция назначения</span>
-      <span class="border" />
-    </label>
+                      <input type="text" id="stationTo" placeholder="&nbsp;" name="station_to" onkeyup="search(this.id)"/>
+                      <span class="label">Станция назначения</span>
+                      <span class="border" />
+                    </label>
                   </p>
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;</td>
                 <td>
                   <p for="inp" class="inp">
                     <label>
-      <input type="text" id="cargo" placeholder="&nbsp;" name="cargo" onkeyup="search(this.id)"/>
-      <span class="label">Груз</span>
-      <span class="border" />
-    </label>
+                      <input type="text" id="cargo" placeholder="&nbsp;" name="cargo" onkeyup="search(this.id)"/>
+                      <span class="label">Груз</span>
+                      <span class="border" />
+                    </label>
                   </p>
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;</td>
                 <td>
                   <p for="inp" class="inp">
                     <label>
-      <input type="text" placeholder="&nbsp;" name="name" onkeyup="search(this.id)"/>
-      <span class="label">Объем</span>
-      <span class="border" />
-    </label>
+                      <input type="text" placeholder="&nbsp;" name="volume" onkeyup="search(this.id)"/>
+                      <span class="label">Объем</span>
+                      <span class="border" />
+                    </label>
                   </p>
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;</td>
