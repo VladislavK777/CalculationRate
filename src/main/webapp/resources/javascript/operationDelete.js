@@ -1,22 +1,37 @@
 // Набор скриптов для операции Delete 
 
 function deleteFieldReturnStations(id) {
-	var context = document.getElementById(id);
-	var id = context.querySelector("idReturnStations");
-	var request = "/deleteReturnStations/" + id;
-	deleteField(request);
+    var del = confirm("Вы хотите удалить настройку?");
+    if (del) {
+        var context = document.getElementById(id);
+        var id = context.querySelector("#idReturnStations").value;
+        var request = "/deleteReturnStations/" + id;
+        deleteField(request);
+	} else {
+	    return;
+	}
 }
 
 function deleteFieldReturnExceptions(id) {
-	var context = document.getElementById(id);
-	var id = context.querySelector("idReturnExceptions");
-	var request = "/deleteReturnExceptions/" + id;
-	deleteField(request);
+    var del = confirm("Вы хотите удалить настройку?");
+    if (del) {
+        var context = document.getElementById(id);
+        var id = context.querySelector("#idReturnExceptions").value;
+        var request = "/deleteReturnExceptions/" + id;
+        deleteField(request);
+	} else {
+        return;
+    }
 }
 
 function deleteFieldBeginningExceptions(id) {
-	var context = document.getElementById(id);
-	var id = context.querySelector("idBeginningExceptions");
-	var request = "/deleteBeginningExceptions/" + id;
-	deleteField(request);
+	var del = confirm("Вы хотите удалить настройку?");
+	if (del) {
+        var context = document.getElementById(id);
+        var id = context.querySelector("#idBeginningExceptions").value;
+        var request = "/deleteBeginningExceptions/" + id;
+        deleteField(request);
+	} else {
+        return;
+    }
 }

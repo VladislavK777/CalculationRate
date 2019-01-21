@@ -45,7 +45,6 @@ public class RestControllerSettings {
         mav.addObject("mapReturnStations", mapReturnStations);
 
         Map<String, List<SettingReturnExceptions>> mapReturnException = getSettingReturnExceptionsDAO.getObject(PrepareMapParams.prepareMapWithParams(""));
-        logger.info("mapReturnException: {}", mapReturnException);
         mav.addObject("mapReturnException", mapReturnException);
 
         Map<String, List<SettingReturnExceptions>> mapBeginningException = getSettingBeginningExceptionsDAO.getObject(PrepareMapParams.prepareMapWithParams(""));

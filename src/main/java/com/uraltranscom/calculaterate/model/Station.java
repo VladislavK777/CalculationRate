@@ -1,9 +1,6 @@
 package com.uraltranscom.calculaterate.model;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  *
@@ -18,8 +15,9 @@ import lombok.ToString;
  *
  */
 
-@Getter
+@Data
 @EqualsAndHashCode
+@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class Station {

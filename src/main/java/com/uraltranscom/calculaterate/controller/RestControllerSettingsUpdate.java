@@ -79,7 +79,7 @@ public class RestControllerSettingsUpdate {
 
     @PutMapping("/updateReturnExceptions")
     public void updateReturnExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        updateSettingReturnStationsDAO.updateObject(
+        updateSettingReturnExcetpionsDAO.updateObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getId(),
                         settingReturnExceptions.getRoad().getIdRoad(),

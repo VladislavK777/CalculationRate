@@ -28,7 +28,7 @@ function updateFieldYield(id) {
 		});
 	var request = "/updateYield";
 	update(request,json);
-}	
+}
 
 function updateFieldLoadUnload(id) {
 	var context = document.getElementById(id);
@@ -40,7 +40,7 @@ function updateFieldLoadUnload(id) {
 		});
 	var request = "/updateLoadUnload";
 	update(request,json);
-}		
+}
 
 function updateFieldBorderDistance(id) {
 	var context = document.getElementById(id);
@@ -64,7 +64,7 @@ function updateFieldBeginningException(id) {
 	var road = context.querySelector("#road" + id).value.replace(/[^\d]/g, "");
 	var stations = context.querySelector("#idStationStringBeginningException").value;
 	var volumeGroup = context.querySelector("#volumeGroupsStringBeginningException").value;
-	var stationFrom = context.querySelector("#stationFtom" + id).value.replace(/[^\d{6}}]/g, "");
+	var stationFrom = context.querySelector("#stationFrom" + id).value.replace(/[^\d{6}}]/g, "");
 	var stationTo = context.querySelector("#stationTo" + id).value.replace(/[^\d{6}}]/g, "");
 	var cargo = context.querySelector("#cargo" + id).value.replace(/[^\d{6}}]/g, "");
 	var cargoTypeString = context.querySelector("#cargoTypeStringBeginningException").value;
@@ -77,8 +77,9 @@ function updateFieldBeginningException(id) {
 			id: id,
 			road : {idRoad : road},
 			idStationString : stations,
-			staionFrom : {idStation : stationFrom},
-			staionTo : {idStation : stationTo},
+			volumeGroupsString : volumeGroup,
+			stationFrom : {idStation : stationFrom},
+			stationTo : {idStation : stationTo},
 			cargo : {idCargo : cargo},
 			cargoTypeString : cargoTypeString,
 			routeType : routeType,
@@ -97,7 +98,7 @@ function updateFieldReturnException(id) {
 	var road = context.querySelector("#road" + id).value.replace(/[^\d]/g, "");
 	var stations = context.querySelector("#idStationStringReturnException").value;
 	var volumeGroup = context.querySelector("#volumeGroupsStringReturnException").value;
-	var stationFrom = context.querySelector("#stationFtom" + id).value.replace(/[^\d{6}}]/g, "");
+	var stationFrom = context.querySelector("#stationFrom" + id).value.replace(/[^\d{6}}]/g, "");
 	var stationTo = context.querySelector("#stationTo" + id).value.replace(/[^\d{6}}]/g, "");
 	var cargo = context.querySelector("#cargo" + id).value.replace(/[^\d{6}}]/g, "");
 	var cargoTypeString = context.querySelector("#cargoTypeStringReturnException").value;
@@ -110,8 +111,9 @@ function updateFieldReturnException(id) {
 			id: id,
 			road : {idRoad : road},
 			idStationString : stations,
-			staionFrom : {idStation : stationFrom},
-			staionTo : {idStation : stationTo},
+			volumeGroupsString : volumeGroup,
+			stationFrom : {idStation : stationFrom},
+			stationTo : {idStation : stationTo},
 			cargo : {idCargo : cargo},
 			cargoTypeString : cargoTypeString,
 			routeType : routeType,

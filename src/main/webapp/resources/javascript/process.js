@@ -1,7 +1,7 @@
 function cop() {
 	document.getElementById("copy").innerText = new Date().getFullYear();
 }
-	
+
 function check(valueYield,id) {
 	var yield = document.getElementById(id).querySelector("#yieldYield");
 	var bt = document.getElementById(id).querySelector("#btEditYield");
@@ -64,6 +64,10 @@ function insert(request,json) {
 			console.log('OK');
 		}
 	});
+}
+
+function reloadPage() {
+	location.reload();
 }
 
 this.searchfield = function (name){

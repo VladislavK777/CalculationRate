@@ -42,5 +42,6 @@
     <bean id="searchCargo" class="com.uraltranscom.calculaterate.dao.SearchCargoDAO" />
     <bean id="getSetting" class="com.uraltranscom.calculaterate.dao.setting.GetSettingReturnStationsDAO" />
     <bean id="getTotalModel" class="com.uraltranscom.calculaterate.dao.GetTotalModelDAO" />
+    <bean id="export" class="com.uraltranscom.calculaterate.service.export.WriteToFileExcel" />
 
 </beans>
