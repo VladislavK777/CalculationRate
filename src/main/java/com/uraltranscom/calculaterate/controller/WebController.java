@@ -1,10 +1,15 @@
 package com.uraltranscom.calculaterate.controller;
 
+import com.uraltranscom.calculaterate.service.export.WriteToFileExcel;
+import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -23,8 +28,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class WebController {
     private static Logger logger = LoggerFactory.getLogger(WebController.class);
 
+    @Autowired
+    private CommonLogicClass commonLogicClass;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
         return "welcome";
+    }
+
+    // Выгрузка в Excel
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    public void getXLS(HttpServletResponse response, Model model) {
+        WriteToFileExcel.downloadFileExcel(response, commonLogicClass.getTotalModel());
     }
 }

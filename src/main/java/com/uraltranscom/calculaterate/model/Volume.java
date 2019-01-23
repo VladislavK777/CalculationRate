@@ -9,8 +9,7 @@ import static com.uraltranscom.calculaterate.util.GetVolumeGroup.getVolumeGroup;
  * @create 2019-01-07
  */
 
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode
 @ToString
 public class Volume {
