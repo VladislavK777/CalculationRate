@@ -44,6 +44,8 @@ function createInput(id, name, isCallSearch) {
 
 function createField(id) {
   var context = document.getElementById(id);
+  var table = document.createElement("table");
+
   var div_head = document.createElement("div");
   div_head.id = "popup";
   div_head.style =
@@ -74,32 +76,68 @@ function createField(id) {
       addReturnStations(context.parentNode.id);
     };
   } else {
-    div_subdiv_head2.appendChild(createInput("road", "Дорога", true));
-    div_subdiv_head2.appendChild(
+    var tr1 = document.createElement("tr");
+    var td11 = document.createElement("td");
+    td11.appendChild(createInput("road", "Дорога", true));
+    var td12 = document.createElement("td");
+    td12.appendChild(
       createInput("stationList", "Список станций", false)
     );
-    div_subdiv_head2.appendChild(
+    var td13 = document.createElement("td");
+    td13.appendChild(
       createInput("volume", "Группа объемов", false)
     );
-    div_subdiv_head2.appendChild(
+    tr1.appendChild(td11);
+    tr1.appendChild(td12);
+    tr1.appendChild(td13);
+    table.appendChild(tr1);
+    var tr2 = document.createElement("tr");
+    var td21 = document.createElement("td");
+    td21.appendChild(
       createInput("stationFrom", "Станция отправления", true)
     );
-    div_subdiv_head2.appendChild(
+    var td22 = document.createElement("td");
+    td22.appendChild(
       createInput("stationTo", "Станция назначения", true)
     );
-    div_subdiv_head2.appendChild(createInput("cargo", "Груз", true));
-    div_subdiv_head2.appendChild(
+    var td23 = document.createElement("td");
+    td23.appendChild(createInput("cargo", "Груз", true));
+    tr2.appendChild(td21);
+    tr2.appendChild(td22);
+    tr2.appendChild(td23);
+    table.appendChild(tr2);
+
+    var tr3 = document.createElement("tr");
+    var td31 = document.createElement("td");
+    td31.appendChild(
       createInput("cargoClass", "Класс груза", false)
     );
-    div_subdiv_head2.appendChild(createInput("typeRoute", "Тип рейса", false));
-    div_subdiv_head2.appendChild(createInput("distance", "Расстояние", false));
-    div_subdiv_head2.appendChild(createInput("countDays", "Дней", false));
-    div_subdiv_head2.appendChild(createInput("rate", "Ставка", false));
-    div_subdiv_head2.appendChild(createInput("tariff", "Тариф", false));
+    var td32 = document.createElement("td");
+    td32.appendChild(createInput("typeRoute", "Тип рейса", false));
+    var td33 = document.createElement("td");
+    td33.appendChild(createInput("distance", "Расстояние", false));
+    tr3.appendChild(td31);
+    tr3.appendChild(td32);
+    tr3.appendChild(td33);
+    table.appendChild(tr3);
+
+    var tr4 = document.createElement("tr");
+    var td41 = document.createElement("td");
+    td41.appendChild(createInput("countDays", "Дней", false));
+    var td42 = document.createElement("td");
+    td42.appendChild(createInput("rate", "Ставка", false));
+    var td43 = document.createElement("td");
+    td43.appendChild(createInput("tariff", "Тариф", false));
+    tr4.appendChild(td41);
+    tr4.appendChild(td42);
+    tr4.appendChild(td43);
+    table.appendChild(tr4);
+
     button.onclick = function() {
       addExceptions(context.parentNode.id);
     };
   }
+  div_subdiv_head2.appendChild(table);
 
   div_subdiv_head2.appendChild(button);
 
