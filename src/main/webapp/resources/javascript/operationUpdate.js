@@ -15,7 +15,7 @@ function updateFieldReturnStations(id) {
 			idStationReturn : returnStation
 		});
 	var request = "/updateReturnStations";
-	update(request,json);
+	update(id,request,json);
 }
 
 function updateFieldYield(id) {
@@ -27,7 +27,7 @@ function updateFieldYield(id) {
 			yield : yield
 		});
 	var request = "/updateYield";
-	update(request,json);
+	update(id,request,json);
 }
 
 function updateFieldLoadUnload(id) {
@@ -39,7 +39,7 @@ function updateFieldLoadUnload(id) {
 			value : value
 		});
 	var request = "/updateLoadUnload";
-	update(request,json);
+	update(id,request,json);
 }
 
 function updateFieldBorderDistance(id) {
@@ -55,7 +55,7 @@ function updateFieldBorderDistance(id) {
 			coefficient : coefficient
 		});
 	var request = "/updateBorderDistance";
-	update(request,json);
+	update(id,request,json);
 }
 
 function updateFieldBeginningException(id) {
@@ -89,7 +89,7 @@ function updateFieldBeginningException(id) {
 			tariff : tariff
 		});
 	var request = "/updateBeginningExceptions";
-	update(request,json);
+	update(id,request,json);
 }
 
 function updateFieldReturnException(id) {
@@ -123,5 +123,5 @@ function updateFieldReturnException(id) {
 			tariff : tariff
 		});
 	var request = "/updateReturnExceptions";
-	update(request,json);
+	update(id,request,json);
 }

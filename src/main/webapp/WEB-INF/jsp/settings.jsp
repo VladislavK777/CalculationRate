@@ -13,7 +13,6 @@
   <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
-  <script src="resources/javascript/react.js" type="text/babel"></script>
   <script src="resources/javascript/operationUpdate.js"></script>
   <script src="resources/javascript/operationDelete.js"></script>
   <script src="resources/javascript/operationInsert.js"></script>
@@ -23,7 +22,7 @@
 </head>
 
 <body>
-  <div class="one">
+<div class="one">
     <h1>РАСЧЕТ СТАВОК</h1>
     <div class="train">
     		<img src="resources/train.jpg" width="auto">
@@ -53,8 +52,8 @@
       <input id="tab6" type="radio" name="tabs">
       <label for="tab6" title="Доходность">Доходность</label>
 
-      <section id="content-tab1">
-        <input type="button" id="btAddReturnStations" onclick="createField()" value="Добавить условие" class="bot1" />
+      <section id="contentReturnStations">
+        <input type="button" id="btAddReturnStations" onclick="createField(this.id)" value="Добавить условие" class="bot1" />
         <table class="table_report">
           <tbody>
             <tr>
@@ -65,7 +64,7 @@
             </tr>
             <c:forEach items="${mapReturnStations}" var="total">
               <c:forEach items="${total.value}" var="setting">
-                <tr id="contentReturnStations${setting.getId()}">
+                <tr id="contReturnStations${setting.getId()}">
                   <input id="idReturnStations" value='${setting.getId()}' type="hidden" />
                   <td>
                     <div class="col-3"><input class="effect-1" type="text" id="road${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
@@ -91,8 +90,8 @@
           </tbody>
         </table>
       </section>
-      <section id="content-tab2">
-        <input type="button" id="btAddReturnException" onclick="createField(this.parentNode.id)" value="Добавить условие" class="bot1" />
+      <section id="contentReturnException">
+        <input type="button" id="btAddReturnException" onclick="createField(this.id)" value="Добавить условие" class="bot1" />
         <table class="table_report">
           <tbody>
             <tr>
@@ -111,7 +110,7 @@
             </tr>
             <c:forEach items="${mapReturnException}" var="total">
               <c:forEach items="${total.value}" var="setting">
-                <tr id="contentReturnException${setting.getId()}">
+                <tr id="contReturnException${setting.getId()}">
                   <input id="idReturnException" value='${setting.getId()}' type="hidden" />
                   <td>
                     <div class="col-3"><input class="effect-1" type="text" id="road${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
@@ -158,8 +157,8 @@
           </tbody>
         </table>
       </section>
-      <section id="content-tab3">
-        <input type="button" id="btAddBeginningException" onclick="createField(this.parentNode.id)" value="Добавить условие" class="bot1" />
+      <section id="contentBeginningException">
+        <input type="button" id="btAddBeginningException" onclick="createField(this.id)" value="Добавить условие" class="bot1" />
         <table class="table_report">
           <tbody>
             <tr>
@@ -178,7 +177,7 @@
             </tr>
             <c:forEach items="${mapBeginningException}" var="total">
               <c:forEach items="${total.value}" var="setting">
-                <tr id="contentBeginningException${setting.getId()}">
+                <tr id="contBeginningException${setting.getId()}">
                   <input id="idBeginningException" value='${setting.getId()}' type="hidden" />
                   <td>
                     <div class="col-3"><input class="effect-1" type="text" id="road${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
@@ -225,7 +224,7 @@
           </tbody>
         </table>
       </section>
-      <section id="content-tab4">
+      <section id="contentBorderDistance">
         <table class="table_report">
           <tbody>
             <tr>
@@ -234,7 +233,7 @@
               <th>Коэффициент</th>
             </tr>
             <c:forEach items="${listBorderDistance}" var="setting">
-              <tr id="contentBorderDistance${setting.getId()}">
+              <tr id="contBorderDistance${setting.getId()}">
                 <input id="idBorderDistance" value='${setting.getId()}' type="hidden" />
                 <td>
                   <div class="col-3">
@@ -258,7 +257,7 @@
           </tbody>
         </table>
       </section>
-      <section id="content-tab5">
+      <section id="contentLoadUnload">
         <table class="table_report">
           <tbody>
             <tr>
@@ -266,7 +265,7 @@
               <th>Значение</th>
             </tr>
             <c:forEach items="${listLoadUnload}" var="setting">
-              <tr id="contentLoadUnload${setting.getId()}">
+              <tr id="contLoadUnload${setting.getId()}">
                 <input id="idLoadUnload" value='${setting.getId()}' type="hidden" />
                 <td>
                   <div class="col-3"><input class="effect-1" type="text" id="nameLoadUnload" value='${setting.getName()}' readonly />
@@ -282,7 +281,7 @@
           </tbody>
         </table>
       </section>
-      <section id="content-tab6">
+      <section id="contentYield">
         <table class="table_report">
           <tbody>
             <tr>
@@ -290,7 +289,7 @@
               <th>Доходность</th>
             </tr>
             <c:forEach items="${listYield}" var="setting">
-              <tr id="contentYield${setting.getId()}">
+              <tr id="contYield${setting.getId()}">
                 <input id="idYield" value='${setting.getId()}' type="hidden" />
                 <td>
                   <div class="col-3"><input class="effect-1" type="text" id="volumeGroupYield" value='${setting.getVolumeGroup()}' readonly />

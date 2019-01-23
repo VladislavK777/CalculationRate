@@ -1,50 +1,39 @@
-'use strict';
+"use strict"
 
-ReactDOM.render(
-  <table class="table_report">
-    <tr>
-      <td class="td_report">
-        <div id="popup">
-          <div id="popup_bg" />
-          <div id="main" class="form">
-            <p for="inp" class="inp">
+class Lable extends React.Component {
+  handleChange = (e) => {
+    this.props.onSearch(e.target.id);
+  }
+  render() {
+    return (
+      <div id="popup">
+        <div id="popup_bg" />
+          <div id="main" className="form">
+            <p className="inp">
               <label>
-                <input type="text" id="road" placeholder="&nbsp;" onKeyUp={searchfield('road')}/>
-                <span class="label">Дорога назначения:</span>
-                <span class="border" />
+                <input
+                  type="text"
+                  id={this.props.id}
+                  placeholder="&nbsp;"
+                  onChange={this.handleChange.bind(this)}
+                />
+                <span className="label">{this.props.name}</span>
+                <span className="border" />
               </label>
-            </p>
-            <br />
-            <p for="inp" class="inp">
-              <label>
-                <input type="text" id="inp" placeholder="&nbsp;" />
-                <span class="label">Список станций:</span>
-                <span class="border" />
-              </label>
-            </p>
-            <br />
-            <p for="inp" class="inp">
-              <label>
-                <input type="text" id="inp" placeholder="&nbsp;" />
-                <span class="label">Группа объемов:</span>
-                <span class="border" />
-              </label>
-            </p>
-            <br />
-            <p for="inp" class="inp">
-              <label>
-                <input type="text" id="station" placeholder="&nbsp;" onKeyUp={searchfield('station')}/>
-                <span class="label">Станция возврата:</span>
-                <span class="border" />
-              </label>
-            </p>
-            <p>
-              <input type="button" value="Сохранить"  class="bot1" />
             </p>
           </div>
         </div>
-      </td>
-    </tr>
-  </table>,
+    );
+  }
+
+}
+
+ReactDOM.render(
+  <div>
+  <Lable name="1" id="roadFrom" onSearch={search} />
+  <Lable name="2" onSearch={search} />
+  <Lable name="3" onSearch={search} />
+  <Lable name="4" id="stationTo" onSearch={search} />
+  </div>,
   document.getElementById("root")
 );

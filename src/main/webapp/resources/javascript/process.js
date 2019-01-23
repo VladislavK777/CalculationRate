@@ -17,9 +17,73 @@ function showPopup() {
 	$(popup).fadeIn(800);
 }
 
-function createField() {
-	var context = document.getElementById('root');
-	context.hidden = false;
+
+function createInput(id,name,isCallSearch) {
+	var p = document.createElement('p');
+	p.className = "inp";
+	var label = document.createElement('label');
+	var input = document.createElement('input');
+	input.type = "text";
+	input.id = id;
+	input.placeholder = "\xa0";
+	if (isCallSearch) {
+		input.onkeyup = function() {search(input.id);}
+	}
+	var span_first = document.createElement('span');
+	span_first.textContent = name;
+	span_first.className="label";
+	var span_second = document.createElement('span');
+	span_second.className="border";
+	label.appendChild(input);
+	label.appendChild(span_first);
+	label.appendChild(span_second);
+	p.appendChild(label);
+	return p;
+}
+
+function createField(id) {
+	var context = document.getElementById(id);
+	var div_head = document.createElement('div');
+	div_head.id = "popup";
+	div_head.style = "position: absolute; height: 100%; width: 100%; top: 0; left: 0; display: none;"
+	var div_subdiv_head1 = document.createElement('div');
+	div_subdiv_head1.id = "popup_bg";
+	div_subdiv_head1.style = "background: rgba(0, 0, 0, 0.2); position: absolute; z-index: 1; height: 100%; width: 100%;"
+	var div_subdiv_head2 = document.createElement('div');
+	div_subdiv_head2.className = "form";
+	var button = document.createElement('input');
+	button.type = 'button';
+	button.className = 'bot1';
+	button.value = 'Сохранить';
+
+	if (id == "btAddReturnStations") {
+		div_subdiv_head2.appendChild(createInput("road", "Дорога", true));
+		div_subdiv_head2.appendChild(createInput("stationList", "Список станций", false));
+		div_subdiv_head2.appendChild(createInput("volume", "Группа объемов", false));
+		div_subdiv_head2.appendChild(createInput("station", "Станция возврата", true));
+		button.onclick = function() {addReturnStations(context.parentNode.id);}
+	} else {
+		div_subdiv_head2.appendChild(createInput("road", "Дорога", true));
+		div_subdiv_head2.appendChild(createInput("stationList", "Список станций", false));
+		div_subdiv_head2.appendChild(createInput("volume", "Группа объемов", false));
+		div_subdiv_head2.appendChild(createInput("stationFrom", "Станция отправления", true));
+		div_subdiv_head2.appendChild(createInput("stationTo", "Станция назначения", true));
+		div_subdiv_head2.appendChild(createInput("cargo", "Груз", true));
+		div_subdiv_head2.appendChild(createInput("cargoClass", "Класс груза", false));
+		div_subdiv_head2.appendChild(createInput("typeRoute", "Тип рейса", false));
+		div_subdiv_head2.appendChild(createInput("distance", "Расстояние", false));
+		div_subdiv_head2.appendChild(createInput("countDays", "Дней", false));
+		div_subdiv_head2.appendChild(createInput("rate", "Ставка", false));
+		div_subdiv_head2.appendChild(createInput("tariff", "Тариф", false));
+		button.onclick = function() {addExceptions(context.parentNode.id);}
+	}
+
+	div_subdiv_head2.appendChild(button);
+
+	div_head.appendChild(div_subdiv_head1);
+	div_head.appendChild(div_subdiv_head2);
+
+	context.parentNode.appendChild(div_head);
 
 	showPopup();
 
@@ -30,7 +94,7 @@ function createField() {
 	});
 }
 
-function update(request,json) {
+function update(id,request,json) {
 	$.ajax({
 		url: "update" + request,
 		type : "put",
@@ -38,7 +102,8 @@ function update(request,json) {
 		data : json,
 		success: function(response) {
 			//location.reload();
-			console.log("ok");
+			console.log(id);
+			reloadPage(id);
 		}
 	});
 }
@@ -66,168 +131,21 @@ function insert(request,json) {
 	});
 }
 
-function reloadPage() {
+function reloadPage(id) {
+	var tabId;
+	if (id == "contentReturnStations") {
+		tabId = "tab1";
+	} else if (id == "contentReturnException") {
+		tabId = "tab2";
+	} else if (id == "contentBeginningException") {
+		tabId = "tab3";
+	} else if (id == "contentBorderDistance") {
+		tabId = "tab4";
+	} else if (id == "contentLoadUnload") {
+		tabId = "tab5";
+	} else {
+		tabId = "tab6";
+	context = document.getElementById(tabId);
 	location.reload();
+  context.checked = true;
 }
-
-this.searchfield = function (name){
-        var request;
-		var num;
-		if (name.indexOf('station') > -1) {
-			request = 'search/station?station=';
-			num = 0;
-		} else {
-			request = 'search/road?road=';
-			num = 0;
-		}
-
-		var suggestion = true;
-		var field = document.getElementById(name);
-		var classInactive = "sf_inactive";
-		var classActive = "sf_active";
-		var classText = "sf_text";
-		var classSuggestion = "sf_suggestion";
-		this.safari = ((parseInt(navigator.productSub)>=20020000)&&(navigator.vendor.indexOf("Apple Computer")!=-1));
-		if(field && !safari){
-			field.c = field.className;
-			field.className = field.c + " " + classInactive;
-			field.onfocus = function(){
-				this.className = this.c + " "  + classActive;
-				this.value = (this.value == "") ?  "" : this.value;
-			};
-			field.onblur = function(){
-				this.className = (this.value != "") ? this.c + " " +  classText : this.c + " " +  classInactive;
-				this.value = (this.value != "") ?  this.value : "";
-				clearList();
-			};
-			if (suggestion){
-
-				var selectedIndex = 0;
-
-				field.setAttribute("autocomplete", "off");
-				var div = document.createElement("div");
-				var list = document.createElement("ul");
-				list.style.display = "none";
-				div.className = classSuggestion;
-				list.style.width = field.offsetWidth + "px";
-                list.style.left = num * field.offsetWidth + "px";
-				div.appendChild(list);
-				field.parentNode.appendChild(div);
-
-				field.onkeypress = function(e){
-
-					var key = getKeyCode(e);
-
-					if(key == 13){ // enter
-						selectList();
-						selectedIndex = 0;
-						return false;
-					};
-				};
-
-				field.onkeyup = function(e){
-
-					var key = getKeyCode(e);
-
-					switch(key){
-					case 13:
-						return false;
-						break;
-					case 27:  // esc
-						field.value = "";
-						selectedIndex = 0;
-						clearList();
-						break;
-					case 38: // up
-						navList("up");
-						break;
-					case 40: // down
-						navList("down");
-						break;
-					default:
-						setTimeout(createList(field.value), 500);
-						break;
-					};
-				};
-
-				this.createList = function(value){
-					resetList();
-					$.ajax({
-						url: request + value,
-						cache: false,
-						success: function(response) {
-							if(response.length > 0) {
-								for(i=0;i<response.length;i++){
-									li = document.createElement("li");
-									a = document.createElement("a");
-									a.href = "javascript:void(0);";
-									a.i = i+1;
-									a.innerHTML = response[i];
-									li.i = i+1;
-									li.onmouseover = function(){
-										navListItem(this.i);
-									};
-									a.onmousedown = function(){
-										selectedIndex = this.i;
-										selectList(this.i);
-										return false;
-									};
-									li.appendChild(a);
-									list.setAttribute("tabindex", "-1");
-									list.appendChild(li);
-								};
-								list.style.display = "block";
-							} else {
-								clearList();
-							};
-						}
-					});
-				};
-
-				this.resetList = function(){
-					var li = list.getElementsByTagName("li");
-					var len = li.length;
-					for(var i=0;i<len;i++){
-						list.removeChild(li[0]);
-					};
-				};
-
-				this.navList = function(dir){
-					selectedIndex += (dir == "down") ? 1 : -1;
-					li = list.getElementsByTagName("li");
-					if (selectedIndex < 1) selectedIndex =  li.length;
-					if (selectedIndex > li.length) selectedIndex =  1;
-					navListItem(selectedIndex);
-				};
-
-				this.navListItem = function(index){
-					selectedIndex = index;
-					li = list.getElementsByTagName("li");
-					for(var i=0;i<li.length;i++){
-						li[i].className = (i==(selectedIndex-1)) ? "selected" : "";
-					};
-				};
-
-				this.selectList = function(){
-					li = list.getElementsByTagName("li");
-					a = li[selectedIndex-1].getElementsByTagName("a")[0];
-					field.value = a.innerHTML;
-					clearList();
-				};
-
-			};
-		};
-
-		this.clearList = function(){
-			if(list){
-				list.style.display = "none";
-				selectedIndex = 0;
-			};
-		};
-		this.getKeyCode = function(e){
-			var code;
-			if (!e) var e = window.event;
-			if (e.keyCode) code = e.keyCode;
-			return code;
-		};
-	};

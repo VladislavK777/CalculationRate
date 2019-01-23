@@ -41,6 +41,7 @@ function search(name) {
       list.style.display = "none";
       div.className = classSuggestion;
       list.style.width = field.offsetWidth + "px";
+      list.style.fontSize = "14px";
       div.appendChild(list);
       field.parentNode.appendChild(div);
 

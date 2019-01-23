@@ -64,14 +64,13 @@ body {
 
 .table_report {
     background: white;
-    width: 80%;
+    width: 100%;
     text-align: left;
     font-size: 20px;
     color: #364274;
 }
 
 .td_report {
-    border-bottom: 1px solid #ccc;
     color: #364274;
     padding: 9px 8px;
     transition: .3s linear;
@@ -134,7 +133,7 @@ body {
     border-radius: 20px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.9);
     font-family: 'Calibri Light', sans-serif;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .form input {
@@ -584,7 +583,9 @@ input[type="text"] {
 }
 /* Это стиль выползающего блока */
 .sf_suggestion ul{
-    border:1px #222 solid;
+  border-bottom: 1px #222 solid;
+  border-right: 1px #222 solid;
+  border-left: 1px #222 solid;
 	position:absolute;
 	margin:0;
 	padding:0;
@@ -690,12 +691,12 @@ input[type="text"] {
 
 /* Активация секций с помощью псевдокласса :checked */
 
-#tab1:checked~#content-tab1,
-#tab2:checked~#content-tab2,
-#tab3:checked~#content-tab3,
-#tab4:checked~#content-tab4,
-#tab5:checked~#content-tab5,
-#tab6:checked~#content-tab6 {
+#tab1:checked~#contentReturnStations,
+#tab2:checked~#contentReturnException,
+#tab3:checked~#contentBeginningException,
+#tab4:checked~#contentBorderDistance,
+#tab5:checked~#contentLoadUnload,
+#tab6:checked~#contentYield {
   display: block;
 }
 
