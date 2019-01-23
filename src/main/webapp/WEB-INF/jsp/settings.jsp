@@ -5,7 +5,7 @@
 <html>
 
 <head>
-  <title>UralTransCom|DynamicDistributionPark</title>
+  <title>UralTransCom|CalculateRate</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <link href="resources/css/style.css" rel="stylesheet" type="text/css" />
   <link href="resources/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -23,7 +23,7 @@
 
 <body onload="cop()">
   <div class="one">
-    <h1>РАСЧЕТ СТАВОК</h1>
+    <h1>РАСЧЕТ СТАВОК|НАСТРОЙКИ</h1>
     <div class="train">
       <img src="resources/train.jpg" width="auto">
     </div>
@@ -33,6 +33,7 @@
   </div>
   <br><br><br><br><br><br><br><br><br><br>
   <div>
+    <a href="/calculaterate"><input type="button" value="Закрыть настрйки" class="bot1"/></a>
     <div class="tabs">
       <input id="tab1" type="radio" name="tabs" checked>
       <label for="tab1" title="Станции возврата">Станции возврата</label>
