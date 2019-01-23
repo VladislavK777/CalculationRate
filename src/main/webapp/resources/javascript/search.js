@@ -111,7 +111,7 @@ function search(name) {
             }
           }
         });
-      };
+      }
 
       function resetList() {
         var li = list.getElementsByTagName("li");
@@ -119,7 +119,7 @@ function search(name) {
         for (var i = 0; i < len; i++) {
           list.removeChild(li[0]);
         }
-      };
+      }
 
       function navList(dir) {
         selectedIndex += dir == "down" ? 1 : -1;
@@ -127,7 +127,7 @@ function search(name) {
         if (selectedIndex < 1) selectedIndex = li.length;
         if (selectedIndex > li.length) selectedIndex = 1;
         navListItem(selectedIndex);
-      };
+      }
 
       function navListItem(index) {
         selectedIndex = index;
@@ -135,14 +135,14 @@ function search(name) {
         for (var i = 0; i < li.length; i++) {
           li[i].className = i == selectedIndex - 1 ? "selected" : "";
         }
-      };
+      }
 
       function selectList() {
         li = list.getElementsByTagName("li");
         a = li[selectedIndex - 1].getElementsByTagName("a")[0];
         field.value = a.innerHTML;
         clearList();
-      };
+      }
     }
   }
 
@@ -151,12 +151,12 @@ function search(name) {
       list.style.display = "none";
       selectedIndex = 0;
     }
-  };
+  }
 
   function getKeyCode(e) {
     var code;
     if (!e) var e = window.event;
     if (e.keyCode) code = e.keyCode;
     return code;
-  };
+  }
 }

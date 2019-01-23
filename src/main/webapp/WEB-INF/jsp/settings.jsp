@@ -21,17 +21,17 @@
 
 </head>
 
-<body>
-<div class="one">
+<body onload="cop()">
+  <div class="one">
     <h1>РАСЧЕТ СТАВОК</h1>
     <div class="train">
-    		<img src="resources/train.jpg" width="auto">
+      <img src="resources/train.jpg" width="auto">
     </div>
-</div>
-<div>
+  </div>
+  <div>
     <img class="logo" src="resources/logo.jpg">
-</div>
-<br><br><br><br><br><br><br><br><br><br>
+  </div>
+  <br><br><br><br><br><br><br><br><br><br>
   <div>
     <div class="tabs">
       <input id="tab1" type="radio" name="tabs" checked>
@@ -307,7 +307,7 @@
       </section>
     </div>
   </div>
-
+  <br><br>
   <div align="center" class="footer">
     Create by Vladislav Klochkov. All rights reserved, <span id="copy"></span>
   </div>
