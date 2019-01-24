@@ -33,12 +33,13 @@ public class WebController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
+        commonLogicClass.getTotalListModels().clear();
         return "welcome";
     }
 
     // Выгрузка в Excel
     @RequestMapping(value = "/export", method = RequestMethod.GET)
     public void getXLS(HttpServletResponse response, Model model) {
-        WriteToFileExcel.downloadFileExcel(response, commonLogicClass.getTotalModel());
+        WriteToFileExcel.downloadFileExcel(response, commonLogicClass.getTotalListModels());
     }
 }

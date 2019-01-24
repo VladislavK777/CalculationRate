@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 /**
  *
  * Класс основной логике
@@ -30,10 +32,12 @@ public class CommonLogicClass {
 
     @Autowired
     private GetTotalModelDAO getTotalModelDAO;
+    ArrayList<TotalModel> totalListModels = new ArrayList<>();
     TotalModel totalModel = null;
 
     public void startLogic(String idStationDeparture, String idStationDestination, String idCargo, int volumeWagon) {
         logger.info("Start process with entry params: idStationDeparture - {}; idStationDestination - {}; idCargo - {}; volumeWagon - {}", idStationDeparture, idStationDestination, idCargo, volumeWagon);
         totalModel = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams(idStationDeparture, idStationDestination, idCargo, GetVolumeGroup.getVolumeGroup(volumeWagon)));
+        totalListModels.add(totalModel);
     }
 }

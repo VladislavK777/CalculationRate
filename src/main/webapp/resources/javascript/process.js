@@ -204,8 +204,40 @@ function calcRate() {
       volume: input4
     }),
     success: function(response) {
+      $table = $('<table class="table_calculate">');
+      $head1 = $('<tr>').append(
+        $('<td class="td_table1" rowspan="3">').text("Станция отправления"),
+        $('<td class="td_table1" rowspan="3">').text("Дорога отправления"),
+        $('<td class="td_table1" rowspan="3">').text("Станция назначения"),
+        $('<td class="td_table1" rowspan="3">').text("Дорога назначения"),
+        $('<td class="td_table1" rowspan="3">').text("Наименование груза"),
+        $('<td class="td_table1" rowspan="3">').text("Расст., км"),
+        $('<td class="td_table1" rowspan="3">').text("Время в пути, сут"),
+        $('<td class="td_table1" rowspan="3">').text("Погр. / выгр."),
+        $('<td class="td_table1" rowspan="3">').text("Оборот, сут."),
+        $('<td class="td_table1" rowspan="3">').text("ВО"),
+        $('<td class="td_table1" rowspan="2">').text("ДОХОД"),
+        $('<td class="td_table1">').text("РАСХОД"),
+        $('<td class="td_table1" colspan="2">').text("ПРИБЫЛЬ")
+      );
+      $table.append($head1);
+
+      $head2 = $('<tr>').append(
+        $('<td class="td_table1">').text("Тариф в собств. вагонах"),
+        $('<td class="td_table1">').text("За нахождение в пути"),
+        $('<td class="td_table1">').text("В сутки")
+      );
+      $table.append($head2);
+
+      $head3 = $('<tr>').append(
+        $('<td class="td_table1">').text("руб/ваг."),
+        $('<td class="td_table1">').text("руб/ваг."),
+        $('<td class="td_table1">').text("руб/ваг."),
+        $('<td class="td_table1">').text("руб/ваг/сут.")
+      );
+      $table.append($head3);
       for (var i in response.totalList) {
-        $content = $("<tr>").append(
+        $content = $('<tr>').append(
           $('<td class="td_table2">').text(
             response.totalList[i].stationDeparture.nameStation
           ),
@@ -232,6 +264,9 @@ function calcRate() {
             if (response.totalList[i].rate == 0) {
               return "";
             } else {
+              if (response.totalList[i].flagNeedCalc) {
+                $(this).css({'backgroundColor' : '#ffa07a'});
+              }
               return response.totalList[i].rate;
             }
           }),
@@ -247,8 +282,9 @@ function calcRate() {
           }),
           $('<td class="td_table2">').text("")
         );
-        $("#total").append($content);
+        $table.append($content);
       }
+
       $sum = $("<tr>").append(
         $('<td class="td_table3" colspan="5">').text(""),
         $('<td class="td_table3">').text(response.sumDistance),
@@ -261,7 +297,10 @@ function calcRate() {
         $('<td class="td_table3">').text(response.sumRateOrTariff),
         $('<td class="td_table3">').text(response.yield)
       );
-      $("#total").append($sum);
+
+      $table.append($sum);
+      $('#total').append($('<br>'));
+      $('#total').append($table);
     }
   });
 }

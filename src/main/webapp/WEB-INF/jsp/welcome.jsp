@@ -87,41 +87,7 @@
       </tr>
     </table>
   </div>
-  <div>
-    <table class="table_calculate" id="total">
-      <tbody>
-        <tr>
-          <td class="td_table1" rowspan="3">Станция отправления</td>
-          <td class="td_table1" rowspan="3">Дорога отправления</td>
-          <td class="td_table1" rowspan="3">Станция назначения</td>
-          <td class="td_table1" rowspan="3">Дорога назначения</td>
-          <td class="td_table1" rowspan="3">Наименование груза</td>
-          <td class="td_table1" rowspan="3">Расст., км</td>
-          <td class="td_table1" rowspan="3">Время в пути, сут</td>
-          <td class="td_table1" rowspan="3">Погр. / выгр.</td>
-          <td class="td_table1" rowspan="3">Оборот, сут.</td>
-          <td class="td_table1" rowspan="3">ВО</td>
-          <td class="td_table1" rowspan="2">ДОХОД</td>
-          <td class="td_table1">РАСХОД</td>
-          <td class="td_table1" colspan="2">ПРИБЫЛЬ</td>
-        </tr>
-        <tr>
-          <td class="td_table1">Тариф в собств. вагонах</td>
-          <td class="td_table1">За нахождение в пути</td>
-          <td class="td_table1">В сутки</td>
-        </tr>
-        <tr>
-          <td class="td_table1">руб/ваг.</td>
-          <td class="td_table1">руб/ваг.</td>
-          <td class="td_table1">руб/ваг.</td>
-          <td class="td_table1">руб/ваг/сут.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-
-  </div>
+  <div id="total"></div>
   <br><br>
   <div align="center" class="footer">
     Create by Vladislav Klochkov. All rights reserved, <span id="copy"></span>
