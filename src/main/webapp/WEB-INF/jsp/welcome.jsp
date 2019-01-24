@@ -26,7 +26,7 @@
   <div>
     <img class="logo" src="resources/logo.jpg">
   </div>
-  <br><br><br><br><br><br><br><br><br><br>
+  <div class="block"></div>
   <div>
     <table>
       <tr>

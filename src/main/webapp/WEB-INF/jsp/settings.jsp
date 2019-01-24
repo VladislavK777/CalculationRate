@@ -31,7 +31,7 @@
   <div>
     <img class="logo" src="resources/logo.jpg">
   </div>
-  <br><br><br><br><br><br><br><br><br><br>
+  <div class="block"></div>
   <div>
     <a href="/calculaterate"><input type="button" value="Закрыть настрйки" class="bot1"/></a>
     <div class="tabs">
