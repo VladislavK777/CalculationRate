@@ -220,6 +220,6 @@ public class ExportExcelTest {
         };
         commonLogicClass.startLogic("190900", "191104", "131071", 138);
         System.out.println(commonLogicClass.getTotalModel());
-        writeToFileExcel.downloadFileExcel(response, commonLogicClass.getTotalModel());
+        writeToFileExcel.downloadFileExcel(response, commonLogicClass.getTotalListModels());
     }
 }
