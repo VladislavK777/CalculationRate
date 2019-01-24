@@ -53,7 +53,7 @@ function createField(id) {
   var div_subdiv_head1 = document.createElement("div");
   div_subdiv_head1.id = "popup_bg";
   div_subdiv_head1.style =
-    "background: rgba(0, 0, 0, 0.2); position: absolute; z-index: 1; height: 100%; width: 100%;";
+    "background: rgba(0, 0, 0, 0); position: absolute; z-index: 1; height: 100%; width: 100%;";
   var div_subdiv_head2 = document.createElement("div");
   div_subdiv_head2.className = "form";
   var button = document.createElement("input");
@@ -72,9 +72,7 @@ function createField(id) {
     div_subdiv_head2.appendChild(
       createInput("station", "Станция возврата", true)
     );
-    button.onclick = function() {
-      addReturnStations(context.parentNode.id);
-    };
+    button.addEventListener( "click" , function() {addReturnStations(context.parentNode.id)});
   } else {
     var tr1 = document.createElement("tr");
     var td11 = document.createElement("td");
@@ -132,10 +130,7 @@ function createField(id) {
     tr4.appendChild(td42);
     tr4.appendChild(td43);
     table.appendChild(tr4);
-
-    button.onclick = function() {
-      addExceptions(context.parentNode.id);
-    };
+    button.addEventListener( "click" , function() {addExceptions(context.parentNode.id)});
   }
   div_subdiv_head2.appendChild(table);
 
@@ -150,7 +145,7 @@ function createField(id) {
 
   $(document).ready(function() {
     $(popup_bg).click(function() {
-      $(popup).fadeOut(800);
+      $(popup).remove();
     });
   });
 }
