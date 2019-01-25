@@ -1,4 +1,11 @@
 function cop() {
+  element = document.getElementById(window.sessionStorage.getItem("tabId"));
+  var url = document.referrer;
+  if (element != null) {
+    element.setAttribute("checked", true);
+  } else if (url.indexOf("settings") != -1) {
+    window.sessionStorage.setItem("tabId", "tab1");
+  }
   document.getElementById("copy").innerText = new Date().getFullYear();
 }
 
@@ -306,21 +313,5 @@ function calcRate() {
 }
 
 function reloadPage(id) {
-  var tabId;
-  if (id == "contentReturnStations") {
-    tabId = "tab1";
-  } else if (id == "contentReturnException") {
-    tabId = "tab2";
-  } else if (id == "contentBeginningException") {
-    tabId = "tab3";
-  } else if (id == "contentBorderDistance") {
-    tabId = "tab4";
-  } else if (id == "contentLoadUnload") {
-    tabId = "tab5";
-  } else {
-    tabId = "tab6";
-  }
-  context = document.getElementById(tabId);
-  location.reload();
-  context.checked = true;
+  window.sessionStorage.setItem("tabId", id);
 }

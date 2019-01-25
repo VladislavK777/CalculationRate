@@ -5,7 +5,7 @@
 <html>
 
 <head>
-  <title>UralTransCom|CalculateRate</title>
+  <title>UralTransCom|CalculateRate|Setting</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <link href="resources/css/style.css" rel="stylesheet" type="text/css" />
   <link href="resources/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -35,22 +35,22 @@
   <div>
     <a href="/calculaterate"><input type="button" value="Закрыть настрйки" class="bot1"/></a>
     <div class="tabs">
-      <input id="tab1" type="radio" name="tabs" checked>
+      <input id="tab1" type="radio" name="tabs" onclick="reloadPage(this.id)" checked>
       <label for="tab1" title="Станции возврата">Станции возврата</label>
 
-      <input id="tab2" type="radio" name="tabs">
+      <input id="tab2" type="radio" name="tabs" onclick="reloadPage(this.id)">
       <label for="tab2" title="Возвратные исключения">Возвратные исключения</label>
 
-      <input id="tab3" type="radio" name="tabs">
+      <input id="tab3" type="radio" name="tabs" onclick="reloadPage(this.id)">
       <label for="tab3" title="Начальные исключения">Начальные исключения</label>
 
-      <input id="tab4" type="radio" name="tabs">
+      <input id="tab4" type="radio" name="tabs" onclick="reloadPage(this.id)">
       <label for="tab4" title="Коэффициент дистанции">Коэффициент дистанции</label>
 
-      <input id="tab5" type="radio" name="tabs">
+      <input id="tab5" type="radio" name="tabs" onclick="reloadPage(this.id)">
       <label for="tab5" title="Оборотодней">Оборотодней</label>
 
-      <input id="tab6" type="radio" name="tabs">
+      <input id="tab6" type="radio" name="tabs" onclick="reloadPage(this.id)">
       <label for="tab6" title="Доходность">Доходность</label>
 
       <section id="contentReturnStations">
