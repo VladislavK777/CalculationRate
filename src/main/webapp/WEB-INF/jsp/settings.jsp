@@ -8,7 +8,7 @@
   <title>UralTransCom|CalculateRate|Setting</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <link href="resources/css/style.css" rel="stylesheet" type="text/css" />
-  <link href="resources/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="resources/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
   <script async src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
@@ -25,11 +25,11 @@
   <div class="one">
     <h1>РАСЧЕТ СТАВОК|НАСТРОЙКИ</h1>
     <div class="train">
-      <img src="resources/train.jpg" width="auto">
+      <img src="resources/img/train.jpg" width="auto">
     </div>
   </div>
   <div>
-    <img class="logo" src="resources/logo.jpg">
+    <img class="logo" src="resources/img/logo.jpg">
   </div>
   <div class="block"></div>
   <div>

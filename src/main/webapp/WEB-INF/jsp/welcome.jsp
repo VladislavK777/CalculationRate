@@ -7,11 +7,11 @@
 <head>
   <title>UralTransCom|CalculateRate</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link href="resources/css/style.css" rel="stylesheet" type="text/css" />
+  <link href="resources/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
   <script async src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="resources/javascript/search.js"></script>
   <script src="resources/javascript/process.js"></script>
-  <link href="resources/css/style.css" rel="stylesheet" type="text/css" />
-  <link rel="shortcut icon" href="resources/favicon.ico" type="image/x-icon">
 
 </head>
 
@@ -20,11 +20,11 @@
   <div class="one">
     <h1>РАСЧЕТ СТАВОК</h1>
     <div class="train">
-      <img src="resources/train.jpg" width="auto">
+      <img src="resources/img/train.jpg" width="auto">
     </div>
   </div>
   <div>
-    <img class="logo" src="resources/logo.jpg">
+    <img class="logo" src="resources/img/logo.jpg">
   </div>
   <div class="block"></div>
   <div>
@@ -78,11 +78,11 @@
         </td>
         <td>
           <form action="export" method="get" id="calc">
-            <input type="image" form="calc" src="resources/excel.png" width="40px" height="40px" />
+            <input type="image" form="calc" src="resources/img/excel.png" width="40px" height="40px" />
           </form>
         </td>
         <td>
-          <a href="settings"><img class="setting" src="resources/setting.png"></a>
+          <a href="settings"><img class="setting" src="resources/img/setting.png"></a>
         </td>
       </tr>
     </table>
