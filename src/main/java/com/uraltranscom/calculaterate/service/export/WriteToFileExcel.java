@@ -314,7 +314,7 @@ public class WriteToFileExcel {
 
                     Cell yield = row.createCell(13);
                     yield.setCellFormula("SUM(M" + totalYieldNum + "/I" + totalYieldNum + ")");
-                    yield.setCellStyle(cellStyleForFieldYield(sheet));
+                    yield.setCellStyle(cellStyleFieldTotal(sheet));
                     sheet.autoSizeColumn(13);
 
                     rowStartHead = lastNumberCell + 1;
@@ -329,13 +329,17 @@ public class WriteToFileExcel {
         }
     }
 
+    private static XSSFFont getFont(XSSFSheet sheet) {
+        XSSFFont font = sheet.getWorkbook().createFont();
+        font.setColor(HSSFColor.BLACK.index);
+        font.setFontName("Calibri Light");
+        font.setFontHeight(12.0);
+        return font;
+    }
+
     private static XSSFCellStyle cellStyleHead(XSSFSheet sheet) {
-        XSSFFont fontTitle = sheet.getWorkbook().createFont();
-        fontTitle.setColor(HSSFColor.BLACK.index);
-        fontTitle.setFontName("Calibri Light");
-        fontTitle.setFontHeight(12.0);
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
-        cellStyle.setFont(fontTitle);
+        cellStyle.setFont(getFont(sheet));
         cellStyle.setBorderRight(BorderStyle.THIN);
         cellStyle.setBorderLeft(BorderStyle.THIN);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -347,12 +351,8 @@ public class WriteToFileExcel {
     }
 
     private static XSSFCellStyle cellStyleHeadBottom(XSSFSheet sheet) {
-        XSSFFont fontTitle = sheet.getWorkbook().createFont();
-        fontTitle.setColor(HSSFColor.BLACK.index);
-        fontTitle.setFontName("Calibri Light");
-        fontTitle.setFontHeight(12.0);
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
-        cellStyle.setFont(fontTitle);
+        cellStyle.setFont(getFont(sheet));
         cellStyle.setBorderRight(BorderStyle.THIN);
         cellStyle.setBorderBottom(BorderStyle.THIN);
         cellStyle.setBorderLeft(BorderStyle.THIN);
@@ -365,12 +365,8 @@ public class WriteToFileExcel {
     }
 
     private static XSSFCellStyle cellStyleField(XSSFSheet sheet) {
-        XSSFFont fontTitle = sheet.getWorkbook().createFont();
-        fontTitle.setColor(HSSFColor.BLACK.index);
-        fontTitle.setFontName("Calibri Light");
-        fontTitle.setFontHeight(12.0);
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
-        cellStyle.setFont(fontTitle);
+        cellStyle.setFont(getFont(sheet));
         cellStyle.setBorderBottom(BorderStyle.THIN);
         cellStyle.setBorderTop(BorderStyle.THIN);
         cellStyle.setBorderRight(BorderStyle.THIN);
@@ -382,31 +378,23 @@ public class WriteToFileExcel {
     }
 
     private static XSSFCellStyle cellStyleFieldNeedCalc(XSSFSheet sheet) {
-        XSSFFont fontTitle = sheet.getWorkbook().createFont();
-        fontTitle.setColor(HSSFColor.BLACK.index);
-        fontTitle.setFontName("Calibri Light");
-        fontTitle.setFontHeight(12.0);
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
-        cellStyle.setFont(fontTitle);
+        cellStyle.setFont(getFont(sheet));
         cellStyle.setBorderBottom(BorderStyle.THIN);
         cellStyle.setBorderTop(BorderStyle.THIN);
         cellStyle.setBorderRight(BorderStyle.THIN);
         cellStyle.setBorderLeft(BorderStyle.THIN);
-        cellStyle.setFillForegroundColor(new XSSFColor(new Color(255, 160, 122)));
-        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle.setFillForegroundColor(new XSSFColor(new Color(255, 160, 122)));
+        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setWrapText(true);
         return cellStyle;
     }
 
     private static XSSFCellStyle cellStyleFieldTotal(XSSFSheet sheet) {
-        XSSFFont fontTitle = sheet.getWorkbook().createFont();
-        fontTitle.setColor(HSSFColor.BLACK.index);
-        fontTitle.setFontName("Calibri Light");
-        fontTitle.setFontHeight(12.0);
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
-        cellStyle.setFont(fontTitle);
+        cellStyle.setFont(getFont(sheet));
         cellStyle.setBorderBottom(BorderStyle.THIN);
         cellStyle.setBorderTop(BorderStyle.THIN);
         cellStyle.setBorderRight(BorderStyle.THIN);
@@ -415,27 +403,6 @@ public class WriteToFileExcel {
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setFillForegroundColor(new XSSFColor(new Color(204, 255, 204)));
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        cellStyle.setWrapText(true);
-        return cellStyle;
-    }
-
-    private static XSSFCellStyle cellStyleForFieldYield(XSSFSheet sheet) {
-        XSSFFont fontTitle = sheet.getWorkbook().createFont();
-        fontTitle.setColor(HSSFColor.BLACK.index);
-        fontTitle.setFontName("Calibri Light");
-        fontTitle.setFontHeight(12.0);
-        XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
-        cellStyle.setFont(fontTitle);
-        cellStyle.setBorderBottom(BorderStyle.THIN);
-        cellStyle.setBorderTop(BorderStyle.THIN);
-        cellStyle.setBorderRight(BorderStyle.THIN);
-        cellStyle.setBorderLeft(BorderStyle.THIN);
-        cellStyle.setAlignment(HorizontalAlignment.CENTER);
-        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-        cellStyle.setFillForegroundColor(new XSSFColor(new Color(204, 255, 204)));
-        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        XSSFDataFormat dataFormat = sheet.getWorkbook().createDataFormat();
-        cellStyle.setDataFormat(dataFormat.getFormat("0.00"));
         cellStyle.setWrapText(true);
         return cellStyle;
     }

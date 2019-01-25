@@ -5,7 +5,7 @@
 <html>
 
 <head>
-  <title>UralTransCom|DynamicDistributionPark</title>
+  <title>UralTransCom|CalculateRate</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <script async src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="resources/javascript/search.js"></script>
