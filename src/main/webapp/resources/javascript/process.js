@@ -79,32 +79,26 @@ function createField(id) {
     div_subdiv_head2.appendChild(
       createInput("station", "Станция возврата", true)
     );
-    button.addEventListener( "click" , function() {addReturnStations(context.parentNode.id)});
+    button.addEventListener("click", function() {
+      addReturnStations(context.parentNode.id);
+    });
   } else {
     var tr1 = document.createElement("tr");
     var td11 = document.createElement("td");
     td11.appendChild(createInput("road", "Дорога", true));
     var td12 = document.createElement("td");
-    td12.appendChild(
-      createInput("stationList", "Список станций", false)
-    );
+    td12.appendChild(createInput("stationList", "Список станций", false));
     var td13 = document.createElement("td");
-    td13.appendChild(
-      createInput("volume", "Группа объемов", false)
-    );
+    td13.appendChild(createInput("volume", "Группа объемов", false));
     tr1.appendChild(td11);
     tr1.appendChild(td12);
     tr1.appendChild(td13);
     table.appendChild(tr1);
     var tr2 = document.createElement("tr");
     var td21 = document.createElement("td");
-    td21.appendChild(
-      createInput("stationFrom", "Станция отправления", true)
-    );
+    td21.appendChild(createInput("stationFrom", "Станция отправления", true));
     var td22 = document.createElement("td");
-    td22.appendChild(
-      createInput("stationTo", "Станция назначения", true)
-    );
+    td22.appendChild(createInput("stationTo", "Станция назначения", true));
     var td23 = document.createElement("td");
     td23.appendChild(createInput("cargo", "Груз", true));
     tr2.appendChild(td21);
@@ -114,9 +108,7 @@ function createField(id) {
 
     var tr3 = document.createElement("tr");
     var td31 = document.createElement("td");
-    td31.appendChild(
-      createInput("cargoClass", "Класс груза", false)
-    );
+    td31.appendChild(createInput("cargoClass", "Класс груза", false));
     var td32 = document.createElement("td");
     td32.appendChild(createInput("typeRoute", "Тип рейса", false));
     var td33 = document.createElement("td");
@@ -137,7 +129,9 @@ function createField(id) {
     tr4.appendChild(td42);
     tr4.appendChild(td43);
     table.appendChild(tr4);
-    button.addEventListener( "click" , function() {addExceptions(context.parentNode.id)});
+    button.addEventListener("click", function() {
+      addExceptions(context.parentNode.id);
+    });
   }
   div_subdiv_head2.appendChild(table);
 
@@ -194,124 +188,27 @@ function insert(request, json) {
   });
 }
 
-function calcRate() {
-  var input1 = $('input[name="station_from"]').val();
-  var input2 = $('input[name="station_to"]').val();
-  var input3 = $('input[name="cargo"]').val();
-  var input4 = $('input[name="volume"]').val();
-  $.ajax({
-    url: "rate/info",
-    datatype: "json",
-    type: "post",
-    contentType: "application/json",
-    data: JSON.stringify({
-      stationFrom: input1,
-      stationTo: input2,
-      cargo: input3,
-      volume: input4
-    }),
-    success: function(response) {
-      $table = $('<table class="table_calculate">');
-      $head1 = $('<tr>').append(
-        $('<td class="td_table1" rowspan="3">').text("Станция отправления"),
-        $('<td class="td_table1" rowspan="3">').text("Дорога отправления"),
-        $('<td class="td_table1" rowspan="3">').text("Станция назначения"),
-        $('<td class="td_table1" rowspan="3">').text("Дорога назначения"),
-        $('<td class="td_table1" rowspan="3">').text("Наименование груза"),
-        $('<td class="td_table1" rowspan="3">').text("Расст., км"),
-        $('<td class="td_table1" rowspan="3">').text("Время в пути, сут"),
-        $('<td class="td_table1" rowspan="3">').text("Погр. / выгр."),
-        $('<td class="td_table1" rowspan="3">').text("Оборот, сут."),
-        $('<td class="td_table1" rowspan="3">').text("ВО"),
-        $('<td class="td_table1" rowspan="2">').text("ДОХОД"),
-        $('<td class="td_table1">').text("РАСХОД"),
-        $('<td class="td_table1" colspan="2">').text("ПРИБЫЛЬ")
-      );
-      $table.append($head1);
-
-      $head2 = $('<tr>').append(
-        $('<td class="td_table1">').text("Тариф в собств. вагонах"),
-        $('<td class="td_table1">').text("За нахождение в пути"),
-        $('<td class="td_table1">').text("В сутки")
-      );
-      $table.append($head2);
-
-      $head3 = $('<tr>').append(
-        $('<td class="td_table1">').text("руб/ваг."),
-        $('<td class="td_table1">').text("руб/ваг."),
-        $('<td class="td_table1">').text("руб/ваг."),
-        $('<td class="td_table1">').text("руб/ваг/сут.")
-      );
-      $table.append($head3);
-      for (var i in response.totalList) {
-        $content = $('<tr>').append(
-          $('<td class="td_table2">').text(
-            response.totalList[i].stationDeparture.nameStation
-          ),
-          $('<td class="td_table2">').text(
-            response.totalList[i].stationDeparture.road.nameRoad
-          ),
-          $('<td class="td_table2">').text(
-            response.totalList[i].stationDestination.nameStation
-          ),
-          $('<td class="td_table2">').text(
-            response.totalList[i].stationDestination.road.nameRoad
-          ),
-          $('<td class="td_table2">').text(
-            response.totalList[i].cargo.nameCargo
-          ),
-          $('<td class="td_table2">').text(response.totalList[i].distance),
-          $('<td class="td_table2">').text(response.totalList[i].countDays),
-          $('<td class="td_table2">').text(
-            response.totalList[i].countDaysLoadAndUnload
-          ),
-          $('<td class="td_table2">').text(response.totalList[i].fullCountDays),
-          $('<td class="td_table2">').text("поваг"),
-          $('<td class="td_table2">').text(function() {
-            if (response.totalList[i].rate == 0) {
-              return "";
-            } else {
-              if (response.totalList[i].flagNeedCalc) {
-                $(this).css({'backgroundColor' : '#ffa07a'});
-              }
-              return response.totalList[i].rate;
-            }
-          }),
-          $('<td class="td_table2">').text(function() {
-            if (response.totalList[i].tariff == 0) {
-              return "";
-            } else {
-              return response.totalList[i].tariff;
-            }
-          }),
-          $('<td class="td_table2">').text(function() {
-            return response.totalList[i].rate + response.totalList[i].tariff;
-          }),
-          $('<td class="td_table2">').text("")
-        );
-        $table.append($content);
-      }
-
-      $sum = $("<tr>").append(
-        $('<td class="td_table3" colspan="5">').text(""),
-        $('<td class="td_table3">').text(response.sumDistance),
-        $('<td class="td_table3">').text(response.sumCountDays),
-        $('<td class="td_table3">').text(""),
-        $('<td class="td_table3">').text(response.sumFullCountDays),
-        $('<td class="td_table3">').text(""),
-        $('<td class="td_table3">').text(""),
-        $('<td class="td_table3">').text(""),
-        $('<td class="td_table3">').text(response.sumRateOrTariff),
-        $('<td class="td_table3">').text(response.yield)
-      );
-
-      $table.append($sum);
-      $('#total').append($('<br>'));
-      $('#total').append($table);
-    }
-  });
+function reload() {
+  location.reload();
 }
 
 function reloadPage(id) {
   window.sessionStorage.setItem("tabId", id);
+}
+
+function testError(event) {
+  input = event.target.parentNode.childNodes[1];
+  value = input.value;
+  $.ajax({
+    url: "rate/test/" + value,
+    success: function(response) {
+      console.log(response);
+    },
+    error: function(response) {
+      console.log(response.responseJSON);
+      message = response.responseJSON.conflictMessage;
+      alert(message);
+      $(input).focus();
+    }
+  });
 }
