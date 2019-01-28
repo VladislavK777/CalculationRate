@@ -12,6 +12,7 @@
   <script async src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="resources/javascript/search.js"></script>
   <script src="resources/javascript/process.js"></script>
+  <script src="resources/javascript/calculateRate.js"></script>
 
 </head>
 
@@ -74,7 +75,7 @@
           <input type="button" onclick="calcRate()" class="bot1" value="Рассчитать ставку" />
         </td>
         <td>
-          <input type="button" onclick="reloadPage()" class="bot1" value="Сбросить" />
+          <input type="button" onclick="reload()" class="bot1" value="Сбросить" />
         </td>
         <td>
           <form action="export" method="get" id="calc">
