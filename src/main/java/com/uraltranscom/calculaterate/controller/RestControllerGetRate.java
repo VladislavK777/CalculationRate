@@ -33,7 +33,7 @@ public class RestControllerGetRate {
 
     @PostMapping(value = "/info")
     public ResponseEntity<TotalModel> totalModel(@RequestBody CalcRateBody object) {
-        commonLogicClass.startLogic(getId(object.getStationFrom()), getId(object.getStationTo()), getId(object.getCargo()), object.getVolume());
+        commonLogicClass.startLogic(getId(object.getStationFrom()), getId(object.getStationTo()), getId(object.getCargo()), object.getVolume(), object.getFile());
         return new ResponseEntity<>(commonLogicClass.getTotalModel(), HttpStatus.OK);
     }
 

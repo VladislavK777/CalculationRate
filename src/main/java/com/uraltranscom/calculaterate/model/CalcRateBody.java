@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.File;
+
 /**
  * @author vladislav.klochkov
  * @project CalculationRate_1.0
@@ -18,4 +20,5 @@ public class CalcRateBody {
     private String stationTo;
     private String cargo;
     private int volume;
+    private File file;
 }

@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
@@ -29,6 +30,7 @@ public class ExportExcelTest {
     private CommonLogicClass commonLogicClass;
     @Autowired
     private  WriteToFileExcel writeToFileExcel;
+    File file;
 
     @Test
     public void getCommon(){
@@ -218,7 +220,7 @@ public class ExportExcelTest {
                 return null;
             }
         };
-        commonLogicClass.startLogic("190900", "191104", "131071", 138);
+        commonLogicClass.startLogic("190900", "191104", "131071", 138, file);
         System.out.println(commonLogicClass.getTotalModel());
         writeToFileExcel.downloadFileExcel(response, commonLogicClass.getTotalListModels());
     }

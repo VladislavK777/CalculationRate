@@ -79,7 +79,7 @@ public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
                                     countDaysLoadAndUnload,
                                     fullCountDays,
                                     rate,
-                                    tariff,
+                                    tariff * (-1),
                                     flagNeedCalc
                             )
                     );

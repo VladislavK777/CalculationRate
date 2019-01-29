@@ -44,5 +44,6 @@
     <bean id="getTotalModel" class="com.uraltranscom.calculaterate.dao.GetTotalModelDAO" />
     <bean id="export" class="com.uraltranscom.calculaterate.service.export.WriteToFileExcel" />
     <bean id="testDao" class="com.uraltranscom.calculaterate.dao.TestErrorDAO" />
+    <bean id="getListRate" class="com.uraltranscom.calculaterate.service.impl.GetListRates" />
 
 </beans>

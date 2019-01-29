@@ -23,6 +23,7 @@ function calcRate() {
           if (volumeSet.indexOf(input4) == -1) {
             alert("Некорректный объем, должен быть: " + volumeSet);
           } else {
+            input5 = $('input[name="ratesFile"]').val().split("\\").pop();
             $.ajax({
               url: "rate/info",
               datatype: "json",
@@ -32,7 +33,8 @@ function calcRate() {
                 stationFrom: input1,
                 stationTo: input2,
                 cargo: input3,
-                volume: input4
+                volume: input4,
+                file: input5
               }),
               success: function(response) {
                 $table = $('<table class="table_calculate">');
@@ -128,7 +130,7 @@ function calcRate() {
                     }),
                     $('<td class="td_table2">').text(function() {
                       return (
-                        response.totalList[i].rate + response.totalList[i].tariff
+                        response.totalList[i].rate - response.totalList[i].tariff
                       );
                     }),
                     $('<td class="td_table2">').text("")
@@ -145,9 +147,18 @@ function calcRate() {
                   $('<td class="td_table3">').text(""),
                   $('<td class="td_table3">').text(""),
                   $('<td class="td_table3">').text(""),
-                  $('<td class="td_table3">').text(response.sumRateOrTariff),
-                  $('<td class="td_table3">').text(response.yield)
+                  $('<td class="td_table3">').text(response.sumRateOrTariff)
                 );
+                if (response.actualYield != null) {
+                  $sum.append(
+                    $('<td class="td_table3">').text(response.yield),
+                    $('<td class="td_table2">').text(response.actualYield)
+                  );
+                } else {
+                  $sum.append(
+                    $('<td class="td_table3">').text(response.yield)
+                  );
+                }
 
                 $table.append($sum);
                 $("#total").append($("<br>"));
