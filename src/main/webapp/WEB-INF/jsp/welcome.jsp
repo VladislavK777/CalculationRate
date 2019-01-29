@@ -32,7 +32,7 @@
     <table>
       <tr>
         <td>
-          <p for="inp" class="inp">
+          <p class="inp">
             <label>
               <input type="text" id="stationFrom" placeholder="&nbsp;" name="station_from" onkeyup="search(this.id)"/>
               <span class="label">Станция отправления</span>
@@ -42,7 +42,7 @@
         </td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td>
-          <p for="inp" class="inp">
+          <p class="inp">
             <label>
               <input type="text" id="stationTo" placeholder="&nbsp;" name="station_to" onkeyup="search(this.id)"/>
               <span class="label">Станция назначения</span>
@@ -52,7 +52,7 @@
         </td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td>
-          <p for="inp" class="inp">
+          <p class="inp">
             <label>
               <input type="text" id="cargo" placeholder="&nbsp;" name="cargo" onkeyup="search(this.id)"/>
               <span class="label">Груз</span>
@@ -62,12 +62,20 @@
         </td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td>
-          <p for="inp" class="inp">
+          <p class="inp">
             <label>
               <input type="text" placeholder="&nbsp;" name="volume" onkeyup="search(this.id)"/>
               <span class="label">Объем</span>
               <span class="border" />
             </label>
+          </p>
+        </td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>
+          <p class="inp_file">
+            <input type="file" name="ratesFile" multiple accept="xlsx">
+            <span class="label" />Файл ставок</span>
+            <span class="border" />
           </p>
         </td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>

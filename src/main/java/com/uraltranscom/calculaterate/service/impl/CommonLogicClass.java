@@ -1,6 +1,8 @@
 package com.uraltranscom.calculaterate.service.impl;
 
 import com.uraltranscom.calculaterate.dao.GetTotalModelDAO;
+import com.uraltranscom.calculaterate.model.RatesList;
+import com.uraltranscom.calculaterate.model.Route;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import com.uraltranscom.calculaterate.util.GetVolumeGroup;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
@@ -10,7 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -35,9 +40,36 @@ public class CommonLogicClass {
     ArrayList<TotalModel> totalListModels = new ArrayList<>();
     TotalModel totalModel = null;
 
-    public void startLogic(String idStationDeparture, String idStationDestination, String idCargo, int volumeWagon) {
+    @Autowired
+    GetListRates getListRates;
+    Set<RatesList> listRates = new HashSet<>();
+
+    public void startLogic(String idStationDeparture, String idStationDestination, String idCargo, int volumeWagon, File fileRates) {
         logger.info("Start process with entry params: idStationDeparture - {}; idStationDestination - {}; idCargo - {}; volumeWagon - {}", idStationDeparture, idStationDestination, idCargo, volumeWagon);
+        if (fileRates != null && listRates.isEmpty()) {
+            listRates = getListRates.getListRates(fileRates);
+        }
         totalModel = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams(idStationDeparture, idStationDestination, idCargo, GetVolumeGroup.getVolumeGroup(volumeWagon)));
+        if (fileRates != null) {
+            totalModel.setActualYield(getActualRate(totalModel, listRates, GetVolumeGroup.getVolumeGroup(volumeWagon)));
+        }
         totalListModels.add(totalModel);
+    }
+
+    private Object getActualRate(TotalModel totalModel, Set<RatesList> listRates, int volume){
+        double actualRate;
+        for (Route route : totalModel.getTotalList()) {
+            if (route.isFlagNeedCalc()) {
+                for (RatesList ratesList : listRates) {
+                    if (ratesList.getVolume() == volume &&
+                        (ratesList.getStationFrom().getNameStation().equals(route.getStationDeparture().getNameStation()) && ratesList.getStationFrom().getRoad().getNameRoad().equals(route.getStationDeparture().getRoad().getNameRoad())) &&
+                                (ratesList.getRoadTo().getNameRoad().equals(route.getStationDestination().getRoad().getNameRoad()))) {
+                        actualRate = ratesList.getActualRate();
+                        return actualRate;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

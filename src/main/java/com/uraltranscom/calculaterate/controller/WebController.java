@@ -34,6 +34,7 @@ public class WebController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
         commonLogicClass.getTotalListModels().clear();
+        commonLogicClass.getListRates().clear();
         return "welcome";
     }
 

@@ -1,7 +1,7 @@
 package com.uraltranscom.calculaterate.model_ex;
 
 import com.uraltranscom.calculaterate.model.Route;
-import lombok.Getter;
+import lombok.Data;
 import lombok.ToString;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @date 25.12.2018
  */
 
-@Getter
+@Data
 @ToString
 public class TotalModel {
     private List<Route> totalList;
@@ -23,6 +23,7 @@ public class TotalModel {
     private int sumFullCountDays;
     private double sumRateOrTariff;
     private double yield;
+    private Object actualYield;
 
     public TotalModel(List<Route> totalList, int idGroup, int sumDistance, int sumCountDays, int sumCountDaysLoadUnload, int sumFullCountDays, double sumRateOrTariff, double yield) {
         this.totalList = totalList;

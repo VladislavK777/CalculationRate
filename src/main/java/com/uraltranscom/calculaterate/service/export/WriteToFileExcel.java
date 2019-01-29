@@ -30,9 +30,9 @@ import java.util.Date;
  *
  * @author Vladislav Klochkov
  * @version 1.0
- * @create 19.07.2018
+ * @create 25.01.2019
  *
- * 19.07.2018
+ * 25.01.2019
  *   1. Версия 1.0
  *
  */
@@ -245,13 +245,8 @@ public class WriteToFileExcel {
                         tariff.setCellStyle(cellStyleField(sheet));
 
                         Cell rateTariff = row.createCell(12);
-                        if (route.getRate() != 0) {
-                            rateTariff.setCellFormula("K" + num);
-                            rateTariff.setCellStyle(cellStyleField(sheet));
-                        } else {
-                            rateTariff.setCellFormula("L" + num);
-                            rateTariff.setCellStyle(cellStyleField(sheet));
-                        }
+                        rateTariff.setCellFormula("K" + num + "-L" + num);
+                        rateTariff.setCellStyle(cellStyleField(sheet));
                         sheet.autoSizeColumn(12);
 
                         Cell cell13 = row.createCell(13);
@@ -313,7 +308,7 @@ public class WriteToFileExcel {
                     totalRateTariff.setCellStyle(cellStyleFieldTotal(sheet));
 
                     Cell yield = row.createCell(13);
-                    yield.setCellFormula("SUM(M" + totalYieldNum + "/I" + totalYieldNum + ")");
+                    yield.setCellFormula("M" + totalYieldNum + "/I" + totalYieldNum);
                     yield.setCellStyle(cellStyleFieldTotal(sheet));
                     sheet.autoSizeColumn(13);
 
