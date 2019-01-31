@@ -44,7 +44,7 @@
         <td>
           <p class="inp">
             <label>
-              <input type="text" id="stationTo" placeholder="&nbsp;" name="station_to" onkeyup="search(this.id)"/>
+              <input type="text" id="stationTo" placeholder="&nbsp;" name="station_to" onkeyup="search(this.id)" />
               <span class="label">Станция назначения</span>
               <span class="border" />
             </label>
@@ -54,7 +54,7 @@
         <td>
           <p class="inp">
             <label>
-              <input type="text" id="cargo" placeholder="&nbsp;" name="cargo" onkeyup="search(this.id)"/>
+              <input type="text" id="cargo" placeholder="&nbsp;" name="cargo" onkeyup="search(this.id)" />
               <span class="label">Груз</span>
               <span class="border" />
             </label>
@@ -64,7 +64,7 @@
         <td>
           <p class="inp">
             <label>
-              <input type="text" placeholder="&nbsp;" name="volume" onkeyup="search(this.id)"/>
+              <input type="text" placeholder="&nbsp;" name="volume" onkeyup="search(this.id)" />
               <span class="label">Объем</span>
               <span class="border" />
             </label>
@@ -73,9 +73,11 @@
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td>
           <p class="inp_file">
-            <input type="file" name="ratesFile" multiple accept="xlsx">
-            <span class="label" />Файл ставок</span>
-            <span class="border" />
+            <label>
+              <input type="file" name="ratesFile" multiple accept="xlsx" />
+              <span class="label">Файл ставок</span>
+              <span class="border" />
+            </label>
           </p>
         </td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -91,7 +93,7 @@
           </form>
         </td>
         <td>
-          <a href="settings"><img class="setting" src="resources/img/setting.png"></a>
+          <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
         </td>
       </tr>
     </table>

@@ -31,6 +31,7 @@ public class RestControllerGetRate {
     @Autowired
     private TestErrorDAO testErrorDAO;
 
+    //@CrossOrigin(origins = "*")
     @PostMapping(value = "/info")
     public ResponseEntity<TotalModel> totalModel(@RequestBody CalcRateBody object) {
         commonLogicClass.startLogic(getId(object.getStationFrom()), getId(object.getStationTo()), getId(object.getCargo()), object.getVolume(), object.getFile());
