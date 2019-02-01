@@ -9,7 +9,7 @@
     <name>CalculateRate</name>
     <packaging>war</packaging>
     <version>2.0</version>
-  
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
         <dependency>

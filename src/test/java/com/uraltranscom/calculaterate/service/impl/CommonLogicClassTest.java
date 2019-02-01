@@ -20,8 +20,8 @@ public class CommonLogicClassTest {
     @Autowired
     private CommonLogicClass commonLogicClass;
 
-    //File file;
-    File file = new File("C:\\Users\\Vladislav.Klochkov\\Desktop\\test.xlsx");
+    File file;
+    //File file = new File("C:\\Users\\Vladislav.Klochkov\\Desktop\\test.xlsx");
 
     @Test
     public void getCommon(){

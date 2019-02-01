@@ -1,6 +1,7 @@
-package com.uraltranscom.calculaterate.configuration;
+/*package com.uraltranscom.calculaterate.configuration;
 
-/*
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CalculateRateApplication {
 
@@ -8,6 +9,6 @@ public class CalculateRateApplication {
 		SpringApplication.run(CalculateRateApplication.class, args);
 	}
 
-}
-*/
+}*/
+
 
