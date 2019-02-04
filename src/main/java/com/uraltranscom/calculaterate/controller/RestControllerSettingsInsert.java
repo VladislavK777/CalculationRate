@@ -1,7 +1,7 @@
 package com.uraltranscom.calculaterate.controller;
 
-import com.uraltranscom.calculaterate.dao.setting.InsertSettingBeginningExcetpionsDAO;
-import com.uraltranscom.calculaterate.dao.setting.InsertSettingReturnExcetpionsDAO;
+import com.uraltranscom.calculaterate.dao.setting.InsertSettingBeginningExceptionsDAO;
+import com.uraltranscom.calculaterate.dao.setting.InsertSettingReturnExceptionsDAO;
 import com.uraltranscom.calculaterate.dao.setting.InsertSettingReturnStationsDAO;
 import com.uraltranscom.calculaterate.model.settings.SettingReturnExceptions;
 import com.uraltranscom.calculaterate.model.settings.SettingReturnStations;
@@ -28,9 +28,9 @@ public class RestControllerSettingsInsert {
     @Autowired
     private InsertSettingReturnStationsDAO insertSettingReturnStationsDAO;
     @Autowired
-    private InsertSettingReturnExcetpionsDAO insertSettingReturnExcetpionsDAO;
+    private InsertSettingReturnExceptionsDAO insertSettingReturnExceptionsDAO;
     @Autowired
-    private InsertSettingBeginningExcetpionsDAO insertSettingBeginningExcetpionsDAO;
+    private InsertSettingBeginningExceptionsDAO insertSettingBeginningExceptionsDAO;
 
     @PostMapping("/addReturnStations")
     public void addReturnStations(@RequestBody SettingReturnStations settingReturnStations) {
@@ -46,7 +46,7 @@ public class RestControllerSettingsInsert {
 
     @PostMapping("/addReturnExceptions")
     public void addReturnExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        insertSettingReturnExcetpionsDAO.insertObject(
+        insertSettingReturnExceptionsDAO.insertObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getRoad().getIdRoad(),
                         settingReturnExceptions.getIdStationString(),
@@ -66,7 +66,7 @@ public class RestControllerSettingsInsert {
 
     @PostMapping("/addBeginningExceptions")
     public void addBeginningExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        insertSettingBeginningExcetpionsDAO.insertObject(
+        insertSettingBeginningExceptionsDAO.insertObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getRoad().getIdRoad(),
                         settingReturnExceptions.getIdStationString(),

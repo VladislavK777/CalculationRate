@@ -1,8 +1,10 @@
 package com.uraltranscom.calculaterate.dao;
 
+import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -24,14 +26,18 @@ public class SearchStationDAO extends AbstractObjectFactory<List<Object>> {
     private static Logger logger = LoggerFactory.getLogger(SearchStationDAO.class);
     private static final String SQL_CALL_NAME = " { call test_distance.get_station_search(?) } ";
 
+    @Autowired
+    private ConnectionDB connectionDB;
+
     @Override
     public List<Object> getObject(Map<String, Object> params) {
         List<Object> listResult = new ArrayList<>();
 
-        Connection connection = getConnection();
+        Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
+            connection = connectionDB.getDataSource().getConnection();
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
             for (int i = 1; i < params.size() + 1; i++) {
                 callableStatement.setObject(i, params.get("param" + i));

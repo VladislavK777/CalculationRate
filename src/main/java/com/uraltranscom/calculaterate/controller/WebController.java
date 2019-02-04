@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,7 +30,7 @@ public class WebController {
     @Autowired
     private CommonLogicClass commonLogicClass;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/")
     public String home(Model model) {
         commonLogicClass.getTotalListModels().clear();
         commonLogicClass.getListRates().clear();
@@ -39,7 +38,7 @@ public class WebController {
     }
 
     // Выгрузка в Excel
-    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    @RequestMapping(value = "/export")
     public void getXLS(HttpServletResponse response, Model model) {
         WriteToFileExcel.downloadFileExcel(response, commonLogicClass.getTotalListModels());
     }

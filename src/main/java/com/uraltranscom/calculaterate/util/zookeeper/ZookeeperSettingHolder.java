@@ -1,6 +1,7 @@
-package com.uraltranscom.calculaterate.util.ZookeeperUtil;
+package com.uraltranscom.calculaterate.util.zookeeper;
 
 import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
+import lombok.NoArgsConstructor;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -27,6 +28,7 @@ import java.lang.reflect.Field;
  *
  */
 
+@NoArgsConstructor
 public class ZookeeperSettingHolder implements InitializingBean {
     // Подключаем логгер
     private static Logger logger = LoggerFactory.getLogger(ZookeeperSettingHolder.class);

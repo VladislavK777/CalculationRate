@@ -326,7 +326,7 @@ public class WriteToFileExcel {
 
     private static XSSFFont getFont(XSSFSheet sheet) {
         XSSFFont font = sheet.getWorkbook().createFont();
-        font.setColor(HSSFColor.BLACK.index);
+        font.setColor(HSSFColor.HSSFColorPredefined.BLACK.getIndex());
         font.setFontName("Times New Roman");
         font.setFontHeight(12.0);
         return font;
