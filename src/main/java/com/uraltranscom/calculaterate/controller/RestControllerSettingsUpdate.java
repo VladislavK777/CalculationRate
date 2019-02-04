@@ -28,9 +28,9 @@ public class RestControllerSettingsUpdate {
     @Autowired
     private UpdateSettingReturnStationsDAO updateSettingReturnStationsDAO;
     @Autowired
-    private UpdateSettingReturnExcetpionsDAO updateSettingReturnExcetpionsDAO;
+    private UpdateSettingReturnExceptionsDAO updateSettingReturnExceptionsDAO;
     @Autowired
-    private UpdateSettingBeginningExcetpionsDAO updateSettingBeginningExcetpionsDAO;
+    private UpdateSettingBeginningExceptionsDAO updateSettingBeginningExceptionsDAO;
 
     @PutMapping("/updateYield")
     public void updateYield(@RequestBody SettingYield settingYield) {
@@ -79,7 +79,7 @@ public class RestControllerSettingsUpdate {
 
     @PutMapping("/updateReturnExceptions")
     public void updateReturnExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        updateSettingReturnExcetpionsDAO.updateObject(
+        updateSettingReturnExceptionsDAO.updateObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getId(),
                         settingReturnExceptions.getRoad().getIdRoad(),
@@ -100,7 +100,7 @@ public class RestControllerSettingsUpdate {
 
     @PutMapping("/updateBeginningExceptions")
     public void updateBeginningExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        updateSettingBeginningExcetpionsDAO.updateObject(
+        updateSettingBeginningExceptionsDAO.updateObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getId(),
                         settingReturnExceptions.getRoad().getIdRoad(),

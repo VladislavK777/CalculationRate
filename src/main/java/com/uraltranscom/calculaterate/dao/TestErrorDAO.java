@@ -1,6 +1,9 @@
 package com.uraltranscom.calculaterate.dao;
 
 import com.uraltranscom.calculaterate.model.conflicts.Conflict;
+import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -16,7 +19,11 @@ import java.util.Map;
  */
 
 @Component
+@NoArgsConstructor
 public class TestErrorDAO extends AbstractObjectFactory<Object> {
+
+    @Autowired
+    private ConnectionDB connectionDB;
 
     @Override
     public Object getObject(Map<String, Object> params) {
@@ -26,10 +33,11 @@ public class TestErrorDAO extends AbstractObjectFactory<Object> {
         String station = null;
         Conflict conflict = null;
 
-        Connection connection = getConnection();
+        Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
+            connection = connectionDB.getDataSource().getConnection();
             callableStatement = connection.prepareCall(" { call test_distance.test_get_station(?) } ");
             for (int i = 1; i < params.size() + 1; i++) {
                 callableStatement.setObject(i, params.get("param" + i));

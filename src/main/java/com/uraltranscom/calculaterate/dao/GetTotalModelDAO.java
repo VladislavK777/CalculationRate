@@ -5,9 +5,11 @@ import com.uraltranscom.calculaterate.model.Road;
 import com.uraltranscom.calculaterate.model.Route;
 import com.uraltranscom.calculaterate.model.Station;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
+import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -30,15 +32,19 @@ public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
     private static Logger logger = LoggerFactory.getLogger(GetTotalModelDAO.class);
     private static final String SQL_CALL_NAME = " { call  test_rate.list_routes_and_rate(?,?,?,?) } ";
 
+    @Autowired
+    private ConnectionDB connectionDB;
+
     @Override
     public TotalModel getObject(Map<String, Object> params) {
         List<Route> totalListRoute = new ArrayList<>();
         TotalModel totalModel = null;
 
-        Connection connection = getConnection();
+        Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
+            connection = connectionDB.getDataSource().getConnection();
             connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
             for (int i = 1; i < params.size() + 1; i++) {

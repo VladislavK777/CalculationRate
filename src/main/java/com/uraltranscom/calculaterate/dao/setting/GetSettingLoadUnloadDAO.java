@@ -1,11 +1,12 @@
 package com.uraltranscom.calculaterate.dao.setting;
 
 import com.uraltranscom.calculaterate.dao.AbstractObjectFactory;
-import com.uraltranscom.calculaterate.model.settings.SettingBorderDistance;
 import com.uraltranscom.calculaterate.model.settings.SettingLoadUnload;
+import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -28,14 +29,18 @@ public class GetSettingLoadUnloadDAO extends AbstractObjectFactory<List<SettingL
     private static Logger logger = LoggerFactory.getLogger(GetSettingLoadUnloadDAO.class);
     private static final String SQL_CALL_NAME = "select * from test_setting.get_setting_loading_unloading()";
 
+    @Autowired
+    private ConnectionDB connectionDB;
+
     @Override
     public List<SettingLoadUnload> getObject(Map<String, Object> params) {
         List<SettingLoadUnload> listSetting = new ArrayList<>();
 
-        Connection connection = getConnection();
+        Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
+            connection = connectionDB.getDataSource().getConnection();
             connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
             ResultSet resultSet = callableStatement.executeQuery();
