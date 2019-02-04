@@ -29,12 +29,13 @@
   </div>
   <div class="block"></div>
   <div>
+  <form method="POST" enctype="multipart/form-data" id="rateForm" accept-charset='utf-8'>
     <table>
       <tr>
         <td>
           <p class="inp">
             <label>
-              <input type="text" id="stationFrom" placeholder="&nbsp;" name="station_from" onkeyup="search(this.id)"/>
+              <input type="text" id="stationFrom" placeholder="&nbsp;" name="stationFrom" onkeyup="search(this.id)"/>
               <span class="label">Станция отправления</span>
               <span class="border" />
             </label>
@@ -44,7 +45,7 @@
         <td>
           <p class="inp">
             <label>
-              <input type="text" id="stationTo" placeholder="&nbsp;" name="station_to" onkeyup="search(this.id)" />
+              <input type="text" id="stationTo" placeholder="&nbsp;" name="stationTo" onkeyup="search(this.id)" />
               <span class="label">Станция назначения</span>
               <span class="border" />
             </label>
@@ -74,7 +75,7 @@
         <td>
           <p class="inp_file">
             <label>
-              <input type="file" name="ratesFile" multiple accept="xlsx" />
+              <input type="file" name="file" accept="xlsx" />
               <span class="label">Файл ставок</span>
               <span class="border" />
             </label>
@@ -88,8 +89,8 @@
           <input type="button" onclick="reload()" class="bot1" value="Сбросить" />
         </td>
         <td>
-          <form action="export" method="get" id="calc">
-            <input type="image" form="calc" src="resources/img/excel.png" width="40px" height="40px" />
+          <form enctype="multipart/form-data" action="export" method="get" id="calc">
+            <input type="image" src="resources/img/excel.png" width="40px" height="40px" />
           </form>
         </td>
         <td>
@@ -97,6 +98,7 @@
         </td>
       </tr>
     </table>
+    </form>
   </div>
   <div id="total"></div>
   <br><br>

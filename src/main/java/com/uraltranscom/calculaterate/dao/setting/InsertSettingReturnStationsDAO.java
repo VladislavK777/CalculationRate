@@ -1,9 +1,10 @@
 package com.uraltranscom.calculaterate.dao.setting;
 
-import com.uraltranscom.calculaterate.util.ConnectUtil.ConnectionDB;
+import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -19,16 +20,19 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class InsertSettingReturnStationsDAO extends ConnectionDB {
+public class InsertSettingReturnStationsDAO {
     private static Logger logger = LoggerFactory.getLogger(InsertSettingReturnStationsDAO.class);
     private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_return_station(?,?,?,?) } ";
+
+    @Autowired
+    private ConnectionDB connectionDB;
 
     public void insertObject(Map<String, Object> params) {
         Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
-            connection = getDataSource().getConnection();
+            connection = connectionDB.getDataSource().getConnection();
             connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
             for (int i = 1; i < params.size() + 1; i++) {

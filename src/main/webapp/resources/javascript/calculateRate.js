@@ -1,41 +1,33 @@
 function calcRate() {
   volumeSet = ["114", "120", "122", "138", "140", "150", "158", "161"];
-  input1 = $('input[name="station_from"]').val();
-  if (input1 == "") {
+  if ($('input[name="stationFrom"]').val() == "") {
     alert('Поле "Станция отправления" должно быть заполнено.');
-    $('input[name="station_from"]').focus();
+    $('input[name="stationFrom"]').focus();
   } else {
-    input2 = $('input[name="station_to"]').val();
-    if (input2 == "") {
+    if ($('input[name="stationTo"]').val() == "") {
       alert('Поле "Станция назначения" должно быть заполнено.');
-      $('input[name="station_to"]').focus();
+      $('input[name="stationTo"]').focus();
     } else {
-      input3 = $('input[name="cargo"]').val();
-      if (input3 == "") {
+      if ($('input[name="cargo"]').val() == "") {
         alert('Поле "Груз" должно быть заполнено.');
         $('input[name="cargo"]').focus();
       } else {
-        input4 = $('input[name="volume"]').val();
-        if (input4 == "") {
+        if ($('input[name="volume"]').val() == "") {
           alert('Поле "Объем" должно быть заполнено.');
           $('input[name="volume"]').focus();
         } else {
-          if (volumeSet.indexOf(input4) == -1) {
+          if (volumeSet.indexOf($('input[name="volume"]').val()) == -1) {
             alert("Некорректный объем, должен быть: " + volumeSet);
           } else {
-            input5 = $('input[name="ratesFile"]').val().split("\\").pop();
+            var form = $('#rateForm')[0];
+            var data = new FormData(form);
             $.ajax({
               url: "rate/info",
-              datatype: "json",
               type: "post",
-              contentType: "application/json",
-              data: JSON.stringify({
-                stationFrom: input1,
-                stationTo: input2,
-                cargo: input3,
-                volume: input4,
-                file: input5
-              }),
+              enctype: "multipart/form-data",
+              data: data,
+              processData: false,
+              contentType: false,
               success: function(response) {
                 $table = $('<table class="table_calculate">');
                 $head1 = $("<tr>").append(

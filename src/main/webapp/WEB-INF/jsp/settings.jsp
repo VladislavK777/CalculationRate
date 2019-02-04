@@ -33,7 +33,7 @@
   </div>
   <div class="block"></div>
   <div>
-    <a href="/calculaterate"><input type="button" value="Закрыть настрйки" class="bot1"/></a>
+    <a href="/"><input type="button" value="Закрыть настрйки" class="bot1"/></a>
     <div class="tabs">
       <input id="tab1" type="radio" name="tabs" onclick="reloadPage(this.id)" checked>
       <label for="tab1" title="Станции возврата">Станции возврата</label>

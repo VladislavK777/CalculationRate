@@ -6,7 +6,11 @@ import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author vladislav.klochkov
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("update")
+@EnableAutoConfiguration
 public class RestControllerSettingsUpdate {
     private static Logger logger = LoggerFactory.getLogger(RestControllerSettingsUpdate.class);
 
@@ -28,9 +33,9 @@ public class RestControllerSettingsUpdate {
     @Autowired
     private UpdateSettingReturnStationsDAO updateSettingReturnStationsDAO;
     @Autowired
-    private UpdateSettingReturnExcetpionsDAO updateSettingReturnExcetpionsDAO;
+    private UpdateSettingReturnExceptionsDAO updateSettingReturnExceptionsDAO;
     @Autowired
-    private UpdateSettingBeginningExcetpionsDAO updateSettingBeginningExcetpionsDAO;
+    private UpdateSettingBeginningExceptionsDAO updateSettingBeginningExceptionsDAO;
 
     @PutMapping("/updateYield")
     public void updateYield(@RequestBody SettingYield settingYield) {
@@ -79,7 +84,7 @@ public class RestControllerSettingsUpdate {
 
     @PutMapping("/updateReturnExceptions")
     public void updateReturnExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        updateSettingReturnExcetpionsDAO.updateObject(
+        updateSettingReturnExceptionsDAO.updateObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getId(),
                         settingReturnExceptions.getRoad().getIdRoad(),
@@ -100,7 +105,7 @@ public class RestControllerSettingsUpdate {
 
     @PutMapping("/updateBeginningExceptions")
     public void updateBeginningExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        updateSettingBeginningExcetpionsDAO.updateObject(
+        updateSettingBeginningExceptionsDAO.updateObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getId(),
                         settingReturnExceptions.getRoad().getIdRoad(),

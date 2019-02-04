@@ -5,9 +5,9 @@ import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,22 +24,20 @@ import javax.servlet.http.HttpServletResponse;
  *
  */
 
-@org.springframework.stereotype.Controller
+@Controller
 public class WebController {
     private static Logger logger = LoggerFactory.getLogger(WebController.class);
 
     @Autowired
     private CommonLogicClass commonLogicClass;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/")
     public String home(Model model) {
-        commonLogicClass.getTotalListModels().clear();
-        commonLogicClass.getListRates().clear();
         return "welcome";
     }
 
     // Выгрузка в Excel
-    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    @RequestMapping(value = "/export")
     public void getXLS(HttpServletResponse response, Model model) {
         WriteToFileExcel.downloadFileExcel(response, commonLogicClass.getTotalListModels());
     }

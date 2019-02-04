@@ -5,9 +5,11 @@ import com.uraltranscom.calculaterate.model.Cargo;
 import com.uraltranscom.calculaterate.model.Road;
 import com.uraltranscom.calculaterate.model.Station;
 import com.uraltranscom.calculaterate.model.settings.SettingReturnExceptions;
+import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -31,14 +33,18 @@ public class GetSettingBeginningExceptionsDAO extends AbstractObjectFactory<Map<
     private static Logger logger = LoggerFactory.getLogger(GetSettingBeginningExceptionsDAO.class);
     private static final String SQL_CALL_NAME = "select * from test_setting.get_setting_beginning_exception()";
 
+    @Autowired
+    private ConnectionDB connectionDB;
+
     @Override
     public Map<String, List<SettingReturnExceptions>> getObject(Map<String, Object> params) {
         TreeMap<String, List<SettingReturnExceptions>> mapSetting = new TreeMap<>();
 
-        Connection connection = getConnection();
+        Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
+            connection = connectionDB.getDataSource().getConnection();
             connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
             ResultSet resultSet = callableStatement.executeQuery();

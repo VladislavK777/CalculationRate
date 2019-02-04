@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.util.ZookeeperUtil;
+package com.uraltranscom.calculaterate.util;
 
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;

@@ -1,7 +1,7 @@
 package com.uraltranscom.calculaterate.controller;
 
-import com.uraltranscom.calculaterate.dao.setting.InsertSettingBeginningExcetpionsDAO;
-import com.uraltranscom.calculaterate.dao.setting.InsertSettingReturnExcetpionsDAO;
+import com.uraltranscom.calculaterate.dao.setting.InsertSettingBeginningExceptionsDAO;
+import com.uraltranscom.calculaterate.dao.setting.InsertSettingReturnExceptionsDAO;
 import com.uraltranscom.calculaterate.dao.setting.InsertSettingReturnStationsDAO;
 import com.uraltranscom.calculaterate.model.settings.SettingReturnExceptions;
 import com.uraltranscom.calculaterate.model.settings.SettingReturnStations;
@@ -9,6 +9,7 @@ import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,15 +23,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("add")
+@EnableAutoConfiguration
 public class RestControllerSettingsInsert {
     private static Logger logger = LoggerFactory.getLogger(RestControllerSettingsInsert.class);
 
     @Autowired
     private InsertSettingReturnStationsDAO insertSettingReturnStationsDAO;
     @Autowired
-    private InsertSettingReturnExcetpionsDAO insertSettingReturnExcetpionsDAO;
+    private InsertSettingReturnExceptionsDAO insertSettingReturnExceptionsDAO;
     @Autowired
-    private InsertSettingBeginningExcetpionsDAO insertSettingBeginningExcetpionsDAO;
+    private InsertSettingBeginningExceptionsDAO insertSettingBeginningExceptionsDAO;
 
     @PostMapping("/addReturnStations")
     public void addReturnStations(@RequestBody SettingReturnStations settingReturnStations) {
@@ -46,7 +48,7 @@ public class RestControllerSettingsInsert {
 
     @PostMapping("/addReturnExceptions")
     public void addReturnExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        insertSettingReturnExcetpionsDAO.insertObject(
+        insertSettingReturnExceptionsDAO.insertObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getRoad().getIdRoad(),
                         settingReturnExceptions.getIdStationString(),
@@ -66,7 +68,7 @@ public class RestControllerSettingsInsert {
 
     @PostMapping("/addBeginningExceptions")
     public void addBeginningExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        insertSettingBeginningExcetpionsDAO.insertObject(
+        insertSettingBeginningExceptionsDAO.insertObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getRoad().getIdRoad(),
                         settingReturnExceptions.getIdStationString(),
