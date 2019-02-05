@@ -60,8 +60,8 @@ public class GetSettingLoadUnloadDAO extends AbstractObjectFactory<List<SettingL
             logger.error("Error query: {}", sqlEx.getMessage());
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

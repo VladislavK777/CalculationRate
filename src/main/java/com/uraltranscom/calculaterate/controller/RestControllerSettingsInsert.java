@@ -36,8 +36,9 @@ public class RestControllerSettingsInsert {
     public void addReturnStations(@RequestBody SettingReturnStations settingReturnStations) {
         insertSettingReturnStationsDAO.insertObject(
                 PrepareMapParams.prepareMapWithParams(
-                        settingReturnStations.getRoad().getIdRoad(),
-                        settingReturnStations.getIdStationString(),
+                        settingReturnStations.getIdsRoad(),
+                        settingReturnStations.getNamesRoad(),
+                        settingReturnStations.getIdsStationString(),
                         settingReturnStations.getVolumeGroupsString(),
                         settingReturnStations.getIdStationReturn()
                 )

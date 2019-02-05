@@ -49,11 +49,11 @@ public class SearchStationDAO extends AbstractObjectFactory<List<Object>> {
             logger.debug("Get info for: {}", params + ": " + listResult);
 
         } catch (SQLException sqlEx) {
-            logger.error("Error query: {}", sqlEx.getMessage());
+            sqlEx.printStackTrace();
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

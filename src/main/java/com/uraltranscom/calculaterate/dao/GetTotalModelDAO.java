@@ -118,8 +118,8 @@ public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
             }
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
                 connection.setAutoCommit(true);
             } catch (SQLException e) {

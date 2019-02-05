@@ -2,8 +2,9 @@
 
 function updateFieldReturnStations(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idReturnStations").value;
-  var road = context.querySelector("#road" + id).value.replace(/[^\d]/g, "");
+  var id = context.querySelector("#idReturnStation").value;
+  var idsRoad = window.sessionStorage.getItem("roadIds");
+  var namesRoad = context.querySelector("#roadSetting" + id).value;
   var stations = context.querySelector("#idStationStringReturnStations").value;
   var volumeGroup = context.querySelector("#volumeGroupsStringReturnStations")
     .value;
@@ -12,7 +13,8 @@ function updateFieldReturnStations(id) {
     .value.replace(/[^\d{6}}]/g, "");
   var json = JSON.stringify({
     id: id,
-    road: { idRoad: road },
+    idsRoad: idsRoad,
+    namesRoad: namesRoad,
     idStationString: stations,
     volumeGroupsString: volumeGroup,
     idStationReturn: returnStation

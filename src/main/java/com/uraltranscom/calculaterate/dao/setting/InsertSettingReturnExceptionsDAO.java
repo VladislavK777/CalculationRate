@@ -22,13 +22,13 @@ import java.util.Map;
 @NoArgsConstructor
 public class InsertSettingReturnExceptionsDAO {
     private static Logger logger = LoggerFactory.getLogger(InsertSettingReturnExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_return_exception(?,?,?,?,?,?,?,?,?,?,?) } ";
+    private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_return_exception(?,?,?,?,?,?,?,?,?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
 
     public void insertObject(Map<String, Object> params) {
-        Connection connection;
+        Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
@@ -44,8 +44,8 @@ public class InsertSettingReturnExceptionsDAO {
             logger.error("Error query: {}", sqlEx.getMessage());
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

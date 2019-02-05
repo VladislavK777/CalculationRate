@@ -69,8 +69,9 @@ public class RestControllerSettingsUpdate {
         updateSettingReturnStationsDAO.updateObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnStations.getId(),
-                        settingReturnStations.getRoad().getIdRoad(),
-                        settingReturnStations.getIdStationString(),
+                        settingReturnStations.getIdsRoad(),
+                        settingReturnStations.getNamesRoad(),
+                        settingReturnStations.getIdsStationString(),
                         settingReturnStations.getVolumeGroupsString(),
                         settingReturnStations.getIdStationReturn()
                 )

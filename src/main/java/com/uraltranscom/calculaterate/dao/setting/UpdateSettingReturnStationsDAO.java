@@ -22,13 +22,13 @@ import java.util.Map;
 @NoArgsConstructor
 public class UpdateSettingReturnStationsDAO {
     private static Logger logger = LoggerFactory.getLogger(UpdateSettingReturnStationsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_return_stations(?,?,?,?,?) } ";
+    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_return_stations(?,?,?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
 
     public void updateObject(Map<String, Object> params) {
-        Connection connection;
+        Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
@@ -42,10 +42,15 @@ public class UpdateSettingReturnStationsDAO {
             connection.commit();
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

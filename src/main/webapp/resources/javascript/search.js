@@ -8,8 +8,15 @@ function search(name) {
     request = "search/cargo?cargo=";
   }
 
+  var setting = false;
+  if (name.indexOf("Setting") != -1) {
+	  setting = true;
+  }
+
   var suggestion = true;
   var field = document.getElementById(name);
+  var placeholder = field.placeholder;
+  var roadIds = "";
   var classInactive = "sf_inactive";
   var classActive = "sf_active";
   var classText = "sf_text";
@@ -22,7 +29,9 @@ function search(name) {
     field.className = field.c + " " + classInactive;
     field.onfocus = function() {
       this.className = this.c + " " + classActive;
-      this.value = this.value == "" ? "" : this.value;
+      if (setting) {
+        field.value = "";
+      }
     };
     field.onblur = function() {
       this.className =
@@ -30,6 +39,9 @@ function search(name) {
           ? this.c + " " + classText
           : this.c + " " + classInactive;
       this.value = this.value != "" ? this.value : "";
+	  if (setting) {
+		field.value = placeholder.trim();
+	  }
       clearList();
     };
     if (suggestion) {
@@ -140,7 +152,15 @@ function search(name) {
       function selectList() {
         li = list.getElementsByTagName("li");
         a = li[selectedIndex - 1].getElementsByTagName("a")[0];
-        field.value = a.innerHTML;
+        if (setting) {
+			placeholder = placeholder + a.innerHTML.match(/\D*\s/)[0].trim() + " ";
+			roadIds = roadIds + a.innerHTML.replace(/[^\d]/g, "") + " ";
+			field.value = "";
+			field.placeholder = placeholder;
+			window.sessionStorage.setItem("roadIds", roadIds.trim());
+		} else {
+			field.value = a.innerHTML;
+		}
         clearList();
       }
     }

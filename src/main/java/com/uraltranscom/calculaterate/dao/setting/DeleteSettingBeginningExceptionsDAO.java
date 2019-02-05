@@ -28,7 +28,7 @@ public class DeleteSettingBeginningExceptionsDAO {
     private ConnectionDB connectionDB;
 
     public void deleteObject(Map<String, Object> params) {
-        Connection connection;
+        Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
@@ -36,6 +36,7 @@ public class DeleteSettingBeginningExceptionsDAO {
             connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
             for (int i = 1; i < params.size() + 1; i++) {
+                logger.info("params: {}", params);
                 callableStatement.setObject(i, params.get("param" + i));
             }
             callableStatement.executeQuery();
@@ -44,8 +45,8 @@ public class DeleteSettingBeginningExceptionsDAO {
             logger.error("Error query: {}", sqlEx.getMessage());
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

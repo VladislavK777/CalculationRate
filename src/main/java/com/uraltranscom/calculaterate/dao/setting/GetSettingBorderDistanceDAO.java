@@ -64,8 +64,8 @@ public class GetSettingBorderDistanceDAO extends AbstractObjectFactory<List<Sett
             logger.error("Error query: {}", sqlEx.getMessage());
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

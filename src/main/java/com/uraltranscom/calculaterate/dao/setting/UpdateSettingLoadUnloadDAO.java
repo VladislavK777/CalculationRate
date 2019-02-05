@@ -28,7 +28,7 @@ public class UpdateSettingLoadUnloadDAO {
     private ConnectionDB connectionDB;
 
     public void updateObject(Map<String, Object> params) {
-        Connection connection;
+        Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
@@ -44,8 +44,8 @@ public class UpdateSettingLoadUnloadDAO {
             logger.error("Error query: {}", sqlEx.getMessage());
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

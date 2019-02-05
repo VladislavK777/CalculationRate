@@ -65,14 +65,14 @@
             </tr>
             <c:forEach items="${mapReturnStations}" var="total">
               <c:forEach items="${total.value}" var="setting">
-                <tr id="contReturnStations${setting.getId()}">
-                  <input id="idReturnStations" value='${setting.getId()}' type="hidden" />
+                <tr id="contReturnStation${setting.getId()}">
+                  <input id="idReturnStation" value='${setting.getId()}' type="hidden" />
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="road${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
+                    <div class="col-3"><input class="effect-1" type="text" id="roadSetting${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="idStationStringReturnStations" value='${setting.getIdStationString()}' />
+                    <div class="col-3"><input class="effect-1" type="text" id="idStationStringReturnStations" value='${setting.getIdsStationString()}' />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
@@ -114,7 +114,7 @@
                 <tr id="contReturnException${setting.getId()}">
                   <input id="idReturnException" value='${setting.getId()}' type="hidden" />
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="road${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
+                    <div class="col-3"><input class="effect-1" type="text" id="roadSetting${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
@@ -181,7 +181,7 @@
                 <tr id="contBeginningException${setting.getId()}">
                   <input id="idBeginningException" value='${setting.getId()}' type="hidden" />
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="road${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
+                    <div class="col-3"><input class="effect-1" type="text" id="roadSetting${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
