@@ -28,8 +28,9 @@
       request = "/addReturnExceptions";
     }
     var context = document.getElementById(id);
-    var road = context.querySelector("#roadSetting").value.replace(/[^\d]/g, "");
-    var stations = context.querySelector("#stationList").value;
+    var idsRoad = window.sessionStorage.getItem("roadIds");
+    var namesRoad = context.querySelector("#roadSetting").value;
+    var idsStationString = context.querySelector("#stationList").value;
     var volumeGroup = context.querySelector("#volume").value;
     var stationFrom = context
       .querySelector("#stationFrom")
@@ -47,8 +48,9 @@
     var rate = context.querySelector("#rate").value;
     var tariff = context.querySelector("#tariff").value;
     var json = JSON.stringify({
-      road: { idRoad: road },
-      idStationString: stations,
+      idsRoad: idsRoad,
+      namesRoad: namesRoad,
+      idsStationString: idsStationString,
       volumeGroupsString: volumeGroup,
       stationFrom: { idStation: stationFrom },
       stationTo: { idStation: stationTo },

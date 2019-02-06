@@ -49,8 +49,9 @@ public class RestControllerSettingsInsert {
     public void addReturnExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
         insertSettingReturnExceptionsDAO.insertObject(
                 PrepareMapParams.prepareMapWithParams(
-                        settingReturnExceptions.getRoad().getIdRoad(),
-                        settingReturnExceptions.getIdStationString(),
+                        settingReturnExceptions.getIdsRoad(),
+                        settingReturnExceptions.getNamesRoad(),
+                        settingReturnExceptions.getIdsStationString(),
                         settingReturnExceptions.getVolumeGroupsString(),
                         settingReturnExceptions.getStationFrom().getIdStation(),
                         settingReturnExceptions.getStationTo().getIdStation(),
@@ -69,8 +70,9 @@ public class RestControllerSettingsInsert {
     public void addBeginningExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
         insertSettingBeginningExceptionsDAO.insertObject(
                 PrepareMapParams.prepareMapWithParams(
-                        settingReturnExceptions.getRoad().getIdRoad(),
-                        settingReturnExceptions.getIdStationString(),
+                        settingReturnExceptions.getIdsRoad(),
+                        settingReturnExceptions.getNamesRoad(),
+                        settingReturnExceptions.getIdsStationString(),
                         settingReturnExceptions.getVolumeGroupsString(),
                         settingReturnExceptions.getStationFrom().getIdStation(),
                         settingReturnExceptions.getStationTo().getIdStation(),

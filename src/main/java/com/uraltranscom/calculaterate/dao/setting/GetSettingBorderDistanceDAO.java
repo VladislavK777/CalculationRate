@@ -62,6 +62,11 @@ public class GetSettingBorderDistanceDAO extends AbstractObjectFactory<List<Sett
             logger.debug("Get info for: {}", params + ": " + listSetting);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                logger.error("Rollback transaction!");
+            }
         } finally {
             try {
                 if (connection != null) {

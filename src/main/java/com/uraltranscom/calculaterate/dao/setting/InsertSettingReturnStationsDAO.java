@@ -44,8 +44,9 @@ public class InsertSettingReturnStationsDAO {
             logger.error("Error query: {}", sqlEx.getMessage());
             try {
                 connection.rollback();
+                logger.info("Rollback transaction!");
             } catch (SQLException e) {
-                logger.error("Rollback transaction!");
+                e.printStackTrace();
             }
         } finally {
             try {

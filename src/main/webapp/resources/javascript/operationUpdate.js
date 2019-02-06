@@ -5,7 +5,7 @@ function updateFieldReturnStations(id) {
   var id = context.querySelector("#idReturnStation").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
   var namesRoad = context.querySelector("#roadSetting" + id).value;
-  var stations = context.querySelector("#idStationStringReturnStations").value;
+  var idsStationString = context.querySelector("#idStationStringReturnStations").value;
   var volumeGroup = context.querySelector("#volumeGroupsStringReturnStations")
     .value;
   var returnStation = context
@@ -15,7 +15,7 @@ function updateFieldReturnStations(id) {
     id: id,
     idsRoad: idsRoad,
     namesRoad: namesRoad,
-    idStationString: stations,
+    idsStationString: idsStationString,
     volumeGroupsString: volumeGroup,
     idStationReturn: returnStation
   });
@@ -32,6 +32,18 @@ function updateFieldYield(id) {
     yield: yield
   });
   var request = "/updateYield";
+  update(id, request, json);
+}
+
+function updateFieldOther(id) {
+  var context = document.getElementById(id);
+  var id = context.querySelector("#idOther").value;
+  var value = context.querySelector("#valueOther").value;
+  var json = JSON.stringify({
+    id: id,
+    value: value
+  });
+  var request = "/updateOther";
   update(id, request, json);
 }
 
@@ -66,8 +78,9 @@ function updateFieldBorderDistance(id) {
 function updateFieldBeginningException(id) {
   var context = document.getElementById(id);
   var id = context.querySelector("#idBeginningException").value;
-  var road = context.querySelector("#road" + id).value.replace(/[^\d]/g, "");
-  var stations = context.querySelector("#idStationStringBeginningException")
+  var idsRoad = window.sessionStorage.getItem("roadIds");
+  var namesRoad = context.querySelector("#roadSetting" + id).value;
+  var idsStationString = context.querySelector("#idStationStringBeginningException")
     .value;
   var volumeGroup = context.querySelector(
     "#volumeGroupsStringBeginningException"
@@ -91,8 +104,9 @@ function updateFieldBeginningException(id) {
   var tariff = context.querySelector("#tariffBeginningException").value;
   var json = JSON.stringify({
     id: id,
-    road: { idRoad: road },
-    idStationString: stations,
+    idsRoad: idsRoad,
+    namesRoad: namesRoad,
+    idsStationString: idsStationString,
     volumeGroupsString: volumeGroup,
     stationFrom: { idStation: stationFrom },
     stationTo: { idStation: stationTo },
@@ -111,8 +125,9 @@ function updateFieldBeginningException(id) {
 function updateFieldReturnException(id) {
   var context = document.getElementById(id);
   var id = context.querySelector("#idReturnException").value;
-  var road = context.querySelector("#road" + id).value.replace(/[^\d]/g, "");
-  var stations = context.querySelector("#idStationStringReturnException").value;
+  var idsRoad = window.sessionStorage.getItem("roadIds");
+  var namesRoad = context.querySelector("#roadSetting" + id).value;
+  var idsStationString = context.querySelector("#idStationStringReturnException").value;
   var volumeGroup = context.querySelector("#volumeGroupsStringReturnException")
     .value;
   var stationFrom = context
@@ -133,8 +148,9 @@ function updateFieldReturnException(id) {
   var tariff = context.querySelector("#tariffReturnException").value;
   var json = JSON.stringify({
     id: id,
-    road: { idRoad: road },
-    idStationString: stations,
+    idsRoad: idsRoad,
+    namesRoad: namesRoad,
+    idsStationString: idsStationString,
     volumeGroupsString: volumeGroup,
     stationFrom: { idStation: stationFrom },
     stationTo: { idStation: stationTo },

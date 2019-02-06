@@ -16,10 +16,8 @@ import lombok.*;
  */
 
 @Data
-@EqualsAndHashCode
-@NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor
 public class Cargo {
     private String idCargo; //Код груза
     private String nameCargo; //Груз

@@ -1,5 +1,6 @@
 package com.uraltranscom.calculaterate.dao;
 
+import com.uraltranscom.calculaterate.model.cache.CacheStationsSearch;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -22,15 +23,14 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class SearchStationDAO extends AbstractObjectFactory<List<Object>> {
+public class SearchStationDAO {
     private static Logger logger = LoggerFactory.getLogger(SearchStationDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_distance.get_station_search(?) } ";
+    private static final String SQL_CALL_NAME = "select * from test_distance.get_station_search()";
 
     @Autowired
     private ConnectionDB connectionDB;
 
-    @Override
-    public List<Object> getObject(Map<String, Object> params) {
+    public List<Object> getObject() {
         List<Object> listResult = new ArrayList<>();
 
         Connection connection = null;
@@ -39,17 +39,20 @@ public class SearchStationDAO extends AbstractObjectFactory<List<Object>> {
         try {
             connection = connectionDB.getDataSource().getConnection();
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
-            for (int i = 1; i < params.size() + 1; i++) {
-                callableStatement.setObject(i, params.get("param" + i));
-            }
             ResultSet resultSet = callableStatement.executeQuery();
             while (resultSet.next()) {
                 listResult.add(resultSet.getObject(1));
             }
-            logger.debug("Get info for: {}", params + ": " + listResult);
+            logger.debug("Get info for: {}", listResult.size());
 
         } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
+            try {
+                connection.rollback();
+                logger.info("Rollback transaction!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
                 if (connection != null) {

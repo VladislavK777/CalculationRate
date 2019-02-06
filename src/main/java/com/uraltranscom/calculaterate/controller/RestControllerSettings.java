@@ -36,6 +36,7 @@ public class RestControllerSettings {
     @Autowired
     private GetSettingYieldDAO getSettingYieldDAO;
     @Autowired
+    private GetSettingOtherDAO getSettingOtherDAO;
 
     @GetMapping
     public ModelAndView setting() {
@@ -58,6 +59,10 @@ public class RestControllerSettings {
 
         List<SettingYield> listYield = getSettingYieldDAO.getObject(PrepareMapParams.prepareMapWithParams(""));
         mav.addObject("listYield", listYield);
+
+        List<SettingOther> listOther = getSettingOtherDAO.getObject(PrepareMapParams.prepareMapWithParams(""));
+        mav.addObject("listOther", listOther);
+
         return mav;
     }
 }

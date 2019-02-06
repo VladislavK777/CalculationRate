@@ -21,7 +21,7 @@
 
 </head>
 
-<body onload="cop()">
+<body onload="initSetting()">
   <div class="one">
     <h1>РАСЧЕТ СТАВОК|НАСТРОЙКИ</h1>
     <div class="train">
@@ -52,6 +52,9 @@
 
       <input id="tab6" type="radio" name="tabs" onclick="reloadPage(this.id)">
       <label for="tab6" title="Доходность">Доходность</label>
+
+      <input id="tab7" type="radio" name="tabs" onclick="reloadPage(this.id)">
+      <label for="tab7" title="Другое">Другое</label>
 
       <section id="contentReturnStations">
         <input type="button" id="btAddReturnStations" onclick="createField(this.id)" value="Добавить условие" class="bot1" />
@@ -118,7 +121,7 @@
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="idStationStringReturnException" value='${setting.getIdStationString()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" id="idStationStringReturnException" value='${setting.getIdsStationString()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
                     <div class="col-3"><input class="effect-1" type="text" id="volumeGroupsStringReturnException" value='${setting.getVolumeGroupsString()}' /><span class="focus-border"></span></div>
@@ -185,7 +188,7 @@
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="idStationStringBeginningException" value='${setting.getIdStationString()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" id="idStationStringBeginningException" value='${setting.getIdsStationString()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
                     <div class="col-3"><input class="effect-1" type="text" id="volumeGroupsStringBeginningException" value='${setting.getVolumeGroupsString()}' /><span class="focus-border"></span></div>
@@ -306,6 +309,35 @@
           </tbody>
         </table>
       </section>
+      <section id="contentOther">
+          <table class="table_report">
+            <tbody>
+              <tr>
+                <th>Параметр1</th>
+                <th>Параметр2</th>
+                <th>Значение</th>
+              </tr>
+              <c:forEach items="${listOther}" var="setting">
+                <tr id="contOther${setting.getId()}">
+                  <input id="idOther" value='${setting.getId()}' type="hidden" />
+                  <td>
+                    <div class="col-3"><input class="effect-1" type="text" id="nameOther" value='${setting.getName()}' readonly />
+                      <span class="focus-border"></span></div>
+                  </td>
+                  <td>
+                    <div class="col-3"><input class="effect-1" type="text" id="volumeOther" value='${setting.getVolume()}' readonly />
+                      <span class="focus-border"></span></div>
+                  </td>
+                  <td>
+                      <div class="col-3"><input class="effect-1" type="text" id="valueOther" value='${setting.getValue()}' />
+                        <span class="focus-border"></span></div>
+                    </td>
+                  <td><input type="button" onclick="updateFieldOther(this.parentNode.parentNode.id)" value="Сохранить" class="bot1" /></td>
+                </tr>
+              </c:forEach>
+            </tbody>
+          </table>
+        </section>
     </div>
   </div>
   <br><br>

@@ -1,7 +1,7 @@
 function search(name) {
-  var request;
+  var suggestionText;
   if (name.indexOf("station") != -1) {
-    request = "search/station?station=";
+    suggestionText = window.sessionStorage.getItem("stationSearch");
   } else if (name.indexOf("road") != -1) {
     request = "search/road?road=";
   } else {
@@ -10,12 +10,12 @@ function search(name) {
 
   var setting = false;
   if (name.indexOf("Setting") != -1) {
-	  setting = true;
+    setting = true;
   }
 
   var suggestion = true;
   var field = document.getElementById(name);
-  var placeholder = field.placeholder;
+  var placeholder;
   var roadIds = "";
   var classInactive = "sf_inactive";
   var classActive = "sf_active";
@@ -39,9 +39,9 @@ function search(name) {
           ? this.c + " " + classText
           : this.c + " " + classInactive;
       this.value = this.value != "" ? this.value : "";
-	  if (setting) {
-		field.value = placeholder.trim();
-	  }
+      if (setting) {
+        field.value = placeholder.trim();
+      }
       clearList();
     };
     if (suggestion) {
@@ -86,43 +86,59 @@ function search(name) {
             navList("down");
             break;
           default:
-            setTimeout(createList(field.value), 500);
+            startList();
             break;
         }
       };
 
-      function createList(value) {
-        resetList();
-        $.ajax({
-          url: request + value,
-          cache: false,
-          success: function(response) {
-            if (response.length > 0) {
-              for (i = 0; i < response.length; i++) {
-                li = document.createElement("li");
-                a = document.createElement("a");
-                a.href = "javascript:void(0);";
-                a.i = i + 1;
-                a.innerHTML = response[i];
-                li.i = i + 1;
-                li.onmouseover = function() {
-                  navListItem(this.i);
-                };
-                a.onmousedown = function() {
-                  selectedIndex = this.i;
-                  selectList(this.i);
-                  return false;
-                };
-                li.appendChild(a);
-                list.setAttribute("tabindex", "-1");
-                list.appendChild(li);
-              }
-              list.style.display = "block";
-            } else {
-              clearList();
-            }
+      function startList() {
+        var arr = getListItems(field.value);
+        if (field.value.length > 0) {
+          createList(arr);
+        } else {
+          clearList();
+        }
+      }
+
+      function getListItems(value) {
+        var arr = new Array();
+        var src = suggestionText;
+        var arrSrc = src.split(",");
+        arrSrc.forEach(function(item) {
+          if (item.toLowerCase().indexOf(value.toLowerCase()) != -1) {
+            arr.push(item);
           }
         });
+        return arr;
+      }
+
+      function createList(response) {
+        resetList();
+        if (response.length > 0) {
+          var limit = response.length > 20 ? 21 : response.length;
+          for (i = 0; i < limit; i++) {
+            li = document.createElement("li");
+            a = document.createElement("a");
+            a.href = "javascript:void(0);";
+            a.i = i + 1;
+            a.innerHTML = response[i];
+            li.i = i + 1;
+            li.onmouseover = function() {
+              navListItem(this.i);
+            };
+            a.onmousedown = function() {
+              selectedIndex = this.i;
+              selectList(this.i);
+              return false;
+            };
+            li.appendChild(a);
+            list.setAttribute("tabindex", "-1");
+            list.appendChild(li);
+          }
+          list.style.display = "block";
+        } else {
+          clearList();
+        }
       }
 
       function resetList() {
@@ -153,14 +169,15 @@ function search(name) {
         li = list.getElementsByTagName("li");
         a = li[selectedIndex - 1].getElementsByTagName("a")[0];
         if (setting) {
-			placeholder = placeholder + a.innerHTML.match(/\D*\s/)[0].trim() + " ";
-			roadIds = roadIds + a.innerHTML.replace(/[^\d]/g, "") + " ";
-			field.value = "";
-			field.placeholder = placeholder;
-			window.sessionStorage.setItem("roadIds", roadIds.trim());
-		} else {
-			field.value = a.innerHTML;
-		}
+          placeholder =
+            placeholder + a.innerHTML.match(/\D*\s/)[0].trim() + " ";
+          roadIds = roadIds + a.innerHTML.replace(/[^\d]/g, "") + " ";
+          field.value = "";
+          field.placeholder = placeholder;
+          window.sessionStorage.setItem("roadIds", roadIds.trim());
+        } else {
+          field.value = a.innerHTML;
+        }
         clearList();
       }
     }

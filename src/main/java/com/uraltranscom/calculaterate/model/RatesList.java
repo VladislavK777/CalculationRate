@@ -2,8 +2,6 @@ package com.uraltranscom.calculaterate.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * @author vladislav.klochkov
@@ -13,8 +11,6 @@ import lombok.ToString;
 
 @Data
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
 public class RatesList {
     private int volume;
     private Station stationFrom;

@@ -11,8 +11,6 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class SettingYield {
     private int id;
     private int volumeGroup;

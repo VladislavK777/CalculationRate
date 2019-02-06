@@ -3,11 +3,15 @@ package com.uraltranscom.calculaterate.controller;
 import com.uraltranscom.calculaterate.dao.SearchCargoDAO;
 import com.uraltranscom.calculaterate.dao.SearchRoadDAO;
 import com.uraltranscom.calculaterate.dao.SearchStationDAO;
+import com.uraltranscom.calculaterate.model.cache.CacheStationsSearch;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -28,10 +32,12 @@ public class RestControllerSearch {
     private SearchCargoDAO searchCargoDAO;
     @Autowired
     private SearchRoadDAO searchRoadDAO;
+    @Autowired
+    private CacheStationsSearch cacheStationsSearch;
 
-    @RequestMapping(value = "/station", method = RequestMethod.GET, produces = "application/json")
-    public List<Object> stationSearch(@RequestParam(value = "station") String station) {
-        return searchStationDAO.getObject(PrepareMapParams.prepareMapWithParams(station));
+    @RequestMapping(value = "/station")
+    public List<Object> stationSearch() {
+        return cacheStationsSearch.getCache();
     }
 
     @RequestMapping(value = "/cargo", method = RequestMethod.GET, produces = "application/json")

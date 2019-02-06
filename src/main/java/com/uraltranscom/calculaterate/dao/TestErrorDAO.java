@@ -57,6 +57,11 @@ public class TestErrorDAO extends AbstractObjectFactory<Object> {
 
         } catch (SQLException sqlEx) {
             sqlEx.getMessage();
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
                 if (connection != null) {

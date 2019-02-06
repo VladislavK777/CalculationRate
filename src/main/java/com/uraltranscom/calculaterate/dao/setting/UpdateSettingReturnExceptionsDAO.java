@@ -22,7 +22,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class UpdateSettingReturnExceptionsDAO {
     private static Logger logger = LoggerFactory.getLogger(UpdateSettingReturnExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_return_exception(?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
+    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_return_exception(?,?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
@@ -42,6 +42,12 @@ public class UpdateSettingReturnExceptionsDAO {
             connection.commit();
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
+            try {
+                connection.rollback();
+                logger.info("Rollback transaction!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
                 if (connection != null) {

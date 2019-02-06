@@ -31,6 +31,8 @@ public class RestControllerSettingsUpdate {
     private UpdateSettingReturnExceptionsDAO updateSettingReturnExceptionsDAO;
     @Autowired
     private UpdateSettingBeginningExceptionsDAO updateSettingBeginningExceptionsDAO;
+    @Autowired
+    private UpdateSettingOtherDAO updateSettingOtherDAO;
 
     @PutMapping("/updateYield")
     public void updateYield(@RequestBody SettingYield settingYield) {
@@ -38,6 +40,16 @@ public class RestControllerSettingsUpdate {
                 PrepareMapParams.prepareMapWithParams(
                         settingYield.getId(),
                         settingYield.getYield()
+                )
+        );
+    }
+
+    @PutMapping("/updateOther")
+    public void updateOther(@RequestBody SettingOther settingOther) {
+        updateSettingOtherDAO.updateObject(
+                PrepareMapParams.prepareMapWithParams(
+                        settingOther.getId(),
+                        settingOther.getValue()
                 )
         );
     }
@@ -83,8 +95,9 @@ public class RestControllerSettingsUpdate {
         updateSettingReturnExceptionsDAO.updateObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getId(),
-                        settingReturnExceptions.getRoad().getIdRoad(),
-                        settingReturnExceptions.getIdStationString(),
+                        settingReturnExceptions.getIdsRoad(),
+                        settingReturnExceptions.getNamesRoad(),
+                        settingReturnExceptions.getIdsStationString(),
                         settingReturnExceptions.getVolumeGroupsString(),
                         settingReturnExceptions.getStationFrom().getIdStation(),
                         settingReturnExceptions.getStationTo().getIdStation(),
@@ -104,8 +117,9 @@ public class RestControllerSettingsUpdate {
         updateSettingBeginningExceptionsDAO.updateObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getId(),
-                        settingReturnExceptions.getRoad().getIdRoad(),
-                        settingReturnExceptions.getIdStationString(),
+                        settingReturnExceptions.getIdsRoad(),
+                        settingReturnExceptions.getNamesRoad(),
+                        settingReturnExceptions.getIdsStationString(),
                         settingReturnExceptions.getVolumeGroupsString(),
                         settingReturnExceptions.getStationFrom().getIdStation(),
                         settingReturnExceptions.getStationTo().getIdStation(),

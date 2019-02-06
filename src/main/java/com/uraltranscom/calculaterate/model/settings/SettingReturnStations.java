@@ -11,8 +11,6 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class SettingReturnStations {
     private int id;
     private String idsRoad;

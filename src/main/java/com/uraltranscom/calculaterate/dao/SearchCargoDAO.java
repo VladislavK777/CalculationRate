@@ -49,6 +49,12 @@ public class SearchCargoDAO extends AbstractObjectFactory<List<Object>> {
             logger.debug("Get info for: {}", params + ": " + listResult);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
+            try {
+                connection.rollback();
+                logger.info("Rollback transaction!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
                 if (connection != null) {

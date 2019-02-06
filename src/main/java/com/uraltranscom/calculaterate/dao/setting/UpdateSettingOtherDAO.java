@@ -1,7 +1,7 @@
 package com.uraltranscom.calculaterate.dao.setting;
 
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +13,16 @@ import java.sql.SQLException;
 import java.util.Map;
 
 /**
- * @author vladislav.klochkov
+ * @author Vladislav.Klochkov
  * @project CalculationRate_1.0
- * @date 09.01.2019
+ * @date 06.02.2019
  */
 
 @Component
-@NoArgsConstructor
-public class UpdateSettingLoadUnloadDAO {
-    private static Logger logger = LoggerFactory.getLogger(UpdateSettingLoadUnloadDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_loading_unloading(?,?) } ";
+@AllArgsConstructor
+public class UpdateSettingOtherDAO {
+    private static Logger logger = LoggerFactory.getLogger(UpdateSettingOtherDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_other(?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;

@@ -1,4 +1,10 @@
-function cop() {
+function init() {
+  getCache();
+  window.sessionStorage.removeItem("tabId");
+  document.getElementById("copy").innerText = new Date().getFullYear();
+}
+
+function initSetting() {
   element = document.getElementById(window.sessionStorage.getItem("tabId"));
   var url = document.referrer;
   if (element != null) {
@@ -7,6 +13,16 @@ function cop() {
     window.sessionStorage.setItem("tabId", "tab1");
   }
   document.getElementById("copy").innerText = new Date().getFullYear();
+}
+
+function getCache() {
+  $.ajax({
+    url: "search/station",
+    cache: false,
+    success: function(response) {
+      window.sessionStorage.setItem("stationSearch", response);
+    }
+  });
 }
 
 function check(valueYield, id) {
@@ -75,7 +91,7 @@ function createField(id) {
       createInput("stationList", "Список станций", false)
     );
     div_subdiv_head2.appendChild(
-      createInput("volume", "Группа объемов", false)
+      createInput("volume", "Группа объемов", false, "120,138,150")
     );
     div_subdiv_head2.appendChild(
       createInput("station", "Станция возврата", true)
@@ -90,7 +106,9 @@ function createField(id) {
     var td12 = document.createElement("td");
     td12.appendChild(createInput("stationList", "Список станций", false));
     var td13 = document.createElement("td");
-    td13.appendChild(createInput("volume", "Группа объемов", false, "120, 138, 150"));
+    td13.appendChild(
+      createInput("volume", "Группа объемов", false, "120,138,150")
+    );
     tr1.appendChild(td11);
     tr1.appendChild(td12);
     tr1.appendChild(td13);
@@ -109,7 +127,7 @@ function createField(id) {
 
     var tr3 = document.createElement("tr");
     var td31 = document.createElement("td");
-    td31.appendChild(createInput("cargoClass", "Класс груза", false, "1, 2, 3"));
+    td31.appendChild(createInput("cargoClass", "Класс груза", false, "1,2,3"));
     var td32 = document.createElement("td");
     td32.appendChild(createInput("typeRoute", "Тип рейса", false));
     var td33 = document.createElement("td");

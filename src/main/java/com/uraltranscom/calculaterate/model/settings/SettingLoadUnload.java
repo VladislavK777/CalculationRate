@@ -11,8 +11,6 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class SettingLoadUnload {
     private int id;
     private String name;

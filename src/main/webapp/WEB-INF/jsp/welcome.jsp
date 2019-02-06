@@ -16,7 +16,7 @@
 
 </head>
 
-<body onload="cop()">
+<body onload="init()">
 
   <div class="one">
     <h1>РАСЧЕТ СТАВОК</h1>
