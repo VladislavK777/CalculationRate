@@ -51,7 +51,7 @@ public class GetSettingOtherDAO extends AbstractObjectFactory<List<SettingOther>
                     int id = resultSe2.getInt(1);
                     String name =  resultSe2.getString(2);
                     String volume = resultSe2.getString(3);
-                    double value = Math.round(resultSe2.getInt(4) * 100) / 100.00d;
+                    double value = Math.round(resultSe2.getDouble(4) * 100) / 100.00d;
                     SettingOther settingOther = new SettingOther(id, name, volume, value);
                     listSetting.add(settingOther);
                 }
