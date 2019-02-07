@@ -1,6 +1,6 @@
   // Набор скриптов для операции Insert
 
-  function addReturnStations(id) {
+  function addReturnStation(id) {
       var context = document.getElementById(id);
       var idsRoad = window.sessionStorage.getItem("roadIds");
       var namesRoad = context.querySelector("#roadSetting").value;
@@ -16,16 +16,16 @@
         volumeGroupsString: volumeGroups,
         idStationReturn: stationReturn
       });
-      var request = "/addReturnStations";
+      var request = "/addReturnStation";
       insert(request, json);
     }
 
-  function addExceptions(id) {
+  function addException(id) {
     var request;
     if (id.indexOf("Beginning") > -1) {
-      request = "/addBeginningExceptions";
+      request = "/addBeginningException";
     } else {
-      request = "/addReturnExceptions";
+      request = "/addReturnException";
     }
     var context = document.getElementById(id);
     var idsRoad = window.sessionStorage.getItem("roadIds");

@@ -1,17 +1,12 @@
 function init() {
   getCache();
-  window.sessionStorage.removeItem("tabId");
+  window.sessionStorage.setItem("tabId", "tab1");
   document.getElementById("copy").innerText = new Date().getFullYear();
 }
 
 function initSetting() {
   element = document.getElementById(window.sessionStorage.getItem("tabId"));
-  var url = document.referrer;
-  if (element != null) {
-    element.setAttribute("checked", true);
-  } else if (url.indexOf("settings") != -1) {
-    window.sessionStorage.setItem("tabId", "tab1");
-  }
+  element.setAttribute("checked", true);
   document.getElementById("copy").innerText = new Date().getFullYear();
 }
 
@@ -23,17 +18,20 @@ function getCache() {
       window.sessionStorage.setItem("stationSearch", response);
     }
   });
-}
-
-function check(valueYield, id) {
-  var yield = document.getElementById(id).querySelector("#yieldYield");
-  var bt = document.getElementById(id).querySelector("#btEditYield");
-  if (valueYield != yield.value) {
-    bt.value = "Сохранить";
-    bt.setAttribute("onclick", "update('" + id + "','" + yield.value + "');");
-  } else {
-    bt.value = "Отмена";
-  }
+  $.ajax({
+    url: "search/road",
+    cache: false,
+    success: function(response) {
+      window.sessionStorage.setItem("roadSearch", response);
+    }
+  });
+  $.ajax({
+    url: "search/cargo",
+    cache: false,
+    success: function(response) {
+      window.sessionStorage.setItem("cargoSearch", response);
+    }
+  });
 }
 
 function showPopup() {
@@ -85,7 +83,7 @@ function createField(id) {
   button.className = "bot1";
   button.value = "Сохранить";
 
-  if (id == "btAddReturnStations") {
+  if (id == "btAddReturnStation") {
     div_subdiv_head2.appendChild(createInput("roadSetting", "Дорога", true));
     div_subdiv_head2.appendChild(
       createInput("stationList", "Список станций", false)
@@ -97,7 +95,7 @@ function createField(id) {
       createInput("station", "Станция возврата", true)
     );
     button.addEventListener("click", function() {
-      addReturnStations(context.parentNode.id);
+      addReturnStation(context.parentNode.id);
     });
   } else {
     var tr1 = document.createElement("tr");
@@ -149,7 +147,7 @@ function createField(id) {
     tr4.appendChild(td43);
     table.appendChild(tr4);
     button.addEventListener("click", function() {
-      addExceptions(context.parentNode.id);
+      addException(context.parentNode.id);
     });
   }
   div_subdiv_head2.appendChild(table);

@@ -1,5 +1,7 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.get;
 
+import com.uraltranscom.calculaterate.dao.AbstractObjectFactory;
+import com.uraltranscom.calculaterate.model.settings.SettingYield;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -9,7 +11,10 @@ import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,14 +25,17 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class UpdateSettingYieldDAO {
-    private static Logger logger = LoggerFactory.getLogger(UpdateSettingYieldDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_yield(?,?) } ";
+public class GetSettingYieldDAO extends AbstractObjectFactory<List<SettingYield>> {
+    private static Logger logger = LoggerFactory.getLogger(GetSettingYieldDAO.class);
+    private static final String SQL_CALL_NAME = "select * from test_setting.get_setting_yield()";
 
     @Autowired
     private ConnectionDB connectionDB;
 
-    public void updateObject(Map<String, Object> params) {
+    @Override
+    public List<SettingYield> getObject(Map<String, Object> params) {
+        List<SettingYield> listSetting = new ArrayList<>();
+
         Connection connection = null;
         CallableStatement callableStatement = null;
 
@@ -35,11 +43,18 @@ public class UpdateSettingYieldDAO {
             connection = connectionDB.getDataSource().getConnection();
             connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
-            for (int i = 1; i < params.size() + 1; i++) {
-                callableStatement.setObject(i, params.get("param" + i));
+            ResultSet resultSet = callableStatement.executeQuery();
+            while (resultSet.next()) {
+                ResultSet resultSe2 = (ResultSet) resultSet.getObject(1);
+                while (resultSe2.next()) {
+                    int id = resultSe2.getInt(1);
+                    int volumeGroup = resultSe2.getInt(2);
+                    double yield = resultSe2.getDouble(3);
+                    SettingYield settingYield = new SettingYield(id, volumeGroup, yield);
+                    listSetting.add(settingYield);
+                }
             }
-            callableStatement.executeQuery();
-            connection.commit();
+            logger.debug("Get info for: {}", params + ": " + listSetting);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
             try {
@@ -57,5 +72,7 @@ public class UpdateSettingYieldDAO {
                 logger.debug("Error close connection!");
             }
         }
+
+        return listSetting;
     }
 }

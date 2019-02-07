@@ -1,6 +1,6 @@
 package com.uraltranscom.calculaterate.controller;
 
-import com.uraltranscom.calculaterate.dao.setting.*;
+import com.uraltranscom.calculaterate.dao.setting.get.*;
 import com.uraltranscom.calculaterate.model.settings.*;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.slf4j.Logger;
@@ -45,11 +45,11 @@ public class RestControllerSettings {
         Map<String, List<SettingReturnStations>> mapReturnStations = getSettingReturnStationsDAO.getObject(PrepareMapParams.prepareMapWithParams(""));
         mav.addObject("mapReturnStations", mapReturnStations);
 
-        Map<String, List<SettingReturnExceptions>> mapReturnException = getSettingReturnExceptionsDAO.getObject(PrepareMapParams.prepareMapWithParams(""));
-        mav.addObject("mapReturnException", mapReturnException);
+        Map<String, List<SettingReturnExceptions>> mapReturnExceptions = getSettingReturnExceptionsDAO.getObject(PrepareMapParams.prepareMapWithParams(""));
+        mav.addObject("mapReturnExceptions", mapReturnExceptions);
 
-        Map<String, List<SettingReturnExceptions>> mapBeginningException = getSettingBeginningExceptionsDAO.getObject(PrepareMapParams.prepareMapWithParams(""));
-        mav.addObject("mapBeginningException", mapBeginningException);
+        Map<String, List<SettingReturnExceptions>> mapBeginningExceptions = getSettingBeginningExceptionsDAO.getObject(PrepareMapParams.prepareMapWithParams(""));
+        mav.addObject("mapBeginningExceptions", mapBeginningExceptions);
 
         List<SettingBorderDistance> listBorderDistance = getSettingBorderDistanceDAO.getObject(PrepareMapParams.prepareMapWithParams(""));
         mav.addObject("listBorderDistance", listBorderDistance);

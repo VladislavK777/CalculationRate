@@ -1,6 +1,6 @@
 package com.uraltranscom.calculaterate.controller;
 
-import com.uraltranscom.calculaterate.dao.setting.*;
+import com.uraltranscom.calculaterate.dao.setting.update.*;
 import com.uraltranscom.calculaterate.model.settings.*;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.slf4j.Logger;
@@ -76,8 +76,8 @@ public class RestControllerSettingsUpdate {
         );
     }
 
-    @PutMapping("/updateReturnStations")
-    public void updateReturnStations(@RequestBody SettingReturnStations settingReturnStations) {
+    @PutMapping("/updateReturnStation")
+    public void updateReturnStation(@RequestBody SettingReturnStations settingReturnStations) {
         updateSettingReturnStationsDAO.updateObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnStations.getId(),
@@ -90,8 +90,8 @@ public class RestControllerSettingsUpdate {
         );
     }
 
-    @PutMapping("/updateReturnExceptions")
-    public void updateReturnExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
+    @PutMapping("/updateReturnException")
+    public void updateReturnException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
         updateSettingReturnExceptionsDAO.updateObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getId(),
@@ -112,8 +112,8 @@ public class RestControllerSettingsUpdate {
         );
     }
 
-    @PutMapping("/updateBeginningExceptions")
-    public void updateBeginningExceptions(@RequestBody SettingReturnExceptions settingReturnExceptions) {
+    @PutMapping("/updateBeginningException")
+    public void updateBeginningException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
         updateSettingBeginningExceptionsDAO.updateObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnExceptions.getId(),

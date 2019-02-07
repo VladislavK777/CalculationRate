@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.update;
 
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.AllArgsConstructor;

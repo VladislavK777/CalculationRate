@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.update;
 
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
@@ -20,9 +20,9 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class UpdateSettingReturnStationsDAO {
-    private static Logger logger = LoggerFactory.getLogger(UpdateSettingReturnStationsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_return_stations(?,?,?,?,?,?) } ";
+public class UpdateSettingReturnExceptionsDAO {
+    private static Logger logger = LoggerFactory.getLogger(UpdateSettingReturnExceptionsDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_return_exception(?,?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;

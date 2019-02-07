@@ -1,8 +1,7 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.get;
 
 import com.uraltranscom.calculaterate.dao.AbstractObjectFactory;
 import com.uraltranscom.calculaterate.model.Cargo;
-import com.uraltranscom.calculaterate.model.Road;
 import com.uraltranscom.calculaterate.model.Station;
 import com.uraltranscom.calculaterate.model.settings.SettingReturnExceptions;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
@@ -29,9 +28,9 @@ import java.util.TreeMap;
 
 @Component
 @NoArgsConstructor
-public class GetSettingReturnExceptionsDAO extends AbstractObjectFactory<Map<String, List<SettingReturnExceptions>>> {
-    private static Logger logger = LoggerFactory.getLogger(GetSettingReturnExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = "select * from test_setting.get_setting_return_exception()";
+public class GetSettingBeginningExceptionsDAO extends AbstractObjectFactory<Map<String, List<SettingReturnExceptions>>> {
+    private static Logger logger = LoggerFactory.getLogger(GetSettingBeginningExceptionsDAO.class);
+    private static final String SQL_CALL_NAME = "select * from test_setting.get_setting_beginning_exception()";
 
     @Autowired
     private ConnectionDB connectionDB;

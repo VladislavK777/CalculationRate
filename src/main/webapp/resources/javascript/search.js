@@ -3,9 +3,9 @@ function search(name) {
   if (name.indexOf("station") != -1) {
     suggestionText = window.sessionStorage.getItem("stationSearch");
   } else if (name.indexOf("road") != -1) {
-    request = "search/road?road=";
+    suggestionText = window.sessionStorage.getItem("roadSearch");
   } else {
-    request = "search/cargo?cargo=";
+    suggestionText = window.sessionStorage.getItem("cargoSearch");
   }
 
   var setting = false;
@@ -15,7 +15,7 @@ function search(name) {
 
   var suggestion = true;
   var field = document.getElementById(name);
-  var placeholder;
+  var placeholder = "";
   var roadIds = "";
   var classInactive = "sf_inactive";
   var classActive = "sf_active";
@@ -115,7 +115,7 @@ function search(name) {
       function createList(response) {
         resetList();
         if (response.length > 0) {
-          var limit = response.length > 20 ? 21 : response.length;
+          var limit = response.length > 10 ? 11 : response.length;
           for (i = 0; i < limit; i++) {
             li = document.createElement("li");
             a = document.createElement("a");
@@ -169,9 +169,8 @@ function search(name) {
         li = list.getElementsByTagName("li");
         a = li[selectedIndex - 1].getElementsByTagName("a")[0];
         if (setting) {
-          placeholder =
-            placeholder + a.innerHTML.match(/\D*\s/)[0].trim() + " ";
-          roadIds = roadIds + a.innerHTML.replace(/[^\d]/g, "") + " ";
+          placeholder = placeholder + a.innerHTML.match(/\D*\s/)[0].trim() + ",";
+          roadIds = roadIds + a.innerHTML.replace(/[^\d]/g, "") + ",";
           field.value = "";
           field.placeholder = placeholder;
           window.sessionStorage.setItem("roadIds", roadIds.trim());

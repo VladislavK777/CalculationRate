@@ -1,7 +1,6 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.get;
 
 import com.uraltranscom.calculaterate.dao.AbstractObjectFactory;
-import com.uraltranscom.calculaterate.model.Road;
 import com.uraltranscom.calculaterate.model.settings.SettingReturnStations;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;

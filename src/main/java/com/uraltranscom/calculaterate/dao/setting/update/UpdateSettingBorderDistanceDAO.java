@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.update;
 
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
@@ -20,9 +20,9 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class UpdateSettingBeginningExceptionsDAO {
-    private static Logger logger = LoggerFactory.getLogger(UpdateSettingBeginningExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_beginning_exception(?,?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
+public class UpdateSettingBorderDistanceDAO {
+    private static Logger logger = LoggerFactory.getLogger(UpdateSettingBorderDistanceDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_border_distance(?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;

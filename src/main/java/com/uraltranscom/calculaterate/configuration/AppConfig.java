@@ -1,7 +1,10 @@
 package com.uraltranscom.calculaterate.configuration;
 
-import com.uraltranscom.calculaterate.model.cache.CacheStationsSearch;
-import org.springframework.context.annotation.*;
+import com.uraltranscom.calculaterate.model.cache.CacheSearch;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -44,8 +47,18 @@ public class AppConfig implements WebMvcConfigurer {
         return commonsMultipartResolver;
     }
 
-    @Bean(initMethod = "init")
-    public CacheStationsSearch cacheStationsSearch() {
-        return new CacheStationsSearch();
+    @Bean(initMethod = "init", name = "cacheStationsSearch")
+    public CacheSearch cacheStationsSearch() {
+        return new CacheSearch("station");
+    }
+
+    @Bean(initMethod = "init", name = "cacheRoadSearch")
+    public CacheSearch cacheRoadSearch() {
+        return new CacheSearch("road");
+    }
+
+    @Bean(initMethod = "init", name = "cacheCargoSearch")
+    public CacheSearch cacheCargoSearch() {
+        return new CacheSearch("cargo");
     }
 }

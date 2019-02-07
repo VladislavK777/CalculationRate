@@ -16,6 +16,7 @@
   <script src="resources/javascript/operationUpdate.js"></script>
   <script src="resources/javascript/operationDelete.js"></script>
   <script src="resources/javascript/operationInsert.js"></script>
+  <script src="resources/javascript/operationClone.js"></script>
   <script src="resources/javascript/search.js"></script>
   <script src="resources/javascript/process.js"></script>
 
@@ -57,7 +58,7 @@
       <label for="tab7" title="Другое">Другое</label>
 
       <section id="contentReturnStations">
-        <input type="button" id="btAddReturnStations" onclick="createField(this.id)" value="Добавить условие" class="bot1" />
+        <input type="button" id="btAddReturnStation" onclick="createField(this.id)" value="Добавить условие" class="bot1" />
         <table class="table_report">
           <tbody>
             <tr>
@@ -75,26 +76,27 @@
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="idStationStringReturnStations" value='${setting.getIdsStationString()}' />
+                    <div class="col-3"><input class="effect-1" type="text" id="idStationStringReturnStation" value='${setting.getIdsStationString()}' />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="volumeGroupsStringReturnStations" value='${setting.getVolumeGroupsString()}' />
+                    <div class="col-3"><input class="effect-1" type="text" id="volumeGroupsStringReturnStation" value='${setting.getVolumeGroupsString()}' />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
                     <div class="col-3"><input class="effect-1" type="text" id="station${setting.getId()}" value='${setting.getNameStationReturn()}' onkeyup="search(this.id)" />
                       <span class="focus-border"></span></div>
                   </td>
-                  <td><input type="button" id="btEditReturnStations" onclick="updateFieldReturnStations(this.parentNode.parentNode.id)" value="Сохранить" class="bot1"></td>
-                  <td><input type="button" id="btDeleteReturnStations" onclick="deleteFieldReturnStations(this.parentNode.parentNode.id)" value="Удалить" class="bot1" /></td>
+                  <td><input type="button" id="btCloneReturnStation" onclick="cloneFieldReturnStation(this.parentNode.parentNode.id)" value="Клонировать" class="bot1"></td>
+                  <td><input type="button" id="btEditReturnStation" onclick="updateFieldReturnStation(this.parentNode.parentNode.id)" value="Сохранить" class="bot1"></td>
+                  <td><input type="button" id="btDeleteReturnStation" onclick="deleteFieldReturnStation(this.parentNode.parentNode.id)" value="Удалить" class="bot1" /></td>
                 </tr>
               </c:forEach>
             </c:forEach>
           </tbody>
         </table>
       </section>
-      <section id="contentReturnException">
+      <section id="contentReturnExceptions">
         <input type="button" id="btAddReturnException" onclick="createField(this.id)" value="Добавить условие" class="bot1" />
         <table class="table_report">
           <tbody>
@@ -112,7 +114,7 @@
               <th>Ставка</th>
               <th>Тариф</th>
             </tr>
-            <c:forEach items="${mapReturnException}" var="total">
+            <c:forEach items="${mapReturnExceptions}" var="total">
               <c:forEach items="${total.value}" var="setting">
                 <tr id="contReturnException${setting.getId()}">
                   <input id="idReturnException" value='${setting.getId()}' type="hidden" />
@@ -153,15 +155,16 @@
                   <td>
                     <div class="col-3"><input class="effect-1" type="text" id="tariffReturnException" value='${setting.getTariff()}' /><span class="focus-border"></span></div>
                   </td>
-                  <td><input type="button" onclick="updateFieldReturnException(this.parentNode.parentNode.id)" value="Сохранить" class="bot1" /></td>
-                  <td><input type="button" id="btDeleteReturnException" onclick="deleteFieldReturnExceptions(this.parentNode.parentNode.id)" value="Удалить" / class="bot1"></td>
+                  <td><input type="button" id="btCloneReturnException" onclick="cloneFieldReturnException(this.parentNode.parentNode.id)" value="Клонировать" class="bot1"></td>
+                  <td><input type="button" id="btEditReturnException" onclick="updateFieldReturnException(this.parentNode.parentNode.id)" value="Сохранить" class="bot1" /></td>
+                  <td><input type="button" id="btDeleteReturnException" onclick="deleteFieldReturnException(this.parentNode.parentNode.id)" value="Удалить" / class="bot1"></td>
                 </tr>
               </c:forEach>
             </c:forEach>
           </tbody>
         </table>
       </section>
-      <section id="contentBeginningException">
+      <section id="contentBeginningExceptions">
         <input type="button" id="btAddBeginningException" onclick="createField(this.id)" value="Добавить условие" class="bot1" />
         <table class="table_report">
           <tbody>
@@ -179,7 +182,7 @@
               <th>Ставка</th>
               <th>Тариф</th>
             </tr>
-            <c:forEach items="${mapBeginningException}" var="total">
+            <c:forEach items="${mapBeginningExceptions}" var="total">
               <c:forEach items="${total.value}" var="setting">
                 <tr id="contBeginningException${setting.getId()}">
                   <input id="idBeginningException" value='${setting.getId()}' type="hidden" />
@@ -220,8 +223,9 @@
                   <td>
                     <div class="col-3"><input class="effect-1" type="text" id="tariffBeginningException" value='${setting.getTariff()}' /><span class="focus-border"></span></div>
                   </td>
-                  <td><input type="button" onclick="updateFieldBeginningException(this.parentNode.parentNode.id)" value="Сохранить" class="bot1" /></td>
-                  <td><input type="button" id="btDeleteBeginningException" onclick="deleteFieldBeginningExceptions(this.parentNode.parentNode.id)" value="Удалить" / class="bot1"></td>
+                  <td><input type="button" id="btCloneBeginningException" onclick="cloneFieldBeginningException(this.parentNode.parentNode.id)" value="Клонировать" class="bot1"></td>
+                  <td><input type="button" id="btEditBeginningException" onclick="updateFieldBeginningException(this.parentNode.parentNode.id)" value="Сохранить" class="bot1" /></td>
+                  <td><input type="button" id="btDeleteBeginningException" onclick="deleteFieldBeginningException(this.parentNode.parentNode.id)" value="Удалить" / class="bot1"></td>
                 </tr>
               </c:forEach>
             </c:forEach>

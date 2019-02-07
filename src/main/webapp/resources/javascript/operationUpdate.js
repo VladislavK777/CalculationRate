@@ -1,12 +1,12 @@
 //Набор скриптов для операции Update
 
-function updateFieldReturnStations(id) {
+function updateFieldReturnStation(id) {
   var context = document.getElementById(id);
   var id = context.querySelector("#idReturnStation").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
   var namesRoad = context.querySelector("#roadSetting" + id).value;
-  var idsStationString = context.querySelector("#idStationStringReturnStations").value;
-  var volumeGroup = context.querySelector("#volumeGroupsStringReturnStations")
+  var idsStationString = context.querySelector("#idStationStringReturnStation").value;
+  var volumeGroup = context.querySelector("#volumeGroupsStringReturnStation")
     .value;
   var returnStation = context
     .querySelector("#station" + id)
@@ -19,7 +19,7 @@ function updateFieldReturnStations(id) {
     volumeGroupsString: volumeGroup,
     idStationReturn: returnStation
   });
-  var request = "/updateReturnStations";
+  var request = "/updateReturnStation";
   update(id, request, json);
 }
 
@@ -118,7 +118,7 @@ function updateFieldBeginningException(id) {
     rate: rate,
     tariff: tariff
   });
-  var request = "/updateBeginningExceptions";
+  var request = "/updateBeginningException";
   update(id, request, json);
 }
 
@@ -162,6 +162,6 @@ function updateFieldReturnException(id) {
     rate: rate,
     tariff: tariff
   });
-  var request = "/updateReturnExceptions";
+  var request = "/updateReturnException";
   update(id, request, json);
 }

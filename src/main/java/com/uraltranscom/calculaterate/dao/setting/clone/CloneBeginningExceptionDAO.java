@@ -1,8 +1,7 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.clone;
 
 import com.uraltranscom.calculaterate.dao.AbstractObjectFactory;
 import com.uraltranscom.calculaterate.model.Cargo;
-import com.uraltranscom.calculaterate.model.Road;
 import com.uraltranscom.calculaterate.model.Station;
 import com.uraltranscom.calculaterate.model.settings.SettingReturnExceptions;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
@@ -16,10 +15,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * @author vladislav.klochkov
@@ -29,24 +25,26 @@ import java.util.TreeMap;
 
 @Component
 @NoArgsConstructor
-public class GetSettingBeginningExceptionsDAO extends AbstractObjectFactory<Map<String, List<SettingReturnExceptions>>> {
-    private static Logger logger = LoggerFactory.getLogger(GetSettingBeginningExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = "select * from test_setting.get_setting_beginning_exception()";
+public class CloneBeginningExceptionDAO extends AbstractObjectFactory<SettingReturnExceptions> {
+    private static Logger logger = LoggerFactory.getLogger(CloneBeginningExceptionDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.clone_setting_beginning_exception(?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
 
     @Override
-    public Map<String, List<SettingReturnExceptions>> getObject(Map<String, Object> params) {
-        TreeMap<String, List<SettingReturnExceptions>> mapSetting = new TreeMap<>();
-
+    public SettingReturnExceptions getObject(Map<String, Object> params) {
         Connection connection = null;
-        CallableStatement callableStatement = null;
+        CallableStatement callableStatement;
+        SettingReturnExceptions settingReturnExceptions = null;
 
         try {
             connection = connectionDB.getDataSource().getConnection();
             connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
+            for (int i = 1; i < params.size() + 1; i++) {
+                callableStatement.setObject(i, params.get("param" + i));
+            }
             ResultSet resultSet = callableStatement.executeQuery();
             while (resultSet.next()) {
                 ResultSet resultSe2 = (ResultSet) resultSet.getObject(1);
@@ -69,7 +67,7 @@ public class GetSettingBeginningExceptionsDAO extends AbstractObjectFactory<Map<
                     int countDays = resultSe2.getInt(16);
                     double rate = resultSe2.getDouble(17);
                     double tariff = resultSe2.getDouble(18);
-                    SettingReturnExceptions settingReturnExceptions = new SettingReturnExceptions(
+                    settingReturnExceptions = new SettingReturnExceptions(
                             id,
                             num,
                             idsRoad,
@@ -85,18 +83,9 @@ public class GetSettingBeginningExceptionsDAO extends AbstractObjectFactory<Map<
                             countDays,
                             rate,
                             tariff);
-                    if (mapSetting.containsKey(namesRoad)) {
-                        List<SettingReturnExceptions> list = mapSetting.get(namesRoad);
-                        list.add(settingReturnExceptions);
-                        mapSetting.put(namesRoad, list);
-                    } else {
-                        List<SettingReturnExceptions> list = new ArrayList<>();
-                        list.add(settingReturnExceptions);
-                        mapSetting.put(namesRoad, list);
-                    }
                 }
             }
-            logger.debug("Get info for: {}", params + ": " + mapSetting);
+            logger.info("Get info for clone: {}", params + ": " + settingReturnExceptions);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
             try {
@@ -114,7 +103,6 @@ public class GetSettingBeginningExceptionsDAO extends AbstractObjectFactory<Map<
                 logger.debug("Error close connection!");
             }
         }
-
-        return mapSetting;
+        return settingReturnExceptions;
     }
 }

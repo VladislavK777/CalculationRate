@@ -1,7 +1,7 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.clone;
 
 import com.uraltranscom.calculaterate.dao.AbstractObjectFactory;
-import com.uraltranscom.calculaterate.model.settings.SettingLoadUnload;
+import com.uraltranscom.calculaterate.model.settings.SettingReturnStations;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -13,8 +13,6 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,43 +23,48 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class GetSettingLoadUnloadDAO extends AbstractObjectFactory<List<SettingLoadUnload>> {
-    private static Logger logger = LoggerFactory.getLogger(GetSettingLoadUnloadDAO.class);
-    private static final String SQL_CALL_NAME = "select * from test_setting.get_setting_loading_unloading()";
+public class CloneReturnStationDAO extends AbstractObjectFactory<SettingReturnStations> {
+    private static Logger logger = LoggerFactory.getLogger(CloneReturnStationDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.clone_setting_return_stations(?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
 
     @Override
-    public List<SettingLoadUnload> getObject(Map<String, Object> params) {
-        List<SettingLoadUnload> listSetting = new ArrayList<>();
-
+    public SettingReturnStations getObject(Map<String, Object> params) {
         Connection connection = null;
         CallableStatement callableStatement = null;
+        SettingReturnStations settingReturnStations = null;
 
         try {
             connection = connectionDB.getDataSource().getConnection();
             connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
+            for (int i = 1; i < params.size() + 1; i++) {
+                callableStatement.setObject(i, params.get("param" + i));
+            }
             ResultSet resultSet = callableStatement.executeQuery();
             while (resultSet.next()) {
                 ResultSet resultSe2 = (ResultSet) resultSet.getObject(1);
                 while (resultSe2.next()) {
-                    int num = resultSe2.getInt(1);
-                    int type =  resultSe2.getInt(2);
-                    String name = resultSe2.getString(3);
-                    int value = resultSe2.getInt(4);
-                    SettingLoadUnload settingLoadUnload = new SettingLoadUnload(num, name, value);
-                    listSetting.add(settingLoadUnload);
+                    int id = resultSe2.getInt(1);
+                    String idsRoad = resultSe2.getString(2);
+                    String namesRoad = resultSe2.getString(3);
+                    String idStationString = resultSe2.getString(4);
+                    String volumeGroupsString = resultSe2.getString(5);
+                    String idStationReturn = resultSe2.getString(6);
+                    String nameStationReturn = resultSe2.getString(7);
+                    settingReturnStations = new SettingReturnStations(id, idsRoad, namesRoad, idStationString, volumeGroupsString, idStationReturn, nameStationReturn);
                 }
             }
-            logger.debug("Get info for: {}", params + ": " + listSetting);
+            logger.debug("Get info for clone: {}", params + ": " + settingReturnStations);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
             try {
                 connection.rollback();
+                logger.info("Rollback transaction!");
             } catch (SQLException e) {
-                logger.error("Rollback transaction!");
+                e.printStackTrace();
             }
         } finally {
             try {
@@ -72,7 +75,6 @@ public class GetSettingLoadUnloadDAO extends AbstractObjectFactory<List<SettingL
                 logger.debug("Error close connection!");
             }
         }
-
-        return listSetting;
+        return settingReturnStations;
     }
 }

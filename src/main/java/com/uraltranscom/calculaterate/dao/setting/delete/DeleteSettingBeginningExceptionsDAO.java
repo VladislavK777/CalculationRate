@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.delete;
 
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
@@ -20,14 +20,14 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class InsertSettingReturnExceptionsDAO {
-    private static Logger logger = LoggerFactory.getLogger(InsertSettingReturnExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_return_exception(?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
+public class DeleteSettingBeginningExceptionsDAO {
+    private static Logger logger = LoggerFactory.getLogger(DeleteSettingBeginningExceptionsDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.delete_setting_beginning_exception(?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
 
-    public void insertObject(Map<String, Object> params) {
+    public void deleteObject(Map<String, Object> params) {
         Connection connection = null;
         CallableStatement callableStatement = null;
 
@@ -36,6 +36,7 @@ public class InsertSettingReturnExceptionsDAO {
             connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
             for (int i = 1; i < params.size() + 1; i++) {
+                logger.info("params: {}", params);
                 callableStatement.setObject(i, params.get("param" + i));
             }
             callableStatement.executeQuery();

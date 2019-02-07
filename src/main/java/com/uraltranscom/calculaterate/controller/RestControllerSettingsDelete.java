@@ -1,8 +1,8 @@
 package com.uraltranscom.calculaterate.controller;
 
-import com.uraltranscom.calculaterate.dao.setting.DeleteSettingBeginningExceptionsDAO;
-import com.uraltranscom.calculaterate.dao.setting.DeleteSettingReturnExceptionsDAO;
-import com.uraltranscom.calculaterate.dao.setting.DeleteSettingReturnStationsDAO;
+import com.uraltranscom.calculaterate.dao.setting.delete.DeleteSettingBeginningExceptionsDAO;
+import com.uraltranscom.calculaterate.dao.setting.delete.DeleteSettingReturnExceptionsDAO;
+import com.uraltranscom.calculaterate.dao.setting.delete.DeleteSettingReturnStationsDAO;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,18 +30,18 @@ public class RestControllerSettingsDelete {
     @Autowired
     private DeleteSettingBeginningExceptionsDAO deleteSettingBeginningExceptionsDAO;
 
-    @DeleteMapping("/deleteReturnStations/{id}")
-    public void deleteReturnStations(@PathVariable int id) {
+    @DeleteMapping("/deleteReturnStation/{id}")
+    public void deleteReturnStation(@PathVariable int id) {
         deleteSettingReturnStationsDAO.deleteObject(PrepareMapParams.prepareMapWithParams(id));
     }
 
-    @DeleteMapping("/deleteReturnExceptions/{id}")
-    public void deleteReturnExceptions(@PathVariable int id) {
+    @DeleteMapping("/deleteReturnException/{id}")
+    public void deleteReturnException(@PathVariable int id) {
         deleteSettingReturnExceptionsDAO.deleteObject(PrepareMapParams.prepareMapWithParams(id));
     }
 
-    @DeleteMapping("/deleteBeginningExceptions/{id}")
-    public void deleteBeginningExceptions(@PathVariable int id) {
+    @DeleteMapping("/deleteBeginningException/{id}")
+    public void deleteBeginningException(@PathVariable int id) {
         deleteSettingBeginningExceptionsDAO.deleteObject(PrepareMapParams.prepareMapWithParams(id));
     }
 }

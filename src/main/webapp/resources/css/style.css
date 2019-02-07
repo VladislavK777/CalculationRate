@@ -672,8 +672,8 @@ input[type="file"] {
 /* Активация секций с помощью псевдокласса :checked */
 
 #tab1:checked ~ #contentReturnStations,
-#tab2:checked ~ #contentReturnException,
-#tab3:checked ~ #contentBeginningException,
+#tab2:checked ~ #contentReturnExceptions,
+#tab3:checked ~ #contentBeginningExceptions,
 #tab4:checked ~ #contentBorderDistance,
 #tab5:checked ~ #contentLoadUnload,
 #tab6:checked ~ #contentYield,

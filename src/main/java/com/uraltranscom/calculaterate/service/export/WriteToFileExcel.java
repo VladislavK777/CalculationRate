@@ -205,7 +205,7 @@ public class WriteToFileExcel {
                                 cargo.setCellValue(route.getCargo().getNameCargo());
                                 cargo.setCellStyle(cellStyleField(sheet));
                             } else {
-                                cargo.setCellValue("ПОРОЖНЯК");
+                                cargo.setCellValue("Порожняк");
                                 cargo.setCellStyle(cellStyleField(sheet));
                             }
 

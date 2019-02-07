@@ -1,7 +1,7 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.get;
 
 import com.uraltranscom.calculaterate.dao.AbstractObjectFactory;
-import com.uraltranscom.calculaterate.model.settings.SettingBorderDistance;
+import com.uraltranscom.calculaterate.model.settings.SettingLoadUnload;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -25,16 +25,16 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class GetSettingBorderDistanceDAO extends AbstractObjectFactory<List<SettingBorderDistance>> {
-    private static Logger logger = LoggerFactory.getLogger(GetSettingBorderDistanceDAO.class);
-    private static final String SQL_CALL_NAME = "select * from test_setting.get_setting_border_distance()";
+public class GetSettingLoadUnloadDAO extends AbstractObjectFactory<List<SettingLoadUnload>> {
+    private static Logger logger = LoggerFactory.getLogger(GetSettingLoadUnloadDAO.class);
+    private static final String SQL_CALL_NAME = "select * from test_setting.get_setting_loading_unloading()";
 
     @Autowired
     private ConnectionDB connectionDB;
 
     @Override
-    public List<SettingBorderDistance> getObject(Map<String, Object> params) {
-        List<SettingBorderDistance> listSetting = new ArrayList<>();
+    public List<SettingLoadUnload> getObject(Map<String, Object> params) {
+        List<SettingLoadUnload> listSetting = new ArrayList<>();
 
         Connection connection = null;
         CallableStatement callableStatement = null;
@@ -47,16 +47,12 @@ public class GetSettingBorderDistanceDAO extends AbstractObjectFactory<List<Sett
             while (resultSet.next()) {
                 ResultSet resultSe2 = (ResultSet) resultSet.getObject(1);
                 while (resultSe2.next()) {
-                    int id = resultSe2.getInt(1);
-                    int distanceFrom = resultSe2.getInt(2);
-                    int distanceTo = resultSe2.getInt(3);
-                    int coefficient = resultSe2.getInt(4);
-                    SettingBorderDistance settingBorderDistance = new SettingBorderDistance(
-                            id,
-                            distanceFrom,
-                            distanceTo,
-                            coefficient);
-                    listSetting.add(settingBorderDistance);
+                    int num = resultSe2.getInt(1);
+                    int type =  resultSe2.getInt(2);
+                    String name = resultSe2.getString(3);
+                    int value = resultSe2.getInt(4);
+                    SettingLoadUnload settingLoadUnload = new SettingLoadUnload(num, name, value);
+                    listSetting.add(settingLoadUnload);
                 }
             }
             logger.debug("Get info for: {}", params + ": " + listSetting);

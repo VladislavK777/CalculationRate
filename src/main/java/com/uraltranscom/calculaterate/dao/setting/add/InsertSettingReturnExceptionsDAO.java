@@ -1,6 +1,5 @@
-package com.uraltranscom.calculaterate.dao;
+package com.uraltranscom.calculaterate.dao.setting.add;
 
-import com.uraltranscom.calculaterate.model.cache.CacheStationsSearch;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -10,43 +9,39 @@ import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
- * @author Vladislav Klochkov
- * @create 2019-01-05
+ * @author vladislav.klochkov
+ * @project CalculationRate_1.0
+ * @date 09.01.2019
  */
 
 @Component
 @NoArgsConstructor
-public class SearchStationDAO {
-    private static Logger logger = LoggerFactory.getLogger(SearchStationDAO.class);
-    private static final String SQL_CALL_NAME = "select * from test_distance.get_station_search()";
+public class InsertSettingReturnExceptionsDAO {
+    private static Logger logger = LoggerFactory.getLogger(InsertSettingReturnExceptionsDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_return_exception(?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
 
-    public List<Object> getObject() {
-        List<Object> listResult = new ArrayList<>();
-
+    public void insertObject(Map<String, Object> params) {
         Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
             connection = connectionDB.getDataSource().getConnection();
+            connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
-            ResultSet resultSet = callableStatement.executeQuery();
-            while (resultSet.next()) {
-                listResult.add(resultSet.getObject(1));
+            for (int i = 1; i < params.size() + 1; i++) {
+                callableStatement.setObject(i, params.get("param" + i));
             }
-            logger.debug("Get info for: {}", listResult.size());
-
+            callableStatement.executeQuery();
+            connection.commit();
         } catch (SQLException sqlEx) {
-            sqlEx.printStackTrace();
+            logger.error("Error query: {}", sqlEx.getMessage());
             try {
                 connection.rollback();
                 logger.info("Rollback transaction!");
@@ -62,6 +57,5 @@ public class SearchStationDAO {
                 logger.debug("Error close connection!");
             }
         }
-        return listResult;
     }
 }
