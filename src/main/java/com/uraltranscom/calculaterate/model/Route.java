@@ -1,8 +1,6 @@
 package com.uraltranscom.calculaterate.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  *
@@ -18,8 +16,6 @@ import lombok.ToString;
  */
 
 @Data
-@EqualsAndHashCode
-@ToString
 public class Route {
     private Station stationDeparture; //Станция отправления
     private Station stationDestination; //Станция назвачения

@@ -8,11 +8,8 @@ import lombok.*;
  * @date 26.12.2018
  */
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class Distance {
     private String distanceStart; //Дистанция до границы от станции Отправления
     private String distanceEnd; //Дистанция от границы от станции Назначения

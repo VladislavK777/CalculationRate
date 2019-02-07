@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.delete;
 
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
@@ -20,15 +20,15 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class DeleteSettingBeginningExceptionsDAO {
-    private static Logger logger = LoggerFactory.getLogger(DeleteSettingBeginningExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.delete_setting_beginning_exception(?) } ";
+public class DeleteSettingReturnStationsDAO {
+    private static Logger logger = LoggerFactory.getLogger(DeleteSettingReturnStationsDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.delete_setting_return_stations(?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
 
     public void deleteObject(Map<String, Object> params) {
-        Connection connection;
+        Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
@@ -42,10 +42,16 @@ public class DeleteSettingBeginningExceptionsDAO {
             connection.commit();
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
+            try {
+                connection.rollback();
+                logger.info("Rollback transaction!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.add;
 
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
@@ -20,16 +20,16 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class UpdateSettingBorderDistanceDAO {
-    private static Logger logger = LoggerFactory.getLogger(UpdateSettingBorderDistanceDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_border_distance(?,?,?,?) } ";
+public class InsertSettingReturnStationsDAO {
+    private static Logger logger = LoggerFactory.getLogger(InsertSettingReturnStationsDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_return_station(?,?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
 
-    public void updateObject(Map<String, Object> params) {
-        Connection connection;
-        CallableStatement callableStatement = null;
+    public void insertObject(Map<String, Object> params) {
+        Connection connection = null;
+        CallableStatement callableStatement;
 
         try {
             connection = connectionDB.getDataSource().getConnection();
@@ -42,10 +42,16 @@ public class UpdateSettingBorderDistanceDAO {
             connection.commit();
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
+            try {
+                connection.rollback();
+                logger.info("Rollback transaction!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

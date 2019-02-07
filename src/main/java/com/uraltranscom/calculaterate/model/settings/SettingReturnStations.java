@@ -1,6 +1,5 @@
 package com.uraltranscom.calculaterate.model.settings;
 
-import com.uraltranscom.calculaterate.model.Road;
 import lombok.*;
 
 /**
@@ -12,13 +11,11 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class SettingReturnStations {
     private int id;
-    private int num;
-    private Road road;
-    private String idStationString;
+    private String idsRoad;
+    private String namesRoad;
+    private String idsStationString;
     private String volumeGroupsString;
     private String idStationReturn;
     private String nameStationReturn;

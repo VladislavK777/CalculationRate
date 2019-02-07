@@ -1,13 +1,12 @@
 package com.uraltranscom.calculaterate.controller;
 
-import com.uraltranscom.calculaterate.dao.SearchCargoDAO;
-import com.uraltranscom.calculaterate.dao.SearchRoadDAO;
-import com.uraltranscom.calculaterate.dao.SearchStationDAO;
-import com.uraltranscom.calculaterate.util.PrepareMapParams;
+import com.uraltranscom.calculaterate.model.cache.CacheSearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -22,25 +21,30 @@ import java.util.List;
 public class RestControllerSearch {
     private static Logger logger = LoggerFactory.getLogger(RestControllerSearch.class);
 
+    @Qualifier("cacheStationsSearch")
     @Autowired
-    private SearchStationDAO searchStationDAO;
-    @Autowired
-    private SearchCargoDAO searchCargoDAO;
-    @Autowired
-    private SearchRoadDAO searchRoadDAO;
+    private CacheSearch cacheStationSearch;
 
-    @RequestMapping(value = "/station", method = RequestMethod.GET, produces = "application/json")
-    public List<Object> stationSearch(@RequestParam(value = "station") String station) {
-        return searchStationDAO.getObject(PrepareMapParams.prepareMapWithParams(station));
+    @Qualifier("cacheRoadSearch")
+    @Autowired
+    private CacheSearch cacheRoadSearch;
+
+    @Qualifier("cacheCargoSearch")
+    @Autowired
+    private CacheSearch cacheCargoSearch;
+
+    @RequestMapping(value = "/station")
+    public List<Object> stationSearch() {
+        return cacheStationSearch.getCache();
     }
 
-    @RequestMapping(value = "/cargo", method = RequestMethod.GET, produces = "application/json")
-    public List<Object> cargoSearch(@RequestParam(value = "cargo") String cargo) {
-        return searchCargoDAO.getObject(PrepareMapParams.prepareMapWithParams(cargo));
+    @RequestMapping(value = "/cargo")
+    public List<Object> cargoSearch() {
+        return cacheCargoSearch.getCache();
     }
 
-    @RequestMapping(value = "/road", method = RequestMethod.GET, produces = "application/json")
-    public List<Object> roadSearch(@RequestParam(value = "road") String road) {
-        return searchRoadDAO.getObject(PrepareMapParams.prepareMapWithParams(road));
+    @RequestMapping(value = "/road")
+    public List<Object> roadSearch() {
+        return cacheRoadSearch.getCache();
     }
 }

@@ -25,7 +25,7 @@ public class DBConfig {
         return new ZookeeperSettingHolder();
     }
 
-    @Bean(name = "decodedPassword")
+    @Bean
     public MethodInvokingFactoryBean methodInvokingFactoryBean() throws Exception {
         MethodInvokingFactoryBean methodInvokingFactoryBean = new MethodInvokingFactoryBean();
         methodInvokingFactoryBean.setTargetClass(com.uraltranscom.calculaterate.util.KeyMaster.class);

@@ -1,35 +1,35 @@
 // Набор скриптов для операции Delete
 
-function deleteFieldReturnStations(id) {
+function deleteFieldReturnStation(id) {
   var del = confirm("Вы хотите удалить настройку?");
   if (del) {
     var context = document.getElementById(id);
-    var id = context.querySelector("#idReturnStations").value;
-    var request = "/deleteReturnStations/" + id;
+    var id = context.querySelector("#idReturnStation").value;
+    var request = "/deleteReturnStation/" + id;
     deleteField(request);
   } else {
     return;
   }
 }
 
-function deleteFieldReturnExceptions(id) {
+function deleteFieldReturnException(id) {
   var del = confirm("Вы хотите удалить настройку?");
   if (del) {
     var context = document.getElementById(id);
-    var id = context.querySelector("#idReturnExceptions").value;
-    var request = "/deleteReturnExceptions/" + id;
+    var id = context.querySelector("#idReturnException").value;
+    var request = "/deleteReturnException/" + id;
     deleteField(request);
   } else {
     return;
   }
 }
 
-function deleteFieldBeginningExceptions(id) {
+function deleteFieldBeginningException(id) {
   var del = confirm("Вы хотите удалить настройку?");
   if (del) {
     var context = document.getElementById(id);
-    var id = context.querySelector("#idBeginningExceptions").value;
-    var request = "/deleteBeginningExceptions/" + id;
+    var id = context.querySelector("#idBeginningException").value;
+    var request = "/deleteBeginningException/" + id;
     deleteField(request);
   } else {
     return;

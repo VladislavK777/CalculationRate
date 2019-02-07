@@ -1,34 +1,49 @@
-function cop() {
-  element = document.getElementById(window.sessionStorage.getItem("tabId"));
-  var url = document.referrer;
-  if (element != null) {
-    element.setAttribute("checked", true);
-  } else if (url.indexOf("settings") != -1) {
-    window.sessionStorage.setItem("tabId", "tab1");
-  }
+function init() {
+  getCache();
+  window.sessionStorage.setItem("tabId", "tab1");
   document.getElementById("copy").innerText = new Date().getFullYear();
 }
 
-function check(valueYield, id) {
-  var yield = document.getElementById(id).querySelector("#yieldYield");
-  var bt = document.getElementById(id).querySelector("#btEditYield");
-  if (valueYield != yield.value) {
-    bt.value = "Сохранить";
-    bt.setAttribute("onclick", "update('" + id + "','" + yield.value + "');");
-  } else {
-    bt.value = "Отмена";
-  }
+function initSetting() {
+  element = document.getElementById(window.sessionStorage.getItem("tabId"));
+  element.setAttribute("checked", true);
+  document.getElementById("copy").innerText = new Date().getFullYear();
+}
+
+function getCache() {
+  $.ajax({
+    url: "search/station",
+    cache: false,
+    success: function(response) {
+      window.sessionStorage.setItem("stationSearch", response);
+    }
+  });
+  $.ajax({
+    url: "search/road",
+    cache: false,
+    success: function(response) {
+      window.sessionStorage.setItem("roadSearch", response);
+    }
+  });
+  $.ajax({
+    url: "search/cargo",
+    cache: false,
+    success: function(response) {
+      window.sessionStorage.setItem("cargoSearch", response);
+    }
+  });
 }
 
 function showPopup() {
   $(popup).fadeIn(800);
 }
 
-function createInput(id, name, isCallSearch) {
+function createInput(id, name, isCallSearch, defaultText) {
   var p = document.createElement("p");
   p.className = "inp";
   var label = document.createElement("label");
   var input = document.createElement("input");
+  input.value = typeof defaultText == "undefined" ? "" : defaultText;
   input.type = "text";
   input.id = id;
   input.placeholder = "\xa0";
@@ -68,28 +83,30 @@ function createField(id) {
   button.className = "bot1";
   button.value = "Сохранить";
 
-  if (id == "btAddReturnStations") {
-    div_subdiv_head2.appendChild(createInput("road", "Дорога", true));
+  if (id == "btAddReturnStation") {
+    div_subdiv_head2.appendChild(createInput("roadSetting", "Дорога", true));
     div_subdiv_head2.appendChild(
       createInput("stationList", "Список станций", false)
     );
     div_subdiv_head2.appendChild(
-      createInput("volume", "Группа объемов", false)
+      createInput("volume", "Группа объемов", false, "120,138,150")
     );
     div_subdiv_head2.appendChild(
       createInput("station", "Станция возврата", true)
     );
     button.addEventListener("click", function() {
-      addReturnStations(context.parentNode.id);
+      addReturnStation(context.parentNode.id);
     });
   } else {
     var tr1 = document.createElement("tr");
     var td11 = document.createElement("td");
-    td11.appendChild(createInput("road", "Дорога", true));
+    td11.appendChild(createInput("roadSetting", "Дорога", true));
     var td12 = document.createElement("td");
     td12.appendChild(createInput("stationList", "Список станций", false));
     var td13 = document.createElement("td");
-    td13.appendChild(createInput("volume", "Группа объемов", false));
+    td13.appendChild(
+      createInput("volume", "Группа объемов", false, "120,138,150")
+    );
     tr1.appendChild(td11);
     tr1.appendChild(td12);
     tr1.appendChild(td13);
@@ -108,7 +125,7 @@ function createField(id) {
 
     var tr3 = document.createElement("tr");
     var td31 = document.createElement("td");
-    td31.appendChild(createInput("cargoClass", "Класс груза", false));
+    td31.appendChild(createInput("cargoClass", "Класс груза", false, "1,2,3"));
     var td32 = document.createElement("td");
     td32.appendChild(createInput("typeRoute", "Тип рейса", false));
     var td33 = document.createElement("td");
@@ -122,15 +139,15 @@ function createField(id) {
     var td41 = document.createElement("td");
     td41.appendChild(createInput("countDays", "Дней", false));
     var td42 = document.createElement("td");
-    td42.appendChild(createInput("rate", "Ставка", false));
+    td42.appendChild(createInput("rate", "Ставка", false, "0"));
     var td43 = document.createElement("td");
-    td43.appendChild(createInput("tariff", "Тариф", false));
+    td43.appendChild(createInput("tariff", "Тариф", false, "0"));
     tr4.appendChild(td41);
     tr4.appendChild(td42);
     tr4.appendChild(td43);
     table.appendChild(tr4);
     button.addEventListener("click", function() {
-      addExceptions(context.parentNode.id);
+      addException(context.parentNode.id);
     });
   }
   div_subdiv_head2.appendChild(table);

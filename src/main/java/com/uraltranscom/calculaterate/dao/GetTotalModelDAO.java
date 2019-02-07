@@ -113,13 +113,14 @@ public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
             logger.error("Error query: {}", sqlEx.getMessage());
             try {
                 connection.rollback();
+                logger.info("Rollback transaction!");
             } catch (SQLException e) {
-                logger.error("Rollback transaction!");
+                e.printStackTrace();
             }
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
                 connection.setAutoCommit(true);
             } catch (SQLException e) {

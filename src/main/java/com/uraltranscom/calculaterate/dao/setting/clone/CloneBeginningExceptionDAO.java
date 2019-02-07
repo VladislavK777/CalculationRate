@@ -1,8 +1,7 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.clone;
 
 import com.uraltranscom.calculaterate.dao.AbstractObjectFactory;
 import com.uraltranscom.calculaterate.model.Cargo;
-import com.uraltranscom.calculaterate.model.Road;
 import com.uraltranscom.calculaterate.model.Station;
 import com.uraltranscom.calculaterate.model.settings.SettingReturnExceptions;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
@@ -16,10 +15,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * @author vladislav.klochkov
@@ -29,33 +25,35 @@ import java.util.TreeMap;
 
 @Component
 @NoArgsConstructor
-public class GetSettingBeginningExceptionsDAO extends AbstractObjectFactory<Map<String, List<SettingReturnExceptions>>> {
-    private static Logger logger = LoggerFactory.getLogger(GetSettingBeginningExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = "select * from test_setting.get_setting_beginning_exception()";
+public class CloneBeginningExceptionDAO extends AbstractObjectFactory<SettingReturnExceptions> {
+    private static Logger logger = LoggerFactory.getLogger(CloneBeginningExceptionDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.clone_setting_beginning_exception(?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
 
     @Override
-    public Map<String, List<SettingReturnExceptions>> getObject(Map<String, Object> params) {
-        TreeMap<String, List<SettingReturnExceptions>> mapSetting = new TreeMap<>();
-
+    public SettingReturnExceptions getObject(Map<String, Object> params) {
         Connection connection = null;
-        CallableStatement callableStatement = null;
+        CallableStatement callableStatement;
+        SettingReturnExceptions settingReturnExceptions = null;
 
         try {
             connection = connectionDB.getDataSource().getConnection();
             connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
+            for (int i = 1; i < params.size() + 1; i++) {
+                callableStatement.setObject(i, params.get("param" + i));
+            }
             ResultSet resultSet = callableStatement.executeQuery();
             while (resultSet.next()) {
                 ResultSet resultSe2 = (ResultSet) resultSet.getObject(1);
                 while (resultSe2.next()) {
                     int id = resultSe2.getInt(1);
                     int num = resultSe2.getInt(2);
-                    int idRoad = resultSe2.getInt(3);
-                    String shortNameRoad = resultSe2.getString(4);
-                    String idStationString = resultSe2.getString(5);
+                    String idsRoad = resultSe2.getString(3);
+                    String namesRoad = resultSe2.getString(4);
+                    String idsStationString = resultSe2.getString(5);
                     String volumeGroupsString = resultSe2.getString(6);
                     String idStationFrom = resultSe2.getString(7);
                     String nameStationFrom = resultSe2.getString(8);
@@ -69,11 +67,12 @@ public class GetSettingBeginningExceptionsDAO extends AbstractObjectFactory<Map<
                     int countDays = resultSe2.getInt(16);
                     double rate = resultSe2.getDouble(17);
                     double tariff = resultSe2.getDouble(18);
-                    SettingReturnExceptions settingReturnExceptions = new SettingReturnExceptions(
+                    settingReturnExceptions = new SettingReturnExceptions(
                             id,
                             num,
-                            new Road(idRoad, shortNameRoad),
-                            idStationString,
+                            idsRoad,
+                            namesRoad,
+                            idsStationString,
                             volumeGroupsString,
                             new Station(idStationFrom, nameStationFrom, null),
                             new Station(idStationTo, nameStationTo, null),
@@ -84,30 +83,26 @@ public class GetSettingBeginningExceptionsDAO extends AbstractObjectFactory<Map<
                             countDays,
                             rate,
                             tariff);
-                    if (mapSetting.containsKey(shortNameRoad)) {
-                        List<SettingReturnExceptions> list = mapSetting.get(shortNameRoad);
-                        list.add(settingReturnExceptions);
-                        mapSetting.put(shortNameRoad, list);
-                    } else {
-                        List<SettingReturnExceptions> list = new ArrayList<>();
-                        list.add(settingReturnExceptions);
-                        mapSetting.put(shortNameRoad, list);
-                    }
                 }
             }
-            logger.debug("Get info for: {}", params + ": " + mapSetting);
+            logger.info("Get info for clone: {}", params + ": " + settingReturnExceptions);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
+            try {
+                connection.rollback();
+                logger.info("Rollback transaction!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");
             }
         }
-
-        return mapSetting;
+        return settingReturnExceptions;
     }
 }

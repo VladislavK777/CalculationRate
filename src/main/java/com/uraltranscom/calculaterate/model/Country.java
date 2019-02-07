@@ -1,9 +1,7 @@
 package com.uraltranscom.calculaterate.model;
 
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  *
@@ -18,10 +16,8 @@ import lombok.ToString;
  *
  */
 
-@Getter
-@EqualsAndHashCode
+@Data
 @AllArgsConstructor
-@ToString
 public class Country {
     private String idCountry; //Код страны
     private String nameCountry; //Название страны

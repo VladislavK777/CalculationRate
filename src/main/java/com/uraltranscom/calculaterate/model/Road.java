@@ -18,8 +18,6 @@ import lombok.*;
 @Data
 @EqualsAndHashCode
 @AllArgsConstructor
-@NoArgsConstructor
-@ToString
 public class Road {
     private int idRoad; //Идентификатор дороги
     private String nameRoad; //Название дороги

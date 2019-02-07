@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.get;
 
 import com.uraltranscom.calculaterate.dao.AbstractObjectFactory;
 import com.uraltranscom.calculaterate.model.settings.SettingLoadUnload;
@@ -58,10 +58,15 @@ public class GetSettingLoadUnloadDAO extends AbstractObjectFactory<List<SettingL
             logger.debug("Get info for: {}", params + ": " + listSetting);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                logger.error("Rollback transaction!");
+            }
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

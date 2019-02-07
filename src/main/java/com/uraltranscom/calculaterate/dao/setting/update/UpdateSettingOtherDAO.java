@@ -1,7 +1,7 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.update;
 
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +13,22 @@ import java.sql.SQLException;
 import java.util.Map;
 
 /**
- * @author vladislav.klochkov
+ * @author Vladislav.Klochkov
  * @project CalculationRate_1.0
- * @date 09.01.2019
+ * @date 06.02.2019
  */
 
 @Component
-@NoArgsConstructor
-public class UpdateSettingBeginningExceptionsDAO {
-    private static Logger logger = LoggerFactory.getLogger(UpdateSettingBeginningExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_beginning_exception(?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
+@AllArgsConstructor
+public class UpdateSettingOtherDAO {
+    private static Logger logger = LoggerFactory.getLogger(UpdateSettingOtherDAO.class);
+    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_other(?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
 
     public void updateObject(Map<String, Object> params) {
-        Connection connection;
+        Connection connection = null;
         CallableStatement callableStatement = null;
 
         try {
@@ -42,10 +42,16 @@ public class UpdateSettingBeginningExceptionsDAO {
             connection.commit();
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
+            try {
+                connection.rollback();
+                logger.info("Rollback transaction!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

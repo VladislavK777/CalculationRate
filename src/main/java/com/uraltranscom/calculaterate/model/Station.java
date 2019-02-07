@@ -16,10 +16,8 @@ import lombok.*;
  */
 
 @Data
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Station {
     private String idStation; //Код станции
     private String nameStation; //Название станция

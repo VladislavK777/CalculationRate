@@ -1,5 +1,6 @@
 package com.uraltranscom.calculaterate.configuration;
 
+import com.uraltranscom.calculaterate.model.cache.CacheSearch;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -44,5 +45,20 @@ public class AppConfig implements WebMvcConfigurer {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
         commonsMultipartResolver.setMaxUploadSize(10000000);
         return commonsMultipartResolver;
+    }
+
+    @Bean(initMethod = "init", name = "cacheStationsSearch")
+    public CacheSearch cacheStationsSearch() {
+        return new CacheSearch("station");
+    }
+
+    @Bean(initMethod = "init", name = "cacheRoadSearch")
+    public CacheSearch cacheRoadSearch() {
+        return new CacheSearch("road");
+    }
+
+    @Bean(initMethod = "init", name = "cacheCargoSearch")
+    public CacheSearch cacheCargoSearch() {
+        return new CacheSearch("cargo");
     }
 }

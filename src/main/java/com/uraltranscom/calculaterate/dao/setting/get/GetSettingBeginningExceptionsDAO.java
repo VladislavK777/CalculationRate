@@ -1,8 +1,7 @@
-package com.uraltranscom.calculaterate.dao.setting;
+package com.uraltranscom.calculaterate.dao.setting.get;
 
 import com.uraltranscom.calculaterate.dao.AbstractObjectFactory;
 import com.uraltranscom.calculaterate.model.Cargo;
-import com.uraltranscom.calculaterate.model.Road;
 import com.uraltranscom.calculaterate.model.Station;
 import com.uraltranscom.calculaterate.model.settings.SettingReturnExceptions;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
@@ -29,9 +28,9 @@ import java.util.TreeMap;
 
 @Component
 @NoArgsConstructor
-public class GetSettingReturnExceptionsDAO extends AbstractObjectFactory<Map<String, List<SettingReturnExceptions>>> {
-    private static Logger logger = LoggerFactory.getLogger(GetSettingReturnExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = "select * from test_setting.get_setting_return_exception()";
+public class GetSettingBeginningExceptionsDAO extends AbstractObjectFactory<Map<String, List<SettingReturnExceptions>>> {
+    private static Logger logger = LoggerFactory.getLogger(GetSettingBeginningExceptionsDAO.class);
+    private static final String SQL_CALL_NAME = "select * from test_setting.get_setting_beginning_exception()";
 
     @Autowired
     private ConnectionDB connectionDB;
@@ -53,9 +52,9 @@ public class GetSettingReturnExceptionsDAO extends AbstractObjectFactory<Map<Str
                 while (resultSe2.next()) {
                     int id = resultSe2.getInt(1);
                     int num = resultSe2.getInt(2);
-                    int idRoad = resultSe2.getInt(3);
-                    String shortNameRoad = resultSe2.getString(4);
-                    String idStationString = resultSe2.getString(5);
+                    String idsRoad = resultSe2.getString(3);
+                    String namesRoad = resultSe2.getString(4);
+                    String idsStationString = resultSe2.getString(5);
                     String volumeGroupsString = resultSe2.getString(6);
                     String idStationFrom = resultSe2.getString(7);
                     String nameStationFrom = resultSe2.getString(8);
@@ -72,8 +71,9 @@ public class GetSettingReturnExceptionsDAO extends AbstractObjectFactory<Map<Str
                     SettingReturnExceptions settingReturnExceptions = new SettingReturnExceptions(
                             id,
                             num,
-                            new Road(idRoad, shortNameRoad),
-                            idStationString,
+                            idsRoad,
+                            namesRoad,
+                            idsStationString,
                             volumeGroupsString,
                             new Station(idStationFrom, nameStationFrom, null),
                             new Station(idStationTo, nameStationTo, null),
@@ -84,24 +84,30 @@ public class GetSettingReturnExceptionsDAO extends AbstractObjectFactory<Map<Str
                             countDays,
                             rate,
                             tariff);
-                    if (mapSetting.containsKey(shortNameRoad)) {
-                        List<SettingReturnExceptions> list = mapSetting.get(shortNameRoad);
+                    if (mapSetting.containsKey(namesRoad)) {
+                        List<SettingReturnExceptions> list = mapSetting.get(namesRoad);
                         list.add(settingReturnExceptions);
-                        mapSetting.put(shortNameRoad, list);
+                        mapSetting.put(namesRoad, list);
                     } else {
                         List<SettingReturnExceptions> list = new ArrayList<>();
                         list.add(settingReturnExceptions);
-                        mapSetting.put(shortNameRoad, list);
+                        mapSetting.put(namesRoad, list);
                     }
                 }
             }
             logger.debug("Get info for: {}", params + ": " + mapSetting);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
+            try {
+                connection.rollback();
+                logger.info("Rollback transaction!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

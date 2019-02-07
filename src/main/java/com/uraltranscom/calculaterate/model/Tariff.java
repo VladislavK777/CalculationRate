@@ -8,11 +8,8 @@ import lombok.*;
  * @create 2018-12-27
  */
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class Tariff {
     private float tariff;
     private float flagDownloadFromDB;

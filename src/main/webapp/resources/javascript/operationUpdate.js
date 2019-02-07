@@ -1,23 +1,25 @@
 //Набор скриптов для операции Update
 
-function updateFieldReturnStations(id) {
+function updateFieldReturnStation(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idReturnStations").value;
-  var road = context.querySelector("#road" + id).value.replace(/[^\d]/g, "");
-  var stations = context.querySelector("#idStationStringReturnStations").value;
-  var volumeGroup = context.querySelector("#volumeGroupsStringReturnStations")
+  var id = context.querySelector("#idReturnStation").value;
+  var idsRoad = window.sessionStorage.getItem("roadIds");
+  var namesRoad = context.querySelector("#roadSetting" + id).value;
+  var idsStationString = context.querySelector("#idStationStringReturnStation").value;
+  var volumeGroup = context.querySelector("#volumeGroupsStringReturnStation")
     .value;
   var returnStation = context
     .querySelector("#station" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var json = JSON.stringify({
     id: id,
-    road: { idRoad: road },
-    idStationString: stations,
+    idsRoad: idsRoad,
+    namesRoad: namesRoad,
+    idsStationString: idsStationString,
     volumeGroupsString: volumeGroup,
     idStationReturn: returnStation
   });
-  var request = "/updateReturnStations";
+  var request = "/updateReturnStation";
   update(id, request, json);
 }
 
@@ -30,6 +32,18 @@ function updateFieldYield(id) {
     yield: yield
   });
   var request = "/updateYield";
+  update(id, request, json);
+}
+
+function updateFieldOther(id) {
+  var context = document.getElementById(id);
+  var id = context.querySelector("#idOther").value;
+  var value = context.querySelector("#valueOther").value;
+  var json = JSON.stringify({
+    id: id,
+    value: value
+  });
+  var request = "/updateOther";
   update(id, request, json);
 }
 
@@ -64,8 +78,9 @@ function updateFieldBorderDistance(id) {
 function updateFieldBeginningException(id) {
   var context = document.getElementById(id);
   var id = context.querySelector("#idBeginningException").value;
-  var road = context.querySelector("#road" + id).value.replace(/[^\d]/g, "");
-  var stations = context.querySelector("#idStationStringBeginningException")
+  var idsRoad = window.sessionStorage.getItem("roadIds");
+  var namesRoad = context.querySelector("#roadSetting" + id).value;
+  var idsStationString = context.querySelector("#idStationStringBeginningException")
     .value;
   var volumeGroup = context.querySelector(
     "#volumeGroupsStringBeginningException"
@@ -89,8 +104,9 @@ function updateFieldBeginningException(id) {
   var tariff = context.querySelector("#tariffBeginningException").value;
   var json = JSON.stringify({
     id: id,
-    road: { idRoad: road },
-    idStationString: stations,
+    idsRoad: idsRoad,
+    namesRoad: namesRoad,
+    idsStationString: idsStationString,
     volumeGroupsString: volumeGroup,
     stationFrom: { idStation: stationFrom },
     stationTo: { idStation: stationTo },
@@ -102,15 +118,16 @@ function updateFieldBeginningException(id) {
     rate: rate,
     tariff: tariff
   });
-  var request = "/updateBeginningExceptions";
+  var request = "/updateBeginningException";
   update(id, request, json);
 }
 
 function updateFieldReturnException(id) {
   var context = document.getElementById(id);
   var id = context.querySelector("#idReturnException").value;
-  var road = context.querySelector("#road" + id).value.replace(/[^\d]/g, "");
-  var stations = context.querySelector("#idStationStringReturnException").value;
+  var idsRoad = window.sessionStorage.getItem("roadIds");
+  var namesRoad = context.querySelector("#roadSetting" + id).value;
+  var idsStationString = context.querySelector("#idStationStringReturnException").value;
   var volumeGroup = context.querySelector("#volumeGroupsStringReturnException")
     .value;
   var stationFrom = context
@@ -131,8 +148,9 @@ function updateFieldReturnException(id) {
   var tariff = context.querySelector("#tariffReturnException").value;
   var json = JSON.stringify({
     id: id,
-    road: { idRoad: road },
-    idStationString: stations,
+    idsRoad: idsRoad,
+    namesRoad: namesRoad,
+    idsStationString: idsStationString,
     volumeGroupsString: volumeGroup,
     stationFrom: { idStation: stationFrom },
     stationTo: { idStation: stationTo },
@@ -144,6 +162,6 @@ function updateFieldReturnException(id) {
     rate: rate,
     tariff: tariff
   });
-  var request = "/updateReturnExceptions";
+  var request = "/updateReturnException";
   update(id, request, json);
 }

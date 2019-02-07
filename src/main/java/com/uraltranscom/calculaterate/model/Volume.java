@@ -10,8 +10,6 @@ import static com.uraltranscom.calculaterate.util.GetVolumeGroup.getVolumeGroup;
  */
 
 @Data
-@EqualsAndHashCode
-@ToString
 public class Volume {
     private int value;
     private int group;

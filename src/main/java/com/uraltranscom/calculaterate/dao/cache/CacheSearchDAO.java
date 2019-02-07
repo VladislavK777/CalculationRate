@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.dao;
+package com.uraltranscom.calculaterate.dao.cache;
 
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Vladislav Klochkov
@@ -22,38 +21,39 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class SearchStationDAO extends AbstractObjectFactory<List<Object>> {
-    private static Logger logger = LoggerFactory.getLogger(SearchStationDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_distance.get_station_search(?) } ";
+public class CacheSearchDAO {
+    private static Logger logger = LoggerFactory.getLogger(CacheSearchDAO.class);
 
     @Autowired
     private ConnectionDB connectionDB;
 
-    @Override
-    public List<Object> getObject(Map<String, Object> params) {
+    public List<Object> getObject(String marker) {
         List<Object> listResult = new ArrayList<>();
 
         Connection connection = null;
-        CallableStatement callableStatement = null;
+        CallableStatement callableStatement;
 
         try {
             connection = connectionDB.getDataSource().getConnection();
-            callableStatement = connection.prepareCall(SQL_CALL_NAME);
-            for (int i = 1; i < params.size() + 1; i++) {
-                callableStatement.setObject(i, params.get("param" + i));
-            }
+            callableStatement = connection.prepareCall("select * from test_distance.get_" + marker + "_search()");
             ResultSet resultSet = callableStatement.executeQuery();
             while (resultSet.next()) {
                 listResult.add(resultSet.getObject(1));
             }
-            logger.debug("Get info for: {}", params + ": " + listResult);
+            logger.debug("Get info for: {}", listResult.size());
 
         } catch (SQLException sqlEx) {
-            logger.error("Error query: {}", sqlEx.getMessage());
+            sqlEx.printStackTrace();
+            try {
+                connection.rollback();
+                logger.info("Rollback transaction!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
-                if (callableStatement != null) {
-                    callableStatement.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 logger.debug("Error close connection!");
