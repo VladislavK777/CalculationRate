@@ -252,10 +252,9 @@ public class WriteToFileExcel {
 
                             Cell rate = row.createCell(11);
                             if (route.getRate() == 0) {
-                                rate.setCellValue("");
-                                rate.setCellStyle(cellStyleField(sheet));
+                                rate.setCellStyle(cellStyleFieldNull(sheet));
                             } else {
-                                rate.setCellValue(dataFormatter.formatRawCellContents(route.getRate(), -1, "# ##0.00"));
+                                rate.setCellValue(route.getRate());
                                 if (route.isFlagNeedCalc()) {
                                     rate.setCellStyle(cellStyleFieldNeedCalc(sheet));
                                 } else {
@@ -265,10 +264,9 @@ public class WriteToFileExcel {
 
                             Cell tariff = row.createCell(12);
                             if (route.getTariff() == 0) {
-                                tariff.setCellValue("");
-                                tariff.setCellStyle(cellStyleField(sheet));
+                                tariff.setCellStyle(cellStyleFieldNull(sheet));
                             } else {
-                                tariff.setCellValue(dataFormatter.formatRawCellContents(route.getTariff(), -1, "# ##0.00"));
+                                tariff.setCellValue(route.getTariff());
                                 tariff.setCellStyle(cellStyleField(sheet));
                             }
 
@@ -342,6 +340,15 @@ public class WriteToFileExcel {
                         yield.setCellFormula("N" + totalYieldNum + "/J" + totalYieldNum);
                         yield.setCellStyle(cellStyleFieldTotalRight(sheet));
                         sheet.autoSizeColumn(14);
+
+                        Cell cell15 = row.createCell(15);
+                        cell15.setCellValue(totalModel.getYield());
+
+                        Cell cell16 = row.createCell(16);
+                        cell16.setCellFormula("P" + totalYieldNum + "-O" + totalYieldNum);
+
+                        Cell cell17 = row.createCell(17);
+                        cell17.setCellFormula("Q" + totalYieldNum + "*J" + totalYieldNum);
 
                         rowStartHead = lastNumberCell + 1;
                         numberTable++;
@@ -419,9 +426,11 @@ public class WriteToFileExcel {
         return cellStyle;
     }
 
-    private static XSSFCellStyle cellStyleFieldNumber(XSSFSheet sheet) {
+    private static XSSFCellStyle cellStyleFieldNull(XSSFSheet sheet) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
-        cellStyle.setFont(getFont(sheet));
+        XSSFFont font = getFont(sheet);
+        font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
+        cellStyle.setFont(font);
         cellStyle.setBorderBottom(BorderStyle.DOTTED);
         cellStyle.setBorderTop(BorderStyle.DOTTED);
         cellStyle.setBorderRight(BorderStyle.DOTTED);
