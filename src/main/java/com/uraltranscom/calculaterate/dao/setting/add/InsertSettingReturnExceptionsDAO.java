@@ -36,6 +36,7 @@ public class InsertSettingReturnExceptionsDAO {
             connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
             for (int i = 1; i < params.size() + 1; i++) {
+                logger.info("params: {}", params.get("param" + i));
                 callableStatement.setObject(i, params.get("param" + i));
             }
             callableStatement.executeQuery();

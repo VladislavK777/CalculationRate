@@ -72,19 +72,19 @@
                 <tr id="contReturnStation${setting.getId()}">
                   <input id="idReturnStation" value='${setting.getId()}' type="hidden" />
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="roadSetting${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="roadReturnStationSetting${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="idStationStringReturnStation" value='${setting.getIdsStationString()}' />
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="idStationStringReturnStation" value='${setting.getIdsStationString()}' />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="volumeGroupsStringReturnStation" value='${setting.getVolumeGroupsString()}' />
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="volumeGroupsStringReturnStation${setting.getId()}" value='${setting.getVolumeGroupsString()}' />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="station${setting.getId()}" value='${setting.getNameStationReturn()}' onkeyup="search(this.id)" />
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationReturnStation${setting.getId()}" value='${setting.getNameStationReturn()}' onkeyup="search(this.id)" />
                       <span class="focus-border"></span></div>
                   </td>
                   <td><input type="button" id="btCloneReturnStation" onclick="cloneFieldReturnStation(this.parentNode.parentNode.id)" value="Клонировать" class="bot1"></td>
@@ -119,41 +119,63 @@
                 <tr id="contReturnException${setting.getId()}">
                   <input id="idReturnException" value='${setting.getId()}' type="hidden" />
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="roadSetting${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="roadReturnExceptionSetting${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="idStationStringReturnException" value='${setting.getIdsStationString()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="idStationStringReturnException" value='${setting.getIdsStationString()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="volumeGroupsStringReturnException" value='${setting.getVolumeGroupsString()}' /><span class="focus-border"></span></div>
+                    <div class="col-3" id="col${setting.getId()}">
+                      <div class="headVolumeGroup" id="headVolumeGroup${setting.getId()}">
+                        <input class="effect-1"
+                               type="text" autocomplete="off"
+                               id="volumeGroupsStringReturnException${setting.getId()}"
+                               value='${setting.getVolumeGroupsString()}'
+                               onclick="showVolumeGroup(this.id,${setting.getId()})" />
+                        <span class="focus-border"></span>
+                        <p class="multiSel" id="multiSel${setting.getId()}" hidden></p>
+                      </div>
+                      <div class="listVolumeGroup" id="listVolumeGroup${setting.getId()}">
+                        <div class="mutliSelect" id="mutliSelect${setting.getId()}">
+                          <ul>
+                            <li>
+                              <input type="checkbox" value="120" />120</li>
+                            <li>
+                              <input type="checkbox" value="138" />138</li>
+                            <li>
+                              <input type="checkbox" value="150" />150</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="stationFrom${setting.getId()}" value='${setting.getStationFrom().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationFromReturnException${setting.getId()}" value='${setting.getStationFrom().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="stationTo${setting.getId()}" value='${setting.getStationTo().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationToReturnException${setting.getId()}" value='${setting.getStationTo().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="cargo${setting.getId()}" value='${setting.getCargo().getNameCargo()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="cargoReturnException${setting.getId()}" value='${setting.getCargo().getNameCargo()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="cargoTypeStringReturnException" value='${setting.getCargoTypeString()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="cargoTypeStringReturnException${setting.getId()}" value='${setting.getCargoTypeString()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="routeTypeReturnException" value='${setting.getRouteType()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="routeTypeReturnException${setting.getId()}" value='${setting.getRouteType()}' onfocus="showList(this.id)" onblur="hiddenList()" list="list" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="distanceReturnException" value='${setting.getDistance()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="distanceReturnException" value='${setting.getDistance()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="countDaysReturnException" value='${setting.getCountDays()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="countDaysReturnException" value='${setting.getCountDays()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="rateReturnException" value='${setting.getRate()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="rateReturnException" value='${setting.getRate()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="tariffReturnException" value='${setting.getTariff()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="tariffReturnException" value='${setting.getTariff()}' /><span class="focus-border"></span></div>
                   </td>
                   <td><input type="button" id="btCloneReturnException" onclick="cloneFieldReturnException(this.parentNode.parentNode.id)" value="Клонировать" class="bot1"></td>
                   <td><input type="button" id="btEditReturnException" onclick="updateFieldReturnException(this.parentNode.parentNode.id)" value="Сохранить" class="bot1" /></td>
@@ -187,41 +209,41 @@
                 <tr id="contBeginningException${setting.getId()}">
                   <input id="idBeginningException" value='${setting.getId()}' type="hidden" />
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="roadSetting${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="roadBeginningExceptionSetting${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="idStationStringBeginningException" value='${setting.getIdsStationString()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="idStationStringBeginningException" value='${setting.getIdsStationString()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="volumeGroupsStringBeginningException" value='${setting.getVolumeGroupsString()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="volumeGroupsStringBeginningException${setting.getId()}" value='${setting.getVolumeGroupsString()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="stationFrom${setting.getId()}" value='${setting.getStationFrom().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationFromBeginningException${setting.getId()}" value='${setting.getStationFrom().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="stationTo${setting.getId()}" value='${setting.getStationTo().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationToBeginningException${setting.getId()}" value='${setting.getStationTo().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="cargo${setting.getId()}" value='${setting.getCargo().getNameCargo()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="cargo${setting.getId()}" value='${setting.getCargo().getNameCargo()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="cargoTypeStringBeginningException" value='${setting.getCargoTypeString()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="cargoTypeStringBeginningException${setting.getId()}" value='${setting.getCargoTypeString()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="routeTypeBeginningException" value='${setting.getRouteType()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="routeTypeBeginningException${setting.getId()}" value='${setting.getRouteType()}' onfocus="showList(this.id)" onblur="hiddenList()" list="list" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="distanceBeginningException" value='${setting.getDistance()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="distanceBeginningException" value='${setting.getDistance()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="countDaysBeginningException" value='${setting.getCountDays()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="countDaysBeginningException" value='${setting.getCountDays()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="rateBeginningException" value='${setting.getRate()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="rateBeginningException" value='${setting.getRate()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="tariffBeginningException" value='${setting.getTariff()}' /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="tariffBeginningException" value='${setting.getTariff()}' /><span class="focus-border"></span></div>
                   </td>
                   <td><input type="button" id="btCloneBeginningException" onclick="cloneFieldBeginningException(this.parentNode.parentNode.id)" value="Клонировать" class="bot1"></td>
                   <td><input type="button" id="btEditBeginningException" onclick="updateFieldBeginningException(this.parentNode.parentNode.id)" value="Сохранить" class="bot1" /></td>
@@ -245,18 +267,19 @@
                 <input id="idBorderDistance" value='${setting.getId()}' type="hidden" />
                 <td>
                   <div class="col-3">
-                    <input class="effect-1" type="text" id="distanceFromBorderDistance" value='${setting.getDistanceFrom()}' />
+                    <input class="effect-1" type="text" autocomplete="off" id="distanceFromBorderDistance" value='${setting.getDistanceFrom()}' />
                     <span class="focus-border"></span>
                   </div>
                 </td>
                 <td>
                   <div class="col-3">
-                    <input class="effect-1" type="text" id="distanceToBorderDistance" value='${setting.getDistanceTo()}' />
+                    <input class="effect-1" type="text" autocomplete="off" id="distanceToBorderDistance" value='${setting.getDistanceTo()}' />
                     <span class="focus-border"></span>
                   </div>
                 </td>
                 <td>
-                  <div class="col-3"><input class="effect-1" type="text" id="coefficientBorderDistance" value='${setting.getCoefficient()}' />
+                  <div class="col-3">
+                    <input class="effect-1" type="text" autocomplete="off" id="coefficientBorderDistance" value='${setting.getCoefficient()}' />
                     <span class="focus-border"></span></div>
                 </td>
                 <td><input type="button" onclick="updateFieldBorderDistance(this.parentNode.parentNode.id)" value="Сохранить" class="bot1" /></td>
@@ -276,11 +299,11 @@
               <tr id="contLoadUnload${setting.getId()}">
                 <input id="idLoadUnload" value='${setting.getId()}' type="hidden" />
                 <td>
-                  <div class="col-3"><input class="effect-1" type="text" id="nameLoadUnload" value='${setting.getName()}' readonly />
+                  <div class="col-3"><input class="effect-1" autocomplete="off" type="text" id="nameLoadUnload" value='${setting.getName()}' readonly />
                     <span class="focus-border"></span></div>
                 </td>
                 <td>
-                  <div class="col-3"><input class="effect-1" type="text" id="valueLoadUnload" value='${setting.getValue()}' />
+                  <div class="col-3"><input class="effect-1" autocomplete="off" type="text" id="valueLoadUnload" value='${setting.getValue()}' />
                     <span class="focus-border"></span></div>
                 </td>
                 <td><input type="button" onclick="updateFieldLoadUnload(this.parentNode.parentNode.id)" value="Сохранить" class="bot1" /></td>
@@ -300,11 +323,11 @@
               <tr id="contYield${setting.getId()}">
                 <input id="idYield" value='${setting.getId()}' type="hidden" />
                 <td>
-                  <div class="col-3"><input class="effect-1" type="text" id="volumeGroupYield" value='${setting.getVolumeGroup()}' readonly />
+                  <div class="col-3"><input class="effect-1" autocomplete="off" type="text" id="volumeGroupYield" value='${setting.getVolumeGroup()}' readonly />
                     <span class="focus-border"></span></div>
                 </td>
                 <td>
-                  <div class="col-3"><input class="effect-1" type="text" id="yieldYield" value='${setting.getYield()}' />
+                  <div class="col-3"><input class="effect-1" autocomplete="off" type="text" id="yieldYield" value='${setting.getYield()}' />
                     <span class="focus-border"></span></div>
                 </td>
                 <td><input type="button" onclick="updateFieldYield(this.parentNode.parentNode.id)" value="Сохранить" class="bot1" /></td>
@@ -314,34 +337,34 @@
         </table>
       </section>
       <section id="contentOther">
-          <table class="table_report">
-            <tbody>
-              <tr>
-                <th>Параметр1</th>
-                <th>Параметр2</th>
-                <th>Значение</th>
+        <table class="table_report">
+          <tbody>
+            <tr>
+              <th>Параметр1</th>
+              <th>Параметр2</th>
+              <th>Значение</th>
+            </tr>
+            <c:forEach items="${listOther}" var="setting">
+              <tr id="contOther${setting.getId()}">
+                <input id="idOther" value='${setting.getId()}' type="hidden" />
+                <td>
+                  <div class="col-3"><input class="effect-1" autocomplete="off" type="text" id="nameOther" value='${setting.getName()}' readonly />
+                    <span class="focus-border"></span></div>
+                </td>
+                <td>
+                  <div class="col-3"><input class="effect-1" autocomplete="off" type="text" id="volumeOther" value='${setting.getVolume()}' readonly />
+                    <span class="focus-border"></span></div>
+                </td>
+                <td>
+                  <div class="col-3"><input class="effect-1" autocomplete="off" type="text" id="valueOther" value='${setting.getValue()}' />
+                    <span class="focus-border"></span></div>
+                </td>
+                <td><input type="button" onclick="updateFieldOther(this.parentNode.parentNode.id)" value="Сохранить" class="bot1" /></td>
               </tr>
-              <c:forEach items="${listOther}" var="setting">
-                <tr id="contOther${setting.getId()}">
-                  <input id="idOther" value='${setting.getId()}' type="hidden" />
-                  <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="nameOther" value='${setting.getName()}' readonly />
-                      <span class="focus-border"></span></div>
-                  </td>
-                  <td>
-                    <div class="col-3"><input class="effect-1" type="text" id="volumeOther" value='${setting.getVolume()}' readonly />
-                      <span class="focus-border"></span></div>
-                  </td>
-                  <td>
-                      <div class="col-3"><input class="effect-1" type="text" id="valueOther" value='${setting.getValue()}' />
-                        <span class="focus-border"></span></div>
-                    </td>
-                  <td><input type="button" onclick="updateFieldOther(this.parentNode.parentNode.id)" value="Сохранить" class="bot1" /></td>
-                </tr>
-              </c:forEach>
-            </tbody>
-          </table>
-        </section>
+            </c:forEach>
+          </tbody>
+        </table>
+      </section>
     </div>
   </div>
   <br><br>

@@ -34,7 +34,7 @@
         <td>
           <p class="inp">
             <label>
-              <input type="text" id="stationFrom" placeholder="&nbsp;" name="station_from" onkeyup="search(this.id)"/>
+              <input type="text" autocomplete="off" id="stationFrom" placeholder="&nbsp;" name="station_from" onkeyup="search(this.id)"/>
               <span class="label">Станция отправления</span>
               <span class="border" />
             </label>
@@ -44,7 +44,7 @@
         <td>
           <p class="inp">
             <label>
-              <input type="text" id="stationTo" placeholder="&nbsp;" name="station_to" onkeyup="search(this.id)" />
+              <input type="text" autocomplete="off" id="stationTo" placeholder="&nbsp;" name="station_to" onkeyup="search(this.id)" />
               <span class="label">Станция назначения</span>
               <span class="border" />
             </label>
@@ -54,7 +54,7 @@
         <td>
           <p class="inp">
             <label>
-              <input type="text" id="cargo" placeholder="&nbsp;" name="cargo" onkeyup="search(this.id)" />
+              <input type="text" autocomplete="off" id="cargo" placeholder="&nbsp;" name="cargo" onkeyup="search(this.id)" />
               <span class="label">Груз</span>
               <span class="border" />
             </label>
@@ -64,7 +64,7 @@
         <td>
           <p class="inp">
             <label>
-              <input type="text" placeholder="&nbsp;" name="volume" onkeyup="search(this.id)" />
+              <input type="text" autocomplete="off" placeholder="&nbsp;" name="volume" />
               <span class="label">Объем</span>
               <span class="border" />
             </label>

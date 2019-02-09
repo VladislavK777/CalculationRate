@@ -38,6 +38,24 @@ function showPopup() {
   $(popup).fadeIn(800);
 }
 
+function showList(id) {
+  var input = document.getElementById(id);
+  input.value = "";
+  var datalist = document.createElement("datalist");
+  datalist.id = "list";
+  var option1 = new Option("ГРУЖ");
+  var option2 = new Option("ПОР");
+  datalist.appendChild(option1);
+  datalist.appendChild(option2);
+  input.parentNode.appendChild(datalist);
+}
+
+function hiddenList() {
+  var datalist = document.getElementById("list");
+  datalist.parentNode.removeChild(datalist);
+}
+
+
 function createInput(id, name, isCallSearch, defaultText) {
   var p = document.createElement("p");
   p.className = "inp";
@@ -127,7 +145,16 @@ function createField(id) {
     var td31 = document.createElement("td");
     td31.appendChild(createInput("cargoClass", "Класс груза", false, "1,2,3"));
     var td32 = document.createElement("td");
-    td32.appendChild(createInput("typeRoute", "Тип рейса", false));
+    var field = createInput("typeRoute", "Тип рейса", false);
+    var input = field.querySelector("#typeRoute");
+    input.setAttribute("list", "list");
+    input.onfocus = (function() {
+            showList(input.id);
+        });
+    input.onblur = (function() {
+            hiddenList();
+        });
+    td32.appendChild(field);
     var td33 = document.createElement("td");
     td33.appendChild(createInput("distance", "Расстояние", false));
     tr3.appendChild(td31);
@@ -229,3 +256,33 @@ function testError(event) {
     }
   });
 }
+
+function showVolumeGroup(element,id) {
+  $("#col" + id + " #listVolumeGroup" + id + " ul").slideToggle("fast");
+
+  $(document).bind("click", function(e) {
+    var $clicked = $(e.target);
+    if (!$clicked.parents().hasClass("col-3"))
+      $("#col" + id + " #listVolumeGroup" + id + " ul").hide();
+  });
+
+  $('#mutliSelect' + id + ' input[type="checkbox"]').on("click", function() {
+    var title = $(this)
+        .closest("#mutliSelect" + id)
+        .find('input[type="checkbox"]')
+        .val(),
+      title = $(this).val() + ",";
+
+    if ($(this).is(":checked")) {
+      var html = '<span title="' + title + '">' + title + "</span>";
+      $("#multiSel" + id).append(html);
+      var val = $("#multiSel" + id).text();
+      $("#col" + id + " #headVolumeGroup" + id + " #" + element).val(val);
+    } else {
+      $('span[title="' + title + '"]').remove();
+      var val = $("#multiSel" + id).text();
+      $("#col" + id + " #headVolumeGroup" + id + " #" + element).val(val);
+    }
+  });
+}
+

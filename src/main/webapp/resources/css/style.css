@@ -377,6 +377,24 @@ body {
   position: relative;
 }
 
+.col-3 .listVolumeGroup ul {
+  display: none;
+  border-bottom: 1px #222 solid;
+  border-right: 1px #222 solid;
+  border-left: 1px #222 solid;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.col-3 .headVolumeGroup {
+  position: relative;
+}
+
 input[type="text"] {
   font: 18px "Calibri Light", sans-serif;
   color: #364274;

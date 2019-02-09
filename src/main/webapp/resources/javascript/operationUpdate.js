@@ -4,12 +4,12 @@ function updateFieldReturnStation(id) {
   var context = document.getElementById(id);
   var id = context.querySelector("#idReturnStation").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadSetting" + id).value;
+  var namesRoad = context.querySelector("#roadReturnStationSetting" + id).value;
   var idsStationString = context.querySelector("#idStationStringReturnStation").value;
-  var volumeGroup = context.querySelector("#volumeGroupsStringReturnStation")
+  var volumeGroup = context.querySelector("#volumeGroupsStringReturnStation" + id)
     .value;
   var returnStation = context
-    .querySelector("#station" + id)
+    .querySelector("#stationReturnStation" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var json = JSON.stringify({
     id: id,
@@ -20,6 +20,7 @@ function updateFieldReturnStation(id) {
     idStationReturn: returnStation
   });
   var request = "/updateReturnStation";
+  console.log(json);
   update(id, request, json);
 }
 
@@ -79,25 +80,25 @@ function updateFieldBeginningException(id) {
   var context = document.getElementById(id);
   var id = context.querySelector("#idBeginningException").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadSetting" + id).value;
+  var namesRoad = context.querySelector("#roadBeginningExceptionSetting" + id).value;
   var idsStationString = context.querySelector("#idStationStringBeginningException")
     .value;
   var volumeGroup = context.querySelector(
-    "#volumeGroupsStringBeginningException"
+    "#volumeGroupsStringBeginningException" + id
   ).value;
   var stationFrom = context
-    .querySelector("#stationFrom" + id)
+    .querySelector("#stationFromBeginningException" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var stationTo = context
-    .querySelector("#stationTo" + id)
+    .querySelector("#stationToBeginningException" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var cargo = context
-    .querySelector("#cargo" + id)
+    .querySelector("#cargoBeginningException" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var cargoTypeString = context.querySelector(
-    "#cargoTypeStringBeginningException"
+    "#cargoTypeStringBeginningException" + id
   ).value;
-  var routeType = context.querySelector("#routeTypeBeginningException").value;
+  var routeType = context.querySelector("#routeTypeBeginningException" + id).value;
   var distance = context.querySelector("#distanceBeginningException").value;
   var countDays = context.querySelector("#countDaysBeginningException").value;
   var rate = context.querySelector("#rateBeginningException").value;
@@ -126,22 +127,22 @@ function updateFieldReturnException(id) {
   var context = document.getElementById(id);
   var id = context.querySelector("#idReturnException").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadSetting" + id).value;
+  var namesRoad = context.querySelector("#roadReturnExceptionSetting" + id).value;
   var idsStationString = context.querySelector("#idStationStringReturnException").value;
-  var volumeGroup = context.querySelector("#volumeGroupsStringReturnException")
+  var volumeGroup = context.querySelector("#volumeGroupsStringReturnException" + id)
     .value;
   var stationFrom = context
-    .querySelector("#stationFrom" + id)
+    .querySelector("#stationFromReturnException" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var stationTo = context
-    .querySelector("#stationTo" + id)
+    .querySelector("#stationToReturnException" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var cargo = context
-    .querySelector("#cargo" + id)
+    .querySelector("#cargoReturnException" + id)
     .value.replace(/[^\d{6}}]/g, "");
-  var cargoTypeString = context.querySelector("#cargoTypeStringReturnException")
+  var cargoTypeString = context.querySelector("#cargoTypeStringReturnException" + id)
     .value;
-  var routeType = context.querySelector("#routeTypeReturnException").value;
+  var routeType = context.querySelector("#routeTypeReturnException" + id).value;
   var distance = context.querySelector("#distanceReturnException").value;
   var countDays = context.querySelector("#countDaysReturnException").value;
   var rate = context.querySelector("#rateReturnException").value;

@@ -81,6 +81,7 @@ public class WriteToFileExcel {
 
                 // Строка старта шапки
                 int rowStartHead = 0;
+                int numberTable = 1;
                 for (TotalModel totalModel: listTotalModel) {
                     if (totalModel != null) {
 
@@ -90,90 +91,94 @@ public class WriteToFileExcel {
                         for (int i = rowStartHead; i <= rowFinishHead; i++) {
                             XSSFRow rowHead = sheet.createRow(i);
                             Cell head0 = rowHead.createCell(0);
-                            head0.setCellValue("Станция отправления");
+                            head0.setCellValue("№п/п");
                             head0.setCellStyle(cellStyleHead(sheet));
 
                             Cell head1 = rowHead.createCell(1);
-                            head1.setCellValue("Дорога отправления");
+                            head1.setCellValue("Станция отправления");
                             head1.setCellStyle(cellStyleHead(sheet));
 
                             Cell head2 = rowHead.createCell(2);
-                            head2.setCellValue("Станция назначения");
+                            head2.setCellValue("Дорога отправления");
                             head2.setCellStyle(cellStyleHead(sheet));
 
                             Cell head3 = rowHead.createCell(3);
-                            head3.setCellValue("Дорога назначения");
+                            head3.setCellValue("Станция назначения");
                             head3.setCellStyle(cellStyleHead(sheet));
 
                             Cell head4 = rowHead.createCell(4);
-                            head4.setCellValue("Наименование груза");
+                            head4.setCellValue("Дорога назначения");
                             head4.setCellStyle(cellStyleHead(sheet));
 
                             Cell head5 = rowHead.createCell(5);
-                            head5.setCellValue("Расст., км");
+                            head5.setCellValue("Наименование груза");
                             head5.setCellStyle(cellStyleHead(sheet));
 
                             Cell head6 = rowHead.createCell(6);
-                            head6.setCellValue("Время в пути, сут");
+                            head6.setCellValue("Расст., км");
                             head6.setCellStyle(cellStyleHead(sheet));
 
                             Cell head7 = rowHead.createCell(7);
-                            head7.setCellValue("Погр. / выгр.");
+                            head7.setCellValue("Время в пути, сут");
                             head7.setCellStyle(cellStyleHead(sheet));
 
                             Cell head8 = rowHead.createCell(8);
-                            head8.setCellValue("Оборот, сут.");
+                            head8.setCellValue("Погр. / выгр.");
                             head8.setCellStyle(cellStyleHead(sheet));
 
                             Cell head9 = rowHead.createCell(9);
-                            head9.setCellValue("ВО");
+                            head9.setCellValue("Оборот, сут.");
                             head9.setCellStyle(cellStyleHead(sheet));
 
                             Cell head10 = rowHead.createCell(10);
-                            if (i == rowFinishHead) {
-                                head10.setCellValue("руб/ваг.");
-                            } else {
-                                head10.setCellValue("ДОХОД");
-                            }
-                            head10.setCellStyle(cellStyleHeadBottom(sheet));
+                            head10.setCellValue("ВО");
+                            head10.setCellStyle(cellStyleHead(sheet));
 
                             Cell head11 = rowHead.createCell(11);
-                            if (i == rowFinishHead - 1 || i == rowFinishHead - 2) {
-                                head11.setCellValue("Тариф в собств. вагонах");
-                            } else if (i == rowFinishHead) {
+                            if (i == rowFinishHead) {
                                 head11.setCellValue("руб/ваг.");
                             } else {
-                                head11.setCellValue("РАСХОД");
+                                head11.setCellValue("ДОХОД");
                             }
                             head11.setCellStyle(cellStyleHeadBottom(sheet));
 
                             Cell head12 = rowHead.createCell(12);
                             if (i == rowFinishHead - 1 || i == rowFinishHead - 2) {
-                                head12.setCellValue("За нахождение в пути");
+                                head12.setCellValue("Тариф в собств. вагонах");
                             } else if (i == rowFinishHead) {
                                 head12.setCellValue("руб/ваг.");
                             } else {
-                                head12.setCellValue("ПРИБЫЛЬ");
+                                head12.setCellValue("РАСХОД");
                             }
                             head12.setCellStyle(cellStyleHeadBottom(sheet));
 
                             Cell head13 = rowHead.createCell(13);
                             if (i == rowFinishHead - 1 || i == rowFinishHead - 2) {
-                                head13.setCellValue("В сутки");
+                                head13.setCellValue("За нахождение в пути");
                             } else if (i == rowFinishHead) {
-                                head13.setCellValue("руб/ваг/сут.");
+                                head13.setCellValue("руб/ваг.");
                             } else {
                                 head13.setCellValue("ПРИБЫЛЬ");
                             }
                             head13.setCellStyle(cellStyleHeadBottom(sheet));
+
+                            Cell head14 = rowHead.createCell(14);
+                            if (i == rowFinishHead - 1 || i == rowFinishHead - 2) {
+                                head14.setCellValue("В сутки");
+                            } else if (i == rowFinishHead) {
+                                head14.setCellValue("руб/ваг/сут.");
+                            } else {
+                                head14.setCellValue("ПРИБЫЛЬ");
+                            }
+                            head14.setCellStyle(cellStyleHeadBottom(sheet));
                         }
 
-                        for (int i = 0; i < 10; i++) {
+                        for (int i = 0; i < 11; i++) {
                             sheet.addMergedRegion(new CellRangeAddress(rowStartHead, rowFinishHead, i, i));
                         }
-                        sheet.addMergedRegion(new CellRangeAddress(rowStartHead, rowFinishHead - 1, 10, 10));
-                        sheet.addMergedRegion(new CellRangeAddress(rowStartHead, rowStartHead, 12, 13));
-                        for (int i = 11; i < 14; i++) {
+                        sheet.addMergedRegion(new CellRangeAddress(rowStartHead, rowFinishHead - 1, 11, 11));
+                        sheet.addMergedRegion(new CellRangeAddress(rowStartHead, rowStartHead, 13, 14));
+                        for (int i = 12; i < 15; i++) {
                             sheet.addMergedRegion(new CellRangeAddress(rowStartHead + 1, rowFinishHead - 1, i, i));
                         }
 
@@ -181,6 +186,7 @@ public class WriteToFileExcel {
                         int rowFirstRoute = rowFinishHead + 1;
                         // Номер первой ячейки данных
                         int firstNumberCell = rowFirstRoute + 1;
+
                         for (Route route : totalModel.getTotalList()) {
                             int num = rowFirstRoute + 1;
                             XSSFRow row = sheet.createRow(rowFirstRoute);
@@ -311,6 +317,7 @@ public class WriteToFileExcel {
                         sheet.autoSizeColumn(13);
 
                         rowStartHead = lastNumberCell + 1;
+                        numberTable++;
                     }
                 }
 
