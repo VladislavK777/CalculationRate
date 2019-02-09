@@ -4,6 +4,7 @@ import com.uraltranscom.calculaterate.model.Route;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.*;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  *
@@ -50,6 +52,7 @@ public class WriteToFileExcel {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat();
     private static XSSFWorkbook xssfWorkbook;
     private static File file;
+    private static DataFormatter dataFormatter = new DataFormatter(Locale.GERMAN);
 
     public static void downloadFileExcel(HttpServletResponse response, ArrayList<TotalModel> listTotalModel) {
         try {
@@ -186,12 +189,19 @@ public class WriteToFileExcel {
                         int rowFirstRoute = rowFinishHead + 1;
                         // Номер первой ячейки данных
                         int firstNumberCell = rowFirstRoute + 1;
+                        boolean isMarker = false;
 
                         for (Route route : totalModel.getTotalList()) {
+
                             int num = rowFirstRoute + 1;
                             XSSFRow row = sheet.createRow(rowFirstRoute);
                             Cell number = row.createCell(0);
-                            number.setCellValue(numberTable);
+                            if (!isMarker) {
+                                number.setCellValue(numberTable);
+                                isMarker = true;
+                            } else {
+                                number.setCellValue("");
+                            }
                             number.setCellStyle(cellStyleField(sheet));
 
                             Cell stationDeparture = row.createCell(1);
@@ -241,7 +251,7 @@ public class WriteToFileExcel {
                             sheet.autoSizeColumn(10);
 
                             Cell rate = row.createCell(11);
-                            rate.setCellValue(route.getRate());
+                            rate.setCellValue(dataFormatter.formatRawCellContents(route.getRate(), -1, "# ##0.00"));
                             if (route.isFlagNeedCalc()) {
                                 rate.setCellStyle(cellStyleFieldNeedCalc(sheet));
                             } else {
@@ -249,7 +259,7 @@ public class WriteToFileExcel {
                             }
 
                             Cell tariff = row.createCell(12);
-                            tariff.setCellValue(route.getTariff());
+                            tariff.setCellValue(dataFormatter.formatRawCellContents(route.getTariff(), -1, "# ##0.00"));
                             tariff.setCellStyle(cellStyleField(sheet));
 
                             Cell rateTariff = row.createCell(13);
@@ -285,7 +295,7 @@ public class WriteToFileExcel {
                         cell4.setCellStyle(cellStyleFieldTotal(sheet));
 
                         Cell cell5 = row.createCell(5);
-                        cell4.setCellStyle(cellStyleFieldTotal(sheet));
+                        cell5.setCellStyle(cellStyleFieldTotal(sheet));
 
                         sheet.addMergedRegion(new CellRangeAddress(rowFirstRoute, rowFirstRoute, 0, 5));
                         // Строка итоговых расчетов
@@ -387,6 +397,19 @@ public class WriteToFileExcel {
     }
 
     private static XSSFCellStyle cellStyleField(XSSFSheet sheet) {
+        XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setFont(getFont(sheet));
+        cellStyle.setBorderBottom(BorderStyle.DOTTED);
+        cellStyle.setBorderTop(BorderStyle.DOTTED);
+        cellStyle.setBorderRight(BorderStyle.DOTTED);
+        cellStyle.setBorderLeft(BorderStyle.DOTTED);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle.setWrapText(true);
+        return cellStyle;
+    }
+
+    private static XSSFCellStyle cellStyleFieldNumber(XSSFSheet sheet) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setFont(getFont(sheet));
         cellStyle.setBorderBottom(BorderStyle.DOTTED);
