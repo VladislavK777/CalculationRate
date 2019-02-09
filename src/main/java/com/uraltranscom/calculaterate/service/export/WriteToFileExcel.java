@@ -170,7 +170,7 @@ public class WriteToFileExcel {
                             } else {
                                 head14.setCellValue("ПРИБЫЛЬ");
                             }
-                            head14.setCellStyle(cellStyleHeadBottom(sheet));
+                            head14.setCellStyle(cellStyleHeadRight(sheet));
                         }
 
                         for (int i = 0; i < 11; i++) {
@@ -190,53 +190,57 @@ public class WriteToFileExcel {
                         for (Route route : totalModel.getTotalList()) {
                             int num = rowFirstRoute + 1;
                             XSSFRow row = sheet.createRow(rowFirstRoute);
-                            Cell stationDeparture = row.createCell(0);
+                            Cell number = row.createCell(0);
+                            number.setCellValue(numberTable);
+                            number.setCellStyle(cellStyleField(sheet));
+
+                            Cell stationDeparture = row.createCell(1);
                             stationDeparture.setCellValue(route.getStationDeparture().getNameStation());
                             stationDeparture.setCellStyle(cellStyleField(sheet));
 
-                            Cell roadDeparture = row.createCell(1);
+                            Cell roadDeparture = row.createCell(2);
                             roadDeparture.setCellValue(route.getStationDeparture().getRoad().getNameRoad());
                             roadDeparture.setCellStyle(cellStyleField(sheet));
 
-                            Cell stationDestination = row.createCell(2);
+                            Cell stationDestination = row.createCell(3);
                             stationDestination.setCellValue(route.getStationDestination().getNameStation());
                             stationDestination.setCellStyle(cellStyleField(sheet));
 
-                            Cell roadDestination = row.createCell(3);
+                            Cell roadDestination = row.createCell(4);
                             roadDestination.setCellValue(route.getStationDestination().getRoad().getNameRoad());
                             roadDestination.setCellStyle(cellStyleField(sheet));
 
-                            Cell cargo = row.createCell(4);
+                            Cell cargo = row.createCell(5);
                             if (route.getRate() != 0) {
                                 cargo.setCellValue(route.getCargo().getNameCargo());
-                                cargo.setCellStyle(cellStyleField(sheet));
+                                cargo.setCellStyle(cellStyleFieldCargo(sheet));
                             } else {
                                 cargo.setCellValue("Порожняк");
-                                cargo.setCellStyle(cellStyleField(sheet));
+                                cargo.setCellStyle(cellStyleFieldCargo(sheet));
                             }
 
-                            Cell distance = row.createCell(5);
+                            Cell distance = row.createCell(6);
                             distance.setCellValue(route.getDistance());
                             distance.setCellStyle(cellStyleField(sheet));
 
-                            Cell countDays = row.createCell(6);
+                            Cell countDays = row.createCell(7);
                             countDays.setCellValue(route.getCountDays());
                             countDays.setCellStyle(cellStyleField(sheet));
 
-                            Cell daysLoadUnload = row.createCell(7);
+                            Cell daysLoadUnload = row.createCell(8);
                             daysLoadUnload.setCellValue(route.getCountDaysLoadAndUnload());
                             daysLoadUnload.setCellStyle(cellStyleField(sheet));
 
-                            Cell fullCountDays = row.createCell(8);
-                            fullCountDays.setCellFormula("SUM(G" + num + ":H" + num + ")");
+                            Cell fullCountDays = row.createCell(9);
+                            fullCountDays.setCellFormula("SUM(H" + num + ":I" + num + ")");
                             fullCountDays.setCellStyle(cellStyleField(sheet));
 
-                            Cell call9 = row.createCell(9);
+                            Cell call9 = row.createCell(10);
                             call9.setCellValue("поваг");
                             call9.setCellStyle(cellStyleField(sheet));
-                            sheet.autoSizeColumn(9);
+                            sheet.autoSizeColumn(10);
 
-                            Cell rate = row.createCell(10);
+                            Cell rate = row.createCell(11);
                             rate.setCellValue(route.getRate());
                             if (route.isFlagNeedCalc()) {
                                 rate.setCellStyle(cellStyleFieldNeedCalc(sheet));
@@ -244,18 +248,18 @@ public class WriteToFileExcel {
                                 rate.setCellStyle(cellStyleField(sheet));
                             }
 
-                            Cell tariff = row.createCell(11);
+                            Cell tariff = row.createCell(12);
                             tariff.setCellValue(route.getTariff());
                             tariff.setCellStyle(cellStyleField(sheet));
 
-                            Cell rateTariff = row.createCell(12);
-                            rateTariff.setCellFormula("K" + num + "-L" + num);
+                            Cell rateTariff = row.createCell(13);
+                            rateTariff.setCellFormula("L" + num + "-M" + num);
                             rateTariff.setCellStyle(cellStyleField(sheet));
-                            sheet.autoSizeColumn(12);
+                            sheet.autoSizeColumn(13);
 
-                            Cell cell13 = row.createCell(13);
+                            Cell cell13 = row.createCell(14);
                             cell13.setCellValue("");
-                            cell13.setCellStyle(cellStyleField(sheet));
+                            cell13.setCellStyle(cellStyleFieldRightBold(sheet));
 
                             rowFirstRoute++;
                         }
@@ -280,26 +284,26 @@ public class WriteToFileExcel {
                         Cell cell4 = row.createCell(4);
                         cell4.setCellStyle(cellStyleFieldTotal(sheet));
 
-                        sheet.addMergedRegion(new CellRangeAddress(rowFirstRoute, rowFirstRoute, 0, 4));
+                        Cell cell5 = row.createCell(5);
+                        cell4.setCellStyle(cellStyleFieldTotal(sheet));
+
+                        sheet.addMergedRegion(new CellRangeAddress(rowFirstRoute, rowFirstRoute, 0, 5));
                         // Строка итоговых расчетов
-                        Cell totalDistance = row.createCell(5);
-                        totalDistance.setCellFormula("SUM(F" + firstNumberCell + ":F" + lastNumberCell + ")");
+                        Cell totalDistance = row.createCell(6);
+                        totalDistance.setCellFormula("SUM(G" + firstNumberCell + ":G" + lastNumberCell + ")");
                         totalDistance.setCellStyle(cellStyleFieldTotal(sheet));
 
-                        Cell totalCountDays = row.createCell(6);
-                        totalCountDays.setCellFormula("SUM(G" + firstNumberCell + ":G" + lastNumberCell + ")");
+                        Cell totalCountDays = row.createCell(7);
+                        totalCountDays.setCellFormula("SUM(H" + firstNumberCell + ":H" + lastNumberCell + ")");
                         totalCountDays.setCellStyle(cellStyleFieldTotal(sheet));
 
-                        Cell totalCountLoadUnloadDays = row.createCell(7);
-                        totalCountLoadUnloadDays.setCellFormula("SUM(H" + firstNumberCell + ":H" + lastNumberCell + ")");
+                        Cell totalCountLoadUnloadDays = row.createCell(8);
+                        totalCountLoadUnloadDays.setCellFormula("SUM(I" + firstNumberCell + ":I" + lastNumberCell + ")");
                         totalCountLoadUnloadDays.setCellStyle(cellStyleFieldTotal(sheet));
 
-                        Cell totalFullCountDays = row.createCell(8);
-                        totalFullCountDays.setCellFormula("SUM(I" + firstNumberCell + ":I" + lastNumberCell + ")");
+                        Cell totalFullCountDays = row.createCell(9);
+                        totalFullCountDays.setCellFormula("SUM(J" + firstNumberCell + ":J" + lastNumberCell + ")");
                         totalFullCountDays.setCellStyle(cellStyleFieldTotal(sheet));
-
-                        Cell cell9 = row.createCell(9);
-                        cell9.setCellStyle(cellStyleFieldTotal(sheet));
 
                         Cell cell10 = row.createCell(10);
                         cell10.setCellStyle(cellStyleFieldTotal(sheet));
@@ -307,14 +311,17 @@ public class WriteToFileExcel {
                         Cell cell11 = row.createCell(11);
                         cell11.setCellStyle(cellStyleFieldTotal(sheet));
 
-                        Cell totalRateTariff = row.createCell(12);
-                        totalRateTariff.setCellFormula("SUM(M" + firstNumberCell + ":M" + lastNumberCell + ")");
+                        Cell cell12 = row.createCell(12);
+                        cell12.setCellStyle(cellStyleFieldTotal(sheet));
+
+                        Cell totalRateTariff = row.createCell(13);
+                        totalRateTariff.setCellFormula("SUM(N" + firstNumberCell + ":N" + lastNumberCell + ")");
                         totalRateTariff.setCellStyle(cellStyleFieldTotal(sheet));
 
-                        Cell yield = row.createCell(13);
-                        yield.setCellFormula("M" + totalYieldNum + "/I" + totalYieldNum);
-                        yield.setCellStyle(cellStyleFieldTotal(sheet));
-                        sheet.autoSizeColumn(13);
+                        Cell yield = row.createCell(14);
+                        yield.setCellFormula("N" + totalYieldNum + "/J" + totalYieldNum);
+                        yield.setCellStyle(cellStyleFieldTotalRight(sheet));
+                        sheet.autoSizeColumn(14);
 
                         rowStartHead = lastNumberCell + 1;
                         numberTable++;
@@ -341,8 +348,8 @@ public class WriteToFileExcel {
     private static XSSFCellStyle cellStyleHead(XSSFSheet sheet) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setFont(getFont(sheet));
-        cellStyle.setBorderRight(BorderStyle.THIN);
-        cellStyle.setBorderLeft(BorderStyle.THIN);
+        cellStyle.setBorderRight(BorderStyle.DOTTED);
+        cellStyle.setBorderLeft(BorderStyle.DOTTED);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setFillForegroundColor(new XSSFColor(new Color(255, 255, 153)));
@@ -354,9 +361,23 @@ public class WriteToFileExcel {
     private static XSSFCellStyle cellStyleHeadBottom(XSSFSheet sheet) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setFont(getFont(sheet));
-        cellStyle.setBorderRight(BorderStyle.THIN);
-        cellStyle.setBorderBottom(BorderStyle.THIN);
-        cellStyle.setBorderLeft(BorderStyle.THIN);
+        cellStyle.setBorderRight(BorderStyle.DOTTED);
+        cellStyle.setBorderBottom(BorderStyle.DOTTED);
+        cellStyle.setBorderLeft(BorderStyle.DOTTED);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle.setFillForegroundColor(new XSSFColor(new Color(255, 255, 153)));
+        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cellStyle.setWrapText(true);
+        return cellStyle;
+    }
+
+    private static XSSFCellStyle cellStyleHeadRight(XSSFSheet sheet) {
+        XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setFont(getFont(sheet));
+        cellStyle.setBorderRight(BorderStyle.MEDIUM);
+        cellStyle.setBorderBottom(BorderStyle.DOTTED);
+        cellStyle.setBorderLeft(BorderStyle.DOTTED);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setFillForegroundColor(new XSSFColor(new Color(255, 255, 153)));
@@ -368,23 +389,49 @@ public class WriteToFileExcel {
     private static XSSFCellStyle cellStyleField(XSSFSheet sheet) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setFont(getFont(sheet));
-        cellStyle.setBorderBottom(BorderStyle.THIN);
-        cellStyle.setBorderTop(BorderStyle.THIN);
-        cellStyle.setBorderRight(BorderStyle.THIN);
-        cellStyle.setBorderLeft(BorderStyle.THIN);
+        cellStyle.setBorderBottom(BorderStyle.DOTTED);
+        cellStyle.setBorderTop(BorderStyle.DOTTED);
+        cellStyle.setBorderRight(BorderStyle.DOTTED);
+        cellStyle.setBorderLeft(BorderStyle.DOTTED);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setWrapText(true);
         return cellStyle;
     }
 
-    private static XSSFCellStyle cellStyleFieldNeedCalc(XSSFSheet sheet) {
+    private static XSSFCellStyle cellStyleFieldRightBold(XSSFSheet sheet) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setFont(getFont(sheet));
-        cellStyle.setBorderBottom(BorderStyle.THIN);
-        cellStyle.setBorderTop(BorderStyle.THIN);
-        cellStyle.setBorderRight(BorderStyle.THIN);
-        cellStyle.setBorderLeft(BorderStyle.THIN);
+        cellStyle.setBorderBottom(BorderStyle.DOTTED);
+        cellStyle.setBorderTop(BorderStyle.DOTTED);
+        cellStyle.setBorderRight(BorderStyle.MEDIUM);
+        cellStyle.setBorderLeft(BorderStyle.DOTTED);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle.setWrapText(true);
+        return cellStyle;
+    }
+
+    private static XSSFCellStyle cellStyleFieldCargo(XSSFSheet sheet) {
+        XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setFont(getFont(sheet));
+        cellStyle.setBorderBottom(BorderStyle.DOTTED);
+        cellStyle.setBorderTop(BorderStyle.DOTTED);
+        cellStyle.setBorderRight(BorderStyle.DOTTED);
+        cellStyle.setBorderLeft(BorderStyle.DOTTED);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        return cellStyle;
+    }
+
+    private static XSSFCellStyle cellStyleFieldNeedCalc(XSSFSheet sheet) {
+        XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        XSSFFont font = getFont(sheet);
+        font.setBold(true);
+        cellStyle.setFont(font);
+        cellStyle.setBorderBottom(BorderStyle.DOTTED);
+        cellStyle.setBorderTop(BorderStyle.DOTTED);
+        cellStyle.setBorderRight(BorderStyle.DOTTED);
+        cellStyle.setBorderLeft(BorderStyle.DOTTED);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setFillForegroundColor(new XSSFColor(new Color(255, 160, 122)));
@@ -396,10 +443,25 @@ public class WriteToFileExcel {
     private static XSSFCellStyle cellStyleFieldTotal(XSSFSheet sheet) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setFont(getFont(sheet));
-        cellStyle.setBorderBottom(BorderStyle.THIN);
-        cellStyle.setBorderTop(BorderStyle.THIN);
-        cellStyle.setBorderRight(BorderStyle.THIN);
-        cellStyle.setBorderLeft(BorderStyle.THIN);
+        cellStyle.setBorderBottom(BorderStyle.MEDIUM);
+        cellStyle.setBorderTop(BorderStyle.DOTTED);
+        cellStyle.setBorderRight(BorderStyle.DOTTED);
+        cellStyle.setBorderLeft(BorderStyle.DOTTED);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle.setFillForegroundColor(new XSSFColor(new Color(204, 255, 204)));
+        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cellStyle.setWrapText(true);
+        return cellStyle;
+    }
+
+    private static XSSFCellStyle cellStyleFieldTotalRight(XSSFSheet sheet) {
+        XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setFont(getFont(sheet));
+        cellStyle.setBorderBottom(BorderStyle.MEDIUM);
+        cellStyle.setBorderTop(BorderStyle.DOTTED);
+        cellStyle.setBorderRight(BorderStyle.MEDIUM);
+        cellStyle.setBorderLeft(BorderStyle.DOTTED);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setFillForegroundColor(new XSSFColor(new Color(204, 255, 204)));
