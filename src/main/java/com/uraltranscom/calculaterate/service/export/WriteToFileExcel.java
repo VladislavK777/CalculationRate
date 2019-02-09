@@ -251,16 +251,26 @@ public class WriteToFileExcel {
                             sheet.autoSizeColumn(10);
 
                             Cell rate = row.createCell(11);
-                            rate.setCellValue(dataFormatter.formatRawCellContents(route.getRate(), -1, "# ##0.00"));
-                            if (route.isFlagNeedCalc()) {
-                                rate.setCellStyle(cellStyleFieldNeedCalc(sheet));
-                            } else {
+                            if (route.getRate() == 0) {
+                                rate.setCellValue("");
                                 rate.setCellStyle(cellStyleField(sheet));
+                            } else {
+                                rate.setCellValue(dataFormatter.formatRawCellContents(route.getRate(), -1, "# ##0.00"));
+                                if (route.isFlagNeedCalc()) {
+                                    rate.setCellStyle(cellStyleFieldNeedCalc(sheet));
+                                } else {
+                                    rate.setCellStyle(cellStyleField(sheet));
+                                }
                             }
 
                             Cell tariff = row.createCell(12);
-                            tariff.setCellValue(dataFormatter.formatRawCellContents(route.getTariff(), -1, "# ##0.00"));
-                            tariff.setCellStyle(cellStyleField(sheet));
+                            if (route.getTariff() == 0) {
+                                tariff.setCellValue("");
+                                tariff.setCellStyle(cellStyleField(sheet));
+                            } else {
+                                tariff.setCellValue(dataFormatter.formatRawCellContents(route.getTariff(), -1, "# ##0.00"));
+                                tariff.setCellStyle(cellStyleField(sheet));
+                            }
 
                             Cell rateTariff = row.createCell(13);
                             rateTariff.setCellFormula("L" + num + "-M" + num);
