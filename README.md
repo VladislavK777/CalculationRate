@@ -1,3 +1,3 @@
-# CalculationRate_1.0
+# CalculationRate
 UralTransCom
-CalculateRate_1.0 it is helper for logistic company and operations.
+CalculateRate it is helper for logistic company and operations.
