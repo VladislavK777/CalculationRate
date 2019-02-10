@@ -1,11 +1,15 @@
 package com.uraltranscom.calculaterate.controller;
 
 import com.uraltranscom.calculaterate.dao.setting.update.*;
+import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.model.settings.*;
+import com.uraltranscom.calculaterate.util.CheckMandatoryParams;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -77,60 +81,78 @@ public class RestControllerSettingsUpdate {
     }
 
     @PutMapping("/updateReturnStation")
-    public void updateReturnStation(@RequestBody SettingReturnStations settingReturnStations) {
-        updateSettingReturnStationsDAO.updateObject(
-                PrepareMapParams.prepareMapWithParams(
-                        settingReturnStations.getId(),
-                        settingReturnStations.getIdsRoad(),
-                        settingReturnStations.getNamesRoad(),
-                        settingReturnStations.getIdsStationString(),
-                        settingReturnStations.getVolumeGroupsString(),
-                        settingReturnStations.getIdStationReturn()
-                )
-        );
+    public ResponseEntity<Conflict> updateReturnStation(@RequestBody SettingReturnStations settingReturnStations) {
+        Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnStations, "namesRoad", "volumeGroupsString", "idStationReturn");
+        if (conflict == null) {
+            updateSettingReturnStationsDAO.updateObject(
+                    PrepareMapParams.prepareMapWithParams(
+                            settingReturnStations.getId(),
+                            settingReturnStations.getIdsRoad(),
+                            settingReturnStations.getNamesRoad(),
+                            settingReturnStations.getIdsStationString(),
+                            settingReturnStations.getVolumeGroupsString(),
+                            settingReturnStations.getIdStationReturn()
+                    )
+            );
+            return new ResponseEntity<>(conflict, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/updateReturnException")
-    public void updateReturnException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        updateSettingReturnExceptionsDAO.updateObject(
-                PrepareMapParams.prepareMapWithParams(
-                        settingReturnExceptions.getId(),
-                        settingReturnExceptions.getIdsRoad(),
-                        settingReturnExceptions.getNamesRoad(),
-                        settingReturnExceptions.getIdsStationString(),
-                        settingReturnExceptions.getVolumeGroupsString(),
-                        settingReturnExceptions.getStationFrom().getIdStation(),
-                        settingReturnExceptions.getStationTo().getIdStation(),
-                        settingReturnExceptions.getCargo().getIdCargo(),
-                        settingReturnExceptions.getCargoTypeString(),
-                        settingReturnExceptions.getRouteType(),
-                        settingReturnExceptions.getDistance(),
-                        settingReturnExceptions.getCountDays(),
-                        settingReturnExceptions.getRate(),
-                        settingReturnExceptions.getTariff()
-                )
-        );
+    public ResponseEntity<Conflict> updateReturnException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
+        Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
+        if (conflict == null) {
+            updateSettingReturnExceptionsDAO.updateObject(
+                    PrepareMapParams.prepareMapWithParams(
+                            settingReturnExceptions.getId(),
+                            settingReturnExceptions.getIdsRoad(),
+                            settingReturnExceptions.getNamesRoad(),
+                            settingReturnExceptions.getIdsStationString(),
+                            settingReturnExceptions.getVolumeGroupsString(),
+                            settingReturnExceptions.getStationFrom().getIdStation(),
+                            settingReturnExceptions.getStationTo().getIdStation(),
+                            settingReturnExceptions.getCargo().getIdCargo(),
+                            settingReturnExceptions.getCargoTypeString(),
+                            settingReturnExceptions.getRouteType(),
+                            settingReturnExceptions.getDistance(),
+                            settingReturnExceptions.getCountDays(),
+                            settingReturnExceptions.getRate(),
+                            settingReturnExceptions.getTariff()
+                    )
+            );
+            return new ResponseEntity<>(conflict, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/updateBeginningException")
-    public void updateBeginningException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        updateSettingBeginningExceptionsDAO.updateObject(
-                PrepareMapParams.prepareMapWithParams(
-                        settingReturnExceptions.getId(),
-                        settingReturnExceptions.getIdsRoad(),
-                        settingReturnExceptions.getNamesRoad(),
-                        settingReturnExceptions.getIdsStationString(),
-                        settingReturnExceptions.getVolumeGroupsString(),
-                        settingReturnExceptions.getStationFrom().getIdStation(),
-                        settingReturnExceptions.getStationTo().getIdStation(),
-                        settingReturnExceptions.getCargo().getIdCargo(),
-                        settingReturnExceptions.getCargoTypeString(),
-                        settingReturnExceptions.getRouteType(),
-                        settingReturnExceptions.getDistance(),
-                        settingReturnExceptions.getCountDays(),
-                        settingReturnExceptions.getRate(),
-                        settingReturnExceptions.getTariff()
-                )
-        );
+    public ResponseEntity<Conflict> updateBeginningException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
+        Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
+        if (conflict == null) {
+            updateSettingBeginningExceptionsDAO.updateObject(
+                    PrepareMapParams.prepareMapWithParams(
+                            settingReturnExceptions.getId(),
+                            settingReturnExceptions.getIdsRoad(),
+                            settingReturnExceptions.getNamesRoad(),
+                            settingReturnExceptions.getIdsStationString(),
+                            settingReturnExceptions.getVolumeGroupsString(),
+                            settingReturnExceptions.getStationFrom().getIdStation(),
+                            settingReturnExceptions.getStationTo().getIdStation(),
+                            settingReturnExceptions.getCargo().getIdCargo(),
+                            settingReturnExceptions.getCargoTypeString(),
+                            settingReturnExceptions.getRouteType(),
+                            settingReturnExceptions.getDistance(),
+                            settingReturnExceptions.getCountDays(),
+                            settingReturnExceptions.getRate(),
+                            settingReturnExceptions.getTariff()
+                    )
+            );
+            return new ResponseEntity<>(conflict, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
+        }
     }
 }

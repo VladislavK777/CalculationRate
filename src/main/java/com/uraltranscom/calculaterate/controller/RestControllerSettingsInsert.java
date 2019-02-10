@@ -62,45 +62,57 @@ public class RestControllerSettingsInsert {
     }
 
     @PostMapping("/addReturnException")
-    public void addReturnException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        insertSettingReturnExceptionsDAO.insertObject(
-                PrepareMapParams.prepareMapWithParams(
-                        settingReturnExceptions.getIdsRoad(),
-                        settingReturnExceptions.getNamesRoad(),
-                        settingReturnExceptions.getIdsStationString(),
-                        settingReturnExceptions.getVolumeGroupsString(),
-                        settingReturnExceptions.getStationFrom().getIdStation(),
-                        settingReturnExceptions.getStationTo().getIdStation(),
-                        settingReturnExceptions.getCargo().getIdCargo(),
-                        settingReturnExceptions.getCargoTypeString(),
-                        settingReturnExceptions.getRouteType(),
-                        settingReturnExceptions.getDistance(),
-                        settingReturnExceptions.getCountDays(),
-                        settingReturnExceptions.getRate(),
-                        settingReturnExceptions.getTariff()
-                )
-        );
+    public ResponseEntity<Conflict> addReturnException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
+        Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
+        if (conflict == null) {
+            insertSettingReturnExceptionsDAO.insertObject(
+                    PrepareMapParams.prepareMapWithParams(
+                            settingReturnExceptions.getIdsRoad(),
+                            settingReturnExceptions.getNamesRoad(),
+                            settingReturnExceptions.getIdsStationString(),
+                            settingReturnExceptions.getVolumeGroupsString(),
+                            settingReturnExceptions.getStationFrom().getIdStation(),
+                            settingReturnExceptions.getStationTo().getIdStation(),
+                            settingReturnExceptions.getCargo().getIdCargo(),
+                            settingReturnExceptions.getCargoTypeString(),
+                            settingReturnExceptions.getRouteType(),
+                            settingReturnExceptions.getDistance(),
+                            settingReturnExceptions.getCountDays(),
+                            settingReturnExceptions.getRate(),
+                            settingReturnExceptions.getTariff()
+                    )
+            );
+            return new ResponseEntity<>(conflict, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/addBeginningException")
-    public void addBeginningException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        insertSettingBeginningExceptionsDAO.insertObject(
-                PrepareMapParams.prepareMapWithParams(
-                        settingReturnExceptions.getIdsRoad(),
-                        settingReturnExceptions.getNamesRoad(),
-                        settingReturnExceptions.getIdsStationString(),
-                        settingReturnExceptions.getVolumeGroupsString(),
-                        settingReturnExceptions.getStationFrom().getIdStation(),
-                        settingReturnExceptions.getStationTo().getIdStation(),
-                        settingReturnExceptions.getCargo().getIdCargo(),
-                        settingReturnExceptions.getCargoTypeString(),
-                        settingReturnExceptions.getRouteType(),
-                        settingReturnExceptions.getDistance(),
-                        settingReturnExceptions.getCountDays(),
-                        settingReturnExceptions.getRate(),
-                        settingReturnExceptions.getTariff()
-                )
-        );
+    public ResponseEntity<Conflict> addBeginningException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
+        Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
+        if (conflict == null) {
+            insertSettingBeginningExceptionsDAO.insertObject(
+                    PrepareMapParams.prepareMapWithParams(
+                            settingReturnExceptions.getIdsRoad(),
+                            settingReturnExceptions.getNamesRoad(),
+                            settingReturnExceptions.getIdsStationString(),
+                            settingReturnExceptions.getVolumeGroupsString(),
+                            settingReturnExceptions.getStationFrom().getIdStation(),
+                            settingReturnExceptions.getStationTo().getIdStation(),
+                            settingReturnExceptions.getCargo().getIdCargo(),
+                            settingReturnExceptions.getCargoTypeString(),
+                            settingReturnExceptions.getRouteType(),
+                            settingReturnExceptions.getDistance(),
+                            settingReturnExceptions.getCountDays(),
+                            settingReturnExceptions.getRate(),
+                            settingReturnExceptions.getTariff()
+                    )
+            );
+            return new ResponseEntity<>(conflict, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/cloneReturnStation/{id}")
