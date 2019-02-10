@@ -257,32 +257,51 @@ function testError(event) {
   });
 }
 
-function showVolumeGroup(element,id) {
-  $("#col" + id + " #listVolumeGroup" + id + " ul").slideToggle("fast");
+// Выпадающий список
+$(document).on("focus", ".effect-1", function() {
+  var $input = $(this);
+  var $checkList = $input.siblings(".check-list"),
+    $checkBoxes = $checkList.find(".check-list__checkbox");
+
+  if ($input.val() === "") {
+    var $split = $input.val().split(",");
+    for (var i = 0; i < $checkBoxes.length; i++) {
+      for (var j = 0; j < $split.length; j++) {
+        if ($checkBoxes.eq(i).val() == $split[j]) {
+          $checkBoxes.eq(i).prop("checked", true);
+        }
+      }
+    }
+  }
+
+  $checkList.show();
 
   $(document).bind("click", function(e) {
     var $clicked = $(e.target);
-    if (!$clicked.parents().hasClass("col-3"))
-      $("#col" + id + " #listVolumeGroup" + id + " ul").hide();
-  });
-
-  $('#mutliSelect' + id + ' input[type="checkbox"]').on("click", function() {
-    var title = $(this)
-        .closest("#mutliSelect" + id)
-        .find('input[type="checkbox"]')
-        .val(),
-      title = $(this).val() + ",";
-
-    if ($(this).is(":checked")) {
-      var html = '<span title="' + title + '">' + title + "</span>";
-      $("#multiSel" + id).append(html);
-      var val = $("#multiSel" + id).text();
-      $("#col" + id + " #headVolumeGroup" + id + " #" + element).val(val);
-    } else {
-      $('span[title="' + title + '"]').remove();
-      var val = $("#multiSel" + id).text();
-      $("#col" + id + " #headVolumeGroup" + id + " #" + element).val(val);
+    if ($clicked.is("body")) {
+      $checkList.hide();
     }
   });
-}
+
+  $checkBoxes.on("change", function() {
+    var inputText = "",
+      checkStatus = 0;
+
+    for (var i = 0; i < $checkBoxes.length; i++) {
+      if ($checkBoxes.eq(i).is(":checked")) {
+        checkStatus++;
+
+        if (inputText === "") {
+          inputText = $checkBoxes.eq(i).val();
+        } else {
+          inputText += "," + $checkBoxes.eq(i).val();
+        }
+
+        $input.val(inputText);
+      } else if (checkStatus === 0) {
+        $input.val("");
+      }
+    }
+  });
+});
 

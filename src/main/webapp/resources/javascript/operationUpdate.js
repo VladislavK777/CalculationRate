@@ -6,7 +6,7 @@ function updateFieldReturnStation(id) {
   var idsRoad = window.sessionStorage.getItem("roadIds");
   var namesRoad = context.querySelector("#roadReturnStationSetting" + id).value;
   var idsStationString = context.querySelector("#idStationStringReturnStation").value;
-  var volumeGroup = context.querySelector("#volumeGroupsStringReturnStation" + id)
+  var volumeGroup = context.querySelector("#volumeGroupsStringReturnStation")
     .value;
   var returnStation = context
     .querySelector("#stationReturnStation" + id)
@@ -84,7 +84,7 @@ function updateFieldBeginningException(id) {
   var idsStationString = context.querySelector("#idStationStringBeginningException")
     .value;
   var volumeGroup = context.querySelector(
-    "#volumeGroupsStringBeginningException" + id
+    "#volumeGroupsStringBeginningException"
   ).value;
   var stationFrom = context
     .querySelector("#stationFromBeginningException" + id)
@@ -96,7 +96,7 @@ function updateFieldBeginningException(id) {
     .querySelector("#cargoBeginningException" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var cargoTypeString = context.querySelector(
-    "#cargoTypeStringBeginningException" + id
+    "#cargoTypeStringBeginningException"
   ).value;
   var routeType = context.querySelector("#routeTypeBeginningException" + id).value;
   var distance = context.querySelector("#distanceBeginningException").value;
@@ -129,7 +129,7 @@ function updateFieldReturnException(id) {
   var idsRoad = window.sessionStorage.getItem("roadIds");
   var namesRoad = context.querySelector("#roadReturnExceptionSetting" + id).value;
   var idsStationString = context.querySelector("#idStationStringReturnException").value;
-  var volumeGroup = context.querySelector("#volumeGroupsStringReturnException" + id)
+  var volumeGroup = context.querySelector("#volumeGroupsStringReturnException")
     .value;
   var stationFrom = context
     .querySelector("#stationFromReturnException" + id)
@@ -140,7 +140,7 @@ function updateFieldReturnException(id) {
   var cargo = context
     .querySelector("#cargoReturnException" + id)
     .value.replace(/[^\d{6}}]/g, "");
-  var cargoTypeString = context.querySelector("#cargoTypeStringReturnException" + id)
+  var cargoTypeString = context.querySelector("#cargoTypeStringReturnException")
     .value;
   var routeType = context.querySelector("#routeTypeReturnException" + id).value;
   var distance = context.querySelector("#distanceReturnException").value;

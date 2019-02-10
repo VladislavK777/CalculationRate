@@ -588,7 +588,7 @@ input[type="file"] {
   position: absolute;
   margin: 0;
   padding: 0;
-  background: #fff;
+  background: #f8f8ff;
   top: 0;
   left: 0;
   z-index: 10;
@@ -701,6 +701,25 @@ input[type="file"] {
 
 .block {
   height: 170px;
+}
+
+.wrapper + .wrapper {
+  margin-top: 20px;
+}
+
+.check-list {
+  position: absolute;
+  display: none;
+  border-bottom: 1px #222 solid;
+  border-right: 1px #222 solid;
+  border-left: 1px #222 solid;
+  background: #f8f8ff;
+  z-index:999;
+  width: 100%;
+}
+
+.check-list ul {
+  list-style-type: none;
 }
 
 @media screen and (max-width: 1500px) {
