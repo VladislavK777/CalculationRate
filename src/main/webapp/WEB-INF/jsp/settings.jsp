@@ -9,7 +9,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <link href="resources/css/style.css" rel="stylesheet" type="text/css" />
   <link href="resources/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
-  <script async src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
@@ -80,9 +80,9 @@
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3">
+                    <div class="col-3__list">
                       <div class="wrapper">
-                        <input class="effect-1" type="text" autocomplete="off" id="volumeGroupsStringReturnStation" value='${setting.getVolumeGroupsString()}' />
+                        <input class="effect-1__list" type="text" autocomplete="off" id="volumeGroupsStringReturnStation" value='${setting.getVolumeGroupsString()}' />
                         <span class="focus-border"></span>
                         <div class="check-list">
                           <ul>
@@ -140,9 +140,10 @@
                     <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="idStationStringReturnException" value='${setting.getIdsStationString()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3">
-                      <input class="effect-1" type="text" autocomplete="off" id="volumeGroupsStringReturnException" value='${setting.getVolumeGroupsString()}' /><span class="focus-border"></span>
+                    <div class="col-3__list">
                       <div class="wrapper">
+                        <input class="effect-1__list" type="text" autocomplete="off" id="volumeGroupsStringReturnException" value='${setting.getVolumeGroupsString()}' />
+                        <span class="focus-border"></span>
                         <div class="check-list">
                           <ul>
                             <li>
@@ -166,9 +167,10 @@
                     <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="cargoReturnException${setting.getId()}" value='${setting.getCargo().getNameCargo()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3">
-                      <input class="effect-1" type="text" autocomplete="off" id="cargoTypeStringReturnException" value='${setting.getCargoTypeString()}' /><span class="focus-border"></span>
+                    <div class="col-3__list">
                       <div class="wrapper">
+                        <input class="effect-1__list" type="text" autocomplete="off" id="cargoTypeStringReturnException" value='${setting.getCargoTypeString()}' />
+                        <span class="focus-border"></span>
                         <div class="check-list">
                           <ul>
                             <li>
@@ -236,9 +238,10 @@
                     <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="idStationStringBeginningException" value='${setting.getIdsStationString()}' /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3">
-                      <input class="effect-1" type="text" autocomplete="off" id="volumeGroupsStringBeginningException" value='${setting.getVolumeGroupsString()}' /><span class="focus-border"></span>
+                    <div class="col-3__list">
                       <div class="wrapper">
+                        <input class="effect-1__list" type="text" autocomplete="off" id="volumeGroupsStringBeginningException" value='${setting.getVolumeGroupsString()}' />
+                        <span class="focus-border"></span>
                         <div class="check-list">
                           <ul>
                             <li>
@@ -259,12 +262,13 @@
                     <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationToBeginningException${setting.getId()}" value='${setting.getStationTo().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="cargo${setting.getId()}" value='${setting.getCargo().getNameCargo()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="cargoBeginningException${setting.getId()}" value='${setting.getCargo().getNameCargo()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3">
-                      <input class="effect-1" type="text" autocomplete="off" id="cargoTypeStringBeginningException" value='${setting.getCargoTypeString()}' /><span class="focus-border"></span>
+                    <div class="col-3__list">
                       <div class="wrapper">
+                        <input class="effect-1__list" type="text" autocomplete="off" id="cargoTypeStringBeginningException" value='${setting.getCargoTypeString()}' />
+                        <span class="focus-border"></span>
                         <div class="check-list">
                           <ul>
                             <li>

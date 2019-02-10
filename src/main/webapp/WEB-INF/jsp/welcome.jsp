@@ -9,7 +9,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <link href="resources/css/style.css" rel="stylesheet" type="text/css" />
   <link href="resources/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
-  <script async src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script async type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="resources/javascript/search.js"></script>
   <script src="resources/javascript/process.js"></script>
   <script src="resources/javascript/calculateRate.js"></script>

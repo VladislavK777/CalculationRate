@@ -371,29 +371,12 @@ body {
   outline: none;
 }
 
-.col-3 {
+.col-3, .col-3__list {
   float: left;
   width: auto;
   position: relative;
 }
 
-.col-3 .listVolumeGroup ul {
-  display: none;
-  border-bottom: 1px #222 solid;
-  border-right: 1px #222 solid;
-  border-left: 1px #222 solid;
-  position: relative;
-  margin: 0;
-  padding: 0;
-  background: #fff;
-  top: 0;
-  left: 0;
-  z-index: 10;
-}
-
-.col-3 .headVolumeGroup {
-  position: relative;
-}
 
 input[type="text"] {
   font: 18px "Calibri Light", sans-serif;
@@ -411,13 +394,13 @@ input[type="file"] {
   letter-spacing: 1px;
 }
 
-.effect-1 {
+.effect-1,.effect-1__list {
   border: 0;
   padding: 7px 0;
   border-bottom: 1px solid #ccc;
 }
 
-.effect-1 ~ .focus-border {
+.effect-1 ~ .focus-border, .effect-1__list ~ .focus-border {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -427,7 +410,7 @@ input[type="file"] {
   transition: 0.4s;
 }
 
-.effect-1:focus ~ .focus-border {
+.effect-1:focus ~ .focus-border, .effect-1__list:focus ~ .focus-border {
   width: 100%;
   transition: 0.4s;
 }

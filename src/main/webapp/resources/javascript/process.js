@@ -258,12 +258,12 @@ function testError(event) {
 }
 
 // Выпадающий список
-$(document).on("focus", ".effect-1", function() {
+$(document).on("focus", ".effect-1__list", function() {
   var $input = $(this);
   var $checkList = $input.siblings(".check-list"),
     $checkBoxes = $checkList.find(".check-list__checkbox");
 
-  if ($input.val() === "") {
+  if ($input.val() != "") {
     var $split = $input.val().split(",");
     for (var i = 0; i < $checkBoxes.length; i++) {
       for (var j = 0; j < $split.length; j++) {
@@ -278,7 +278,7 @@ $(document).on("focus", ".effect-1", function() {
 
   $(document).bind("click", function(e) {
     var $clicked = $(e.target);
-    if ($clicked.is("body")) {
+    if (!$clicked.parents().hasClass("col-3__list")) {
       $checkList.hide();
     }
   });
@@ -304,4 +304,5 @@ $(document).on("focus", ".effect-1", function() {
     }
   });
 });
+
 

@@ -1,5 +1,8 @@
 package com.uraltranscom.calculaterate.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.uraltranscom.calculaterate.dao.setting.add.InsertSettingBeginningExceptionsDAO;
 import com.uraltranscom.calculaterate.dao.setting.add.InsertSettingReturnExceptionsDAO;
 import com.uraltranscom.calculaterate.dao.setting.add.InsertSettingReturnStationsDAO;
@@ -40,6 +43,14 @@ public class RestControllerSettingsInsert {
 
     @PostMapping("/addReturnStation")
     public void addReturnStation(@RequestBody SettingReturnStations settingReturnStations) {
+        ObjectWriter o = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        try {
+            String j = o.writeValueAsString(settingReturnStations);
+            logger.info("obj: {}", j);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         insertSettingReturnStationsDAO.insertObject(
                 PrepareMapParams.prepareMapWithParams(
                         settingReturnStations.getIdsRoad(),
