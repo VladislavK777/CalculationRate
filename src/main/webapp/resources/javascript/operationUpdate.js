@@ -2,17 +2,17 @@
 
 function updateFieldReturnStation(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idReturnStation").value;
+  var ide = context.querySelector("#idReturnStation").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadSetting" + id).value;
+  var namesRoad = context.querySelector("#roadReturnStationSetting" + id).value;
   var idsStationString = context.querySelector("#idStationStringReturnStation").value;
   var volumeGroup = context.querySelector("#volumeGroupsStringReturnStation")
     .value;
   var returnStation = context
-    .querySelector("#station" + id)
+    .querySelector("#stationReturnStation" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var json = JSON.stringify({
-    id: id,
+    id: ide,
     idsRoad: idsRoad,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
@@ -20,15 +20,16 @@ function updateFieldReturnStation(id) {
     idStationReturn: returnStation
   });
   var request = "/updateReturnStation";
+  console.log(json);
   update(id, request, json);
 }
 
 function updateFieldYield(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idYield").value;
+  var ide = context.querySelector("#idYield").value;
   var yield = context.querySelector("#yieldYield").value;
   var json = JSON.stringify({
-    id: id,
+    id: ide,
     yield: yield
   });
   var request = "/updateYield";
@@ -37,10 +38,10 @@ function updateFieldYield(id) {
 
 function updateFieldOther(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idOther").value;
+  var ide = context.querySelector("#idOther").value;
   var value = context.querySelector("#valueOther").value;
   var json = JSON.stringify({
-    id: id,
+    id: ide,
     value: value
   });
   var request = "/updateOther";
@@ -49,10 +50,10 @@ function updateFieldOther(id) {
 
 function updateFieldLoadUnload(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idLoadUnload").value;
+  var ide = context.querySelector("#idLoadUnload").value;
   var value = context.querySelector("#valueLoadUnload").value;
   var json = JSON.stringify({
-    id: id,
+    id: ide,
     value: value
   });
   var request = "/updateLoadUnload";
@@ -61,12 +62,12 @@ function updateFieldLoadUnload(id) {
 
 function updateFieldBorderDistance(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idBorderDistance").value;
+  var ide = context.querySelector("#idBorderDistance").value;
   var distanceFrom = context.querySelector("#distanceFromBorderDistance").value;
   var distanceTo = context.querySelector("#distanceToBorderDistance").value;
   var coefficient = context.querySelector("#coefficientBorderDistance").value;
   var json = JSON.stringify({
-    id: id,
+    id: ide,
     distanceFrom: distanceFrom,
     distanceTo: distanceTo,
     coefficient: coefficient
@@ -77,33 +78,33 @@ function updateFieldBorderDistance(id) {
 
 function updateFieldBeginningException(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idBeginningException").value;
+  var ide = context.querySelector("#idBeginningException").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadSetting" + id).value;
+  var namesRoad = context.querySelector("#roadBeginningExceptionSetting" + id).value;
   var idsStationString = context.querySelector("#idStationStringBeginningException")
     .value;
   var volumeGroup = context.querySelector(
     "#volumeGroupsStringBeginningException"
   ).value;
   var stationFrom = context
-    .querySelector("#stationFrom" + id)
+    .querySelector("#stationFromBeginningException" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var stationTo = context
-    .querySelector("#stationTo" + id)
+    .querySelector("#stationToBeginningException" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var cargo = context
-    .querySelector("#cargo" + id)
+    .querySelector("#cargoBeginningException" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var cargoTypeString = context.querySelector(
     "#cargoTypeStringBeginningException"
   ).value;
-  var routeType = context.querySelector("#routeTypeBeginningException").value;
+  var routeType = context.querySelector("#routeTypeBeginningException" + id).value;
   var distance = context.querySelector("#distanceBeginningException").value;
   var countDays = context.querySelector("#countDaysBeginningException").value;
   var rate = context.querySelector("#rateBeginningException").value;
   var tariff = context.querySelector("#tariffBeginningException").value;
   var json = JSON.stringify({
-    id: id,
+    id: ide,
     idsRoad: idsRoad,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
@@ -124,30 +125,30 @@ function updateFieldBeginningException(id) {
 
 function updateFieldReturnException(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idReturnException").value;
+  var ide = context.querySelector("#idReturnException").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadSetting" + id).value;
+  var namesRoad = context.querySelector("#roadReturnExceptionSetting" + id).value;
   var idsStationString = context.querySelector("#idStationStringReturnException").value;
   var volumeGroup = context.querySelector("#volumeGroupsStringReturnException")
     .value;
   var stationFrom = context
-    .querySelector("#stationFrom" + id)
+    .querySelector("#stationFromReturnException" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var stationTo = context
-    .querySelector("#stationTo" + id)
+    .querySelector("#stationToReturnException" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var cargo = context
-    .querySelector("#cargo" + id)
+    .querySelector("#cargoReturnException" + id)
     .value.replace(/[^\d{6}}]/g, "");
   var cargoTypeString = context.querySelector("#cargoTypeStringReturnException")
     .value;
-  var routeType = context.querySelector("#routeTypeReturnException").value;
+  var routeType = context.querySelector("#routeTypeReturnException" + id).value;
   var distance = context.querySelector("#distanceReturnException").value;
   var countDays = context.querySelector("#countDaysReturnException").value;
   var rate = context.querySelector("#rateReturnException").value;
   var tariff = context.querySelector("#tariffReturnException").value;
   var json = JSON.stringify({
-    id: id,
+    id: ide,
     idsRoad: idsRoad,
     namesRoad: namesRoad,
     idsStationString: idsStationString,

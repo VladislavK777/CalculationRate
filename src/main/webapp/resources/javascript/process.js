@@ -4,6 +4,32 @@ function init() {
   document.getElementById("copy").innerText = new Date().getFullYear();
 }
 
+function errorCodes(code) {
+  var result = [];
+  var codes = {
+    namesRoad: "Дорога",
+    volumeGroupsString: "Группа объемов",
+    idStationReturn: "Станция возврата",
+    stationFrom: "Станция отправления",
+    stationTo: "Станция назначения",
+    cargo: "Груз",
+    cargoTypeString: "Класс груза",
+    routeType: "Тип рейса",
+    distance: "Расстояние",
+    countDays: "Дней",
+    rate: "Ставка",
+    tariff: "Тариф"
+  };
+  if (toString.call(code) == "[object Array]") {
+    for (var i = 0; i < code.length; i++) {
+      result.push(codes[code[i]]);
+    }
+    return result;
+  } else {
+    return codes[code];
+  }
+}
+
 function initSetting() {
   element = document.getElementById(window.sessionStorage.getItem("tabId"));
   element.setAttribute("checked", true);
@@ -36,6 +62,23 @@ function getCache() {
 
 function showPopup() {
   $(popup).fadeIn(800);
+}
+
+function showList(id) {
+  var input = document.getElementById(id);
+  input.value = "";
+  var datalist = document.createElement("datalist");
+  datalist.id = "list";
+  var option1 = new Option("ГРУЖ");
+  var option2 = new Option("ПОР");
+  datalist.appendChild(option1);
+  datalist.appendChild(option2);
+  input.parentNode.appendChild(datalist);
+}
+
+function hiddenList() {
+  var datalist = document.getElementById("list");
+  datalist.parentNode.removeChild(datalist);
 }
 
 function createInput(id, name, isCallSearch, defaultText) {
@@ -127,7 +170,16 @@ function createField(id) {
     var td31 = document.createElement("td");
     td31.appendChild(createInput("cargoClass", "Класс груза", false, "1,2,3"));
     var td32 = document.createElement("td");
-    td32.appendChild(createInput("typeRoute", "Тип рейса", false));
+    var field = createInput("typeRoute", "Тип рейса", false);
+    var input = field.querySelector("#typeRoute");
+    input.setAttribute("list", "list");
+    input.onfocus = function() {
+      showList(input.id);
+    };
+    input.onblur = function() {
+      hiddenList();
+    };
+    td32.appendChild(field);
     var td33 = document.createElement("td");
     td33.appendChild(createInput("distance", "Расстояние", false));
     tr3.appendChild(td31);
@@ -201,6 +253,16 @@ function insert(request, json) {
     success: function(response) {
       alert("Данные были добавлены");
       location.reload();
+    },
+    error: function(response) {
+      message = response.responseJSON.conflictMessage;
+      var code;
+      if (response.responseJSON.conflictCode != null) {
+        code = response.responseJSON.conflictCode;
+      } else {
+        code = response.responseJSON.conflictCodes;
+      }
+      alert(message + errorCodes(code));
     }
   });
 }
@@ -229,3 +291,51 @@ function testError(event) {
     }
   });
 }
+
+// Выпадающий список
+$(document).on("focus", ".effect-1__list", function() {
+  var $input = $(this);
+  var $checkList = $input.siblings(".check-list"),
+    $checkBoxes = $checkList.find(".check-list__checkbox");
+
+  if ($input.val() != "") {
+    var $split = $input.val().split(",");
+    for (var i = 0; i < $checkBoxes.length; i++) {
+      for (var j = 0; j < $split.length; j++) {
+        if ($checkBoxes.eq(i).val() == $split[j]) {
+          $checkBoxes.eq(i).prop("checked", true);
+        }
+      }
+    }
+  }
+
+  $checkList.show();
+
+  $(document).bind("click", function(e) {
+    var $clicked = $(e.target);
+    if (!$clicked.parents().hasClass("col-3__list")) {
+      $checkList.hide();
+    }
+  });
+
+  $checkBoxes.on("change", function() {
+    var inputText = "",
+      checkStatus = 0;
+
+    for (var i = 0; i < $checkBoxes.length; i++) {
+      if ($checkBoxes.eq(i).is(":checked")) {
+        checkStatus++;
+
+        if (inputText === "") {
+          inputText = $checkBoxes.eq(i).val();
+        } else {
+          inputText += "," + $checkBoxes.eq(i).val();
+        }
+
+        $input.val(inputText);
+      } else if (checkStatus === 0) {
+        $input.val("");
+      }
+    }
+  });
+});

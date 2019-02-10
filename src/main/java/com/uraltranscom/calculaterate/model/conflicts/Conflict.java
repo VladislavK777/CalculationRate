@@ -1,8 +1,9 @@
 package com.uraltranscom.calculaterate.model.conflicts;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
+
+import java.util.List;
 
 /**
  * @author vladislav.klochkov
@@ -11,10 +12,22 @@ import lombok.ToString;
  */
 
 @Data
-@AllArgsConstructor
 @ToString
 public class Conflict {
     private String conflictCode;
     private String conflictType;
     private String conflictMessage;
+    private List<String> conflictCodes;
+
+    public Conflict(String conflictCode, String conflictType, String conflictMessage) {
+        this.conflictCode = conflictCode;
+        this.conflictType = conflictType;
+        this.conflictMessage = conflictMessage;
+    }
+
+    public Conflict(List<String> conflictCodes, String conflictType, String conflictMessage) {
+        this.conflictCodes = conflictCodes;
+        this.conflictType = conflictType;
+        this.conflictMessage = conflictMessage;
+    }
 }

@@ -9,7 +9,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <link href="resources/css/style.css" rel="stylesheet" type="text/css" />
   <link href="resources/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
-  <script async src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script async type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="resources/javascript/search.js"></script>
   <script src="resources/javascript/process.js"></script>
   <script src="resources/javascript/calculateRate.js"></script>
@@ -34,7 +34,7 @@
         <td>
           <p class="inp">
             <label>
-              <input type="text" id="stationFrom" placeholder="&nbsp;" name="station_from" onkeyup="search(this.id)"/>
+              <input type="text" autocomplete="off" id="stationFrom" placeholder="&nbsp;" name="station_from" onkeyup="search(this.id)"/>
               <span class="label">Станция отправления</span>
               <span class="border" />
             </label>
@@ -44,7 +44,7 @@
         <td>
           <p class="inp">
             <label>
-              <input type="text" id="stationTo" placeholder="&nbsp;" name="station_to" onkeyup="search(this.id)" />
+              <input type="text" autocomplete="off" id="stationTo" placeholder="&nbsp;" name="station_to" onkeyup="search(this.id)" />
               <span class="label">Станция назначения</span>
               <span class="border" />
             </label>
@@ -54,7 +54,7 @@
         <td>
           <p class="inp">
             <label>
-              <input type="text" id="cargo" placeholder="&nbsp;" name="cargo" onkeyup="search(this.id)" />
+              <input type="text" autocomplete="off" id="cargo" placeholder="&nbsp;" name="cargo" onkeyup="search(this.id)" />
               <span class="label">Груз</span>
               <span class="border" />
             </label>
@@ -64,7 +64,7 @@
         <td>
           <p class="inp">
             <label>
-              <input type="text" placeholder="&nbsp;" name="volume" onkeyup="search(this.id)" />
+              <input type="text" autocomplete="off" placeholder="&nbsp;" name="volume" />
               <span class="label">Объем</span>
               <span class="border" />
             </label>

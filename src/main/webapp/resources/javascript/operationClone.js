@@ -1,9 +1,9 @@
 function cloneFieldReturnStation(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idReturnStation").value;
+  var ide = context.querySelector("#idReturnStation").value;
 
   $.ajax({
-    url: "add/cloneReturnStation/" + id,
+    url: "add/cloneReturnStation/" + ide,
     success: function(response) {
       var table = document.createElement("table");
 
@@ -23,7 +23,7 @@ function cloneFieldReturnStation(id) {
       button.value = "Сохранить";
 
       div_subdiv_head2.appendChild(
-        createInput("roadSetting", "Дорога", response.namesRoad)
+        createInput("roadSetting", "Дорога", true, response.namesRoad)
       );
       div_subdiv_head2.appendChild(
         createInput(
@@ -75,10 +75,10 @@ function cloneFieldReturnStation(id) {
 
 function cloneFieldReturnException(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idReturnException").value;
+  var ide = context.querySelector("#idReturnException").value;
 
   $.ajax({
-    url: "add/cloneReturnException/" + id,
+    url: "add/cloneReturnException/" + ide,
     success: function(response) {
       var table = document.createElement("table");
 
@@ -170,9 +170,16 @@ function cloneFieldReturnException(id) {
         )
       );
       var td32 = document.createElement("td");
-      td32.appendChild(
-        createInput("typeRoute", "Тип рейса", false, response.routeType)
-      );
+      var field = createInput("typeRoute", "Тип рейса", false);
+      var input = field.querySelector("#typeRoute");
+      input.setAttribute("list", "list");
+      input.onfocus = (function() {
+              showList(input.id);
+          });
+      input.onblur = (function() {
+              hiddenList();
+          });
+      td32.appendChild(field);
       var td33 = document.createElement("td");
       td33.appendChild(
         createInput("distance", "Расстояние", false, response.distance)
@@ -196,7 +203,7 @@ function cloneFieldReturnException(id) {
       tr4.appendChild(td43);
       table.appendChild(tr4);
       button.addEventListener("click", function() {
-        addException(context.parentNode.id);
+        addException(context.parentNode.parentNode.parentNode.id);
       });
 
       div_subdiv_head2.appendChild(table);
@@ -221,10 +228,10 @@ function cloneFieldReturnException(id) {
 
 function cloneFieldBeginningException(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idBeginningException").value;
+  var ide = context.querySelector("#idBeginningException").value;
 
   $.ajax({
-    url: "add/cloneBeginningException/" + id,
+    url: "add/cloneBeginningException/" + ide,
     success: function(response) {
       var table = document.createElement("table");
 
@@ -316,9 +323,16 @@ function cloneFieldBeginningException(id) {
         )
       );
       var td32 = document.createElement("td");
-      td32.appendChild(
-        createInput("typeRoute", "Тип рейса", false, response.routeType)
-      );
+      var field = createInput("typeRoute", "Тип рейса", false);
+      var input = field.querySelector("#typeRoute");
+      input.setAttribute("list", "list");
+      input.onfocus = (function() {
+              showList(input.id);
+          });
+      input.onblur = (function() {
+             hiddenList();
+          });
+      td32.appendChild(field);
       var td33 = document.createElement("td");
       td33.appendChild(
         createInput("distance", "Расстояние", false, response.distance)
@@ -342,7 +356,7 @@ function cloneFieldBeginningException(id) {
       tr4.appendChild(td43);
       table.appendChild(tr4);
       button.addEventListener("click", function() {
-        addException(context.parentNode.id);
+        addException(context.parentNode.parentNode.parentNode.id);
       });
 
       div_subdiv_head2.appendChild(table);

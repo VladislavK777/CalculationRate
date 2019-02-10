@@ -6,12 +6,16 @@ import com.uraltranscom.calculaterate.dao.setting.add.InsertSettingReturnStation
 import com.uraltranscom.calculaterate.dao.setting.clone.CloneBeginningExceptionDAO;
 import com.uraltranscom.calculaterate.dao.setting.clone.CloneReturnExceptionDAO;
 import com.uraltranscom.calculaterate.dao.setting.clone.CloneReturnStationDAO;
+import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.model.settings.SettingReturnExceptions;
 import com.uraltranscom.calculaterate.model.settings.SettingReturnStations;
+import com.uraltranscom.calculaterate.util.CheckMandatoryParams;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -39,16 +43,22 @@ public class RestControllerSettingsInsert {
     private CloneBeginningExceptionDAO cloneBeginningExceptionDAO;
 
     @PostMapping("/addReturnStation")
-    public void addReturnStation(@RequestBody SettingReturnStations settingReturnStations) {
-        insertSettingReturnStationsDAO.insertObject(
-                PrepareMapParams.prepareMapWithParams(
-                        settingReturnStations.getIdsRoad(),
-                        settingReturnStations.getNamesRoad(),
-                        settingReturnStations.getIdsStationString(),
-                        settingReturnStations.getVolumeGroupsString(),
-                        settingReturnStations.getIdStationReturn()
-                )
-        );
+    public ResponseEntity<Conflict> addReturnStation(@RequestBody SettingReturnStations settingReturnStations) {
+        Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnStations, "namesRoad", "volumeGroupsString", "idStationReturn");
+        if (conflict == null) {
+            insertSettingReturnStationsDAO.insertObject(
+                    PrepareMapParams.prepareMapWithParams(
+                            settingReturnStations.getIdsRoad(),
+                            settingReturnStations.getNamesRoad(),
+                            settingReturnStations.getIdsStationString(),
+                            settingReturnStations.getVolumeGroupsString(),
+                            settingReturnStations.getIdStationReturn()
+                    )
+            );
+            return new ResponseEntity<>(conflict, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/addReturnException")
