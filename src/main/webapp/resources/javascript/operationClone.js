@@ -1,9 +1,9 @@
 function cloneFieldReturnStation(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idReturnStation").value;
+  var ide = context.querySelector("#idReturnStation").value;
 
   $.ajax({
-    url: "add/cloneReturnStation/" + id,
+    url: "add/cloneReturnStation/" + ide,
     success: function(response) {
       var table = document.createElement("table");
 
@@ -75,10 +75,10 @@ function cloneFieldReturnStation(id) {
 
 function cloneFieldReturnException(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idReturnException").value;
+  var ide = context.querySelector("#idReturnException").value;
 
   $.ajax({
-    url: "add/cloneReturnException/" + id,
+    url: "add/cloneReturnException/" + ide,
     success: function(response) {
       var table = document.createElement("table");
 
@@ -228,10 +228,10 @@ function cloneFieldReturnException(id) {
 
 function cloneFieldBeginningException(id) {
   var context = document.getElementById(id);
-  var id = context.querySelector("#idBeginningException").value;
+  var ide = context.querySelector("#idBeginningException").value;
 
   $.ajax({
-    url: "add/cloneBeginningException/" + id,
+    url: "add/cloneBeginningException/" + ide,
     success: function(response) {
       var table = document.createElement("table");
 

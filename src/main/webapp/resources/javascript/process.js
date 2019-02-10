@@ -4,6 +4,32 @@ function init() {
   document.getElementById("copy").innerText = new Date().getFullYear();
 }
 
+function errorCodes(code) {
+  var result = [];
+  var codes = {
+    namesRoad: "Дорога",
+    volumeGroupsString: "Группа объемов",
+    idStationReturn: "Станция возврата",
+    stationFrom: "Станция отправления",
+    stationTo: "Станция назначения",
+    cargo: "Груз",
+    cargoTypeString: "Класс груза",
+    routeType: "Тип рейса",
+    distance: "Расстояние",
+    countDays: "Дней",
+    rate: "Ставка",
+    tariff: "Тариф"
+  };
+  if (toString.call(code) == "[object Array]") {
+    for (var i = 0; i < code.length; i++) {
+      result.push(codes[code[i]]);
+    }
+    return result;
+  } else {
+    return codes[code];
+  }
+}
+
 function initSetting() {
   element = document.getElementById(window.sessionStorage.getItem("tabId"));
   element.setAttribute("checked", true);
@@ -54,7 +80,6 @@ function hiddenList() {
   var datalist = document.getElementById("list");
   datalist.parentNode.removeChild(datalist);
 }
-
 
 function createInput(id, name, isCallSearch, defaultText) {
   var p = document.createElement("p");
@@ -148,12 +173,12 @@ function createField(id) {
     var field = createInput("typeRoute", "Тип рейса", false);
     var input = field.querySelector("#typeRoute");
     input.setAttribute("list", "list");
-    input.onfocus = (function() {
-            showList(input.id);
-        });
-    input.onblur = (function() {
-            hiddenList();
-        });
+    input.onfocus = function() {
+      showList(input.id);
+    };
+    input.onblur = function() {
+      hiddenList();
+    };
     td32.appendChild(field);
     var td33 = document.createElement("td");
     td33.appendChild(createInput("distance", "Расстояние", false));
@@ -228,6 +253,16 @@ function insert(request, json) {
     success: function(response) {
       alert("Данные были добавлены");
       location.reload();
+    },
+    error: function(response) {
+      message = response.responseJSON.conflictMessage;
+      var code;
+      if (response.responseJSON.conflictCode != null) {
+        code = response.responseJSON.conflictCode;
+      } else {
+        code = response.responseJSON.conflictCodes;
+      }
+      alert(message + errorCodes(code));
     }
   });
 }
@@ -304,5 +339,3 @@ $(document).on("focus", ".effect-1__list", function() {
     }
   });
 });
-
-
