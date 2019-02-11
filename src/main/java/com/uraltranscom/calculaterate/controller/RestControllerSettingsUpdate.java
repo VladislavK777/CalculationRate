@@ -94,7 +94,7 @@ public class RestControllerSettingsUpdate {
                             settingReturnStations.getIdStationReturn()
                     )
             );
-            return new ResponseEntity<>(conflict, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
         }
@@ -122,7 +122,7 @@ public class RestControllerSettingsUpdate {
                             settingReturnExceptions.getTariff()
                     )
             );
-            return new ResponseEntity<>(conflict, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
         }
@@ -150,7 +150,7 @@ public class RestControllerSettingsUpdate {
                             settingReturnExceptions.getTariff()
                     )
             );
-            return new ResponseEntity<>(conflict, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
         }

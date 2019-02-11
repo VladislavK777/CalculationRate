@@ -17,11 +17,15 @@
         idStationReturn: stationReturn
       });
       var request = "/addReturnStation";
+      console.log(json);
       insert(request, json);
     }
 
   function addException(id) {
     var request;
+    var stationFrom;
+    var stationTo;
+    var cargo;
     if (id.indexOf("Beginning") > -1) {
       request = "/addBeginningException";
     } else {
@@ -32,15 +36,30 @@
     var namesRoad = context.querySelector("#roadSetting").value;
     var idsStationString = context.querySelector("#stationList").value;
     var volumeGroup = context.querySelector("#volume").value;
-    var stationFrom = context
-      .querySelector("#stationFrom")
-      .value.replace(/[^\d{6}}]/g, "");
-    var stationTo = context
-      .querySelector("#stationTo")
-      .value.replace(/[^\d{6}}]/g, "");
-    var cargo = context
-      .querySelector("#cargo")
-      .value.replace(/[^\d{6}}]/g, "");
+    var stationFromId = context.querySelector("#stationFrom").value.replace(/[^\d{6}}]/g, "");
+    if (stationFromId == "") {
+      stationFrom = null;
+    } else {
+      stationFrom = {
+        idStation: stationFromId
+      };
+    }
+    var stationToId = context.querySelector("#stationTo").value.replace(/[^\d{6}}]/g, "");
+    if (stationToId == "") {
+      stationTo = null;
+    } else {
+      stationTo = {
+        idStation: stationToId
+      };
+    }
+    var cargoId = context.querySelector("#cargo").value.replace(/[^\d{6}}]/g, "");
+    if (cargoId == "") {
+      cargo = null;
+    } else {
+      cargo = {
+        idCargo: cargoId
+      };
+    }
     var cargoTypeString = context.querySelector("#cargoClass").value;
     var routeType = context.querySelector("#typeRoute").value;
     var distance = context.querySelector("#distance").value;
@@ -52,9 +71,9 @@
       namesRoad: namesRoad,
       idsStationString: idsStationString,
       volumeGroupsString: volumeGroup,
-      stationFrom: { idStation: stationFrom },
-      stationTo: { idStation: stationTo },
-      cargo: { idCargo: cargo },
+      stationFrom: stationFrom,
+      stationTo: stationTo,
+      cargo: cargo,
       cargoTypeString: cargoTypeString,
       routeType: routeType,
       distance: distance,
@@ -62,5 +81,6 @@
       rate: rate,
       tariff: tariff
     });
+    console.log(json);
     insert(request, json);
   }
