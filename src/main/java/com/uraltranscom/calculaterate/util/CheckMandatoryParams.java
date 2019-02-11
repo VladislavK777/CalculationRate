@@ -28,6 +28,7 @@ public class CheckMandatoryParams {
         String objToJson;
         try {
             objToJson = objectWriter.writeValueAsString(object);
+            logger.debug("JSON object: {}", objToJson);
             ObjectMapper mapper = new ObjectMapper();
             JsonFactory factory = mapper.getFactory();
             JsonParser jsonParser = factory.createParser(objToJson);
@@ -36,7 +37,7 @@ public class CheckMandatoryParams {
             for (String param : params) {
                 Object o = mapper.treeToValue(node.get(param), Object.class);
                 String s = mapper.writeValueAsString(o);
-                if (s.equals("\"\"")) {
+                if (s.equals("\"\"") || s.equals("null")) {
                     errorList.add(param);
                 }
             }

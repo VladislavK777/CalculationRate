@@ -3,8 +3,8 @@ package com.uraltranscom.calculaterate.controller;
 import com.uraltranscom.calculaterate.dao.TestErrorDAO;
 import com.uraltranscom.calculaterate.model.CalcRateBody;
 import com.uraltranscom.calculaterate.model.conflicts.Conflict;
-import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
+import com.uraltranscom.calculaterate.util.CheckMandatoryParams;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,9 +33,14 @@ public class RestControllerGetRate {
 
     //@CrossOrigin(origins = "*")
     @PostMapping(value = "/info")
-    public ResponseEntity<TotalModel> totalModel(@RequestBody CalcRateBody object) {
-        commonLogicClass.startLogic(getId(object.getStationFrom()), getId(object.getStationTo()), getId(object.getCargo()), object.getVolume(), object.getFile());
-        return new ResponseEntity<>(commonLogicClass.getTotalModel(), HttpStatus.OK);
+    public ResponseEntity<Object> totalModel(@RequestBody CalcRateBody object) {
+        Conflict conflict = CheckMandatoryParams.checkMandatoryParams(object, "stationFrom", "stationTo", "cargo", "volume");
+        if (conflict == null) {
+            commonLogicClass.startLogic(getId(object.getStationFrom()), getId(object.getStationTo()), getId(object.getCargo()), object.getVolume(), object.getFile());
+            return new ResponseEntity<>(commonLogicClass.getTotalModel(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping(value = "/test/{id}")

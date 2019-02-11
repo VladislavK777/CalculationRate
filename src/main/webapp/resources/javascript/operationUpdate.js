@@ -33,6 +33,7 @@ function updateFieldYield(id) {
     yield: yield
   });
   var request = "/updateYield";
+  console.log(json);
   update(id, request, json);
 }
 
@@ -45,6 +46,7 @@ function updateFieldOther(id) {
     value: value
   });
   var request = "/updateOther";
+  console.log(json);
   update(id, request, json);
 }
 
@@ -57,6 +59,7 @@ function updateFieldLoadUnload(id) {
     value: value
   });
   var request = "/updateLoadUnload";
+  console.log(json);
   update(id, request, json);
 }
 
@@ -73,10 +76,14 @@ function updateFieldBorderDistance(id) {
     coefficient: coefficient
   });
   var request = "/updateBorderDistance";
+  console.log(json);
   update(id, request, json);
 }
 
 function updateFieldBeginningException(id) {
+  var stationFrom;
+  var stationTo;
+  var cargo;
   var context = document.getElementById(id);
   var ide = context.querySelector("#idBeginningException").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
@@ -86,15 +93,30 @@ function updateFieldBeginningException(id) {
   var volumeGroup = context.querySelector(
     "#volumeGroupsStringBeginningException"
   ).value;
-  var stationFrom = context
-    .querySelector("#stationFromBeginningException" + id)
-    .value.replace(/[^\d{6}}]/g, "");
-  var stationTo = context
-    .querySelector("#stationToBeginningException" + id)
-    .value.replace(/[^\d{6}}]/g, "");
-  var cargo = context
-    .querySelector("#cargoBeginningException" + id)
-    .value.replace(/[^\d{6}}]/g, "");
+  var stationFromId = context.querySelector("#stationFromBeginningException" + id).value.replace(/[^\d{6}}]/g, "");
+  if (stationFromId == "") {
+    stationFrom = null;
+  } else {
+    stationFrom = {
+      idStation: stationFromId
+    };
+  }
+  var stationToId = context.querySelector("#stationToBeginningException" + id).value.replace(/[^\d{6}}]/g, "");
+  if (stationToId == "") {
+    stationTo = null;
+  } else {
+    stationTo = {
+      idStation: stationToId
+    };
+  }
+  var cargoId = context.querySelector("#cargoBeginningException" + id).value.replace(/[^\d{6}}]/g, "");
+  if (cargoId == "") {
+    cargo = null;
+  } else {
+    cargo = {
+      idCargo: cargoId
+    };
+  }
   var cargoTypeString = context.querySelector(
     "#cargoTypeStringBeginningException"
   ).value;
@@ -109,9 +131,9 @@ function updateFieldBeginningException(id) {
     namesRoad: namesRoad,
     idsStationString: idsStationString,
     volumeGroupsString: volumeGroup,
-    stationFrom: { idStation: stationFrom },
-    stationTo: { idStation: stationTo },
-    cargo: { idCargo: cargo },
+    stationFrom: stationFrom,
+    stationTo: stationTo,
+    cargo: cargo,
     cargoTypeString: cargoTypeString,
     routeType: routeType,
     distance: distance,
@@ -120,10 +142,14 @@ function updateFieldBeginningException(id) {
     tariff: tariff
   });
   var request = "/updateBeginningException";
+  console.log(json);
   update(id, request, json);
 }
 
 function updateFieldReturnException(id) {
+  var stationFrom;
+  var stationTo;
+  var cargo;
   var context = document.getElementById(id);
   var ide = context.querySelector("#idReturnException").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
@@ -131,15 +157,30 @@ function updateFieldReturnException(id) {
   var idsStationString = context.querySelector("#idStationStringReturnException").value;
   var volumeGroup = context.querySelector("#volumeGroupsStringReturnException")
     .value;
-  var stationFrom = context
-    .querySelector("#stationFromReturnException" + id)
-    .value.replace(/[^\d{6}}]/g, "");
-  var stationTo = context
-    .querySelector("#stationToReturnException" + id)
-    .value.replace(/[^\d{6}}]/g, "");
-  var cargo = context
-    .querySelector("#cargoReturnException" + id)
-    .value.replace(/[^\d{6}}]/g, "");
+  var stationFromId = context.querySelector("#stationFromReturnException" + id).value.replace(/[^\d{6}}]/g, "");
+  if (stationFromId == "") {
+    stationFrom = null;
+  } else {
+    stationFrom = {
+      idStation: stationFromId
+    };
+  }
+  var stationToId = context.querySelector("#stationToReturnException" + id).value.replace(/[^\d{6}}]/g, "");
+  if (stationToId == "") {
+    stationTo = null;
+  } else {
+    stationTo = {
+      idStation: stationToId
+    };
+  }
+  var cargoId = context.querySelector("#cargoReturnException" + id).value.replace(/[^\d{6}}]/g, "");
+  if (cargoId == "") {
+    cargo = null;
+  } else {
+    cargo = {
+      idCargo: cargoId
+    };
+  }
   var cargoTypeString = context.querySelector("#cargoTypeStringReturnException")
     .value;
   var routeType = context.querySelector("#routeTypeReturnException" + id).value;
@@ -153,9 +194,9 @@ function updateFieldReturnException(id) {
     namesRoad: namesRoad,
     idsStationString: idsStationString,
     volumeGroupsString: volumeGroup,
-    stationFrom: { idStation: stationFrom },
-    stationTo: { idStation: stationTo },
-    cargo: { idCargo: cargo },
+    stationFrom: stationFrom,
+    stationTo: stationTo,
+    cargo: cargo,
     cargoTypeString: cargoTypeString,
     routeType: routeType,
     distance: distance,
@@ -164,5 +205,6 @@ function updateFieldReturnException(id) {
     tariff: tariff
   });
   var request = "/updateReturnException";
+  console.log(json);
   update(id, request, json);
 }

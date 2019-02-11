@@ -18,7 +18,8 @@ function errorCodes(code) {
     distance: "Расстояние",
     countDays: "Дней",
     rate: "Ставка",
-    tariff: "Тариф"
+    tariff: "Тариф",
+    volume: "Объем"
   };
   if (toString.call(code) == "[object Array]") {
     for (var i = 0; i < code.length; i++) {
