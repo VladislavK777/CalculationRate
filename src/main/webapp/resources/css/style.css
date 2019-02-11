@@ -120,13 +120,13 @@ body {
 }
 
 .form {
-  position: absolute;
-  top: 26%;
-  left: 32%;
-  margin: auto;
-  z-index: 2;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
   width: 30%;
-  padding: 40px 20px;
+  padding: 25px 25px;
   background: #ffffff;
   border: 1px solid #666666;
   border-radius: 20px;
@@ -374,7 +374,7 @@ body {
 .col-3,
 .col-3__list {
   float: left;
-  width: auto;
+  width: 100%;
   position: relative;
 }
 
@@ -704,7 +704,19 @@ input[type="file"] {
   width: 100%;
 }
 
-.check-list ul {
+.check-list__form {
+  top: 68px;
+  position: absolute;
+  display: none;
+  border-bottom: 1px #222 solid;
+  border-right: 1px #222 solid;
+  border-left: 1px #222 solid;
+  background: #f8f8ff;
+  z-index:999;
+  width: 100%;
+}
+
+.check-list ul, .check-list__form ul {
   list-style-type: none;
 }
 
@@ -749,13 +761,13 @@ input[type="file"] {
   }
 
   .form {
-    position: absolute;
-    top: 25%;
-    left: 35%;
-    margin: auto;
-    z-index: 2;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
     width: 30%;
-    padding: 20px 10px;
+    padding: 20px 20px;
     background: #ffffff;
     border: 1px solid #666666;
     border-radius: 20px;

@@ -82,7 +82,7 @@ function hiddenList() {
   datalist.parentNode.removeChild(datalist);
 }
 
-function createInput(id, name, isCallSearch, defaultText) {
+function createInput(id, name, isCallSearch, defaultText, selectList) {
   var p = document.createElement("p");
   p.className = "inp";
   var label = document.createElement("label");
@@ -90,6 +90,7 @@ function createInput(id, name, isCallSearch, defaultText) {
   input.value = typeof defaultText == "undefined" ? "" : defaultText;
   input.type = "text";
   input.id = id;
+  input.setAttribute("autocomplete", "off");
   input.placeholder = "\xa0";
   if (isCallSearch) {
     input.onkeyup = function() {
@@ -101,11 +102,38 @@ function createInput(id, name, isCallSearch, defaultText) {
   span_first.className = "label";
   var span_second = document.createElement("span");
   span_second.className = "border";
-  label.appendChild(input);
-  label.appendChild(span_first);
-  label.appendChild(span_second);
-  p.appendChild(label);
-  return p;
+  if (selectList) {
+    var div = document.createElement("div");
+    div.className = "col-3__list";
+    var div2 = document.createElement("div");
+    div2.className = "wrapper";
+    input.className = "input__form";
+    var div_checkList = document.createElement("div");
+    div_checkList.className = "check-list__form";
+    var s_array = defaultText.split(",");
+    var ul = document.createElement("ul");
+    for (var i = 0; i < s_array.length; i++) {
+      var li = document.createElement("li");
+      var input_li = '<input type="checkbox" class="check-list__checkbox" value="' + s_array[i] + '" />';
+      li.innerHTML = input_li + s_array[i];
+      ul.appendChild(li);
+    }
+    div_checkList.appendChild(ul);
+    label.appendChild(input);
+    label.appendChild(span_first);
+    label.appendChild(span_second);
+    p.appendChild(label);
+    div2.appendChild(p);
+    div2.appendChild(div_checkList);
+    div.appendChild(div2);
+    return div;
+  } else {
+    label.appendChild(input);
+    label.appendChild(span_first);
+    label.appendChild(span_second);
+    p.appendChild(label);
+    return p;
+  }
 }
 
 function createField(id) {
@@ -128,16 +156,32 @@ function createField(id) {
   button.value = "Сохранить";
 
   if (id == "btAddReturnStation") {
-    div_subdiv_head2.appendChild(createInput("roadSetting", "Дорога", true));
-    div_subdiv_head2.appendChild(
+    var tr1 = document.createElement("tr");
+    var td11 = document.createElement("td");
+    td11.appendChild(createInput("roadSetting", "Дорога", true));
+    tr1.appendChild(td11);
+    table.appendChild(tr1);
+    var tr2 = document.createElement("tr");
+    var td21 = document.createElement("td");
+    td21.appendChild(
       createInput("stationList", "Список станций", false)
     );
-    div_subdiv_head2.appendChild(
-      createInput("volume", "Группа объемов", false, "120,138,150")
+    tr2.appendChild(td21);
+    table.appendChild(tr2);
+    var tr3 = document.createElement("tr");
+    var td31 = document.createElement("td");
+    td31.appendChild(
+      createInput("volume", "Группа объемов", false, "120,138,150", true)
     );
-    div_subdiv_head2.appendChild(
+    tr3.appendChild(td31);
+    table.appendChild(tr3);
+    var tr4 = document.createElement("tr");
+    var td41 = document.createElement("td");
+    td41.appendChild(
       createInput("station", "Станция возврата", true)
     );
+    tr4.appendChild(td41);
+    table.appendChild(tr4);
     button.addEventListener("click", function() {
       addReturnStation(context.parentNode.id);
     });
@@ -149,7 +193,7 @@ function createField(id) {
     td12.appendChild(createInput("stationList", "Список станций", false));
     var td13 = document.createElement("td");
     td13.appendChild(
-      createInput("volume", "Группа объемов", false, "120,138,150")
+      createInput("volume", "Группа объемов", false, "120,138,150", true)
     );
     tr1.appendChild(td11);
     tr1.appendChild(td12);
@@ -169,7 +213,9 @@ function createField(id) {
 
     var tr3 = document.createElement("tr");
     var td31 = document.createElement("td");
-    td31.appendChild(createInput("cargoClass", "Класс груза", false, "1,2,3"));
+    td31.appendChild(
+      createInput("cargoClass", "Класс груза", false, "1,2,3", true)
+    );
     var td32 = document.createElement("td");
     var field = createInput("typeRoute", "Тип рейса", false);
     var input = field.querySelector("#typeRoute");
@@ -182,7 +228,7 @@ function createField(id) {
     };
     td32.appendChild(field);
     var td33 = document.createElement("td");
-    td33.appendChild(createInput("distance", "Расстояние", false));
+    td33.appendChild(createInput("distance", "Расстояние", false, "0"));
     tr3.appendChild(td31);
     tr3.appendChild(td32);
     tr3.appendChild(td33);
@@ -190,7 +236,7 @@ function createField(id) {
 
     var tr4 = document.createElement("tr");
     var td41 = document.createElement("td");
-    td41.appendChild(createInput("countDays", "Дней", false));
+    td41.appendChild(createInput("countDays", "Дней", false, "0"));
     var td42 = document.createElement("td");
     td42.appendChild(createInput("rate", "Ставка", false, "0"));
     var td43 = document.createElement("td");
@@ -297,6 +343,57 @@ function testError(event) {
 $(document).on("focus", ".effect-1__list", function() {
   var $input = $(this);
   var $checkList = $input.siblings(".check-list"),
+    $checkBoxes = $checkList.find(".check-list__checkbox");
+
+  if ($input.val() != "") {
+    var $split = $input.val().split(",");
+    for (var i = 0; i < $checkBoxes.length; i++) {
+      for (var j = 0; j < $split.length; j++) {
+        if ($checkBoxes.eq(i).val() == $split[j]) {
+          $checkBoxes.eq(i).prop("checked", true);
+        }
+      }
+    }
+  }
+
+  $checkList.show();
+
+  $(document).bind("click", function(e) {
+    var $clicked = $(e.target);
+    if (!$clicked.parents().hasClass("col-3__list")) {
+      $checkList.hide();
+    }
+  });
+
+  $checkBoxes.on("change", function() {
+    var inputText = "",
+      checkStatus = 0;
+
+    for (var i = 0; i < $checkBoxes.length; i++) {
+      if ($checkBoxes.eq(i).is(":checked")) {
+        checkStatus++;
+
+        if (inputText === "") {
+          inputText = $checkBoxes.eq(i).val();
+        } else {
+          inputText += "," + $checkBoxes.eq(i).val();
+        }
+
+        $input.val(inputText);
+      } else if (checkStatus === 0) {
+        $input.val("");
+      }
+    }
+  });
+});
+
+// Выпадающий список для формы
+$(document).on("focus", ".input__form", function() {
+  var $input = $(this);
+  var $checkList = $input
+      .parents()
+      .parents()
+      .siblings(".check-list__form"),
     $checkBoxes = $checkList.find(".check-list__checkbox");
 
   if ($input.val() != "") {

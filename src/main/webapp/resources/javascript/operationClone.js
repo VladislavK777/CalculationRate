@@ -38,7 +38,8 @@ function cloneFieldReturnStation(id) {
           "volume",
           "Группа объемов",
           false,
-          response.volumeGroupsString
+          response.volumeGroupsString,
+          true
         )
       );
       div_subdiv_head2.appendChild(
@@ -117,7 +118,8 @@ function cloneFieldReturnException(id) {
           "volume",
           "Группа объемов",
           false,
-          response.volumeGroupsString
+          response.volumeGroupsString,
+          true
         )
       );
       tr1.appendChild(td11);
@@ -166,7 +168,8 @@ function cloneFieldReturnException(id) {
           "cargoClass",
           "Класс груза",
           false,
-          response.cargoTypeString
+          response.cargoTypeString,
+          true
         )
       );
       var td32 = document.createElement("td");
@@ -270,7 +273,8 @@ function cloneFieldBeginningException(id) {
           "volume",
           "Группа объемов",
           false,
-          response.volumeGroupsString
+          response.volumeGroupsString,
+          true
         )
       );
       tr1.appendChild(td11);
@@ -319,7 +323,8 @@ function cloneFieldBeginningException(id) {
           "cargoClass",
           "Класс груза",
           false,
-          response.cargoTypeString
+          response.cargoTypeString,
+          true
         )
       );
       var td32 = document.createElement("td");
