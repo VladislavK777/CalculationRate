@@ -22,10 +22,17 @@ function cloneFieldReturnStation(id) {
       button.className = "bot1";
       button.value = "Сохранить";
 
-      div_subdiv_head2.appendChild(
+      var tr1 = document.createElement("tr");
+      var td11 = document.createElement("td");
+      td11.appendChild(
         createInput("roadSetting", "Дорога", true, response.namesRoad)
       );
-      div_subdiv_head2.appendChild(
+      tr1.appendChild(td11);
+      table.appendChild(tr1);
+
+      var tr2 = document.createElement("tr");
+      var td21 = document.createElement("td");
+      td21.appendChild(
         createInput(
           "stationList",
           "Список станций",
@@ -33,7 +40,12 @@ function cloneFieldReturnStation(id) {
           response.idsStationString
         )
       );
-      div_subdiv_head2.appendChild(
+      tr2.appendChild(td21);
+      table.appendChild(tr2);
+
+      var tr3 = document.createElement("tr");
+      var td31 = document.createElement("td");
+      td31.appendChild(
         createInput(
           "volume",
           "Группа объемов",
@@ -42,7 +54,12 @@ function cloneFieldReturnStation(id) {
           true
         )
       );
-      div_subdiv_head2.appendChild(
+      tr3.appendChild(td31);
+      table.appendChild(tr3);
+
+      var tr4 = document.createElement("tr");
+      var td41 = document.createElement("td");
+      td41.appendChild(
         createInput(
           "station",
           "Станция возврата",
@@ -50,6 +67,8 @@ function cloneFieldReturnStation(id) {
           response.idStationReturn + " " + response.nameStationReturn
         )
       );
+      tr4.appendChild(td41);
+      table.appendChild(tr4);
       button.addEventListener("click", function() {
         addReturnStation(context.parentNode.parentNode.parentNode.id);
       });
@@ -176,12 +195,12 @@ function cloneFieldReturnException(id) {
       var field = createInput("typeRoute", "Тип рейса", false);
       var input = field.querySelector("#typeRoute");
       input.setAttribute("list", "list");
-      input.onfocus = (function() {
-              showList(input.id);
-          });
-      input.onblur = (function() {
-              hiddenList();
-          });
+      input.onfocus = function() {
+        showList(input.id);
+      };
+      input.onblur = function() {
+        hiddenList();
+      };
       td32.appendChild(field);
       var td33 = document.createElement("td");
       td33.appendChild(
@@ -331,12 +350,12 @@ function cloneFieldBeginningException(id) {
       var field = createInput("typeRoute", "Тип рейса", false);
       var input = field.querySelector("#typeRoute");
       input.setAttribute("list", "list");
-      input.onfocus = (function() {
-              showList(input.id);
-          });
-      input.onblur = (function() {
-             hiddenList();
-          });
+      input.onfocus = function() {
+        showList(input.id);
+      };
+      input.onblur = function() {
+        hiddenList();
+      };
       td32.appendChild(field);
       var td33 = document.createElement("td");
       td33.appendChild(

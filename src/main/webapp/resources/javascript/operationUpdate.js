@@ -4,13 +4,26 @@ function updateFieldReturnStation(id) {
   var context = document.getElementById(id);
   var ide = context.querySelector("#idReturnStation").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadReturnStationSetting" + id).value;
-  var idsStationString = context.querySelector("#idStationStringReturnStation").value;
-  var volumeGroup = context.querySelector("#volumeGroupsStringReturnStation")
+  var namesRoad = context.querySelector("#roadReturnStationSetting" + ide)
     .value;
+  var idsStationString = context.querySelector("#idStationStringReturnStation")
+    .value;
+  var volumeGroup = checkEmpty(
+    context.querySelector("#volumeGroupsStringReturnStation").value
+  );
   var returnStation = context
-    .querySelector("#stationReturnStation" + id)
-    .value.replace(/[^\d{6}}]/g, "");
+    .querySelector("#stationReturnStation" + ide)
+    .value.replace(/[^\d{6}]/g, "");
+  if (returnStation === "") {
+    returnStation = context
+      .querySelector("#stationReturnStation" + ide)
+      .value.replace(/[\d{6}\s]/g, "");
+    if (returnStation === "") {
+      returnStation = null;
+    } else {
+      returnStation = "";
+    }
+  }
   var json = JSON.stringify({
     id: ide,
     idsRoad: idsRoad,
@@ -27,10 +40,10 @@ function updateFieldReturnStation(id) {
 function updateFieldYield(id) {
   var context = document.getElementById(id);
   var ide = context.querySelector("#idYield").value;
-  var yield = context.querySelector("#yieldYield").value;
+  var yieldVal = context.querySelector("#yieldYield").value;
   var json = JSON.stringify({
     id: ide,
-    yield: yield
+    yield: yieldVal
   });
   var request = "/updateYield";
   console.log(json);
@@ -87,40 +100,77 @@ function updateFieldBeginningException(id) {
   var context = document.getElementById(id);
   var ide = context.querySelector("#idBeginningException").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadBeginningExceptionSetting" + id).value;
-  var idsStationString = context.querySelector("#idStationStringBeginningException")
+  var namesRoad = context.querySelector("#roadBeginningExceptionSetting" + id)
     .value;
-  var volumeGroup = context.querySelector(
-    "#volumeGroupsStringBeginningException"
+  var idsStationString = context.querySelector(
+    "#idStationStringBeginningException"
   ).value;
-  var stationFromId = context.querySelector("#stationFromBeginningException" + id).value.replace(/[^\d{6}}]/g, "");
-  if (stationFromId == "") {
-    stationFrom = null;
+  var volumeGroup = checkEmpty(
+    context.querySelector("#volumeGroupsStringBeginningException").value
+  );
+  var stationFromId = context
+    .querySelector("#stationFromBeginningException" + ide)
+    .value.replace(/[^\d{6}]/g, "");
+  if (stationFromId === "") {
+    stationFromId = context
+      .querySelector("#stationFromBeginningException" + ide)
+      .value.replace(/[\d{6}\s]/g, "");
+    if (stationFromId === "") {
+      stationFrom = null;
+    } else {
+      stationFrom = {
+        idStation: ""
+      };
+    }
   } else {
     stationFrom = {
       idStation: stationFromId
     };
   }
-  var stationToId = context.querySelector("#stationToBeginningException" + id).value.replace(/[^\d{6}}]/g, "");
-  if (stationToId == "") {
-    stationTo = null;
+  var stationToId = context
+    .querySelector("#stationToBeginningException" + ide)
+    .value.replace(/[^\d{6}]/g, "");
+  if (stationToId === "") {
+    stationToId = context
+      .querySelector("#stationToBeginningException" + ide)
+      .value.replace(/[\d{6}\s]/g, "");
+    if (stationToId === "") {
+      stationTo = null;
+    } else {
+      stationTo = {
+        idStation: ""
+      };
+    }
   } else {
     stationTo = {
       idStation: stationToId
     };
   }
-  var cargoId = context.querySelector("#cargoBeginningException" + id).value.replace(/[^\d{6}}]/g, "");
-  if (cargoId == "") {
-    cargo = null;
+  var cargoId = context
+    .querySelector("#cargoBeginningException" + ide)
+    .value.replace(/[^\d{6}]/g, "");
+  if (cargoId === "") {
+    cargoId = context
+      .querySelector("#cargoBeginningException" + ide)
+      .value.replace(/[\d{6}\s]/g, "");
+    if (cargoId === "") {
+      cargo = null;
+    } else {
+      cargo = {
+        idCargo: ""
+      };
+    }
   } else {
     cargo = {
       idCargo: cargoId
     };
   }
-  var cargoTypeString = context.querySelector(
-    "#cargoTypeStringBeginningException"
-  ).value;
-  var routeType = context.querySelector("#routeTypeBeginningException" + id).value;
+  var cargoTypeString = checkEmpty(
+    context.querySelector("#cargoTypeStringBeginningException").value
+  );
+  var routeType = checkEmpty(
+    context.querySelector("#routeTypeBeginningException" + ide).value
+  );
   var distance = context.querySelector("#distanceBeginningException").value;
   var countDays = context.querySelector("#countDaysBeginningException").value;
   var rate = context.querySelector("#rateBeginningException").value;
@@ -153,37 +203,77 @@ function updateFieldReturnException(id) {
   var context = document.getElementById(id);
   var ide = context.querySelector("#idReturnException").value;
   var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadReturnExceptionSetting" + id).value;
-  var idsStationString = context.querySelector("#idStationStringReturnException").value;
-  var volumeGroup = context.querySelector("#volumeGroupsStringReturnException")
+  var namesRoad = context.querySelector("#roadReturnExceptionSetting" + ide)
     .value;
-  var stationFromId = context.querySelector("#stationFromReturnException" + id).value.replace(/[^\d{6}}]/g, "");
-  if (stationFromId == "") {
-    stationFrom = null;
+  var idsStationString = context.querySelector(
+    "#idStationStringReturnException"
+  ).value;
+  var volumeGroup = checkEmpty(
+    context.querySelector("#volumeGroupsStringReturnException").value
+  );
+  var stationFromId = context
+    .querySelector("#stationFromReturnException" + ide)
+    .value.replace(/[^\d{6}]/g, "");
+  if (stationFromId === "") {
+    stationFromId = context
+      .querySelector("#stationFromReturnException" + ide)
+      .value.replace(/[\d{6}\s]/g, "");
+    if (stationFromId === "") {
+      stationFrom = null;
+    } else {
+      stationFrom = {
+        idStation: ""
+      };
+    }
   } else {
     stationFrom = {
       idStation: stationFromId
     };
   }
-  var stationToId = context.querySelector("#stationToReturnException" + id).value.replace(/[^\d{6}}]/g, "");
-  if (stationToId == "") {
-    stationTo = null;
+  var stationToId = context
+    .querySelector("#stationToReturnException" + ide)
+    .value.replace(/[^\d{6}]/g, "");
+  if (stationToId === "") {
+    stationToId = context
+      .querySelector("#stationToReturnException" + ide)
+      .value.replace(/[\d{6}\s]/g, "");
+    if (stationToId === "") {
+      stationTo = null;
+    } else {
+      stationTo = {
+        idStation: ""
+      };
+    }
   } else {
     stationTo = {
       idStation: stationToId
     };
   }
-  var cargoId = context.querySelector("#cargoReturnException" + id).value.replace(/[^\d{6}}]/g, "");
-  if (cargoId == "") {
-    cargo = null;
+  var cargoId = context
+    .querySelector("#cargoReturnException" + ide)
+    .value.replace(/[^\d{6}]/g, "");
+  if (cargoId === "") {
+    cargoId = context
+      .querySelector("#cargoReturnException" + ide)
+      .value.replace(/[\d{6}\s]/g, "");
+    if (cargoId === "") {
+      cargo = null;
+    } else {
+      cargo = {
+        idCargo: ""
+      };
+    }
   } else {
     cargo = {
       idCargo: cargoId
     };
   }
-  var cargoTypeString = context.querySelector("#cargoTypeStringReturnException")
-    .value;
-  var routeType = context.querySelector("#routeTypeReturnException" + id).value;
+  var cargoTypeString = checkEmpty(
+    context.querySelector("#cargoTypeStringReturnException").value
+  );
+  var routeType = checkEmpty(
+    context.querySelector("#routeTypeReturnException" + ide).value
+  );
   var distance = context.querySelector("#distanceReturnException").value;
   var countDays = context.querySelector("#countDaysReturnException").value;
   var rate = context.querySelector("#rateReturnException").value;
