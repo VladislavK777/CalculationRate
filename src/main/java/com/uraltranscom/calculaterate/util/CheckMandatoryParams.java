@@ -37,7 +37,7 @@ public class CheckMandatoryParams {
             for (String param : params) {
                 Object o = mapper.treeToValue(node.get(param), Object.class);
                 String s = mapper.writeValueAsString(o);
-                if (s.equals("\"\"") || s.equals("null")) {
+                if (s.equals("null")) {
                     errorList.add(param);
                 }
             }

@@ -169,11 +169,16 @@ function search(name) {
         li = list.getElementsByTagName("li");
         a = li[selectedIndex - 1].getElementsByTagName("a")[0];
         if (setting) {
-          placeholder = placeholder + a.innerHTML.match(/\D*\s/)[0].trim() + ",";
-          roadIds = roadIds + a.innerHTML.replace(/[^\d]/g, "") + ",";
-          field.value = "";
-          field.placeholder = placeholder;
-          window.sessionStorage.setItem("roadIds", roadIds.trim());
+          var road = a.innerHTML.match(/\D*\s/)[0].trim();
+          if (placeholder.indexOf(road + ",") == -1) {
+            placeholder = placeholder + road + ",";
+            roadIds = roadIds + a.innerHTML.replace(/[^\d]/g, "") + ",";
+            field.value = "";
+            field.placeholder = placeholder;
+            window.sessionStorage.setItem("roadIds", roadIds.trim());
+          } else {
+            alert("Дорога " + road + " уже выбрана");
+          }
         } else {
           field.value = a.innerHTML;
         }

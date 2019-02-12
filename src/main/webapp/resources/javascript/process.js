@@ -32,6 +32,7 @@ function errorCodes(code) {
 }
 
 function initSetting() {
+  window.sessionStorage.setItem("roadIds", "");
   element = document.getElementById(window.sessionStorage.getItem("tabId"));
   element.setAttribute("checked", true);
   document.getElementById("copy").innerText = new Date().getFullYear();
@@ -114,7 +115,10 @@ function createInput(id, name, isCallSearch, defaultText, selectList) {
     var ul = document.createElement("ul");
     for (var i = 0; i < s_array.length; i++) {
       var li = document.createElement("li");
-      var input_li = '<input type="checkbox" class="check-list__checkbox" value="' + s_array[i] + '" />';
+      var input_li =
+        '<input type="checkbox" class="check-list__checkbox" value="' +
+        s_array[i] +
+        '" />';
       li.innerHTML = input_li + s_array[i];
       ul.appendChild(li);
     }
@@ -163,9 +167,7 @@ function createField(id) {
     table.appendChild(tr1);
     var tr2 = document.createElement("tr");
     var td21 = document.createElement("td");
-    td21.appendChild(
-      createInput("stationList", "Список станций", false)
-    );
+    td21.appendChild(createInput("stationList", "Список станций", false));
     tr2.appendChild(td21);
     table.appendChild(tr2);
     var tr3 = document.createElement("tr");
@@ -177,9 +179,7 @@ function createField(id) {
     table.appendChild(tr3);
     var tr4 = document.createElement("tr");
     var td41 = document.createElement("td");
-    td41.appendChild(
-      createInput("station", "Станция возврата", true)
-    );
+    td41.appendChild(createInput("station", "Станция возврата", true));
     tr4.appendChild(td41);
     table.appendChild(tr4);
     button.addEventListener("click", function() {
@@ -276,6 +276,16 @@ function update(id, request, json) {
     success: function(response) {
       alert("Данные были обновлены");
       location.reload();
+    },
+    error: function(response) {
+      var message = response.responseJSON.conflictMessage;
+      var code;
+      if (response.responseJSON.conflictCode != null) {
+        code = response.responseJSON.conflictCode;
+      } else {
+        code = response.responseJSON.conflictCodes;
+      }
+      alert(message + errorCodes(code));
     }
   });
 }
@@ -302,7 +312,7 @@ function insert(request, json) {
       location.reload();
     },
     error: function(response) {
-      message = response.responseJSON.conflictMessage;
+      var message = response.responseJSON.conflictMessage;
       var code;
       if (response.responseJSON.conflictCode != null) {
         code = response.responseJSON.conflictCode;
@@ -323,8 +333,8 @@ function reloadPage(id) {
 }
 
 function testError(event) {
-  input = event.target.parentNode.childNodes[1];
-  value = input.value;
+  var input = event.target.parentNode.childNodes[1];
+  var value = input.value;
   $.ajax({
     url: "rate/test/" + value,
     success: function(response) {
@@ -332,7 +342,7 @@ function testError(event) {
     },
     error: function(response) {
       console.log(response.responseJSON);
-      message = response.responseJSON.conflictMessage;
+      var message = response.responseJSON.conflictMessage;
       alert(message);
       $(input).focus();
     }
@@ -437,3 +447,20 @@ $(document).on("focus", ".input__form", function() {
     }
   });
 });
+
+function cleanField(event) {
+  var element = event.target;
+  element.placeholder = element.value;
+  element.value = "";
+  element.addEventListener("blur", function() {
+    element.value = element.placeholder;
+  });
+}
+
+function checkEmpty(value) {
+  if (value === "") {
+    return null;
+  } else {
+    return value;
+  }
+}
