@@ -1,6 +1,7 @@
 package com.uraltranscom.calculaterate.util.zookeeper;
 
 import com.uraltranscom.calculaterate.service.additional.JavaHelperBase;
+import com.uraltranscom.calculaterate.util.annotations.ZookeeperSettings;
 import lombok.NoArgsConstructor;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -9,10 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 
 /**
@@ -35,12 +32,6 @@ public class ZookeeperSettingHolder implements InitializingBean {
 
     private static final String ZOOKEEPER_CHARSET_NAME = "UTF-8";
     private static final String DB_SETTINGS_ROOT = "/zookeeper/DB_CONNECT";
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.FIELD)
-    private @interface ZookeeperSettings {
-        String value();
-    }
 
     @ZookeeperSettings("database_test")
     private String dataBase;
