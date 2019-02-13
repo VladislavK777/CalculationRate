@@ -46,7 +46,7 @@ public class RestControllerSettingsInsert {
     public ResponseEntity<Conflict> addReturnStation(@RequestBody SettingReturnStations settingReturnStations) {
         Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnStations, "namesRoad", "volumeGroupsString", "idStationReturn");
         if (conflict == null) {
-            insertSettingReturnStationsDAO.insertObject(
+            conflict = (Conflict) insertSettingReturnStationsDAO.insertObject(
                     PrepareMapParams.prepareMapWithParams(
                             settingReturnStations.getIdsRoad(),
                             settingReturnStations.getNamesRoad(),
@@ -55,7 +55,11 @@ public class RestControllerSettingsInsert {
                             settingReturnStations.getIdStationReturn()
                     )
             );
-            return new ResponseEntity<>(HttpStatus.OK);
+            if (conflict == null) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(conflict, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } else {
             return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
         }
@@ -65,7 +69,7 @@ public class RestControllerSettingsInsert {
     public ResponseEntity<Conflict> addReturnException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
         Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
         if (conflict == null) {
-            insertSettingReturnExceptionsDAO.insertObject(
+            conflict = (Conflict) insertSettingReturnExceptionsDAO.insertObject(
                     PrepareMapParams.prepareMapWithParams(
                             settingReturnExceptions.getIdsRoad(),
                             settingReturnExceptions.getNamesRoad(),
@@ -82,7 +86,11 @@ public class RestControllerSettingsInsert {
                             settingReturnExceptions.getTariff()
                     )
             );
-            return new ResponseEntity<>(HttpStatus.OK);
+            if (conflict == null) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(conflict, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } else {
             return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
         }
@@ -92,7 +100,7 @@ public class RestControllerSettingsInsert {
     public ResponseEntity<Conflict> addBeginningException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
         Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
         if (conflict == null) {
-            insertSettingBeginningExceptionsDAO.insertObject(
+            conflict = (Conflict) insertSettingBeginningExceptionsDAO.insertObject(
                     PrepareMapParams.prepareMapWithParams(
                             settingReturnExceptions.getIdsRoad(),
                             settingReturnExceptions.getNamesRoad(),
@@ -109,7 +117,11 @@ public class RestControllerSettingsInsert {
                             settingReturnExceptions.getTariff()
                     )
             );
-            return new ResponseEntity<>(HttpStatus.OK);
+            if (conflict == null) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(conflict, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } else {
             return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
         }

@@ -19,7 +19,8 @@ function errorCodes(code) {
     countDays: "Дней",
     rate: "Ставка",
     tariff: "Тариф",
-    volume: "Объем"
+    volume: "Объем",
+    PARAM_IS_EXIST: "Парметр существует"
   };
   if (toString.call(code) == "[object Array]") {
     for (var i = 0; i < code.length; i++) {
@@ -319,7 +320,7 @@ function insert(request, json) {
       } else {
         code = response.responseJSON.conflictCodes;
       }
-      alert(message + errorCodes(code));
+      alert(errorCodes(code) + '\n' + message);
     }
   });
 }
