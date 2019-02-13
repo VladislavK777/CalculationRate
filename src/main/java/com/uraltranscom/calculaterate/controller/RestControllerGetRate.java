@@ -1,17 +1,18 @@
 package com.uraltranscom.calculaterate.controller;
 
-import com.uraltranscom.calculaterate.dao.TestErrorDAO;
 import com.uraltranscom.calculaterate.model.CalcRateBody;
 import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
 import com.uraltranscom.calculaterate.util.CheckMandatoryParams;
-import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.uraltranscom.calculaterate.util.ParserInputName.getId;
 
@@ -28,8 +29,6 @@ public class RestControllerGetRate {
 
     @Autowired
     private CommonLogicClass commonLogicClass;
-    @Autowired
-    private TestErrorDAO testErrorDAO;
 
     //@CrossOrigin(origins = "*")
     @PostMapping(value = "/info")
@@ -41,18 +40,6 @@ public class RestControllerGetRate {
         } else {
             return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
         }
-    }
-
-    @GetMapping(value = "/test/{id}")
-    public ResponseEntity testModel(@PathVariable String id) {
-        Object obj = testErrorDAO.getObject(PrepareMapParams.prepareMapWithParams(id));
-        HttpStatus code;
-        if (obj instanceof Conflict) {
-            code = HttpStatus.NOT_FOUND;
-        } else {
-            code = HttpStatus.OK;
-        }
-        return new ResponseEntity<>(obj, code);
     }
 
 }

@@ -19,7 +19,9 @@ function errorCodes(code) {
     countDays: "Дней",
     rate: "Ставка",
     tariff: "Тариф",
-    volume: "Объем"
+    volume: "Объем",
+    paramIsExist: "Парметр существует",
+    stationIsNotExist: "Станция не существует"
   };
   if (toString.call(code) == "[object Array]") {
     for (var i = 0; i < code.length; i++) {
@@ -285,7 +287,7 @@ function update(id, request, json) {
       } else {
         code = response.responseJSON.conflictCodes;
       }
-      alert(message + errorCodes(code));
+      alert(errorCodes(code) + '\n' + message);
     }
   });
 }
@@ -319,7 +321,7 @@ function insert(request, json) {
       } else {
         code = response.responseJSON.conflictCodes;
       }
-      alert(message + errorCodes(code));
+      alert(errorCodes(code) + '\n' + message);
     }
   });
 }
@@ -330,23 +332,6 @@ function reload() {
 
 function reloadPage(id) {
   window.sessionStorage.setItem("tabId", id);
-}
-
-function testError(event) {
-  var input = event.target.parentNode.childNodes[1];
-  var value = input.value;
-  $.ajax({
-    url: "rate/test/" + value,
-    success: function(response) {
-      console.log(response);
-    },
-    error: function(response) {
-      console.log(response.responseJSON);
-      var message = response.responseJSON.conflictMessage;
-      alert(message);
-      $(input).focus();
-    }
-  });
 }
 
 // Выпадающий список

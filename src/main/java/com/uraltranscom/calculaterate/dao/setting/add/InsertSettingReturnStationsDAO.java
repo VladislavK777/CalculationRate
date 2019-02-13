@@ -1,5 +1,6 @@
 package com.uraltranscom.calculaterate.dao.setting.add;
 
+import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -27,7 +29,12 @@ public class InsertSettingReturnStationsDAO {
     @Autowired
     private ConnectionDB connectionDB;
 
-    public void insertObject(Map<String, Object> params) {
+    public Object insertObject(Map<String, Object> params) {
+        String conflictCode;
+        String conflictType;
+        String conflictMessage;
+        Conflict conflict = null;
+
         Connection connection = null;
         CallableStatement callableStatement;
 
@@ -38,8 +45,17 @@ public class InsertSettingReturnStationsDAO {
             for (int i = 1; i < params.size() + 1; i++) {
                 callableStatement.setObject(i, params.get("param" + i));
             }
-            callableStatement.executeQuery();
-            connection.commit();
+            ResultSet resultSet = callableStatement.executeQuery();
+            while (resultSet.next()) {
+                conflictCode = (String) resultSet.getObject(1);
+                if (conflictCode != null) {
+                    conflictType = (String) resultSet.getObject(2);
+                    conflictMessage = resultSet.getString(3);
+                    conflict = new Conflict(conflictCode, conflictType, conflictMessage);
+                } else {
+                    connection.commit();
+                }
+            }
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
             try {
@@ -57,5 +73,6 @@ public class InsertSettingReturnStationsDAO {
                 logger.debug("Error close connection!");
             }
         }
+        return conflict;
     }
 }

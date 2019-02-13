@@ -43,9 +43,9 @@ public class CheckMandatoryParams {
             }
             if (!errorList.isEmpty()) {
                 if (errorList.size() == 1) {
-                    conflict = new Conflict(errorList.get(0), "ERROR", "Не заполнен обязательный параметр: ");
+                    conflict = new Conflict(errorList.get(0), "ERROR", "Не заполнен обязательный параметр!");
                 } else {
-                    conflict = new Conflict(errorList, "ERROR", "Не заполнены обязательные параметры: ");
+                    conflict = new Conflict(errorList, "ERROR", "Не заполнены обязательные параметры!");
                 }
             }
         } catch (JsonProcessingException e) {
