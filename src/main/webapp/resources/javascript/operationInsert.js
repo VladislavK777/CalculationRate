@@ -9,11 +9,11 @@ function addReturnStation(id) {
   var stationReturn = context
     .querySelector("#station")
     .value.replace(/[^\d{6}]/g, "");
-  if (stationReturn === "") {
+  if (stationReturn == "") {
     stationReturn = context
       .querySelector("#station")
       .value.replace(/[\d{6}\s]/g, "");
-    if (stationReturn === "") {
+    if (stationReturn == "") {
       stationReturn = null;
     } else {
       stationReturn = "";
@@ -49,11 +49,11 @@ function addException(id) {
   var stationFromId = context
     .querySelector("#stationFrom")
     .value.replace(/[^\d{6}]/g, "");
-  if (stationFromId === "") {
+  if (stationFromId == "") {
     stationFromId = context
       .querySelector("#stationFrom")
       .value.replace(/[\d{6}\s]/g, "");
-    if (stationFromId === "") {
+    if (stationFromId == "") {
       stationFrom = null;
     } else {
       stationFrom = {
@@ -68,11 +68,11 @@ function addException(id) {
   var stationToId = context
     .querySelector("#stationTo")
     .value.replace(/[^\d{6}]/g, "");
-  if (stationToId === "") {
+  if (stationToId == "") {
     stationToId = context
       .querySelector("#stationTo")
       .value.replace(/[\d{6}\s]/g, "");
-    if (stationToId === "") {
+    if (stationToId == "") {
       stationTo = null;
     } else {
       stationTo = {

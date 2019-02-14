@@ -438,12 +438,12 @@ function cleanField(event) {
   element.placeholder = element.value;
   element.value = "";
   element.addEventListener("blur", function() {
-    element.value = element.placeholder;
+    element.value == element.placeholder ? element.value = element.placeholder : element.value = element.value;
   });
 }
 
 function checkEmpty(value) {
-  if (value === "") {
+  if (value == "") {
     return null;
   } else {
     return value;
