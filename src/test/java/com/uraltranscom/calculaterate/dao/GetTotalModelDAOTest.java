@@ -5,6 +5,7 @@ import com.uraltranscom.calculaterate.configuration.AppInit;
 import com.uraltranscom.calculaterate.configuration.DBConfig;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,6 @@ public class GetTotalModelDAOTest {
     @Test
     public void testGetTotalModel() {
         totalModel = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams("190900", "191208", "023002", 120));
-        System.out.println(totalModel);
+        Assert.assertNotNull("OK", totalModel);
     }
 }
