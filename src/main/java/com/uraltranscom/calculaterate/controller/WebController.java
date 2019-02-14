@@ -39,7 +39,7 @@ public class WebController {
 
     // Выгрузка в Excel
     @RequestMapping(value = "/export")
-    public void getXLS(HttpServletResponse response, Model model) {
+    public void getXLS(HttpServletResponse response) {
         WriteToFileExcel.downloadFileExcel(response, commonLogicClass.getTotalListModels());
     }
 }

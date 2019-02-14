@@ -111,11 +111,11 @@ function updateFieldBeginningException(id) {
   var stationFromId = context
     .querySelector("#stationFromBeginningException" + ide)
     .value.replace(/[^\d{6}]/g, "");
-  if (stationFromId === "") {
+  if (stationFromId == "") {
     stationFromId = context
       .querySelector("#stationFromBeginningException" + ide)
       .value.replace(/[\d{6}\s]/g, "");
-    if (stationFromId === "") {
+    if (stationFromId == "") {
       stationFrom = null;
     } else {
       stationFrom = {
@@ -130,11 +130,11 @@ function updateFieldBeginningException(id) {
   var stationToId = context
     .querySelector("#stationToBeginningException" + ide)
     .value.replace(/[^\d{6}]/g, "");
-  if (stationToId === "") {
+  if (stationToId == "") {
     stationToId = context
       .querySelector("#stationToBeginningException" + ide)
       .value.replace(/[\d{6}\s]/g, "");
-    if (stationToId === "") {
+    if (stationToId == "") {
       stationTo = null;
     } else {
       stationTo = {
@@ -149,11 +149,11 @@ function updateFieldBeginningException(id) {
   var cargoId = context
     .querySelector("#cargoBeginningException" + ide)
     .value.replace(/[^\d{6}]/g, "");
-  if (cargoId === "") {
+  if (cargoId == "") {
     cargoId = context
       .querySelector("#cargoBeginningException" + ide)
       .value.replace(/[\d{6}\s]/g, "");
-    if (cargoId === "") {
+    if (cargoId == "") {
       cargo = null;
     } else {
       cargo = {
@@ -214,11 +214,11 @@ function updateFieldReturnException(id) {
   var stationFromId = context
     .querySelector("#stationFromReturnException" + ide)
     .value.replace(/[^\d{6}]/g, "");
-  if (stationFromId === "") {
+  if (stationFromId == "") {
     stationFromId = context
       .querySelector("#stationFromReturnException" + ide)
       .value.replace(/[\d{6}\s]/g, "");
-    if (stationFromId === "") {
+    if (stationFromId == "") {
       stationFrom = null;
     } else {
       stationFrom = {
@@ -233,11 +233,11 @@ function updateFieldReturnException(id) {
   var stationToId = context
     .querySelector("#stationToReturnException" + ide)
     .value.replace(/[^\d{6}]/g, "");
-  if (stationToId === "") {
+  if (stationToId == "") {
     stationToId = context
       .querySelector("#stationToReturnException" + ide)
       .value.replace(/[\d{6}\s]/g, "");
-    if (stationToId === "") {
+    if (stationToId == "") {
       stationTo = null;
     } else {
       stationTo = {
@@ -252,11 +252,11 @@ function updateFieldReturnException(id) {
   var cargoId = context
     .querySelector("#cargoReturnException" + ide)
     .value.replace(/[^\d{6}]/g, "");
-  if (cargoId === "") {
+  if (cargoId == "") {
     cargoId = context
       .querySelector("#cargoReturnException" + ide)
       .value.replace(/[\d{6}\s]/g, "");
-    if (cargoId === "") {
+    if (cargoId == "") {
       cargo = null;
     } else {
       cargo = {
