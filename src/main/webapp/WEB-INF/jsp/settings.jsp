@@ -7,12 +7,12 @@
 <head>
   <title>UralTransCom|CalculateRate|Setting</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <link href="resources/css/style.css" rel="stylesheet" type="text/css" />
   <link href="resources/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="resources/css/basic_style.css" rel="stylesheet" type="text/css" />
+  <link href="resources/css/input_style.css" rel="stylesheet" type="text/css" />
+  <link href="resources/css/search_style.css" rel="stylesheet" type="text/css" />
+  <link href="resources/css/setting_style.css" rel="stylesheet" type="text/css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
   <script src="resources/javascript/operationUpdate.js"></script>
   <script src="resources/javascript/operationDelete.js"></script>
   <script src="resources/javascript/operationInsert.js"></script>
@@ -72,7 +72,7 @@
                 <tr id="contReturnStation${setting.getId()}">
                   <input id="idReturnStation" value='${setting.getId()}' type="hidden" />
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="roadReturnStationSetting${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" onfocus="cleanField(event)" />
+                    <div class="col-3"><input class="effect-1__roads" type="text" autocomplete="off" id="roadReturnStation" value='${total.key}' />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
@@ -98,7 +98,7 @@
                     </div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationReturnStation${setting.getId()}" value='${setting.getNameStationReturn()}' onkeyup="search(this.id)" onfocus="cleanField(event)" />
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationReturnStation${setting.getId()}" value='${setting.getNameStationReturn()}' onkeyup="search(this.id)" />
                       <span class="focus-border"></span></div>
                   </td>
                   <td><input type="button" id="btCloneReturnStation" onclick="cloneFieldReturnStation(this.parentNode.parentNode.id)" value="Клонировать" class="bot1"></td>
@@ -133,7 +133,7 @@
                 <tr id="contReturnException${setting.getId()}">
                   <input id="idReturnException" value='${setting.getId()}' type="hidden" />
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="roadReturnExceptionSetting${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" onfocus="cleanField(event)" />
+                    <div class="col-3"><input class="effect-1__roads" type="text" autocomplete="off" id="roadReturnException" value='${total.key}' />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
@@ -158,13 +158,13 @@
                     </div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationFromReturnException${setting.getId()}" value='${setting.getStationFrom().getNameStation()}' onkeyup="search(this.id)" onfocus="cleanField(event)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationFromReturnException${setting.getId()}" value='${setting.getStationFrom().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationToReturnException${setting.getId()}" value='${setting.getStationTo().getNameStation()}' onkeyup="search(this.id)" onfocus="cleanField(event)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationToReturnException${setting.getId()}" value='${setting.getStationTo().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="cargoReturnException${setting.getId()}" value='${setting.getCargo().getNameCargo()}' onkeyup="search(this.id)" onfocus="cleanField(event)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="cargoReturnException${setting.getId()}" value='${setting.getCargo().getNameCargo()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
                     <div class="col-3__list">
@@ -231,7 +231,7 @@
                 <tr id="contBeginningException${setting.getId()}">
                   <input id="idBeginningException" value='${setting.getId()}' type="hidden" />
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="roadBeginningExceptionSetting${setting.getId()}" value='${total.key}' onkeyup="search(this.id)" onfocus="cleanField(event)" />
+                    <div class="col-3"><input class="effect-1__roads" type="text" autocomplete="off" id="roadBeginningException" value='${total.key}' />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
@@ -256,13 +256,13 @@
                     </div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationFromBeginningException${setting.getId()}" value='${setting.getStationFrom().getNameStation()}' onkeyup="search(this.id)" onfocus="cleanField(event)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationFromBeginningException${setting.getId()}" value='${setting.getStationFrom().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationToBeginningException${setting.getId()}" value='${setting.getStationTo().getNameStation()}' onkeyup="search(this.id)" onfocus="cleanField(event)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="stationToBeginningException${setting.getId()}" value='${setting.getStationTo().getNameStation()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
-                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="cargoBeginningException${setting.getId()}" value='${setting.getCargo().getNameCargo()}' onkeyup="search(this.id)" onfocus="cleanField(event)" /><span class="focus-border"></span></div>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="cargoBeginningException${setting.getId()}" value='${setting.getCargo().getNameCargo()}' onkeyup="search(this.id)" /><span class="focus-border"></span></div>
                   </td>
                   <td>
                     <div class="col-3__list">

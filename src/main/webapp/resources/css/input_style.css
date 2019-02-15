@@ -1,0 +1,175 @@
+:focus {
+  outline: none;
+}
+
+.col-3,
+.col-3__list {
+  float: left;
+  width: 100%;
+  position: relative;
+}
+
+input[type="text"] {
+  font-size: 18px;
+  color: #364274;
+  width: 100%;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+}
+
+input[type="file"] {
+  font-size: 12px;
+  color: #364274;
+  width: 100%;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+}
+
+.effect-1,
+.effect-1__list,
+.effect-1__roads {
+  border: 0;
+  padding: 7px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.effect-1 ~ .focus-border,
+.effect-1__list ~ .focus-border,
+.effect-1__roads ~ .focus-border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #364274;
+  transition: 0.4s;
+}
+
+.effect-1:focus ~ .focus-border,
+.effect-1__list:focus ~ .focus-border,
+.effect-1__roads:focus ~ .focus-border {
+  width: 100%;
+  transition: 0.4s;
+}
+
+.inp {
+  position: relative;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 280px;
+}
+.inp .label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-size: 16px;
+  color: #9098a9;
+  font-weight: 500;
+  transform-origin: 0 0;
+  transition: all 0.2s ease;
+}
+.inp .border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: #364274;
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  transition: all 0.15s ease;
+}
+.inp input {
+  -webkit-appearance: none;
+  width: 100%;
+  border: 0;
+  font-family: inherit;
+  padding: 12px 0;
+  height: 48px;
+  font-size: 25px;
+  font-weight: 500;
+  border-bottom: 2px solid #c8ccd4;
+  background: none;
+  border-radius: 0;
+  color: #223254;
+  transition: all 0.15s ease;
+}
+.inp input:hover {
+  background: rgba(34, 50, 84, 0.03);
+}
+.inp input:not(:placeholder-shown) + span {
+  color: #5a667f;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp input:focus {
+  background: none;
+  outline: none;
+}
+.inp input:focus + span {
+  color: #364274;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp input:focus + span + .border {
+  transform: scaleX(1);
+}
+
+.inp_file {
+  position: relative;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 280px;
+}
+.inp_file .label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-size: 16px;
+  color: #9098a9;
+  font-weight: 500;
+  transform-origin: 0 0;
+  transition: all 0.2s ease;
+}
+.inp_file .border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: #364274;
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  transition: all 0.15s ease;
+}
+.inp_file input {
+  -webkit-appearance: none;
+  width: 100%;
+  border: 0;
+  font-family: inherit;
+  padding: 12px 0;
+  height: 48px;
+  font-size: 12px;
+  font-weight: 500;
+  border-bottom: 2px solid #c8ccd4;
+  background: none;
+  border-radius: 0;
+  color: #223254;
+  transition: all 0.15s ease;
+}
+.inp_file input:hover {
+  background: rgba(34, 50, 84, 0.03);
+}
+.inp_file input:not(:placeholder-shown) + span {
+  color: #5a667f;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp_file input:focus {
+  background: none;
+  outline: none;
+}
+.inp_file input:focus + span {
+  color: #364274;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp_file input:focus + span + .border {
+  transform: scaleX(1);
+}

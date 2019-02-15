@@ -3,9 +3,7 @@
 function updateFieldReturnStation(id) {
   var context = document.getElementById(id);
   var ide = context.querySelector("#idReturnStation").value;
-  var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadReturnStationSetting" + ide)
-    .value;
+  var namesRoad = context.querySelector("#roadReturnStation").value;
   var idsStationString = context.querySelector("#idStationStringReturnStation")
     .value;
   var volumeGroup = checkEmpty(
@@ -26,7 +24,6 @@ function updateFieldReturnStation(id) {
   }
   var json = JSON.stringify({
     id: ide,
-    idsRoad: idsRoad,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
     volumeGroupsString: volumeGroup,
@@ -37,71 +34,13 @@ function updateFieldReturnStation(id) {
   update(id, request, json);
 }
 
-function updateFieldYield(id) {
-  var context = document.getElementById(id);
-  var ide = context.querySelector("#idYield").value;
-  var yieldVal = context.querySelector("#yieldYield").value;
-  var json = JSON.stringify({
-    id: ide,
-    yield: yieldVal
-  });
-  var request = "/updateYield";
-  console.log(json);
-  update(id, request, json);
-}
-
-function updateFieldOther(id) {
-  var context = document.getElementById(id);
-  var ide = context.querySelector("#idOther").value;
-  var value = context.querySelector("#valueOther").value;
-  var json = JSON.stringify({
-    id: ide,
-    value: value
-  });
-  var request = "/updateOther";
-  console.log(json);
-  update(id, request, json);
-}
-
-function updateFieldLoadUnload(id) {
-  var context = document.getElementById(id);
-  var ide = context.querySelector("#idLoadUnload").value;
-  var value = context.querySelector("#valueLoadUnload").value;
-  var json = JSON.stringify({
-    id: ide,
-    value: value
-  });
-  var request = "/updateLoadUnload";
-  console.log(json);
-  update(id, request, json);
-}
-
-function updateFieldBorderDistance(id) {
-  var context = document.getElementById(id);
-  var ide = context.querySelector("#idBorderDistance").value;
-  var distanceFrom = context.querySelector("#distanceFromBorderDistance").value;
-  var distanceTo = context.querySelector("#distanceToBorderDistance").value;
-  var coefficient = context.querySelector("#coefficientBorderDistance").value;
-  var json = JSON.stringify({
-    id: ide,
-    distanceFrom: distanceFrom,
-    distanceTo: distanceTo,
-    coefficient: coefficient
-  });
-  var request = "/updateBorderDistance";
-  console.log(json);
-  update(id, request, json);
-}
-
 function updateFieldBeginningException(id) {
   var stationFrom;
   var stationTo;
   var cargo;
   var context = document.getElementById(id);
   var ide = context.querySelector("#idBeginningException").value;
-  var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadBeginningExceptionSetting" + id)
-    .value;
+  var namesRoad = context.querySelector("#roadBeginningException").value;
   var idsStationString = context.querySelector(
     "#idStationStringBeginningException"
   ).value;
@@ -177,7 +116,6 @@ function updateFieldBeginningException(id) {
   var tariff = context.querySelector("#tariffBeginningException").value;
   var json = JSON.stringify({
     id: ide,
-    idsRoad: idsRoad,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
     volumeGroupsString: volumeGroup,
@@ -202,9 +140,7 @@ function updateFieldReturnException(id) {
   var cargo;
   var context = document.getElementById(id);
   var ide = context.querySelector("#idReturnException").value;
-  var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadReturnExceptionSetting" + ide)
-    .value;
+  var namesRoad = context.querySelector("#roadReturnException").value;
   var idsStationString = context.querySelector(
     "#idStationStringReturnException"
   ).value;
@@ -280,7 +216,6 @@ function updateFieldReturnException(id) {
   var tariff = context.querySelector("#tariffReturnException").value;
   var json = JSON.stringify({
     id: ide,
-    idsRoad: idsRoad,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
     volumeGroupsString: volumeGroup,
@@ -295,6 +230,62 @@ function updateFieldReturnException(id) {
     tariff: tariff
   });
   var request = "/updateReturnException";
+  console.log(json);
+  update(id, request, json);
+}
+
+function updateFieldYield(id) {
+  var context = document.getElementById(id);
+  var ide = context.querySelector("#idYield").value;
+  var yieldVal = context.querySelector("#yieldYield").value;
+  var json = JSON.stringify({
+    id: ide,
+    yield: yieldVal
+  });
+  var request = "/updateYield";
+  console.log(json);
+  update(id, request, json);
+}
+
+function updateFieldOther(id) {
+  var context = document.getElementById(id);
+  var ide = context.querySelector("#idOther").value;
+  var value = context.querySelector("#valueOther").value;
+  var json = JSON.stringify({
+    id: ide,
+    value: value
+  });
+  var request = "/updateOther";
+  console.log(json);
+  update(id, request, json);
+}
+
+function updateFieldLoadUnload(id) {
+  var context = document.getElementById(id);
+  var ide = context.querySelector("#idLoadUnload").value;
+  var value = context.querySelector("#valueLoadUnload").value;
+  var json = JSON.stringify({
+    id: ide,
+    value: value
+  });
+  var request = "/updateLoadUnload";
+  console.log(json);
+  update(id, request, json);
+}
+
+function updateFieldBorderDistance(id) {
+  var context = document.getElementById(id);
+  var ide = context.querySelector("#idBorderDistance").value;
+  var distanceFrom = context.querySelector("#distanceFromBorderDistance").value;
+  var distanceTo = context.querySelector("#distanceToBorderDistance").value;
+  var coefficient = context.querySelector("#coefficientBorderDistance").value;
+  var json = JSON.stringify({
+    id: ide,
+    distanceFrom: distanceFrom,
+    distanceTo: distanceTo,
+    coefficient: coefficient
+  });
+  var request = "/updateBorderDistance";
   console.log(json);
   update(id, request, json);
 }

@@ -2,8 +2,7 @@
 
 function addReturnStation(id) {
   var context = document.getElementById(id);
-  var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadSetting").value;
+  var namesRoad = context.querySelector("#road").value;
   var idsStationString = context.querySelector("#stationList").value;
   var volumeGroups = checkEmpty(context.querySelector("#volume").value);
   var stationReturn = context
@@ -20,7 +19,6 @@ function addReturnStation(id) {
     }
   }
   var json = JSON.stringify({
-    idsRoad: idsRoad,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
     volumeGroupsString: volumeGroups,
@@ -42,8 +40,7 @@ function addException(id) {
     request = "/addReturnException";
   }
   var context = document.getElementById(id);
-  var idsRoad = window.sessionStorage.getItem("roadIds");
-  var namesRoad = context.querySelector("#roadSetting").value;
+  var namesRoad = context.querySelector("#road").value;
   var idsStationString = context.querySelector("#stationList").value;
   var volumeGroup = checkEmpty(context.querySelector("#volume").value);
   var stationFromId = context
@@ -106,7 +103,6 @@ function addException(id) {
   var rate = context.querySelector("#rate").value;
   var tariff = context.querySelector("#tariff").value;
   var json = JSON.stringify({
-    idsRoad: idsRoad,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
     volumeGroupsString: volumeGroup,

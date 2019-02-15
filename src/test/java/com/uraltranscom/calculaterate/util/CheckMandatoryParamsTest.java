@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class CheckMandatoryParamsTest {
     private Conflict conflict;
-    private SettingReturnStations obj = new SettingReturnStations(0, "11", "ВСБ", "", "120", null, null);
+    private SettingReturnStations obj = new SettingReturnStations(0, "ВСБ", "", "120", null, null);
 
     @Test
     public void testCheckMandatoryParams() {

@@ -7,8 +7,11 @@
 <head>
   <title>UralTransCom|CalculateRate</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <link href="resources/css/style.css" rel="stylesheet" type="text/css" />
   <link href="resources/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="resources/css/basic_style.css" rel="stylesheet" type="text/css" />
+  <link href="resources/css/input_style.css" rel="stylesheet" type="text/css" />
+  <link href="resources/css/rate_style.css" rel="stylesheet" type="text/css" />
+  <link href="resources/css/search_style.css" rel="stylesheet" type="text/css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="resources/javascript/search.js"></script>
   <script src="resources/javascript/process.js"></script>

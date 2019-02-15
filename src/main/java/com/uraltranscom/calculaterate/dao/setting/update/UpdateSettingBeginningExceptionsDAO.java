@@ -22,7 +22,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class UpdateSettingBeginningExceptionsDAO {
     private static Logger logger = LoggerFactory.getLogger(UpdateSettingBeginningExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_beginning_exception(?,?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
+    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_beginning_exception(?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
