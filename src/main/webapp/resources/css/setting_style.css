@@ -1,0 +1,137 @@
+.tabs > section {
+  display: none;
+  max-width: 100%;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+.tabs > section > p {
+  margin: 0 0 5px;
+  line-height: 1.5;
+  color: #383838;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+.tabs > input {
+  display: none;
+  position: absolute;
+}
+
+.tabs > label {
+  display: inline-block;
+  margin: 0 0 -1px;
+  padding: 15px 25px;
+  font-weight: 600;
+  text-align: center;
+  color: #aaa;
+  border: 0px solid #ddd;
+  border-width: 1px 1px 1px 1px;
+  background: #f1f1f1;
+  border-radius: 3px 3px 0 0;
+}
+
+.tabs > label:before {
+  font-family: fontawesome;
+  font-weight: normal;
+  margin-right: 10px;
+}
+
+.tabs > label:hover {
+  color: #888;
+  cursor: pointer;
+}
+
+.tabs > input:checked + label {
+  color: #555;
+  border-top: 1px solid #364274;
+  border-bottom: 1px solid #fff;
+  background: #fff;
+}
+
+#tab1:checked ~ #contentReturnStations,
+#tab2:checked ~ #contentReturnExceptions,
+#tab3:checked ~ #contentBeginningExceptions,
+#tab4:checked ~ #contentBorderDistance,
+#tab5:checked ~ #contentLoadUnload,
+#tab6:checked ~ #contentYield,
+#tab7:checked ~ #contentOther {
+  display: block;
+}
+
+.wrapper + .wrapper {
+  margin-top: 0;
+}
+
+.check-list {
+  position: absolute;
+  display: none;
+  border-bottom: 1px #222 solid;
+  border-right: 1px #222 solid;
+  border-left: 1px #222 solid;
+  background: #f8f8ff;
+  z-index: 5;
+  width: 100%;
+}
+
+.check-list__roads {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 400px;
+  overflow-y: scroll;
+  font-size: 16px;
+}
+
+.check-list__form {
+  top: 68px;
+  position: absolute;
+  display: none;
+  border-bottom: 1px #222 solid;
+  border-right: 1px #222 solid;
+  border-left: 1px #222 solid;
+  background: #f8f8ff;
+  z-index: 5;
+  width: 100%;
+}
+
+.check-list__form_roads {
+  top: 68px;
+  position: absolute;
+  display: none;
+  border-bottom: 1px #222 solid;
+  border-right: 1px #222 solid;
+  border-left: 1px #222 solid;
+  background: #f8f8ff;
+  z-index: 5;
+  width: 100%;
+  height: 400px;
+  overflow-y: scroll;
+  font-size: 16px;
+}
+
+.check-list ul,
+.check-list__form ul,
+.check-list__roads ul,
+.check-list__form_roads ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 10;
+}
+
+@media screen and (max-width: 1500px) {
+  .tabs > label {
+    font-size: 12px;
+    width: auto;
+  }
+
+  .tabs > label:before {
+    margin: 0;
+    font-size: 12px;
+  }
+}

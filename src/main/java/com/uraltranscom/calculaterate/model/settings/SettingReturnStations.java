@@ -13,7 +13,6 @@ import lombok.*;
 @NoArgsConstructor
 public class SettingReturnStations {
     private int id;
-    private String idsRoad;
     private String namesRoad;
     private String idsStationString;
     private String volumeGroupsString;

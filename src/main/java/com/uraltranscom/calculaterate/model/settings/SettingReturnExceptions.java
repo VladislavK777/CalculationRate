@@ -16,7 +16,6 @@ import lombok.*;
 public class SettingReturnExceptions {
     private int id;
     private int num;
-    private String idsRoad;
     private String namesRoad;
     private String idsStationString;
     private String volumeGroupsString;

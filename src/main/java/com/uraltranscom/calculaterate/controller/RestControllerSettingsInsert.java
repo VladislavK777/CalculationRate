@@ -48,7 +48,6 @@ public class RestControllerSettingsInsert {
         if (conflict == null) {
             conflict = (Conflict) insertSettingReturnStationsDAO.insertObject(
                     PrepareMapParams.prepareMapWithParams(
-                            settingReturnStations.getIdsRoad(),
                             settingReturnStations.getNamesRoad(),
                             settingReturnStations.getIdsStationString(),
                             settingReturnStations.getVolumeGroupsString(),
@@ -71,7 +70,6 @@ public class RestControllerSettingsInsert {
         if (conflict == null) {
             conflict = (Conflict) insertSettingReturnExceptionsDAO.insertObject(
                     PrepareMapParams.prepareMapWithParams(
-                            settingReturnExceptions.getIdsRoad(),
                             settingReturnExceptions.getNamesRoad(),
                             settingReturnExceptions.getIdsStationString(),
                             settingReturnExceptions.getVolumeGroupsString(),
@@ -102,7 +100,6 @@ public class RestControllerSettingsInsert {
         if (conflict == null) {
             conflict = (Conflict) insertSettingBeginningExceptionsDAO.insertObject(
                     PrepareMapParams.prepareMapWithParams(
-                            settingReturnExceptions.getIdsRoad(),
                             settingReturnExceptions.getNamesRoad(),
                             settingReturnExceptions.getIdsStationString(),
                             settingReturnExceptions.getVolumeGroupsString(),

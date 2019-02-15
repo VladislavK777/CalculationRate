@@ -1,4 +1,5 @@
 function cloneFieldReturnStation(id) {
+  var roadsList = window.sessionStorage.getItem("roadSearch");
   var context = document.getElementById(id);
   var ide = context.querySelector("#idReturnStation").value;
 
@@ -14,7 +15,7 @@ function cloneFieldReturnStation(id) {
       var div_subdiv_head1 = document.createElement("div");
       div_subdiv_head1.id = "popup_bg";
       div_subdiv_head1.style =
-        "background: rgba(0, 0, 0, 0); position: absolute; z-index: 1; height: 100%; width: 100%;";
+        "background: rgba(0, 0, 0, 0); position: fixed; z-index: 1; height: 100%; width: 100%;";
       var div_subdiv_head2 = document.createElement("div");
       div_subdiv_head2.className = "form";
       var button = document.createElement("input");
@@ -25,7 +26,15 @@ function cloneFieldReturnStation(id) {
       var tr1 = document.createElement("tr");
       var td11 = document.createElement("td");
       td11.appendChild(
-        createInput("roadSetting", "Дорога", true, response.namesRoad)
+        createInput(
+          "road",
+          "Дорога",
+          false,
+          response.namesRoad,
+          roadsList,
+          true,
+          "__form_roads"
+        )
       );
       tr1.appendChild(td11);
       table.appendChild(tr1);
@@ -51,7 +60,9 @@ function cloneFieldReturnStation(id) {
           "Группа объемов",
           false,
           response.volumeGroupsString,
-          true
+          "120,138,150",
+          true,
+          "__form"
         )
       );
       tr3.appendChild(td31);
@@ -94,6 +105,7 @@ function cloneFieldReturnStation(id) {
 }
 
 function cloneFieldReturnException(id) {
+  var roadsList = window.sessionStorage.getItem("roadSearch");
   var context = document.getElementById(id);
   var ide = context.querySelector("#idReturnException").value;
 
@@ -109,7 +121,7 @@ function cloneFieldReturnException(id) {
       var div_subdiv_head1 = document.createElement("div");
       div_subdiv_head1.id = "popup_bg";
       div_subdiv_head1.style =
-        "background: rgba(0, 0, 0, 0); position: absolute; z-index: 1; height: 100%; width: 100%;";
+        "background: rgba(0, 0, 0, 0); position: fixed; z-index: 1; height: 100%; width: 100%;";
       var div_subdiv_head2 = document.createElement("div");
       div_subdiv_head2.className = "form";
       var button = document.createElement("input");
@@ -120,7 +132,15 @@ function cloneFieldReturnException(id) {
       var tr1 = document.createElement("tr");
       var td11 = document.createElement("td");
       td11.appendChild(
-        createInput("roadSetting", "Дорога", true, response.namesRoad)
+        createInput(
+          "road",
+          "Дорога",
+          false,
+          response.namesRoad,
+          roadsList,
+          true,
+          "__form_roads"
+        )
       );
       var td12 = document.createElement("td");
       td12.appendChild(
@@ -138,7 +158,9 @@ function cloneFieldReturnException(id) {
           "Группа объемов",
           false,
           response.volumeGroupsString,
-          true
+          "120,138,150",
+          true,
+          "__form"
         )
       );
       tr1.appendChild(td11);
@@ -188,7 +210,9 @@ function cloneFieldReturnException(id) {
           "Класс груза",
           false,
           response.cargoTypeString,
-          true
+          "1,2,3",
+          true,
+          "__form"
         )
       );
       var td32 = document.createElement("td");
@@ -249,6 +273,7 @@ function cloneFieldReturnException(id) {
 }
 
 function cloneFieldBeginningException(id) {
+  var roadsList = window.sessionStorage.getItem("roadSearch");
   var context = document.getElementById(id);
   var ide = context.querySelector("#idBeginningException").value;
 
@@ -264,7 +289,7 @@ function cloneFieldBeginningException(id) {
       var div_subdiv_head1 = document.createElement("div");
       div_subdiv_head1.id = "popup_bg";
       div_subdiv_head1.style =
-        "background: rgba(0, 0, 0, 0); position: absolute; z-index: 1; height: 100%; width: 100%;";
+        "background: rgba(0, 0, 0, 0); position: fixed; z-index: 1; height: 100%; width: 100%;";
       var div_subdiv_head2 = document.createElement("div");
       div_subdiv_head2.className = "form";
       var button = document.createElement("input");
@@ -275,7 +300,15 @@ function cloneFieldBeginningException(id) {
       var tr1 = document.createElement("tr");
       var td11 = document.createElement("td");
       td11.appendChild(
-        createInput("roadSetting", "Дорога", true, response.namesRoad)
+        createInput(
+          "road",
+          "Дорога",
+          false,
+          response.namesRoad,
+          roadsList,
+          true,
+          "__form_roads"
+        )
       );
       var td12 = document.createElement("td");
       td12.appendChild(
@@ -293,7 +326,9 @@ function cloneFieldBeginningException(id) {
           "Группа объемов",
           false,
           response.volumeGroupsString,
-          true
+          "120,138,150",
+          true,
+          "__form"
         )
       );
       tr1.appendChild(td11);
@@ -343,7 +378,9 @@ function cloneFieldBeginningException(id) {
           "Класс груза",
           false,
           response.cargoTypeString,
-          true
+          "1,2,3",
+          true,
+          "__form"
         )
       );
       var td32 = document.createElement("td");

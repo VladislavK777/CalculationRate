@@ -34,7 +34,6 @@ function errorCodes(code) {
 }
 
 function initSetting() {
-  window.sessionStorage.setItem("roadIds", "");
   element = document.getElementById(window.sessionStorage.getItem("tabId"));
   element.setAttribute("checked", true);
   document.getElementById("copy").innerText = new Date().getFullYear();
@@ -85,7 +84,15 @@ function hiddenList() {
   datalist.parentNode.removeChild(datalist);
 }
 
-function createInput(id, name, isCallSearch, defaultText, selectList) {
+function createInput(
+  id,
+  name,
+  isCallSearch,
+  defaultText,
+  defaultListText,
+  selectList,
+  marker
+) {
   var p = document.createElement("p");
   p.className = "inp";
   var label = document.createElement("label");
@@ -112,8 +119,8 @@ function createInput(id, name, isCallSearch, defaultText, selectList) {
     div2.className = "wrapper";
     input.className = "input__form";
     var div_checkList = document.createElement("div");
-    div_checkList.className = "check-list__form";
-    var s_array = defaultText.split(",");
+    div_checkList.className = "check-list" + marker;
+    var s_array = defaultListText.split(",");
     var ul = document.createElement("ul");
     for (var i = 0; i < s_array.length; i++) {
       var li = document.createElement("li");
@@ -143,6 +150,7 @@ function createInput(id, name, isCallSearch, defaultText, selectList) {
 }
 
 function createField(id) {
+  var roadsList = window.sessionStorage.getItem("roadSearch");
   var context = document.getElementById(id);
   var table = document.createElement("table");
 
@@ -153,7 +161,7 @@ function createField(id) {
   var div_subdiv_head1 = document.createElement("div");
   div_subdiv_head1.id = "popup_bg";
   div_subdiv_head1.style =
-    "background: rgba(0, 0, 0, 0); position: absolute; z-index: 1; height: 100%; width: 100%;";
+    "background: rgba(0, 0, 0, 0); position: fixed; z-index: 1; height: 100%; width: 100%;";
   var div_subdiv_head2 = document.createElement("div");
   div_subdiv_head2.className = "form";
   var button = document.createElement("input");
@@ -164,7 +172,9 @@ function createField(id) {
   if (id == "btAddReturnStation") {
     var tr1 = document.createElement("tr");
     var td11 = document.createElement("td");
-    td11.appendChild(createInput("roadSetting", "Дорога", true));
+    td11.appendChild(
+      createInput("road", "Дорога", false, "", roadsList, true, "__form_roads")
+    );
     tr1.appendChild(td11);
     table.appendChild(tr1);
     var tr2 = document.createElement("tr");
@@ -175,7 +185,15 @@ function createField(id) {
     var tr3 = document.createElement("tr");
     var td31 = document.createElement("td");
     td31.appendChild(
-      createInput("volume", "Группа объемов", false, "120,138,150", true)
+      createInput(
+        "volume",
+        "Группа объемов",
+        false,
+        "120,138,150",
+        "120,138,150",
+        true,
+        "__form"
+      )
     );
     tr3.appendChild(td31);
     table.appendChild(tr3);
@@ -190,12 +208,22 @@ function createField(id) {
   } else {
     var tr1 = document.createElement("tr");
     var td11 = document.createElement("td");
-    td11.appendChild(createInput("roadSetting", "Дорога", true));
+    td11.appendChild(
+      createInput("road", "Дорога", false, "", roadsList, true, "__form_roads")
+    );
     var td12 = document.createElement("td");
     td12.appendChild(createInput("stationList", "Список станций", false));
     var td13 = document.createElement("td");
     td13.appendChild(
-      createInput("volume", "Группа объемов", false, "120,138,150", true)
+      createInput(
+        "volume",
+        "Группа объемов",
+        false,
+        "120,138,150",
+        "120,138,150",
+        true,
+        "__form"
+      )
     );
     tr1.appendChild(td11);
     tr1.appendChild(td12);
@@ -216,7 +244,15 @@ function createField(id) {
     var tr3 = document.createElement("tr");
     var td31 = document.createElement("td");
     td31.appendChild(
-      createInput("cargoClass", "Класс груза", false, "1,2,3", true)
+      createInput(
+        "cargoClass",
+        "Класс груза",
+        false,
+        "1,2,3",
+        "1,2,3",
+        true,
+        "__form"
+      )
     );
     var td32 = document.createElement("td");
     var field = createInput("typeRoute", "Тип рейса", false);
@@ -287,7 +323,7 @@ function update(id, request, json) {
       } else {
         code = response.responseJSON.conflictCodes;
       }
-      alert(errorCodes(code) + '\n' + message);
+      alert(errorCodes(code) + "\n" + message);
     }
   });
 }
@@ -321,7 +357,7 @@ function insert(request, json) {
       } else {
         code = response.responseJSON.conflictCodes;
       }
-      alert(errorCodes(code) + '\n' + message);
+      alert(errorCodes(code) + "\n" + message);
     }
   });
 }
@@ -367,13 +403,67 @@ $(document).on("focus", ".effect-1__list", function() {
     for (var i = 0; i < $checkBoxes.length; i++) {
       if ($checkBoxes.eq(i).is(":checked")) {
         checkStatus++;
-
         if (inputText === "") {
           inputText = $checkBoxes.eq(i).val();
         } else {
           inputText += "," + $checkBoxes.eq(i).val();
         }
+        $input.val(inputText);
+      } else if (checkStatus === 0) {
+        $input.val("");
+      }
+    }
+  });
+});
 
+// Выпадающий список для списка дорог
+$(document).on("focus", ".effect-1__roads", function() {
+  addListRoads();
+  var $input = $(this);
+  var $checkList = $(popup),
+    $checkBoxes = $checkList.find(".check-list__checkbox");
+  if ($input.val() != "") {
+    var $split = $input.val().split(",");
+    for (var i = 0; i < $checkBoxes.length; i++) {
+      for (var j = 0; j < $split.length; j++) {
+        if (
+          $.trim(
+            $checkBoxes
+              .eq(i)
+              .val()
+              .match(/^\S+\s/)[0]
+          ) == $split[j]
+        ) {
+          $checkBoxes.eq(i).prop("checked", true);
+        }
+      }
+    }
+  }
+
+  $checkBoxes.on("change", function() {
+    var inputText = "",
+      checkStatus = 0;
+
+    for (var i = 0; i < $checkBoxes.length; i++) {
+      if ($checkBoxes.eq(i).is(":checked")) {
+        checkStatus++;
+        if (inputText === "") {
+          inputText = $.trim(
+            $checkBoxes
+              .eq(i)
+              .val()
+              .match(/^\S+\s/)[0]
+          );
+        } else {
+          inputText +=
+            "," +
+            $.trim(
+              $checkBoxes
+                .eq(i)
+                .val()
+                .match(/^\S+\s/)[0]
+            );
+        }
         $input.val(inputText);
       } else if (checkStatus === 0) {
         $input.val("");
@@ -387,16 +477,27 @@ $(document).on("focus", ".input__form", function() {
   var $input = $(this);
   var $checkList = $input
       .parents()
-      .parents()
-      .siblings(".check-list__form"),
+      .siblings(".check-list__form, .check-list__form_roads"),
     $checkBoxes = $checkList.find(".check-list__checkbox");
-
   if ($input.val() != "") {
     var $split = $input.val().split(",");
     for (var i = 0; i < $checkBoxes.length; i++) {
       for (var j = 0; j < $split.length; j++) {
-        if ($checkBoxes.eq(i).val() == $split[j]) {
-          $checkBoxes.eq(i).prop("checked", true);
+        if ($checkList.hasClass("check-list__form")) {
+          if ($checkBoxes.eq(i).val() == $split[j]) {
+            $checkBoxes.eq(i).prop("checked", true);
+          }
+        } else {
+          if (
+            $.trim(
+              $checkBoxes
+                .eq(i)
+                .val()
+                .match(/^\S+\s/)[0]
+            ) == $split[j]
+          ) {
+            $checkBoxes.eq(i).prop("checked", true);
+          }
         }
       }
     }
@@ -418,11 +519,30 @@ $(document).on("focus", ".input__form", function() {
     for (var i = 0; i < $checkBoxes.length; i++) {
       if ($checkBoxes.eq(i).is(":checked")) {
         checkStatus++;
-
-        if (inputText === "") {
-          inputText = $checkBoxes.eq(i).val();
+        if ($checkBoxes.parents().hasClass("check-list__form")) {
+          if (inputText === "") {
+            inputText = $checkBoxes.eq(i).val();
+          } else {
+            inputText += "," + $checkBoxes.eq(i).val();
+          }
         } else {
-          inputText += "," + $checkBoxes.eq(i).val();
+          if (inputText === "") {
+            inputText = $.trim(
+              $checkBoxes
+                .eq(i)
+                .val()
+                .match(/^\S+\s/)[0]
+            );
+          } else {
+            inputText +=
+              "," +
+              $.trim(
+                $checkBoxes
+                  .eq(i)
+                  .val()
+                  .match(/^\S+\s/)[0]
+              );
+          }
         }
 
         $input.val(inputText);
@@ -433,19 +553,60 @@ $(document).on("focus", ".input__form", function() {
   });
 });
 
-function cleanField(event) {
-  var element = event.target;
-  element.placeholder = element.value;
-  element.value = "";
-  element.addEventListener("blur", function() {
-    element.value == element.placeholder ? element.value = element.placeholder : element.value = element.value;
-  });
-}
-
 function checkEmpty(value) {
   if (value == "") {
     return null;
   } else {
     return value;
   }
+}
+
+function addListRoads() {
+  var body = document.body;
+  var roadsList = window.sessionStorage.getItem("roadSearch");
+
+  var div_head = document.createElement("div");
+  div_head.id = "popup";
+  div_head.style =
+    "position: absolute; height: 100%; width: 100%; top: 0; left: 0; display: none;";
+
+  var div_subdiv_head1 = document.createElement("div");
+  div_subdiv_head1.id = "popup_bg";
+  div_subdiv_head1.style =
+    "background: rgba(0, 0, 0, 0); position: fixed; z-index: 1; height: 100%; width: 100%;";
+
+  var div_subdiv_head2 = document.createElement("div");
+  div_subdiv_head2.className = "form";
+
+  var div_wrapper = document.createElement("div");
+  div_wrapper.className = "wrapper";
+
+  var div_checkList = document.createElement("div");
+  div_checkList.className = "check-list__roads";
+
+  var roadsArray = roadsList.split(",");
+  var ul = document.createElement("ul");
+  for (var i = 0; i < roadsArray.length; i++) {
+    var li = document.createElement("li");
+    var input_li =
+      '<input type="checkbox" class="check-list__checkbox" value="' +
+      roadsArray[i] +
+      '" />';
+    li.innerHTML = input_li + roadsArray[i];
+    ul.appendChild(li);
+  }
+  div_checkList.appendChild(ul);
+  div_wrapper.appendChild(div_checkList);
+  div_subdiv_head2.appendChild(div_wrapper);
+  div_head.appendChild(div_subdiv_head1);
+  div_head.appendChild(div_subdiv_head2);
+
+  body.appendChild(div_head);
+  showPopup();
+
+  $(document).ready(function() {
+    $(popup_bg).click(function() {
+      $(popup).remove();
+    });
+  });
 }

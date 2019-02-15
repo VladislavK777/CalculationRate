@@ -22,7 +22,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class UpdateSettingReturnStationsDAO {
     private static Logger logger = LoggerFactory.getLogger(UpdateSettingReturnStationsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_return_stations(?,?,?,?,?,?) } ";
+    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_return_stations(?,?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;

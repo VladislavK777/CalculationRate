@@ -24,7 +24,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class InsertSettingReturnStationsDAO {
     private static Logger logger = LoggerFactory.getLogger(InsertSettingReturnStationsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_return_station(?,?,?,?,?) } ";
+    private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_return_station(?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;

@@ -48,13 +48,12 @@ public class CloneReturnStationDAO extends AbstractObjectFactory<SettingReturnSt
                 ResultSet resultSe2 = (ResultSet) resultSet.getObject(1);
                 while (resultSe2.next()) {
                     int id = resultSe2.getInt(1);
-                    String idsRoad = resultSe2.getString(2);
-                    String namesRoad = resultSe2.getString(3);
-                    String idStationString = resultSe2.getString(4);
-                    String volumeGroupsString = resultSe2.getString(5);
-                    String idStationReturn = resultSe2.getString(6);
-                    String nameStationReturn = resultSe2.getString(7);
-                    settingReturnStations = new SettingReturnStations(id, idsRoad, namesRoad, idStationString, volumeGroupsString, idStationReturn, nameStationReturn);
+                    String namesRoad = resultSe2.getString(2);
+                    String idStationString = resultSe2.getString(3);
+                    String volumeGroupsString = resultSe2.getString(4);
+                    String idStationReturn = resultSe2.getString(5);
+                    String nameStationReturn = resultSe2.getString(6);
+                    settingReturnStations = new SettingReturnStations(id, namesRoad, idStationString, volumeGroupsString, idStationReturn, nameStationReturn);
                 }
             }
             logger.debug("Get info for clone: {}", params + ": " + settingReturnStations);

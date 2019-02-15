@@ -87,7 +87,6 @@ public class RestControllerSettingsUpdate {
             updateSettingReturnStationsDAO.updateObject(
                     PrepareMapParams.prepareMapWithParams(
                             settingReturnStations.getId(),
-                            settingReturnStations.getIdsRoad(),
                             settingReturnStations.getNamesRoad(),
                             settingReturnStations.getIdsStationString(),
                             settingReturnStations.getVolumeGroupsString(),
@@ -107,7 +106,6 @@ public class RestControllerSettingsUpdate {
             updateSettingReturnExceptionsDAO.updateObject(
                     PrepareMapParams.prepareMapWithParams(
                             settingReturnExceptions.getId(),
-                            settingReturnExceptions.getIdsRoad(),
                             settingReturnExceptions.getNamesRoad(),
                             settingReturnExceptions.getIdsStationString(),
                             settingReturnExceptions.getVolumeGroupsString(),
@@ -135,7 +133,6 @@ public class RestControllerSettingsUpdate {
             updateSettingBeginningExceptionsDAO.updateObject(
                     PrepareMapParams.prepareMapWithParams(
                             settingReturnExceptions.getId(),
-                            settingReturnExceptions.getIdsRoad(),
                             settingReturnExceptions.getNamesRoad(),
                             settingReturnExceptions.getIdsStationString(),
                             settingReturnExceptions.getVolumeGroupsString(),
