@@ -1,3 +1,5 @@
+//Набор скриптов для операции Clone
+
 function cloneFieldReturnStation(id) {
   var roadsList = window.sessionStorage.getItem("roadSearch");
   var context = document.getElementById(id);
