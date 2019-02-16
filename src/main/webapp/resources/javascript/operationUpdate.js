@@ -3,7 +3,7 @@
 function updateFieldReturnStation(id) {
   var context = document.getElementById(id);
   var ide = context.querySelector("#idReturnStation").value;
-  var namesRoad = context.querySelector("#roadReturnStation").value;
+  var namesRoad = checkEmpty(context.querySelector("#roadReturnStation").value);
   var idsStationString = context.querySelector("#idStationStringReturnStation")
     .value;
   var volumeGroup = checkEmpty(
@@ -40,7 +40,7 @@ function updateFieldBeginningException(id) {
   var cargo;
   var context = document.getElementById(id);
   var ide = context.querySelector("#idBeginningException").value;
-  var namesRoad = context.querySelector("#roadBeginningException").value;
+  var namesRoad = checkEmpty(context.querySelector("#roadBeginningException").value);
   var idsStationString = context.querySelector(
     "#idStationStringBeginningException"
   ).value;
@@ -140,7 +140,7 @@ function updateFieldReturnException(id) {
   var cargo;
   var context = document.getElementById(id);
   var ide = context.querySelector("#idReturnException").value;
-  var namesRoad = context.querySelector("#roadReturnException").value;
+  var namesRoad = checkEmpty(context.querySelector("#roadReturnException").value);
   var idsStationString = context.querySelector(
     "#idStationStringReturnException"
   ).value;

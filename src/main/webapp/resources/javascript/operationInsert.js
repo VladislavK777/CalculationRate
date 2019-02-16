@@ -2,7 +2,7 @@
 
 function addReturnStation(id) {
   var context = document.getElementById(id);
-  var namesRoad = context.querySelector("#road").value;
+  var namesRoad = checkEmpty(context.querySelector("#road").value);
   var idsStationString = context.querySelector("#stationList").value;
   var volumeGroups = checkEmpty(context.querySelector("#volume").value);
   var stationReturn = context
@@ -40,7 +40,7 @@ function addException(id) {
     request = "/addReturnException";
   }
   var context = document.getElementById(id);
-  var namesRoad = context.querySelector("#road").value;
+  var namesRoad = checkEmpty(context.querySelector("#road").value);
   var idsStationString = context.querySelector("#stationList").value;
   var volumeGroup = checkEmpty(context.querySelector("#volume").value);
   var stationFromId = context
