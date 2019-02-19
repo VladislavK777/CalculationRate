@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.model;
+package com.uraltranscom.calculaterate.model.route;
 
 import lombok.*;
 

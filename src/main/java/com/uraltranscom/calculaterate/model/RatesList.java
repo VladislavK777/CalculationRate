@@ -1,5 +1,6 @@
 package com.uraltranscom.calculaterate.model;
 
+import com.uraltranscom.calculaterate.model.station.Station;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,6 +15,6 @@ import lombok.Data;
 public class RatesList {
     private int volume;
     private Station stationFrom;
-    private Road roadTo;
+    private Station stationTo;
     private double actualRate;
 }

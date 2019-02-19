@@ -1,5 +1,6 @@
-package com.uraltranscom.calculaterate.model;
+package com.uraltranscom.calculaterate.model.route;
 
+import com.uraltranscom.calculaterate.model.station.Station;
 import lombok.Data;
 
 /**

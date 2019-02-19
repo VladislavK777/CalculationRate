@@ -13,7 +13,7 @@ public class ExceptionReturnRoute {
     @Autowired
     private ProcessingCreateRouteInstance processingCreateRouteInstance;
     @Autowired
-    private GetStationInfoDAO getStationInfoDAO;
+    private GetCountryStationDAO getStationInfoDAO;
     @Autowired
     private GetTypeOfCargoDAO getTypeOfCargo;
     @Autowired

@@ -1,6 +1,6 @@
 package com.uraltranscom.calculaterate.service.export;
 
-import com.uraltranscom.calculaterate.model.Route;
+import com.uraltranscom.calculaterate.model.route.Route;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
