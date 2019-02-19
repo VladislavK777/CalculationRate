@@ -1,8 +1,8 @@
 package com.uraltranscom.calculaterate.service.impl;
 
 import com.uraltranscom.calculaterate.model.RatesList;
-import com.uraltranscom.calculaterate.model.Road;
-import com.uraltranscom.calculaterate.model.Station;
+import com.uraltranscom.calculaterate.model.station.Road;
+import com.uraltranscom.calculaterate.model.station.Station;
 import com.uraltranscom.calculaterate.util.GetVolumeGroup;
 import lombok.NoArgsConstructor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -52,7 +52,8 @@ public class GetListRates {
                 int volume = 0;
                 String nameStationFrom = null;
                 String roadStationFrom = null;
-                String roadTo = null;
+                String nameStationTo = null;
+                String roadStationTo = null;
                 double actualRate = 0.00;
                 for (int j = 5; j < 13; j++) {
                     String headerCell = row.getCell(j).getStringCellValue().trim();
@@ -68,15 +69,18 @@ public class GetListRates {
                         roadStationFrom = cell.getStringCellValue();
                         if (roadStationFrom.equals("УЗБ")) roadStationFrom = "УТИ";
                     }
+                    if (headerCell.equals("Назначение")) {
+                        nameStationTo = cell.getStringCellValue();
+                    }
                     if (headerCell.equals("Дор. назн.")) {
-                        roadTo = cell.getStringCellValue();
-                        if (roadTo.equals("УЗБ")) roadTo = "УТИ";
+                        roadStationTo = cell.getStringCellValue();
+                        if (roadStationTo.equals("УЗБ")) roadStationTo = "УТИ";
                     }
                     if (headerCell.equals("Актуальная ставка")) {
                         actualRate = cell.getNumericCellValue();
                     }
                 }
-                RatesList ratesList = new RatesList(GetVolumeGroup.getVolumeGroup(volume), new Station(null, nameStationFrom, new Road(0, roadStationFrom)), new Road(0, roadTo), actualRate);
+                RatesList ratesList = new RatesList(GetVolumeGroup.getVolumeGroup(volume), new Station(null, nameStationFrom, new Road(0, roadStationFrom)), new Station(null, nameStationTo, new Road(0, roadStationTo)), actualRate);
                 listRates.add(ratesList);
             }
             logger.debug("Body rates: {}", listRates);

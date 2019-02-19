@@ -1,8 +1,9 @@
 package com.uraltranscom.calculaterate.service.impl;
 
+import com.uraltranscom.calculaterate.dao.GetCountryStationDAO;
 import com.uraltranscom.calculaterate.dao.GetTotalModelDAO;
 import com.uraltranscom.calculaterate.model.RatesList;
-import com.uraltranscom.calculaterate.model.Route;
+import com.uraltranscom.calculaterate.model.route.Route;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import com.uraltranscom.calculaterate.util.GetVolumeGroup;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
@@ -37,6 +38,8 @@ public class CommonLogicClass {
 
     @Autowired
     private GetTotalModelDAO getTotalModelDAO;
+    @Autowired
+    private GetCountryStationDAO getCountryStationDAO;
     ArrayList<TotalModel> totalListModels = new ArrayList<>();
     TotalModel totalModel = null;
 
@@ -62,10 +65,19 @@ public class CommonLogicClass {
             if (route.isFlagNeedCalc()) {
                 for (RatesList ratesList : listRates) {
                     if (ratesList.getVolume() == volume &&
-                        (ratesList.getStationFrom().getNameStation().equals(route.getStationDeparture().getNameStation()) && ratesList.getStationFrom().getRoad().getNameRoad().equals(route.getStationDeparture().getRoad().getNameRoad())) &&
-                                (ratesList.getRoadTo().getNameRoad().equals(route.getStationDestination().getRoad().getNameRoad()))) {
-                        actualRate = ratesList.getActualRate();
-                        return actualRate;
+                        (ratesList.getStationFrom().getNameStation().equals(route.getStationDeparture().getNameStation()) && ratesList.getStationFrom().getRoad().getNameRoad().equals(route.getStationDeparture().getRoad().getNameRoad()))) {
+                        String nameCountry = getCountryStationDAO.getObject(PrepareMapParams.prepareMapWithParams(route.getStationDestination().getIdStation())).getNameCountry();
+                        if (nameCountry.equals("Россия")) {
+                            if (ratesList.getStationTo().getRoad().getNameRoad().equals(route.getStationDestination().getRoad().getNameRoad())) {
+                                actualRate = ratesList.getActualRate();
+                                return actualRate;
+                            }
+                        } else {
+                            if (ratesList.getStationTo().getNameStation().equals(route.getStationDestination().getNameStation())) {
+                                actualRate = ratesList.getActualRate();
+                                return actualRate;
+                            }
+                        }
                     }
                 }
             }

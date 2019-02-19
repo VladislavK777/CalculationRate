@@ -1,7 +1,7 @@
 package com.uraltranscom.calculaterate.model.settings;
 
-import com.uraltranscom.calculaterate.model.Cargo;
-import com.uraltranscom.calculaterate.model.Station;
+import com.uraltranscom.calculaterate.model.route.Cargo;
+import com.uraltranscom.calculaterate.model.station.Station;
 import lombok.*;
 
 /**

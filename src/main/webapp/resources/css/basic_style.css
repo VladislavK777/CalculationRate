@@ -74,6 +74,14 @@ html * {
   font-size: 18px;
 }
 
+.table_report {
+  background: white;
+  width: 100%;
+  text-align: left;
+  font-size: 20px;
+  color: #364274;
+}
+
 .form {
   position: fixed;
   left: 50%;

@@ -1,9 +1,9 @@
 package com.uraltranscom.calculaterate.dao;
 
-import com.uraltranscom.calculaterate.model.Cargo;
-import com.uraltranscom.calculaterate.model.Road;
-import com.uraltranscom.calculaterate.model.Route;
-import com.uraltranscom.calculaterate.model.Station;
+import com.uraltranscom.calculaterate.model.route.Cargo;
+import com.uraltranscom.calculaterate.model.station.Road;
+import com.uraltranscom.calculaterate.model.route.Route;
+import com.uraltranscom.calculaterate.model.station.Station;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;

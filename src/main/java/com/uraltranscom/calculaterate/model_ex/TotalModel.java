@@ -1,6 +1,6 @@
 package com.uraltranscom.calculaterate.model_ex;
 
-import com.uraltranscom.calculaterate.model.Route;
+import com.uraltranscom.calculaterate.model.route.Route;
 import lombok.Data;
 import lombok.ToString;
 
