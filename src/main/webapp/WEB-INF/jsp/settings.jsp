@@ -64,6 +64,7 @@
             <tr>
               <th>Дорога</th>
               <th>Список станций</th>
+              <th>Отделение</th>
               <th>Группа объемов</th>
               <th>Станция возврата</th>
             </tr>
@@ -79,6 +80,10 @@
                     <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="idStationStringReturnStation" value='${setting.getIdsStationString()}' />
                       <span class="focus-border"></span></div>
                   </td>
+                  <td>
+                      <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="departmentStationReturnStation${setting.getId()}" value='${setting.getNamesDepartmentString()}' onkeyup="search(this.id)" />
+                        <span class="focus-border"></span></div>
+                    </td>
                   <td>
                     <div class="col-3__list">
                       <div class="wrapper">

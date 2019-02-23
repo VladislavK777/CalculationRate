@@ -13,12 +13,12 @@ import org.junit.Test;
 
 public class CheckMandatoryParamsTest {
     private Conflict conflict;
-    private SettingReturnStations obj = new SettingReturnStations(0, "ВСБ", "", "120", null, null);
+    private SettingReturnStations obj = new SettingReturnStations(0, "ВСБ", "", null, null, "120", null, null);
 
     @Test
     public void testCheckMandatoryParams() {
         conflict = CheckMandatoryParams.checkMandatoryParams(obj, "idStationReturn");
-        Assert.assertNotNull("It's OK", conflict);
+        Assert.assertNotNull("It's not ok", conflict);
     }
 
 }

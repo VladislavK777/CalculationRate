@@ -61,6 +61,13 @@ function getCache() {
       window.sessionStorage.setItem("cargoSearch", response);
     }
   });
+  $.ajax({
+    url: "search/department",
+    cache: false,
+    success: function(response) {
+      window.sessionStorage.setItem("departmentSearch", response);
+    }
+  });
 }
 
 function showPopup() {
@@ -184,7 +191,12 @@ function createField(id) {
     table.appendChild(tr2);
     var tr3 = document.createElement("tr");
     var td31 = document.createElement("td");
-    td31.appendChild(
+    td31.appendChild(createInput("department", "Отделение", true));
+    tr3.appendChild(td31);
+    table.appendChild(tr3);
+    var tr4 = document.createElement("tr");
+    var td41 = document.createElement("td");
+    td41.appendChild(
       createInput(
         "volume",
         "Группа объемов",
@@ -195,13 +207,13 @@ function createField(id) {
         "__form"
       )
     );
-    tr3.appendChild(td31);
-    table.appendChild(tr3);
-    var tr4 = document.createElement("tr");
-    var td41 = document.createElement("td");
-    td41.appendChild(createInput("station", "Станция возврата", true));
     tr4.appendChild(td41);
     table.appendChild(tr4);
+    var tr5 = document.createElement("tr");
+    var td51 = document.createElement("td");
+    td51.appendChild(createInput("station", "Станция возврата", true));
+    tr5.appendChild(td51);
+    table.appendChild(tr5);
     button.addEventListener("click", function() {
       addReturnStation(context.parentNode.id);
     });
@@ -610,3 +622,19 @@ function addListRoads() {
     });
   });
 }
+
+function wrapperPrepareStringToArray(string) {
+    if (string != "") {
+      var idsArray = new Array(), namesArray = new Array();
+      var stringSplit = string.split(",");
+      for (var i = 0; i < stringSplit.length; i++) {
+        if (stringSplit[i].length > 0) {
+			idsArray.push(stringSplit[i].match(/\d+/)[0].trim())
+			namesArray.push(stringSplit[i].match(/^\S+\s/)[0].trim());
+		}
+	  }
+      return [idsArray, namesArray];
+	}
+	return null;
+}
+

@@ -1,11 +1,16 @@
 function search(name) {
   var suggestionText;
+  var isDepartment = false;
   if (name.indexOf("station") != -1) {
     suggestionText = window.sessionStorage.getItem("stationSearch");
-  } else {
+  } else if (name.indexOf("cargo") != -1){
     suggestionText = window.sessionStorage.getItem("cargoSearch");
+  } else {
+    isDepartment = true;
+    suggestionText = window.sessionStorage.getItem("departmentSearch");
   }
 
+  var placeholder = "";
   var suggestion = true;
   var field = document.getElementById(name);
   var classInactive = "sf_inactive";
@@ -26,7 +31,11 @@ function search(name) {
         this.value != ""
           ? this.c + " " + classText
           : this.c + " " + classInactive;
-      this.value = this.value != "" ? this.value : "";
+      if (isDepartment) {
+        this.value = placeholder;
+      } else {
+        this.value = this.value != "" ? this.value : "";
+      }
       clearList();
     };
     if (suggestion) {
@@ -153,7 +162,13 @@ function search(name) {
       function selectList() {
         li = list.getElementsByTagName("li");
         a = li[selectedIndex - 1].getElementsByTagName("a")[0];
-        field.value = a.innerHTML;
+        if (isDepartment) {
+            placeholder = placeholder + a.innerHTML + ",";
+            field.placeholder = placeholder;
+            field.value = "";
+        } else {
+            field.value = a.innerHTML;
+        }
         clearList();
       }
     }

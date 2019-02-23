@@ -22,10 +22,15 @@ function updateFieldReturnStation(id) {
       returnStation = "";
     }
   }
+  var array = wrapperPrepareStringToArray(context.querySelector("#departmentStationReturnStation" + ide).value);
+  var idsDepartmentArray = array != null ? array[0] : null,
+        namesDepartmentArray = array != null ? array[1] : null;
   var json = JSON.stringify({
     id: ide,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
+    idsDepartment: idsDepartmentArray,
+    namesDepartment: namesDepartmentArray,
     volumeGroupsString: volumeGroup,
     idStationReturn: returnStation
   });

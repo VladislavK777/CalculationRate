@@ -89,6 +89,8 @@ public class RestControllerSettingsUpdate {
                             settingReturnStations.getId(),
                             settingReturnStations.getNamesRoad(),
                             settingReturnStations.getIdsStationString(),
+                            settingReturnStations.getIdsDepartment(),
+                            settingReturnStations.getNamesDepartment(),
                             settingReturnStations.getVolumeGroupsString(),
                             settingReturnStations.getIdStationReturn()
                     )

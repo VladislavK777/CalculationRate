@@ -18,9 +18,14 @@ function addReturnStation(id) {
       stationReturn = "";
     }
   }
+  var array = wrapperPrepareStringToArray(context.querySelector("#department").value);
+  var idsDepartmentArray = array != null ? array[0] : null,
+        namesDepartmentArray = array != null ? array[1] : null;
   var json = JSON.stringify({
     namesRoad: namesRoad,
     idsStationString: idsStationString,
+    idsDepartment: idsDepartmentArray,
+    namesDepartment: namesDepartmentArray,
     volumeGroupsString: volumeGroups,
     idStationReturn: stationReturn
   });

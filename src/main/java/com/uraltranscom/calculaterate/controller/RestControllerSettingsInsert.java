@@ -50,6 +50,8 @@ public class RestControllerSettingsInsert {
                     PrepareMapParams.prepareMapWithParams(
                             settingReturnStations.getNamesRoad(),
                             settingReturnStations.getIdsStationString(),
+                            settingReturnStations.getIdsDepartment(),
+                            settingReturnStations.getNamesDepartment(),
                             settingReturnStations.getVolumeGroupsString(),
                             settingReturnStations.getIdStationReturn()
                     )
