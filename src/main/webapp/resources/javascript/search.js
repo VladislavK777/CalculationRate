@@ -3,7 +3,7 @@ function search(name) {
   var isDepartment = false;
   if (name.indexOf("station") != -1) {
     suggestionText = window.sessionStorage.getItem("stationSearch");
-  } else if (name.indexOf("cargo") != -1){
+  } else if (name.indexOf("cargo") != -1) {
     suggestionText = window.sessionStorage.getItem("cargoSearch");
   } else {
     isDepartment = true;
@@ -163,11 +163,11 @@ function search(name) {
         li = list.getElementsByTagName("li");
         a = li[selectedIndex - 1].getElementsByTagName("a")[0];
         if (isDepartment) {
-            placeholder = placeholder + a.innerHTML + ",";
-            field.placeholder = placeholder;
-            field.value = "";
+          placeholder = placeholder + a.innerHTML + ",";
+          field.placeholder = placeholder;
+          field.value = "";
         } else {
-            field.value = a.innerHTML;
+          field.value = a.innerHTML;
         }
         clearList();
       }

@@ -628,39 +628,41 @@ function addListRoads() {
 }
 
 function wrapperPrepareStringToArray(string) {
-    if (string != "") {
-      var idsArray = new Array(), namesArray = new Array();
-      var stringSplit = string.split(",");
-      for (var i = 0; i < stringSplit.length; i++) {
-        if (stringSplit[i].length > 0) {
-			idsArray.push(stringSplit[i].match(/\d+/)[0].trim())
-			namesArray.push(stringSplit[i].match(/^\S+\s/)[0].trim());
-		}
-	  }
-      return [idsArray, namesArray];
-	}
-	return null;
+  if (string != "") {
+    var idsArray = new Array(),
+      namesArray = new Array();
+    var stringSplit = string.split(",");
+    for (var i = 0; i < stringSplit.length; i++) {
+      if (stringSplit[i].length > 0) {
+        idsArray.push(stringSplit[i].match(/\d+/)[0].trim());
+        namesArray.push(stringSplit[i].match(/^\S+\s/)[0].trim());
+      }
+    }
+    return [idsArray, namesArray];
+  }
+  return null;
 }
 
 $(document).ready(function() {
-    $("[data-tooltip]").mousemove(function (eventObject) {
+  $("[data-tooltip]")
+    .mousemove(function(eventObject) {
+      $data_tooltip = $(this).attr("data-tooltip");
 
-            $data_tooltip = $(this).attr("data-tooltip");
-
-            $("#tooltip").text($data_tooltip)
-                         .css({
-                             "top" : eventObject.pageY + 5,
-                            "left" : eventObject.pageX + 5
-                         })
-                         .show();
-
-        }).mouseout(function () {
-
-            $("#tooltip").hide()
-                         .text("")
-                         .css({
-                             "top" : 0,
-                            "left" : 0
-                         });
+      $("#tooltip")
+        .text($data_tooltip)
+        .css({
+          top: eventObject.pageY + 5,
+          left: eventObject.pageX + 5
+        })
+        .show();
+    })
+    .mouseout(function() {
+      $("#tooltip")
+        .hide()
+        .text("")
+        .css({
+          top: 0,
+          left: 0
         });
+    });
 });
