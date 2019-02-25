@@ -33,7 +33,6 @@ public class WebController {
     @RequestMapping(value = "/")
     public String home(Model model) {
         commonLogicClass.getTotalListModels().clear();
-        commonLogicClass.getListRates().clear();
         return "welcome";
     }
 
