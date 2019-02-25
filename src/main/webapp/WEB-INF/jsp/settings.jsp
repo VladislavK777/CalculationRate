@@ -121,7 +121,8 @@
           <tbody>
             <tr>
               <th>Дорога</th>
-              <th>Станция</th>
+              <th>Список станций</th>
+              <th>Отделение</th>
               <th>Группа объемов</th>
               <th>Станция отправления</th>
               <th>Станция назначения</th>
@@ -143,6 +144,10 @@
                   </td>
                   <td>
                     <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="idStationStringReturnException" value='${setting.getIdsStationString()}' /><span class="focus-border"></span></div>
+                  </td>
+                  <td>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="departmentStationReturnException${setting.getId()}" value='${setting.getNamesDepartmentString()}' onkeyup="search(this.id)" />
+                      <span class="focus-border"></span></div>
                   </td>
                   <td>
                     <div class="col-3__list">
@@ -219,7 +224,8 @@
           <tbody>
             <tr>
               <th>Дорога</th>
-              <th>Станция</th>
+              <th>Список станций</th>
+              <th>Отделение</th>
               <th>Группа объемов</th>
               <th>Станция отправления</th>
               <th>Станция назначения</th>
@@ -242,6 +248,10 @@
                   <td>
                     <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="idStationStringBeginningException" value='${setting.getIdsStationString()}' /><span class="focus-border"></span></div>
                   </td>
+                  <td>
+                      <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="departmentStationBeginningException${setting.getId()}" value='${setting.getNamesDepartmentString()}' onkeyup="search(this.id)" />
+                        <span class="focus-border"></span></div>
+                    </td>
                   <td>
                     <div class="col-3__list">
                       <div class="wrapper">

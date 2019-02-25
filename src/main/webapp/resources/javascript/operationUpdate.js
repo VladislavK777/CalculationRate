@@ -119,10 +119,15 @@ function updateFieldBeginningException(id) {
   var countDays = context.querySelector("#countDaysBeginningException").value;
   var rate = context.querySelector("#rateBeginningException").value;
   var tariff = context.querySelector("#tariffBeginningException").value;
+  var array = wrapperPrepareStringToArray(context.querySelector("#departmentStationBeginningException" + ide).value);
+  var idsDepartmentArray = array != null ? array[0] : null,
+        namesDepartmentArray = array != null ? array[1] : null;
   var json = JSON.stringify({
     id: ide,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
+    idsDepartment: idsDepartmentArray,
+    namesDepartment: namesDepartmentArray,
     volumeGroupsString: volumeGroup,
     stationFrom: stationFrom,
     stationTo: stationTo,
@@ -219,10 +224,15 @@ function updateFieldReturnException(id) {
   var countDays = context.querySelector("#countDaysReturnException").value;
   var rate = context.querySelector("#rateReturnException").value;
   var tariff = context.querySelector("#tariffReturnException").value;
+  var array = wrapperPrepareStringToArray(context.querySelector("#departmentStationReturnException" + ide).value);
+  var idsDepartmentArray = array != null ? array[0] : null,
+        namesDepartmentArray = array != null ? array[1] : null;
   var json = JSON.stringify({
     id: ide,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
+    idsDepartment: idsDepartmentArray,
+    namesDepartment: namesDepartmentArray,
     volumeGroupsString: volumeGroup,
     stationFrom: stationFrom,
     stationTo: stationTo,

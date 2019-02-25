@@ -226,7 +226,14 @@ function createField(id) {
     var td12 = document.createElement("td");
     td12.appendChild(createInput("stationList", "Список станций", false));
     var td13 = document.createElement("td");
-    td13.appendChild(
+    td13.appendChild(createInput("department", "Отделение", true));
+    tr1.appendChild(td11);
+    tr1.appendChild(td12);
+    tr1.appendChild(td13);
+    table.appendChild(tr1);
+    var tr2 = document.createElement("tr");
+    var td21 = document.createElement("td");
+    td21.appendChild(
       createInput(
         "volume",
         "Группа объемов",
@@ -237,17 +244,10 @@ function createField(id) {
         "__form"
       )
     );
-    tr1.appendChild(td11);
-    tr1.appendChild(td12);
-    tr1.appendChild(td13);
-    table.appendChild(tr1);
-    var tr2 = document.createElement("tr");
-    var td21 = document.createElement("td");
-    td21.appendChild(createInput("stationFrom", "Станция отправления", true));
     var td22 = document.createElement("td");
-    td22.appendChild(createInput("stationTo", "Станция назначения", true));
+    td22.appendChild(createInput("stationFrom", "Станция отправления", true));
     var td23 = document.createElement("td");
-    td23.appendChild(createInput("cargo", "Груз", true));
+    td23.appendChild(createInput("stationTo", "Станция назначения", true));
     tr2.appendChild(td21);
     tr2.appendChild(td22);
     tr2.appendChild(td23);
@@ -255,7 +255,9 @@ function createField(id) {
 
     var tr3 = document.createElement("tr");
     var td31 = document.createElement("td");
-    td31.appendChild(
+    td31.appendChild(createInput("cargo", "Груз", true));
+    var td32 = document.createElement("td");
+    td32.appendChild(
       createInput(
         "cargoClass",
         "Класс груза",
@@ -266,7 +268,7 @@ function createField(id) {
         "__form"
       )
     );
-    var td32 = document.createElement("td");
+    var td33 = document.createElement("td");
     var field = createInput("typeRoute", "Тип рейса", false);
     var input = field.querySelector("#typeRoute");
     input.setAttribute("list", "list");
@@ -276,25 +278,27 @@ function createField(id) {
     input.onblur = function() {
       hiddenList();
     };
-    td32.appendChild(field);
-    var td33 = document.createElement("td");
-    td33.appendChild(createInput("distance", "Расстояние", false, "0"));
+    td33.appendChild(field);
     tr3.appendChild(td31);
     tr3.appendChild(td32);
     tr3.appendChild(td33);
     table.appendChild(tr3);
-
     var tr4 = document.createElement("tr");
     var td41 = document.createElement("td");
-    td41.appendChild(createInput("countDays", "Дней", false, "0"));
+    td41.appendChild(createInput("distance", "Расстояние", false, "0"));
     var td42 = document.createElement("td");
-    td42.appendChild(createInput("rate", "Ставка", false, "0"));
+    td42.appendChild(createInput("countDays", "Дней", false, "0"));
     var td43 = document.createElement("td");
-    td43.appendChild(createInput("tariff", "Тариф", false, "0"));
+    td43.appendChild(createInput("rate", "Ставка", false, "0"));
     tr4.appendChild(td41);
     tr4.appendChild(td42);
     tr4.appendChild(td43);
     table.appendChild(tr4);
+    var tr5 = document.createElement("tr");
+    var td51 = document.createElement("td");
+    td51.appendChild(createInput("tariff", "Тариф", false, "0"));
+    tr5.appendChild(td51);
+    table.appendChild(tr5);
     button.addEventListener("click", function() {
       addException(context.parentNode.id);
     });
@@ -638,3 +642,25 @@ function wrapperPrepareStringToArray(string) {
 	return null;
 }
 
+$(document).ready(function() {
+    $("[data-tooltip]").mousemove(function (eventObject) {
+
+            $data_tooltip = $(this).attr("data-tooltip");
+
+            $("#tooltip").text($data_tooltip)
+                         .css({
+                             "top" : eventObject.pageY + 5,
+                            "left" : eventObject.pageX + 5
+                         })
+                         .show();
+
+        }).mouseout(function () {
+
+            $("#tooltip").hide()
+                         .text("")
+                         .css({
+                             "top" : 0,
+                            "left" : 0
+                         });
+        });
+});

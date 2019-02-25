@@ -33,7 +33,7 @@ public class CloneReturnStationDAO extends AbstractObjectFactory<SettingReturnSt
     @Override
     public SettingReturnStations getObject(Map<String, Object> params) {
         Connection connection = null;
-        CallableStatement callableStatement = null;
+        CallableStatement callableStatement;
         SettingReturnStations settingReturnStations = null;
 
         try {
@@ -50,8 +50,8 @@ public class CloneReturnStationDAO extends AbstractObjectFactory<SettingReturnSt
                     int id = resultSe2.getInt(1);
                     String namesRoad = resultSe2.getString(2);
                     String idsStationString = resultSe2.getString(3);
-                    Integer[] idsDepartment = (Integer[])resultSe2.getArray(4).getArray();
-                    String[] namesDepartment = (String[])resultSe2.getArray(5).getArray();
+                    Integer[] idsDepartment = resultSe2.getArray(4) != null ? (Integer[]) resultSe2.getArray(4).getArray() : null;
+                    String[] namesDepartment = resultSe2.getArray(5) != null ? (String[])resultSe2.getArray(5).getArray() : null;
                     String volumeGroupsString = resultSe2.getString(6);
                     String idStationReturn = resultSe2.getString(7);
                     String nameStationReturn = resultSe2.getString(8);

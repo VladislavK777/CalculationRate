@@ -107,9 +107,14 @@ function addException(id) {
   var countDays = context.querySelector("#countDays").value;
   var rate = context.querySelector("#rate").value;
   var tariff = context.querySelector("#tariff").value;
+  var array = wrapperPrepareStringToArray(context.querySelector("#department").value);
+  var idsDepartmentArray = array != null ? array[0] : null,
+        namesDepartmentArray = array != null ? array[1] : null;
   var json = JSON.stringify({
     namesRoad: namesRoad,
     idsStationString: idsStationString,
+    idsDepartment: idsDepartmentArray,
+    namesDepartment: namesDepartmentArray,
     volumeGroupsString: volumeGroup,
     stationFrom: stationFrom,
     stationTo: stationTo,
