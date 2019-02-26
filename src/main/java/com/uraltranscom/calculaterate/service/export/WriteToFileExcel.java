@@ -208,7 +208,7 @@ public class WriteToFileExcel {
                             Cell stationDeparture = row.createCell(1);
                             stationDeparture.setCellValue(route.getStationDeparture().getNameStation());
                             if (route.isFlagNeedCalc()) {
-                                stationDeparture.setCellStyle(cellStyleFieldNeedCalc(sheet));
+                                stationDeparture.setCellStyle(cellStyleFieldNeedCalc(sheet,false));
                             } else {
                                 stationDeparture.setCellStyle(cellStyleField(sheet));
                             }
@@ -216,7 +216,7 @@ public class WriteToFileExcel {
                             Cell roadDeparture = row.createCell(2);
                             roadDeparture.setCellValue(route.getStationDeparture().getRoad().getNameRoad());
                             if (route.isFlagNeedCalc()) {
-                                roadDeparture.setCellStyle(cellStyleFieldNeedCalc(sheet));
+                                roadDeparture.setCellStyle(cellStyleFieldNeedCalc(sheet,false));
                             } else {
                                 roadDeparture.setCellStyle(cellStyleField(sheet));
                             }
@@ -224,7 +224,7 @@ public class WriteToFileExcel {
                             Cell stationDestination = row.createCell(3);
                             stationDestination.setCellValue(route.getStationDestination().getNameStation());
                             if (route.isFlagNeedCalc()) {
-                                stationDestination.setCellStyle(cellStyleFieldNeedCalc(sheet));
+                                stationDestination.setCellStyle(cellStyleFieldNeedCalc(sheet,false));
                             } else {
                                 stationDestination.setCellStyle(cellStyleField(sheet));
                             }
@@ -232,7 +232,7 @@ public class WriteToFileExcel {
                             Cell roadDestination = row.createCell(4);
                             roadDestination.setCellValue(route.getStationDestination().getRoad().getNameRoad());
                             if (route.isFlagNeedCalc()) {
-                                roadDestination.setCellStyle(cellStyleFieldNeedCalc(sheet));
+                                roadDestination.setCellStyle(cellStyleFieldNeedCalc(sheet,false));
                             } else {
                                 roadDestination.setCellStyle(cellStyleField(sheet));
                             }
@@ -248,7 +248,7 @@ public class WriteToFileExcel {
 
                             Cell distance = row.createCell(6);
                             distance.setCellValue(route.getDistance());
-                            distance.setCellStyle(cellStyleField(sheet));
+                            distance.setCellStyle(cellStyleFieldFormat(sheet, true));
 
                             Cell countDays = row.createCell(7);
                             countDays.setCellValue(route.getCountDays());
@@ -273,9 +273,9 @@ public class WriteToFileExcel {
                             } else {
                                 rate.setCellValue(route.getRate());
                                 if (route.isFlagNeedCalc()) {
-                                    rate.setCellStyle(cellStyleFieldNeedCalc(sheet));
+                                    rate.setCellStyle(cellStyleFieldNeedCalc(sheet, false));
                                 } else {
-                                    rate.setCellStyle(cellStyleFieldFormat(sheet));
+                                    rate.setCellStyle(cellStyleFieldFormat(sheet, false));
                                 }
                             }
 
@@ -284,12 +284,12 @@ public class WriteToFileExcel {
                                 tariff.setCellStyle(cellStyleFieldNull(sheet));
                             } else {
                                 tariff.setCellValue(route.getTariff());
-                                tariff.setCellStyle(cellStyleFieldFormat(sheet));
+                                tariff.setCellStyle(cellStyleFieldFormat(sheet, false));
                             }
 
                             Cell rateTariff = row.createCell(13);
                             rateTariff.setCellFormula("L" + num + "-M" + num);
-                            rateTariff.setCellStyle(cellStyleFieldFormat(sheet));
+                            rateTariff.setCellStyle(cellStyleFieldFormat(sheet, false));
                             sheet.setColumnWidth(13, 3182);
 
                             Cell cell13 = row.createCell(14);
@@ -326,7 +326,7 @@ public class WriteToFileExcel {
                         // Строка итоговых расчетов
                         Cell totalDistance = row.createCell(6);
                         totalDistance.setCellFormula("SUM(G" + firstNumberCell + ":G" + lastNumberCell + ")");
-                        totalDistance.setCellStyle(cellStyleFieldTotal(sheet));
+                        totalDistance.setCellStyle(cellStyleFieldTotalFormat(sheet, true));
 
                         Cell totalCountDays = row.createCell(7);
                         totalCountDays.setCellFormula("SUM(H" + firstNumberCell + ":H" + lastNumberCell + ")");
@@ -351,11 +351,11 @@ public class WriteToFileExcel {
 
                         Cell totalRateTariff = row.createCell(13);
                         totalRateTariff.setCellFormula("SUM(N" + firstNumberCell + ":N" + lastNumberCell + ")");
-                        totalRateTariff.setCellStyle(cellStyleFieldTotalFormat(sheet));
+                        totalRateTariff.setCellStyle(cellStyleFieldTotalFormat(sheet,false));
 
                         Cell yield = row.createCell(14);
                         yield.setCellFormula("N" + totalYieldNum + "/J" + totalYieldNum);
-                        yield.setCellStyle(cellStyleFieldTotalRight(sheet));
+                        yield.setCellStyle(cellStyleFieldTotalRight(sheet, false));
                         sheet.autoSizeColumn(14);
 
                         Cell cell15 = row.createCell(15);
@@ -389,9 +389,9 @@ public class WriteToFileExcel {
         return font;
     }
 
-    private static short format(XSSFSheet sheet) {
+    private static short format(XSSFSheet sheet, boolean with00) {
         XSSFDataFormat dataFormat = sheet.getWorkbook().createDataFormat();
-        return dataFormat.getFormat("#,##0.00");
+        return with00 ? dataFormat.getFormat("#,##0") : dataFormat.getFormat("#,##0.00");
     }
 
     private static XSSFCellStyle cellStyleHead(XSSFSheet sheet) {
@@ -448,7 +448,7 @@ public class WriteToFileExcel {
         return cellStyle;
     }
 
-    private static XSSFCellStyle cellStyleFieldFormat(XSSFSheet sheet) {
+    private static XSSFCellStyle cellStyleFieldFormat(XSSFSheet sheet, boolean with00) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setFont(getFont(sheet));
         cellStyle.setBorderBottom(BorderStyle.DOTTED);
@@ -458,7 +458,7 @@ public class WriteToFileExcel {
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setWrapText(true);
-        cellStyle.setDataFormat(format(sheet));
+        cellStyle.setDataFormat(format(sheet, with00));
         return cellStyle;
     }
 
@@ -501,7 +501,7 @@ public class WriteToFileExcel {
         return cellStyle;
     }
 
-    private static XSSFCellStyle cellStyleFieldNeedCalc(XSSFSheet sheet) {
+    private static XSSFCellStyle cellStyleFieldNeedCalc(XSSFSheet sheet, boolean with00) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         XSSFFont font = getFont(sheet);
         font.setBold(true);
@@ -515,7 +515,7 @@ public class WriteToFileExcel {
         cellStyle.setFillForegroundColor(new XSSFColor(new Color(191, 191, 191)));
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setWrapText(true);
-        cellStyle.setDataFormat(format(sheet));
+        cellStyle.setDataFormat(format(sheet, with00));
         return cellStyle;
     }
 
@@ -534,7 +534,7 @@ public class WriteToFileExcel {
         return cellStyle;
     }
 
-    private static XSSFCellStyle cellStyleFieldTotalFormat(XSSFSheet sheet) {
+    private static XSSFCellStyle cellStyleFieldTotalFormat(XSSFSheet sheet, boolean with00) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setFont(getFont(sheet));
         cellStyle.setBorderBottom(BorderStyle.MEDIUM);
@@ -546,11 +546,11 @@ public class WriteToFileExcel {
         cellStyle.setFillForegroundColor(new XSSFColor(new Color(204, 255, 204)));
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setWrapText(true);
-        cellStyle.setDataFormat(format(sheet));
+        cellStyle.setDataFormat(format(sheet, with00));
         return cellStyle;
     }
 
-    private static XSSFCellStyle cellStyleFieldTotalRight(XSSFSheet sheet) {
+    private static XSSFCellStyle cellStyleFieldTotalRight(XSSFSheet sheet, boolean with00) {
         XSSFCellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setFont(getFont(sheet));
         cellStyle.setBorderBottom(BorderStyle.MEDIUM);
@@ -562,7 +562,7 @@ public class WriteToFileExcel {
         cellStyle.setFillForegroundColor(new XSSFColor(new Color(204, 255, 204)));
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setWrapText(true);
-        cellStyle.setDataFormat(format(sheet));
+        cellStyle.setDataFormat(format(sheet, with00));
         return cellStyle;
     }
 }
