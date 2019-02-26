@@ -444,7 +444,6 @@ public class WriteToFileExcel {
         cellStyle.setBorderLeft(BorderStyle.DOTTED);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-        cellStyle.setWrapText(true);
         return cellStyle;
     }
 
@@ -514,7 +513,6 @@ public class WriteToFileExcel {
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setFillForegroundColor(new XSSFColor(new Color(191, 191, 191)));
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        cellStyle.setWrapText(true);
         cellStyle.setDataFormat(format(sheet, with00));
         return cellStyle;
     }
