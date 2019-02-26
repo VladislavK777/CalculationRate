@@ -53,7 +53,7 @@ public class CommonLogicClass {
             listRates = getListRates.getListRates(fileRates);
         }
         totalModel = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams(idStationDeparture, idStationDestination, idCargo, GetVolumeGroup.getVolumeGroup(volumeWagon)));
-        if (fileRates != null) {
+        if (listRates != null) {
             totalModel.setActualYield(getActualRate(totalModel, listRates, GetVolumeGroup.getVolumeGroup(volumeWagon)));
         }
         totalListModels.add(totalModel);

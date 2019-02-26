@@ -57,6 +57,14 @@ function cloneFieldReturnStation(id) {
       var tr3 = document.createElement("tr");
       var td31 = document.createElement("td");
       td31.appendChild(
+        createInput("department", "Отделение", true, response.namesDepartment)
+      );
+      tr3.appendChild(td31);
+      table.appendChild(tr3);
+
+      var tr4 = document.createElement("tr");
+      var td41 = document.createElement("td");
+      td41.appendChild(
         createInput(
           "volume",
           "Группа объемов",
@@ -67,12 +75,12 @@ function cloneFieldReturnStation(id) {
           "__form"
         )
       );
-      tr3.appendChild(td31);
-      table.appendChild(tr3);
+      tr4.appendChild(td41);
+      table.appendChild(tr4);
 
-      var tr4 = document.createElement("tr");
-      var td41 = document.createElement("td");
-      td41.appendChild(
+      var tr5 = document.createElement("tr");
+      var td51 = document.createElement("td");
+      td51.appendChild(
         createInput(
           "station",
           "Станция возврата",
@@ -80,8 +88,8 @@ function cloneFieldReturnStation(id) {
           response.idStationReturn + " " + response.nameStationReturn
         )
       );
-      tr4.appendChild(td41);
-      table.appendChild(tr4);
+      tr5.appendChild(td51);
+      table.appendChild(tr5);
       button.addEventListener("click", function() {
         addReturnStation(context.parentNode.parentNode.parentNode.id);
       });
@@ -155,6 +163,15 @@ function cloneFieldReturnException(id) {
       );
       var td13 = document.createElement("td");
       td13.appendChild(
+        createInput("department", "Отделение", true, response.namesDepartment)
+      );
+      tr1.appendChild(td11);
+      tr1.appendChild(td12);
+      tr1.appendChild(td13);
+      table.appendChild(tr1);
+      var tr2 = document.createElement("tr");
+      var td21 = document.createElement("td");
+      td21.appendChild(
         createInput(
           "volume",
           "Группа объемов",
@@ -165,13 +182,8 @@ function cloneFieldReturnException(id) {
           "__form"
         )
       );
-      tr1.appendChild(td11);
-      tr1.appendChild(td12);
-      tr1.appendChild(td13);
-      table.appendChild(tr1);
-      var tr2 = document.createElement("tr");
-      var td21 = document.createElement("td");
-      td21.appendChild(
+      var td22 = document.createElement("td");
+      td22.appendChild(
         createInput(
           "stationFrom",
           "Станция отправления",
@@ -181,22 +193,13 @@ function cloneFieldReturnException(id) {
             response.stationFrom.nameStation
         )
       );
-      var td22 = document.createElement("td");
-      td22.appendChild(
+      var td23 = document.createElement("td");
+      td23.appendChild(
         createInput(
           "stationTo",
           "Станция назначения",
           true,
           response.stationTo.idStation + " " + response.stationTo.nameStation
-        )
-      );
-      var td23 = document.createElement("td");
-      td23.appendChild(
-        createInput(
-          "cargo",
-          "Груз",
-          true,
-          response.cargo.idCargo + " " + response.cargo.nameCargo
         )
       );
       tr2.appendChild(td21);
@@ -208,6 +211,15 @@ function cloneFieldReturnException(id) {
       var td31 = document.createElement("td");
       td31.appendChild(
         createInput(
+          "cargo",
+          "Груз",
+          true,
+          response.cargo.idCargo + " " + response.cargo.nameCargo
+        )
+      );
+      var td32 = document.createElement("td");
+      td32.appendChild(
+        createInput(
           "cargoClass",
           "Класс груза",
           false,
@@ -217,7 +229,7 @@ function cloneFieldReturnException(id) {
           "__form"
         )
       );
-      var td32 = document.createElement("td");
+      var td33 = document.createElement("td");
       var field = createInput("typeRoute", "Тип рейса", false);
       var input = field.querySelector("#typeRoute");
       input.setAttribute("list", "list");
@@ -227,11 +239,7 @@ function cloneFieldReturnException(id) {
       input.onblur = function() {
         hiddenList();
       };
-      td32.appendChild(field);
-      var td33 = document.createElement("td");
-      td33.appendChild(
-        createInput("distance", "Расстояние", false, response.distance)
-      );
+      td33.appendChild(field);
       tr3.appendChild(td31);
       tr3.appendChild(td32);
       tr3.appendChild(td33);
@@ -240,16 +248,23 @@ function cloneFieldReturnException(id) {
       var tr4 = document.createElement("tr");
       var td41 = document.createElement("td");
       td41.appendChild(
-        createInput("countDays", "Дней", false, response.countDays)
+        createInput("distance", "Расстояние", false, response.distance)
       );
       var td42 = document.createElement("td");
-      td42.appendChild(createInput("rate", "Ставка", false, response.rate));
+      td42.appendChild(
+        createInput("countDays", "Дней", false, response.countDays)
+      );
       var td43 = document.createElement("td");
-      td43.appendChild(createInput("tariff", "Тариф", false, response.tariff));
+      td43.appendChild(createInput("rate", "Ставка", false, response.rate));
       tr4.appendChild(td41);
       tr4.appendChild(td42);
       tr4.appendChild(td43);
       table.appendChild(tr4);
+      var tr5 = document.createElement("tr");
+      var td51 = document.createElement("td");
+      td51.appendChild(createInput("tariff", "Тариф", false, response.tariff));
+      tr5.appendChild(td51);
+      table.appendChild(tr5);
       button.addEventListener("click", function() {
         addException(context.parentNode.parentNode.parentNode.id);
       });
@@ -323,6 +338,15 @@ function cloneFieldBeginningException(id) {
       );
       var td13 = document.createElement("td");
       td13.appendChild(
+        createInput("department", "Отделение", true, response.namesDepartment)
+      );
+      tr1.appendChild(td11);
+      tr1.appendChild(td12);
+      tr1.appendChild(td13);
+      table.appendChild(tr1);
+      var tr2 = document.createElement("tr");
+      var td21 = document.createElement("td");
+      td21.appendChild(
         createInput(
           "volume",
           "Группа объемов",
@@ -333,13 +357,8 @@ function cloneFieldBeginningException(id) {
           "__form"
         )
       );
-      tr1.appendChild(td11);
-      tr1.appendChild(td12);
-      tr1.appendChild(td13);
-      table.appendChild(tr1);
-      var tr2 = document.createElement("tr");
-      var td21 = document.createElement("td");
-      td21.appendChild(
+      var td22 = document.createElement("td");
+      td22.appendChild(
         createInput(
           "stationFrom",
           "Станция отправления",
@@ -349,22 +368,13 @@ function cloneFieldBeginningException(id) {
             response.stationFrom.nameStation
         )
       );
-      var td22 = document.createElement("td");
-      td22.appendChild(
+      var td23 = document.createElement("td");
+      td23.appendChild(
         createInput(
           "stationTo",
           "Станция назначения",
           true,
           response.stationTo.idStation + " " + response.stationTo.nameStation
-        )
-      );
-      var td23 = document.createElement("td");
-      td23.appendChild(
-        createInput(
-          "cargo",
-          "Груз",
-          true,
-          response.cargo.idCargo + " " + response.cargo.nameCargo
         )
       );
       tr2.appendChild(td21);
@@ -376,6 +386,15 @@ function cloneFieldBeginningException(id) {
       var td31 = document.createElement("td");
       td31.appendChild(
         createInput(
+          "cargo",
+          "Груз",
+          true,
+          response.cargo.idCargo + " " + response.cargo.nameCargo
+        )
+      );
+      var td32 = document.createElement("td");
+      td32.appendChild(
+        createInput(
           "cargoClass",
           "Класс груза",
           false,
@@ -385,7 +404,7 @@ function cloneFieldBeginningException(id) {
           "__form"
         )
       );
-      var td32 = document.createElement("td");
+      var td33 = document.createElement("td");
       var field = createInput("typeRoute", "Тип рейса", false);
       var input = field.querySelector("#typeRoute");
       input.setAttribute("list", "list");
@@ -395,11 +414,7 @@ function cloneFieldBeginningException(id) {
       input.onblur = function() {
         hiddenList();
       };
-      td32.appendChild(field);
-      var td33 = document.createElement("td");
-      td33.appendChild(
-        createInput("distance", "Расстояние", false, response.distance)
-      );
+      td33.appendChild(field);
       tr3.appendChild(td31);
       tr3.appendChild(td32);
       tr3.appendChild(td33);
@@ -408,16 +423,23 @@ function cloneFieldBeginningException(id) {
       var tr4 = document.createElement("tr");
       var td41 = document.createElement("td");
       td41.appendChild(
-        createInput("countDays", "Дней", false, response.countDays)
+        createInput("distance", "Расстояние", false, response.distance)
       );
       var td42 = document.createElement("td");
-      td42.appendChild(createInput("rate", "Ставка", false, response.rate));
+      td42.appendChild(
+        createInput("countDays", "Дней", false, response.countDays)
+      );
       var td43 = document.createElement("td");
-      td43.appendChild(createInput("tariff", "Тариф", false, response.tariff));
+      td43.appendChild(createInput("rate", "Ставка", false, response.rate));
       tr4.appendChild(td41);
       tr4.appendChild(td42);
       tr4.appendChild(td43);
       table.appendChild(tr4);
+      var tr5 = document.createElement("tr");
+      var td51 = document.createElement("td");
+      td51.appendChild(createInput("tariff", "Тариф", false, response.tariff));
+      tr5.appendChild(td51);
+      table.appendChild(tr5);
       button.addEventListener("click", function() {
         addException(context.parentNode.parentNode.parentNode.id);
       });

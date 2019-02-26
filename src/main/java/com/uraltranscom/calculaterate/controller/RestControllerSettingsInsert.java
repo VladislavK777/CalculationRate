@@ -50,6 +50,8 @@ public class RestControllerSettingsInsert {
                     PrepareMapParams.prepareMapWithParams(
                             settingReturnStations.getNamesRoad(),
                             settingReturnStations.getIdsStationString(),
+                            settingReturnStations.getIdsDepartment(),
+                            settingReturnStations.getNamesDepartment(),
                             settingReturnStations.getVolumeGroupsString(),
                             settingReturnStations.getIdStationReturn()
                     )
@@ -72,6 +74,8 @@ public class RestControllerSettingsInsert {
                     PrepareMapParams.prepareMapWithParams(
                             settingReturnExceptions.getNamesRoad(),
                             settingReturnExceptions.getIdsStationString(),
+                            settingReturnExceptions.getIdsDepartment(),
+                            settingReturnExceptions.getNamesDepartment(),
                             settingReturnExceptions.getVolumeGroupsString(),
                             settingReturnExceptions.getStationFrom().getIdStation(),
                             settingReturnExceptions.getStationTo().getIdStation(),
@@ -102,6 +106,8 @@ public class RestControllerSettingsInsert {
                     PrepareMapParams.prepareMapWithParams(
                             settingReturnExceptions.getNamesRoad(),
                             settingReturnExceptions.getIdsStationString(),
+                            settingReturnExceptions.getIdsDepartment(),
+                            settingReturnExceptions.getNamesDepartment(),
                             settingReturnExceptions.getVolumeGroupsString(),
                             settingReturnExceptions.getStationFrom().getIdStation(),
                             settingReturnExceptions.getStationTo().getIdStation(),

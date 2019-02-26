@@ -61,4 +61,9 @@ public class AppConfig implements WebMvcConfigurer {
     public CacheSearch cacheCargoSearch() {
         return new CacheSearch("cargo");
     }
+
+    @Bean(initMethod = "init", name = "cacheDepartmentsStationSearch")
+    public CacheSearch cacheDepartmentsStationSearch() {
+        return new CacheSearch("department_station");
+    }
 }

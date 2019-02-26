@@ -3,7 +3,8 @@ package com.uraltranscom.calculaterate.dao;
 import com.uraltranscom.calculaterate.configuration.AppConfig;
 import com.uraltranscom.calculaterate.configuration.AppInit;
 import com.uraltranscom.calculaterate.configuration.DBConfig;
-import com.uraltranscom.calculaterate.model_ex.TotalModel;
+import com.uraltranscom.calculaterate.dao.setting.get.GetSettingReturnStationsDAO;
+import com.uraltranscom.calculaterate.model.settings.SettingReturnStations;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,10 +14,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Vladislav.Klochkov
- * @project CalculationRate_1.0
- * @date 13.02.2019
+ * @project CalculationRate
+ * @date 21.02.2019
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,15 +29,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
         DBConfig.class,
         AppConfig.class})
 @WebAppConfiguration
-public class GetTotalModelDAOTest {
-
+public class GetSettingReturnStationsDAOTest {
     @Autowired
-    private GetTotalModelDAO getTotalModelDAO;
-    private TotalModel totalModel;
+    private GetSettingReturnStationsDAO getSettingReturnStationsDAO;
 
     @Test
-    public void testGetTotalModel() {
-        totalModel = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams("190900", "191208", "023002", 120));
-        Assert.assertNotNull("It's not ok", totalModel);
+    public void test(){
+        Map<String, List<SettingReturnStations>> map;
+        map = getSettingReturnStationsDAO.getObject(PrepareMapParams.prepareMapWithParams(""));
+        Assert.assertNotNull("It's not ok", map);
     }
 }

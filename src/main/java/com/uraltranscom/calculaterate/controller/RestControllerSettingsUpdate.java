@@ -89,6 +89,8 @@ public class RestControllerSettingsUpdate {
                             settingReturnStations.getId(),
                             settingReturnStations.getNamesRoad(),
                             settingReturnStations.getIdsStationString(),
+                            settingReturnStations.getIdsDepartment(),
+                            settingReturnStations.getNamesDepartment(),
                             settingReturnStations.getVolumeGroupsString(),
                             settingReturnStations.getIdStationReturn()
                     )
@@ -108,6 +110,8 @@ public class RestControllerSettingsUpdate {
                             settingReturnExceptions.getId(),
                             settingReturnExceptions.getNamesRoad(),
                             settingReturnExceptions.getIdsStationString(),
+                            settingReturnExceptions.getIdsDepartment(),
+                            settingReturnExceptions.getNamesDepartment(),
                             settingReturnExceptions.getVolumeGroupsString(),
                             settingReturnExceptions.getStationFrom().getIdStation(),
                             settingReturnExceptions.getStationTo().getIdStation(),
@@ -135,6 +139,8 @@ public class RestControllerSettingsUpdate {
                             settingReturnExceptions.getId(),
                             settingReturnExceptions.getNamesRoad(),
                             settingReturnExceptions.getIdsStationString(),
+                            settingReturnExceptions.getIdsDepartment(),
+                            settingReturnExceptions.getNamesDepartment(),
                             settingReturnExceptions.getVolumeGroupsString(),
                             settingReturnExceptions.getStationFrom().getIdStation(),
                             settingReturnExceptions.getStationTo().getIdStation(),

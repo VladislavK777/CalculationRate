@@ -9,14 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.sql.*;
+import java.util.*;
 
 /**
  * @author vladislav.klochkov
@@ -38,7 +32,7 @@ public class GetSettingReturnStationsDAO extends AbstractObjectFactory<Map<Strin
         TreeMap<String, List<SettingReturnStations>> mapSetting = new TreeMap<>();
 
         Connection connection = null;
-        CallableStatement callableStatement = null;
+        CallableStatement callableStatement;
 
         try {
             connection = connectionDB.getDataSource().getConnection();
@@ -50,11 +44,13 @@ public class GetSettingReturnStationsDAO extends AbstractObjectFactory<Map<Strin
                 while (resultSe2.next()) {
                     int id = resultSe2.getInt(1);
                     String namesRoad = resultSe2.getString(2);
-                    String idStationString = resultSe2.getString(3);
-                    String volumeGroupsString = resultSe2.getString(4);
-                    String idStationReturn = resultSe2.getString(5);
-                    String nameStationReturn = resultSe2.getString(6);
-                    SettingReturnStations settingReturnStations = new SettingReturnStations(id, namesRoad, idStationString, volumeGroupsString, idStationReturn, nameStationReturn);
+                    String idsStationString = resultSe2.getString(3);
+                    Integer[] idsDepartment = resultSe2.getArray(4) != null ? (Integer[]) resultSe2.getArray(4).getArray() : null;
+                    String[] namesDepartment = resultSe2.getArray(5) != null ? (String[])resultSe2.getArray(5).getArray() : null;
+                    String volumeGroupsString = resultSe2.getString(6);
+                    String idStationReturn = resultSe2.getString(7);
+                    String nameStationReturn = resultSe2.getString(8);
+                    SettingReturnStations settingReturnStations = new SettingReturnStations(id, namesRoad, idsStationString, idsDepartment, namesDepartment, volumeGroupsString, idStationReturn, nameStationReturn);
                     if (mapSetting.containsKey(namesRoad)) {
                         List<SettingReturnStations> list = mapSetting.get(namesRoad);
                         list.add(settingReturnStations);

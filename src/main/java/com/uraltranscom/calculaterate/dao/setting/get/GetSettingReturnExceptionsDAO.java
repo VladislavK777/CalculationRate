@@ -54,24 +54,28 @@ public class GetSettingReturnExceptionsDAO extends AbstractObjectFactory<Map<Str
                     int num = resultSe2.getInt(2);
                     String namesRoad = resultSe2.getString(3);
                     String idsStationString = resultSe2.getString(4);
-                    String volumeGroupsString = resultSe2.getString(5);
-                    String idStationFrom = resultSe2.getString(6);
-                    String nameStationFrom = resultSe2.getString(7);
-                    String idStationTo = resultSe2.getString(8);
-                    String nameStationTo = resultSe2.getString(9);
-                    String idCargo = resultSe2.getString(10);
-                    String nameCargo = resultSe2.getString(11);
-                    String typeCargoString = resultSe2.getString(12);
-                    String routeType = resultSe2.getString(13);
-                    int distance = resultSe2.getInt(14);
-                    int countDays = resultSe2.getInt(15);
-                    double rate = resultSe2.getDouble(16);
-                    double tariff = resultSe2.getDouble(17);
+                    Integer[] idsDepartment = resultSe2.getArray(5) != null ? (Integer[]) resultSe2.getArray(5).getArray() : null;
+                    String[] namesDepartment = resultSe2.getArray(6) != null ? (String[])resultSe2.getArray(6).getArray() : null;
+                    String volumeGroupsString = resultSe2.getString(7);
+                    String idStationFrom = resultSe2.getString(8);
+                    String nameStationFrom = resultSe2.getString(9);
+                    String idStationTo = resultSe2.getString(10);
+                    String nameStationTo = resultSe2.getString(11);
+                    String idCargo = resultSe2.getString(12);
+                    String nameCargo = resultSe2.getString(13);
+                    String typeCargoString = resultSe2.getString(14);
+                    String routeType = resultSe2.getString(15);
+                    int distance = resultSe2.getInt(16);
+                    int countDays = resultSe2.getInt(17);
+                    double rate = resultSe2.getDouble(18);
+                    double tariff = resultSe2.getDouble(19);
                     SettingReturnExceptions settingReturnExceptions = new SettingReturnExceptions(
                             id,
                             num,
                             namesRoad,
                             idsStationString,
+                            idsDepartment,
+                            namesDepartment,
                             volumeGroupsString,
                             new Station(idStationFrom, nameStationFrom, null),
                             new Station(idStationTo, nameStationTo, null),

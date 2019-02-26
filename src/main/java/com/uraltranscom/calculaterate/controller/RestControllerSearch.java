@@ -33,6 +33,10 @@ public class RestControllerSearch {
     @Autowired
     private CacheSearch cacheCargoSearch;
 
+    @Qualifier("cacheDepartmentsStationSearch")
+    @Autowired
+    private CacheSearch cacheDepartmentsStationSearch;
+
     @RequestMapping(value = "/station")
     public List<Object> stationSearch() {
         return cacheStationSearch.getCache();
@@ -46,5 +50,10 @@ public class RestControllerSearch {
     @RequestMapping(value = "/road")
     public List<Object> roadSearch() {
         return cacheRoadSearch.getCache();
+    }
+
+    @RequestMapping(value = "/department")
+    public List<Object> departmentSearch() {
+        return cacheDepartmentsStationSearch.getCache();
     }
 }

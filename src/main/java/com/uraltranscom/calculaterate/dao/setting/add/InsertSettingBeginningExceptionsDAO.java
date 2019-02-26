@@ -8,10 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Map;
 
 /**
@@ -24,7 +21,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class InsertSettingBeginningExceptionsDAO {
     private static Logger logger = LoggerFactory.getLogger(InsertSettingBeginningExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_beginning_exception(?,?,?,?,?,?,?,?,?,?,?,?) } ";
+    private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_beginning_exception(?,?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
@@ -43,7 +40,15 @@ public class InsertSettingBeginningExceptionsDAO {
             connection.setAutoCommit(false);
             callableStatement = connection.prepareCall(SQL_CALL_NAME);
             for (int i = 1; i < params.size() + 1; i++) {
-                callableStatement.setObject(i, params.get("param" + i));
+                if (params.get("param" + i) instanceof String[]) {
+                    Array namesDepartment = connection.createArrayOf("text", (String[])params.get("param" + i));
+                    callableStatement.setArray(i, namesDepartment);
+                } else if (params.get("param" + i) instanceof Integer[]) {
+                    Array idsDepartment = connection.createArrayOf("integer", (Integer[])params.get("param" + i));
+                    callableStatement.setArray(i, idsDepartment);
+                } else {
+                    callableStatement.setObject(i, params.get("param" + i));
+                }
             }
             ResultSet resultSet = callableStatement.executeQuery();
             while (resultSet.next()) {
