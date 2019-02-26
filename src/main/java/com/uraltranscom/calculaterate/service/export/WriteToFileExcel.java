@@ -103,6 +103,7 @@ public class WriteToFileExcel {
                             Cell head2 = rowHead.createCell(2);
                             head2.setCellValue("Дорога отпр.");
                             head2.setCellStyle(cellStyleHead(sheet));
+                            sheet.setColumnWidth(2, 2194);
 
                             Cell head3 = rowHead.createCell(3);
                             head3.setCellValue("Станция назначения");
@@ -111,6 +112,7 @@ public class WriteToFileExcel {
                             Cell head4 = rowHead.createCell(4);
                             head4.setCellValue("Дорога назн.");
                             head4.setCellStyle(cellStyleHead(sheet));
+                            sheet.setColumnWidth(4, 2194);
 
                             Cell head5 = rowHead.createCell(5);
                             head5.setCellValue("Наименование груза");
