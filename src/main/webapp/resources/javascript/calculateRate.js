@@ -69,25 +69,25 @@ function calcRate() {
             }),
             $('<td class="td_table2">').text(function() {
               if (response.totalList[i].flagNeedCalc) {
-                $(this).css({ backgroundColor: "#bfbfbf", fontWeight: "bold" });
+                $(this).css({ backgroundColor: "#D6D6D6", fontWeight: "bold" });
               }
               return response.totalList[i].stationDeparture.nameStation
             }),
             $('<td class="td_table2">').text(function() {
               if (response.totalList[i].flagNeedCalc) {
-                $(this).css({ backgroundColor: "#bfbfbf", fontWeight: "bold" });
+                $(this).css({ backgroundColor: "#D6D6D6", fontWeight: "bold" });
               }
               return response.totalList[i].stationDeparture.road.nameRoad
             }),
             $('<td class="td_table2">').text(function() {
               if (response.totalList[i].flagNeedCalc) {
-                $(this).css({ backgroundColor: "#bfbfbf", fontWeight: "bold" });
+                $(this).css({ backgroundColor: "#D6D6D6", fontWeight: "bold" });
               }
               return response.totalList[i].stationDestination.nameStation
             }),
             $('<td class="td_table2">').text(function() {
               if (response.totalList[i].flagNeedCalc) {
-                $(this).css({ backgroundColor: "#bfbfbf", fontWeight: "bold" });
+                $(this).css({ backgroundColor: "#D6D6D6", fontWeight: "bold" });
               }
               return response.totalList[i].stationDestination.road.nameRoad
             }),
@@ -108,7 +108,7 @@ function calcRate() {
                 return "";
               } else {
                 if (response.totalList[i].flagNeedCalc) {
-                  $(this).css({ backgroundColor: "#bfbfbf", fontWeight: "bold" });
+                  $(this).css({ backgroundColor: "#D6D6D6", fontWeight: "bold" });
                 }
                 return numberFormat(response.totalList[i].rate, 2, ',', ' ');
               }
