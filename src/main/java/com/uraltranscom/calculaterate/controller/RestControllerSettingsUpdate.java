@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 16.01.2019
  */
 
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("update")
 public class RestControllerSettingsUpdate {

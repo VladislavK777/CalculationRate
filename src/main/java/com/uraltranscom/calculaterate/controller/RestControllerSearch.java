@@ -16,6 +16,7 @@ import java.util.List;
  * @date 14.01.2019
  */
 
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("search")
 public class RestControllerSearch {
