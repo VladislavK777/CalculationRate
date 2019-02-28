@@ -9,10 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.uraltranscom.calculaterate.util.ParserInputName.getId;
 
@@ -22,6 +19,7 @@ import static com.uraltranscom.calculaterate.util.ParserInputName.getId;
  * @date 14.01.2019
  */
 
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("rate")
 public class RestControllerGetRate {
@@ -30,7 +28,6 @@ public class RestControllerGetRate {
     @Autowired
     private CommonLogicClass commonLogicClass;
 
-    //@CrossOrigin(origins = "*")
     @PostMapping(value = "/info")
     public ResponseEntity<Object> totalModel(@RequestBody CalcRateBody object) {
         Conflict conflict = CheckMandatoryParams.checkMandatoryParams(object, "stationFrom", "stationTo", "cargo", "volume");

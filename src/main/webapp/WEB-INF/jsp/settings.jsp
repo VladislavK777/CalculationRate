@@ -383,7 +383,7 @@
         <table class="table_report">
           <tbody>
             <tr>
-              <th>Объем</th>
+              <th>Группа объемов</th>
               <th>Доходность</th>
             </tr>
             <c:forEach items="${listYield}" var="setting">
