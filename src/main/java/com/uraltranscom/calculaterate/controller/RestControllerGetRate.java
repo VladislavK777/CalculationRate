@@ -33,7 +33,11 @@ public class RestControllerGetRate {
         Conflict conflict = CheckMandatoryParams.checkMandatoryParams(object, "stationFrom", "stationTo", "cargo", "volume");
         if (conflict == null) {
             commonLogicClass.startLogic(getId(object.getStationFrom()), getId(object.getStationTo()), getId(object.getCargo()), object.getVolume(), object.getFile());
-            return new ResponseEntity<>(commonLogicClass.getTotalModel(), HttpStatus.OK);
+            if (commonLogicClass.getTotalModel() != null) {
+                return new ResponseEntity<>(commonLogicClass.getTotalModel(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(commonLogicClass.getConflict(), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } else {
             return new ResponseEntity<>(conflict, HttpStatus.BAD_REQUEST);
         }

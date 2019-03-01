@@ -3,6 +3,7 @@ package com.uraltranscom.calculaterate.dao;
 import com.uraltranscom.calculaterate.configuration.AppConfig;
 import com.uraltranscom.calculaterate.configuration.AppInit;
 import com.uraltranscom.calculaterate.configuration.DBConfig;
+import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.junit.Assert;
@@ -30,10 +31,16 @@ public class GetTotalModelDAOTest {
     @Autowired
     private GetTotalModelDAO getTotalModelDAO;
     private TotalModel totalModel;
+    private Conflict conflict;
 
     @Test
     public void testGetTotalModel() {
-        totalModel = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams("190900", "191208", "023002", 120));
+        Object object = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams("190900", "191208", "023002", 120));
+        if (object instanceof TotalModel) {
+            totalModel = (TotalModel) object;
+        } else {
+            conflict = (Conflict) object;
+        }
         Assert.assertNotNull("It's not ok", totalModel);
     }
 }

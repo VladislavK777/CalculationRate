@@ -1,5 +1,6 @@
 package com.uraltranscom.calculaterate.dao;
 
+import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.model.route.Cargo;
 import com.uraltranscom.calculaterate.model.station.Road;
 import com.uraltranscom.calculaterate.model.route.Route;
@@ -28,20 +29,24 @@ import java.util.Map;
 
 @Component
 @NoArgsConstructor
-public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
+public class GetTotalModelDAO {
     private static Logger logger = LoggerFactory.getLogger(GetTotalModelDAO.class);
     private static final String SQL_CALL_NAME = " { call  test_rate.list_routes_and_rate(?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
 
-    @Override
-    public TotalModel getObject(Map<String, Object> params) {
+    public Object getObject(Map<String, Object> params) {
+        String conflictCode;
+        String conflictType;
+        String conflictMessage;
+        Conflict conflict = null;
+
         List<Route> totalListRoute = new ArrayList<>();
         TotalModel totalModel = null;
 
         Connection connection = null;
-        CallableStatement callableStatement = null;
+        CallableStatement callableStatement;
 
         try {
             connection = connectionDB.getDataSource().getConnection();
@@ -53,62 +58,69 @@ public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
             ResultSet resultSet = callableStatement.executeQuery();
 
             if (resultSet.next()) {
-                ResultSet routesSet = (ResultSet) resultSet.getObject(1);
-                while (routesSet.next()) {
-                    int idGroup = routesSet.getInt(2);
-                    int num = routesSet.getInt(3);
-                    String idStationDeparture = routesSet.getString(4);
-                    String nameStationDeparture = routesSet.getString(5);
-                    int idRoadDeparture = routesSet.getInt(6);
-                    String nameRoadDeparture = routesSet.getString(7);
-                    String idStationDestination = routesSet.getString(8);
-                    String nameStationDestination = routesSet.getString(9);
-                    int idRoadDestination = routesSet.getInt(10);
-                    String nameRoadDestination = routesSet.getString(11);
-                    String idCargo = routesSet.getString(12);
-                    String nameCargo = routesSet.getString(13);
-                    int distance = routesSet.getInt(14);
-                    int countDays = routesSet.getInt(15);
-                    int countDaysLoadAndUnload = routesSet.getInt(16);
-                    int fullCountDays = routesSet.getInt(17);
-                    double rate = routesSet.getDouble(18);
-                    double tariff = routesSet.getDouble(19);
-                    boolean flagNeedCalc = routesSet.getBoolean(20);
+                conflictCode = (String) resultSet.getObject(3);
+                if (conflictCode != null) {
+                    conflictType = (String) resultSet.getObject(4);
+                    conflictMessage = resultSet.getString(5);
+                    conflict = new Conflict(conflictCode, conflictType, conflictMessage);
+                    return conflict;
+                } else {
+                    ResultSet routesSet = (ResultSet) resultSet.getObject(1);
+                    while (routesSet.next()) {
+                        int idGroup = routesSet.getInt(2);
+                        int num = routesSet.getInt(3);
+                        String idStationDeparture = routesSet.getString(4);
+                        String nameStationDeparture = routesSet.getString(5);
+                        int idRoadDeparture = routesSet.getInt(6);
+                        String nameRoadDeparture = routesSet.getString(7);
+                        String idStationDestination = routesSet.getString(8);
+                        String nameStationDestination = routesSet.getString(9);
+                        int idRoadDestination = routesSet.getInt(10);
+                        String nameRoadDestination = routesSet.getString(11);
+                        String idCargo = routesSet.getString(12);
+                        String nameCargo = routesSet.getString(13);
+                        int distance = routesSet.getInt(14);
+                        int countDays = routesSet.getInt(15);
+                        int countDaysLoadAndUnload = routesSet.getInt(16);
+                        int fullCountDays = routesSet.getInt(17);
+                        double rate = routesSet.getDouble(18);
+                        double tariff = routesSet.getDouble(19);
+                        boolean flagNeedCalc = routesSet.getBoolean(20);
 
-                    totalListRoute.add(
-                            new Route(
-                                    new Station(idStationDeparture, nameStationDeparture, new Road(idRoadDeparture, nameRoadDeparture)),
-                                    new Station(idStationDestination, nameStationDestination, new Road(idRoadDestination, nameRoadDestination)),
-                                    distance,
-                                    new Cargo(idCargo, nameCargo),
-                                    countDays,
-                                    countDaysLoadAndUnload,
-                                    fullCountDays,
-                                    rate,
-                                    tariff * (-1),
-                                    flagNeedCalc
-                            )
-                    );
-                }
-            }
+                        totalListRoute.add(
+                                new Route(
+                                        new Station(idStationDeparture, nameStationDeparture, new Road(idRoadDeparture, nameRoadDeparture)),
+                                        new Station(idStationDestination, nameStationDestination, new Road(idRoadDestination, nameRoadDestination)),
+                                        distance,
+                                        new Cargo(idCargo, nameCargo),
+                                        countDays,
+                                        countDaysLoadAndUnload,
+                                        fullCountDays,
+                                        rate,
+                                        tariff * (-1),
+                                        flagNeedCalc
+                                )
+                        );
+                    }
 
-            if (resultSet.next()) {
-                ResultSet paramsRoutSet = (ResultSet) resultSet.getObject(1);
-                while (paramsRoutSet.next()) {
-                    int idGroup = paramsRoutSet.getInt(2);
-                    int sumDistance = paramsRoutSet.getInt(3);
-                    int sumCountDays = paramsRoutSet.getInt(4);
-                    int sumCountDaysLoadAndUnload = paramsRoutSet.getInt(5);
-                    int sumFullCountDays = paramsRoutSet.getInt(6);
-                    double sumRateOrTariff = paramsRoutSet.getDouble(7);
+                    ResultSet paramsRoutSet = (ResultSet) resultSet.getObject(2);
+                    while (paramsRoutSet.next()) {
+                        int idGroup = paramsRoutSet.getInt(2);
+                        int sumDistance = paramsRoutSet.getInt(3);
+                        int sumCountDays = paramsRoutSet.getInt(4);
+                        int sumCountDaysLoadAndUnload = paramsRoutSet.getInt(5);
+                        int sumFullCountDays = paramsRoutSet.getInt(6);
+                        double sumRateOrTariff = paramsRoutSet.getDouble(7);
 
-                    double yield = sumRateOrTariff / sumFullCountDays;
+                        double yield = sumRateOrTariff / sumFullCountDays;
 
-                    totalModel = new TotalModel(totalListRoute, idGroup, sumDistance, sumCountDays, sumCountDaysLoadAndUnload, sumFullCountDays, sumRateOrTariff, yield);
+                        totalModel = new TotalModel(totalListRoute, idGroup, sumDistance, sumCountDays, sumCountDaysLoadAndUnload, sumFullCountDays, sumRateOrTariff, yield);
+                    }
+                    logger.debug("Get info for: {}: {}", params, totalModel);
+                    return totalModel;
                 }
             }
             connection.commit();
-            logger.debug("Get info for: {}: {}", params, totalModel);
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
             try {
@@ -127,6 +139,6 @@ public class GetTotalModelDAO extends AbstractObjectFactory<TotalModel> {
                 logger.debug("Error close connection!");
             }
         }
-        return totalModel;
+        return null;
     }
 }
