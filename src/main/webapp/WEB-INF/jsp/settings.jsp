@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 
@@ -8,10 +6,10 @@
   <title>UralTransCom|CalculateRate|Setting</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <link href="resources/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
-  <link href="resources/css/basic_style.css" rel="stylesheet" type="text/css" />
-  <link href="resources/css/input_style.css" rel="stylesheet" type="text/css" />
-  <link href="resources/css/search_style.css" rel="stylesheet" type="text/css" />
-  <link href="resources/css/setting_style.css" rel="stylesheet" type="text/css" />
+  <link href="resources/css/basicStyle.css" rel="stylesheet" type="text/css" />
+  <link href="resources/css/inputStyle.css" rel="stylesheet" type="text/css" />
+  <link href="resources/css/searchStyle.css" rel="stylesheet" type="text/css" />
+  <link href="resources/css/settingStyle.css" rel="stylesheet" type="text/css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="resources/javascript/operationUpdate.js"></script>
   <script src="resources/javascript/operationDelete.js"></script>
