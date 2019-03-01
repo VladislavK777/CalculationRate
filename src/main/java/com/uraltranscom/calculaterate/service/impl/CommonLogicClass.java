@@ -3,6 +3,7 @@ package com.uraltranscom.calculaterate.service.impl;
 import com.uraltranscom.calculaterate.dao.GetCountryStationDAO;
 import com.uraltranscom.calculaterate.dao.GetTotalModelDAO;
 import com.uraltranscom.calculaterate.model.RatesList;
+import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.model.route.Route;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import com.uraltranscom.calculaterate.util.GetVolumeGroup;
@@ -40,23 +41,32 @@ public class CommonLogicClass {
     private GetTotalModelDAO getTotalModelDAO;
     @Autowired
     private GetCountryStationDAO getCountryStationDAO;
-    ArrayList<TotalModel> totalListModels = new ArrayList<>();
-    TotalModel totalModel = null;
+    private ArrayList<TotalModel> totalListModels = new ArrayList<>();
+    private TotalModel totalModel = null;
+    private Conflict conflict = null;
 
     @Autowired
-    GetListRates getListRates;
-    Set<RatesList> listRates = new HashSet<>();
+    private GetListRates getListRates;
+    private Set<RatesList> listRates = new HashSet<>();
+
 
     public void startLogic(String idStationDeparture, String idStationDestination, String idCargo, int volumeWagon, File fileRates) {
         logger.info("Start process with entry params: idStationDeparture - {}; idStationDestination - {}; idCargo - {}; volumeWagon - {}", idStationDeparture, idStationDestination, idCargo, volumeWagon);
         if (fileRates != null && listRates.isEmpty()) {
             listRates = getListRates.getListRates(fileRates);
         }
-        totalModel = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams(idStationDeparture, idStationDestination, idCargo, GetVolumeGroup.getVolumeGroup(volumeWagon)));
-        if (listRates != null) {
-            totalModel.setActualYield(getActualRate(totalModel, listRates, GetVolumeGroup.getVolumeGroup(volumeWagon)));
+        totalModel = null;
+        conflict = null;
+        Object object = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams(idStationDeparture, idStationDestination, idCargo, GetVolumeGroup.getVolumeGroup(volumeWagon)));
+        if (object instanceof TotalModel) {
+            totalModel = (TotalModel) object;
+            if (listRates != null) {
+                totalModel.setActualYield(getActualRate(totalModel, listRates, GetVolumeGroup.getVolumeGroup(volumeWagon)));
+            }
+            totalListModels.add(totalModel);
+        } else {
+            conflict = (Conflict) object;
         }
-        totalListModels.add(totalModel);
     }
 
     private Object getActualRate(TotalModel totalModel, Set<RatesList> listRates, int volume){

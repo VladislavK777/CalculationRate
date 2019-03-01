@@ -22,7 +22,8 @@ function errorCodes(code) {
     tariff: "Тариф",
     volume: "Объем",
     paramIsExist: "Парметр существует",
-    stationIsNotExist: "Станция не существует"
+    stationIsNotExist: "Станция не существует",
+    settingIsNotExist: "Отсутсвует настройка"
   };
   if (toString.call(code) == "[object Array]") {
     for (var i = 0; i < code.length; i++) {
