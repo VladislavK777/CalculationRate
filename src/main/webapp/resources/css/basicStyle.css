@@ -1,8 +1,8 @@
 @font-face {
   font-family: "Calibri Light";
   src: url('../font/calibriLight.ttf') format('truetype');
-  font-weight: normal;
-  font-style: 100;
+  font-weight: 100;
+  font-style: normal;
 }
 
 html * {
