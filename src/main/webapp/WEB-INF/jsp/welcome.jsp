@@ -29,14 +29,15 @@
   </div>
   <div>
     <img class="logo" src="resources/img/logo.jpg">
+    <div class="auth">
+      <p>${user}</p>
+      <c:url value="/logout" var="logoutUrl"/>
+      <form action="${logoutUrl}" method="post">
+        <button type="submit" class="bot1">Выход</button>
+      </form>
+    </div>
   </div>
-  <div>
-  <h2>Авторизация: ${user}</h2></br>
-  <c:url value="/logout" var="logoutUrl"/>
-  <form action="${logoutUrl}" method="post">
-    <input type="submit" value="Выход"/>
-  </form>
-  </div>
+
   <div class="block"></div>
   <div>
     <table>

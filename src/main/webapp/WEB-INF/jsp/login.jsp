@@ -39,10 +39,10 @@
             <td>
               <c:choose>
                 <c:when test="${param.error != null}">
-                  Неверный логин или пароль
+                  <h2 style="color: #364274">Неверный логин или пароль</h2>
                 </c:when>
                 <c:otherwise>
-                  Вход в систему
+                  <h2 style="color: #364274">Вход в систему</h2>
                 </c:otherwise>
               </c:choose>
             </td>

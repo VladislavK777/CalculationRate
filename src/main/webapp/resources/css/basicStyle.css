@@ -139,6 +139,12 @@ html * {
   height: 170px;
 }
 
+.auth {
+  position: absolute;
+  left: 95%;
+  color: #364274;
+}
+
 @media screen and (max-width: 1500px) {
   .one {
     background: #fff;
@@ -244,5 +250,11 @@ html * {
     position: absolute;
     top: 103px;
     left: 650px;
+  }
+
+  .auth {
+    position: absolute;
+    left: 93%;
+    color: #364274;
   }
 }
