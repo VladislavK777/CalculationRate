@@ -5,10 +5,12 @@ import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 /**
  *
@@ -31,7 +33,9 @@ public class WebController {
     private CommonLogicClass commonLogicClass;
 
     @RequestMapping(value = "/")
-    public String home(Model model) {
+    public String home(Model model, Principal principal) {
+        model.addAttribute("user", principal.getName());
+        model.addAttribute("role", SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
         commonLogicClass.getTotalListModels().clear();
         return "welcome";
     }

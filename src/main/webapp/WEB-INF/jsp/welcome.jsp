@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 
 <head>
@@ -26,6 +29,13 @@
   </div>
   <div>
     <img class="logo" src="resources/img/logo.jpg">
+  </div>
+  <div>
+  <h2>Авторизация: ${user}</h2></br>
+  <c:url value="/logout" var="logoutUrl"/>
+  <form action="${logoutUrl}" method="post">
+    <input type="submit" value="Выход"/>
+  </form>
   </div>
   <div class="block"></div>
   <div>
@@ -92,9 +102,11 @@
             <input type="image" form="calc" src="resources/img/excel.png" width="40px" height="40px" />
           </form>
         </td>
-        <td>
-          <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
-        </td>
+        <c:if test="${role == '[ROLE_ADMIN]'}">
+            <td>
+             <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
+            </td>
+        </c:if>
       </tr>
     </table>
   </div>
