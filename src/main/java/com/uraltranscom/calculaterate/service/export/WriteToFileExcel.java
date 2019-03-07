@@ -66,7 +66,6 @@ public class WriteToFileExcel {
             logger.error("Ошибка записи в файл - {}", e.getMessage());
             isOk = false;
         }
-
     }
 
     private static synchronized void writeToFileExcel(HttpServletResponse response, List<TotalModel> listTotalModel) {
