@@ -21,8 +21,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -53,9 +53,9 @@ public class WriteToFileExcel {
     private static File file;
     private static DataFormatter dataFormatter = new DataFormatter(Locale.GERMAN);
 
-    public static void downloadFileExcel(HttpServletResponse response, ArrayList<TotalModel> listTotalModel) {
+    public static void downloadFileExcel(HttpServletResponse response, List<TotalModel> listTotalModel) {
         try {
-            String fileName = "Rate_" + dateFormat.format(new Date()) + "_" + ".xlsx";
+            String fileName = "Rate_" + dateFormat.format(new Date()) + ".xlsx";
             response.setHeader("Content-Disposition", "inline; filename=" + fileName);
             response.setContentType("application/vnd.ms-excel");
 
@@ -69,8 +69,9 @@ public class WriteToFileExcel {
 
     }
 
-    private static synchronized void writeToFileExcel(HttpServletResponse response, ArrayList<TotalModel> listTotalModel) {
+    private static synchronized void writeToFileExcel(HttpServletResponse response, List<TotalModel> listTotalModel) {
         try {
+            logger.info("size list: {}", listTotalModel.size());
             ClassLoader classLoader = WriteToFileExcel.class.getClassLoader();
             File fileCalc = new File(classLoader.getResource("calculation.xlsx").getFile());
             ServletOutputStream outputStream = response.getOutputStream();
@@ -85,6 +86,7 @@ public class WriteToFileExcel {
                 int rowStartHead = 0;
                 int numberTable = 1;
                 for (TotalModel totalModel: listTotalModel) {
+                    long timeStart = System.currentTimeMillis();
                     if (totalModel != null) {
 
                         // Строка финиша шапки

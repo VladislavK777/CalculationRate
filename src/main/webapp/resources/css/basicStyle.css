@@ -141,7 +141,8 @@ html * {
 
 .auth {
   position: absolute;
-  left: 95%;
+  left: 93%;
+  top: 4%;
   color: #364274;
 }
 

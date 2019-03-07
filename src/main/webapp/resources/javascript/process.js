@@ -23,7 +23,8 @@ function errorCodes(code) {
     volume: "Объем",
     paramIsExist: "Парметр существует",
     stationIsNotExist: "Станция не существует",
-    settingIsNotExist: "Отсутсвует настройка"
+    settingIsNotExist: "Отсутсвует настройка",
+    errorCalculateRate: "Ошибка в расчете ставки"
   };
   if (toString.call(code) == "[object Array]") {
     for (var i = 0; i < code.length; i++) {

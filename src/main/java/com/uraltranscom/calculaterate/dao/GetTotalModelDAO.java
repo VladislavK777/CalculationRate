@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author vladislav.klochkov
@@ -40,7 +41,7 @@ public class GetTotalModelDAO {
         String conflictCode;
         String conflictType;
         String conflictMessage;
-        Conflict conflict = null;
+        Conflict conflict;
 
         List<Route> totalListRoute = new ArrayList<>();
         TotalModel totalModel = null;
@@ -56,7 +57,6 @@ public class GetTotalModelDAO {
                 callableStatement.setObject(i, params.get("param" + i));
             }
             ResultSet resultSet = callableStatement.executeQuery();
-
             if (resultSet.next()) {
                 conflictCode = (String) resultSet.getObject(3);
                 if (conflictCode != null) {
@@ -117,23 +117,21 @@ public class GetTotalModelDAO {
                         totalModel = new TotalModel(totalListRoute, idGroup, sumDistance, sumCountDays, sumCountDaysLoadAndUnload, sumFullCountDays, sumRateOrTariff, yield);
                     }
                     logger.debug("Get info for: {}: {}", params, totalModel);
+                    //connection.commit();
                     return totalModel;
                 }
             }
-            connection.commit();
         } catch (SQLException sqlEx) {
             logger.error("Error query: {}", sqlEx.getMessage());
             try {
-                connection.rollback();
+                Objects.requireNonNull(connection).rollback();
                 logger.info("Rollback transaction!");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } finally {
             try {
-                if (connection != null) {
-                    connection.close();
-                }
+                Objects.requireNonNull(connection).close();
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
                 logger.debug("Error close connection!");

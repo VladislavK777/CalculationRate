@@ -2,12 +2,17 @@ package com.uraltranscom.calculaterate.controller;
 
 import com.uraltranscom.calculaterate.service.export.WriteToFileExcel;
 import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
+import com.uraltranscom.calculaterate.service.impl.GroupCalculateRate;
+import com.uraltranscom.calculaterate.util.MultipartFileToFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
@@ -31,6 +36,8 @@ public class WebController {
 
     @Autowired
     private CommonLogicClass commonLogicClass;
+    @Autowired
+    private GroupCalculateRate groupCalculateRate;
 
     @RequestMapping(value = "/")
     public String home(Model model, Principal principal) {
@@ -44,5 +51,19 @@ public class WebController {
     @RequestMapping(value = "/export")
     public void getXLS(HttpServletResponse response) {
         WriteToFileExcel.downloadFileExcel(response, commonLogicClass.getTotalListModels());
+    }
+
+    // Групповая загрузка
+    @RequestMapping(value = "/group", method = RequestMethod.POST)
+    public String groupLoading(@RequestParam(value = "file") MultipartFile file, Model model) {
+        groupCalculateRate.fetchGroupModels(MultipartFileToFile.multipartToFile(file));
+        model.addAttribute("error", groupCalculateRate.getListError());
+        return "welcome";
+    }
+
+    // Выгрузка в Excel
+    @RequestMapping(value = "/exportGroup")
+    public void getGroupXLS(HttpServletResponse response) {
+        WriteToFileExcel.downloadFileExcel(response, groupCalculateRate.getTotalListModels().getTotalModelList());
     }
 }

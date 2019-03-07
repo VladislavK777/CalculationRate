@@ -111,6 +111,29 @@
       </tr>
     </table>
   </div>
+<div>
+  <form enctype="multipart/form-data" method="post" action="group">
+          <p>
+              Файл вагонов <input type="file" name="file" multiple accept="xlsx"><br>
+          </p>
+          <p>
+              <input type="submit" value="Выполнить" class="bot1">
+          </p>
+      </form>
+      <form action="exportGroup" method="get" id="groupCalc">
+          <input type="image" form="groupCalc" src="resources/img/excel.png" width="40px" height="40px" />
+      </form>
+      <c:if test="${!empty error}">
+
+                          <table>
+                              <c:forEach items="${error}" var="Error">
+                                  <tr>
+                                      <td>${Error}</td>
+                                  </tr>
+                              </c:forEach>
+                          </table>
+                      </c:if>
+      </div>
   <div id="total"></div>
   <br><br>
   <div align="center" class="footer">

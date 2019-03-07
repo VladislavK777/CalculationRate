@@ -35,7 +35,7 @@ public class GetTotalModelDAOTest {
 
     @Test
     public void testGetTotalModel() {
-        Object object = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams("190900", "191208", "023002", 120));
+        Object object = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams("806409", "985906", "233129", 120));
         if (object instanceof TotalModel) {
             totalModel = (TotalModel) object;
         } else {
