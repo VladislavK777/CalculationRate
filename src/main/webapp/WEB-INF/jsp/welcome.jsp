@@ -39,7 +39,23 @@
   </div>
 
   <div class="block"></div>
-  <div>
+  <div id="divCheckMode">
+	  <table>
+		  <tr>
+			<td id="mode1" class="tdOn">
+				Единичный расчет
+			</td>
+			<td>
+				<input id="switchMode" class="modeCalculate" type="checkbox" onclick="switchMode(this.id);">
+			</td>
+			<td id="mode2" class="tdOff">
+				Групповой расчет
+			</td>
+		</tr>
+	  </table>
+  </div>
+  <div id="divModeRoot">
+  <div id="divMode1" class="divModeOn">
     <table>
       <tr>
         <td>
@@ -111,29 +127,46 @@
       </tr>
     </table>
   </div>
-<div>
-  <form enctype="multipart/form-data" method="post" action="group">
-          <p>
-              Файл вагонов <input type="file" name="file" multiple accept="xlsx"><br>
-          </p>
-          <p>
-              <input type="submit" value="Выполнить" class="bot1">
-          </p>
-      </form>
-      <form action="exportGroup" method="get" id="groupCalc">
-          <input type="image" form="groupCalc" src="resources/img/excel.png" width="40px" height="40px" />
-      </form>
+  <div  id="divMode2" class="divModeOff" style="padding: 23 0">
+		  <table>
+			  <tr>
+			    <td class="tdOn">
+					Файл данных
+				</td>
+				<form enctype="multipart/form-data" method="post" action="group">
+				<td>
+					<input type="file" name="file" multiple accept="xlsx" />
+				</td>
+				<td>
+					<input type="submit" class="bot1" value="Расчитать ставки" />
+				</td>
+				<td>
+					<input type="button" onclick="reload()" class="bot1" value="Сбросить" />
+				</td>
+				</form>
+				<td>
+					<form action="exportGroup" method="get" id="groupCalc">
+						<input type="image" form="groupCalc" src="resources/img/excel.png" width="40px" height="40px" />
+					</form>
+				</td>
+				<c:if test="${role == '[ROLE_ADMIN]'}">
+					<td>
+						<a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
+					</td>
+				</c:if>
+			  </tr>
+		   </table>
       <c:if test="${!empty error}">
-
-                          <table>
-                              <c:forEach items="${error}" var="Error">
-                                  <tr>
-                                      <td>${Error}</td>
-                                  </tr>
-                              </c:forEach>
-                          </table>
-                      </c:if>
-      </div>
+		  <table>
+			  <c:forEach items="${error}" var="errorList">
+				  <tr>
+					  <td class="tdOn">${errorList}</td>
+				  </tr>
+			  </c:forEach>
+		  </table>
+	  </c:if>
+  </div>
+  </div>
   <div id="total"></div>
   <br><br>
   <div align="center" class="footer">

@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -54,7 +54,7 @@ public class WebController {
     }
 
     // Групповая загрузка
-    @RequestMapping(value = "/group", method = RequestMethod.POST)
+    @PostMapping(value = "/group")
     public String groupLoading(@RequestParam(value = "file") MultipartFile file, Model model) {
         groupCalculateRate.fetchGroupModels(MultipartFileToFile.multipartToFile(file));
         model.addAttribute("error", groupCalculateRate.getListError());

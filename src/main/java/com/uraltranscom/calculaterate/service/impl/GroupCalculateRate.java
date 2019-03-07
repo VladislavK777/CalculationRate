@@ -38,6 +38,7 @@ public class GroupCalculateRate {
         logger.info("start fetchGroupModels");
         long timeStart = System.currentTimeMillis();
         List<GroupListBasicDate> list = getGroupListBasicDate.getGroupListBasicDateFromFile(file);
+        clearArrays();
         for (GroupListBasicDate groupListBasicDate : list) {
             Object object = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams(
                     groupListBasicDate.getStationFrom().getIdStation(),
@@ -64,5 +65,10 @@ public class GroupCalculateRate {
         }
         long timeEnd = (System.currentTimeMillis() - timeStart);
         logger.info("finish fetchGroupModels. Work time: {} ms", timeEnd);
+    }
+
+    private void clearArrays() {
+        totalListModels.getTotalModelList().clear();
+        listError.clear();
     }
 }

@@ -32,6 +32,7 @@ public class GetGroupListBasicDate {
     private List<GroupListBasicDate> groupListBasicDates = new ArrayList<>();
 
     public List<GroupListBasicDate> getGroupListBasicDateFromFile(File file) {
+        groupListBasicDates.clear();
         try {
             XSSFWorkbook xssfWorkbook = new XSSFWorkbook(file);
             XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);

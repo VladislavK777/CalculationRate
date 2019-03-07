@@ -86,7 +86,6 @@ public class WriteToFileExcel {
                 int rowStartHead = 0;
                 int numberTable = 1;
                 for (TotalModel totalModel: listTotalModel) {
-                    long timeStart = System.currentTimeMillis();
                     if (totalModel != null) {
 
                         // Строка финиша шапки
@@ -373,7 +372,6 @@ public class WriteToFileExcel {
                         numberTable++;
                     }
                 }
-
                 xssfWorkbook.write(outputStream);
                 outputStream.flush();
                 outputStream.close();
