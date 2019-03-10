@@ -1,3 +1,4 @@
+/*
 package com.uraltranscom.calculaterate.configuration.security;
 
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
@@ -8,11 +9,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+*/
 /**
  * @author Vladislav.Klochkov
  * @project CalculationRate
  * @date 05.03.2019
- */
+ *//*
+
 
 @EnableWebSecurity
 public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -49,3 +52,4 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID");
     }
 }
+*/

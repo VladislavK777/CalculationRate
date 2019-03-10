@@ -745,3 +745,12 @@ function switchModeNoClick(bool) {
       divMode2.className = "divModeOff";
    }
 }
+
+function lockScreen() {
+   var lock = document.getElementById('lockPane');
+   if (lock) {
+       lock.className = 'lockScreenOn';
+       $('body').addClass('stop-scrolling');
+       document.body.scrollTop = document.documentElement.scrollTop = 0;
+   }
+}

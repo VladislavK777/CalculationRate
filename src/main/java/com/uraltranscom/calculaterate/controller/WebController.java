@@ -7,7 +7,6 @@ import com.uraltranscom.calculaterate.util.MultipartFileToFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,8 +40,8 @@ public class WebController {
 
     @RequestMapping(value = "/")
     public String home(Model model, Principal principal) {
-        model.addAttribute("user", principal.getName());
-        model.addAttribute("role", SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
+        //model.addAttribute("user", principal.getName());
+        //model.addAttribute("role", SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
         commonLogicClass.getTotalListModels().clear();
         return "welcome";
     }

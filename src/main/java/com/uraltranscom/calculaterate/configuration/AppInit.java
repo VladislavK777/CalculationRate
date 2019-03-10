@@ -1,6 +1,5 @@
 package com.uraltranscom.calculaterate.configuration;
 
-import com.uraltranscom.calculaterate.configuration.security.SecSecurityConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -13,8 +12,7 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{
-                AppConfig.class,
-                SecSecurityConfig.class
+                AppConfig.class//, SecSecurityConfig.class
         };
     }
 

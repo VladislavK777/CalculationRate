@@ -20,7 +20,9 @@
 </head>
 
 <body onload="init()">
-
+  <div id="lockPane" class="lockScreenOff">
+      <div class="loader" hide></div>
+  </div>
   <div class="one">
     <h1>РАСЧЕТ СТАВОК</h1>
     <div class="train">
@@ -29,13 +31,13 @@
   </div>
   <div>
     <img class="logo" src="resources/img/logo.jpg">
-    <div class="auth">
+    <!--<div class="auth">
       <p>${user}</p>
       <c:url value="/logout" var="logoutUrl"/>
       <form action="${logoutUrl}" method="post">
         <button type="submit" class="bot1">Выход</button>
       </form>
-    </div>
+    </div>-->
   </div>
 
   <div class="block"></div>
@@ -46,7 +48,7 @@
 				Единичный расчет
 			</td>
 			<td>
-				<input id="switchMode" class="modeCalculate" type="checkbox" onclick="switchMode(this.id);">
+				<input id="switchMode" class="modeCalculate" type="checkbox" checked onclick="switchMode(this.id);">
 			</td>
 			<td id="mode2" class="tdOff">
 				Групповой расчет
@@ -119,44 +121,51 @@
             <input type="image" form="calc" src="resources/img/excel.png" width="40px" height="40px" />
           </form>
         </td>
-        <c:if test="${role == '[ROLE_ADMIN]'}">
+        <td>
+         <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
+        </td>
+        <!--<c:if test="${role == '[ROLE_ADMIN]'}">
             <td>
              <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
             </td>
-        </c:if>
+        </c:if>-->
       </tr>
     </table>
   </div>
   <div  id="divMode2" class="divModeOff" style="padding: 23 0">
-		  <table>
-			  <tr>
-			    <td class="tdOn">
-					Файл данных
-				</td>
-				<form enctype="multipart/form-data" method="post" action="group">
-				<td>
-					<input type="file" name="file" multiple accept="xlsx" />
-				</td>
-				<td>
-					<input type="submit" class="bot1" value="Расчитать ставки" />
-				</td>
-				<td>
-					<input type="button" onclick="reload()" class="bot1" value="Сбросить" />
-				</td>
-				</form>
-				<td>
-					<form action="exportGroup" method="get" id="groupCalc">
-						<input type="image" form="groupCalc" src="resources/img/excel.png" width="40px" height="40px" />
-					</form>
-				</td>
-				<c:if test="${role == '[ROLE_ADMIN]'}">
-					<td>
-						<a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
-					</td>
-				</c:if>
-			  </tr>
-		   </table>
-      <c:if test="${!empty error}">
+      <table>
+          <tr>
+            <td class="tdOn">
+                Файл данных
+            </td>
+            <form enctype="multipart/form-data" method="post" action="group">
+            <td>
+                <input type="file" name="file" multiple accept="xlsx" />
+            </td>
+            <td>
+                <input type="submit" class="bot1" value="Расчитать ставки" onclick="lockScreen();" />
+            </td>
+            <td>
+                <input type="button" onclick="reload()" class="bot1" value="Сбросить" />
+            </td>
+            </form>
+            <td>
+                <form action="exportGroup" method="get" id="groupCalc">
+                    <input type="image" form="groupCalc" src="resources/img/excel.png" width="40px" height="40px" />
+                </form>
+            </td>
+            <td>
+                <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
+            </td>
+            <!--<c:if test="${role == '[ROLE_ADMIN]'}">
+                <td>
+                    <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
+                </td>
+            </c:if>-->
+          </tr>
+       </table>
+      <c:choose>
+        <c:when test="${!empty error}">
 		  <table>
 			  <c:forEach items="${error}" var="errorList">
 				  <tr>
@@ -164,7 +173,15 @@
 				  </tr>
 			  </c:forEach>
 		  </table>
-	  </c:if>
+	     </c:when>
+         <c:otherwise>
+	        <table>
+                  <tr>
+                      <td class="tdOn">Нет ошибок</td>
+                  </tr>
+      		  </table>
+          </c:otherwise>
+      </c:choose>
   </div>
   </div>
   <div id="total"></div>
