@@ -63,6 +63,9 @@ public class GroupCalculateRate {
                 listError.add(errorString);
             }
         }
+        if (listError.isEmpty()) {
+            listError.add("Нет ошибок.");
+        }
         long timeEnd = (System.currentTimeMillis() - timeStart);
         logger.info("finish fetchGroupModels. Work time: {} ms", timeEnd);
     }

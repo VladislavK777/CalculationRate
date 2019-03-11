@@ -24,6 +24,7 @@ public class CellStyleCommon {
 
     private XSSFCellStyle cellStyleField;
     private XSSFCellStyle cellStyleFieldFormat;
+    private XSSFCellStyle cellStyleFieldFormatDistance;
     private XSSFCellStyle cellStyleHead;
     private XSSFCellStyle cellStyleHeadBottom;
     private XSSFCellStyle cellStyleHeadRight;
@@ -33,6 +34,7 @@ public class CellStyleCommon {
     private XSSFCellStyle cellStyleFieldNeedCalc;
     private XSSFCellStyle cellStyleFieldTotal;
     private XSSFCellStyle cellStyleFieldTotalFormat;
+    private XSSFCellStyle cellStyleFieldTotalFormatDistance;
     private XSSFCellStyle cellStyleFieldTotalRight;
     private XSSFFont xssfFont;
     private XSSFDataFormat format;
@@ -40,6 +42,7 @@ public class CellStyleCommon {
     public CellStyleCommon(XSSFWorkbook xssfWorkbook) {
         this.cellStyleField = xssfWorkbook.createCellStyle();
         this.cellStyleFieldFormat = xssfWorkbook.createCellStyle();
+        this.cellStyleFieldFormatDistance = xssfWorkbook.createCellStyle();
         this.cellStyleHead = xssfWorkbook.createCellStyle();
         this.cellStyleHeadBottom = xssfWorkbook.createCellStyle();
         this.cellStyleHeadRight = xssfWorkbook.createCellStyle();
@@ -49,11 +52,13 @@ public class CellStyleCommon {
         this.cellStyleFieldNeedCalc = xssfWorkbook.createCellStyle();
         this.cellStyleFieldTotal = xssfWorkbook.createCellStyle();
         this.cellStyleFieldTotalFormat = xssfWorkbook.createCellStyle();
+        this.cellStyleFieldTotalFormatDistance = xssfWorkbook.createCellStyle();
         this.cellStyleFieldTotalRight = xssfWorkbook.createCellStyle();
         this.xssfFont = xssfWorkbook.createFont();
         this.format = xssfWorkbook.createDataFormat();
         cellStyleField();
         cellStyleFieldFormat();
+        cellStyleFieldFormatDistance();
         cellStyleHead();
         cellStyleHeadBottom();
         cellStyleHeadRight();
@@ -63,6 +68,7 @@ public class CellStyleCommon {
         cellStyleFieldNeedCalc();
         cellStyleFieldTotal();
         cellStyleFieldTotalFormat();
+        cellStyleFieldTotalFormatDistance();
         cellStyleFieldTotalRight();
         getFont();
     }
@@ -99,16 +105,19 @@ public class CellStyleCommon {
         cellStyleFieldFormat.setAlignment(HorizontalAlignment.CENTER);
         cellStyleFieldFormat.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyleFieldFormat.setWrapText(true);
+        cellStyleFieldFormat.setDataFormat(formatWith00());
     }
 
-    public XSSFCellStyle getCellStyleFieldFormat(boolean with00) {
-        if (!with00) {
-            cellStyleFieldFormat.setDataFormat(formatWith00());
-        }
-        if (with00) {
-            cellStyleFieldFormat.setDataFormat(formatWithOut00());
-        }
-        return cellStyleFieldFormat;
+    private void cellStyleFieldFormatDistance() {
+        cellStyleFieldFormatDistance.setFont(xssfFont);
+        cellStyleFieldFormatDistance.setBorderBottom(BorderStyle.DOTTED);
+        cellStyleFieldFormatDistance.setBorderTop(BorderStyle.DOTTED);
+        cellStyleFieldFormatDistance.setBorderRight(BorderStyle.DOTTED);
+        cellStyleFieldFormatDistance.setBorderLeft(BorderStyle.DOTTED);
+        cellStyleFieldFormatDistance.setAlignment(HorizontalAlignment.CENTER);
+        cellStyleFieldFormatDistance.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyleFieldFormatDistance.setWrapText(true);
+        cellStyleFieldFormatDistance.setDataFormat(formatWithOut00());
     }
 
     private void cellStyleHead() {
@@ -190,16 +199,7 @@ public class CellStyleCommon {
         cellStyleFieldNeedCalc.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyleFieldNeedCalc.setFillForegroundColor(new XSSFColor(new Color(214, 214, 214)));
         cellStyleFieldNeedCalc.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-    }
-
-    public XSSFCellStyle getCellStyleFieldNeedCalc(boolean with00) {
-        if (!with00) {
-            cellStyleFieldNeedCalc.setDataFormat(formatWith00());
-        }
-        if (with00) {
-            cellStyleFieldNeedCalc.setDataFormat(formatWithOut00());
-        }
-        return cellStyleFieldNeedCalc;
+        cellStyleFieldNeedCalc.setDataFormat(formatWith00());
     }
 
     private void cellStyleFieldTotal() {
@@ -227,16 +227,21 @@ public class CellStyleCommon {
         cellStyleFieldTotalFormat.setFillForegroundColor(new XSSFColor(new Color(204, 255, 204)));
         cellStyleFieldTotalFormat.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyleFieldTotalFormat.setWrapText(true);
+        cellStyleFieldTotalFormat.setDataFormat(formatWith00());
     }
 
-    public XSSFCellStyle getCellStyleFieldTotalFormat(boolean with00) {
-        if (!with00) {
-            cellStyleFieldTotalFormat.setDataFormat(formatWith00());
-        }
-        if (with00) {
-            cellStyleFieldTotalFormat.setDataFormat(formatWithOut00());
-        }
-        return cellStyleFieldTotalFormat;
+    private void cellStyleFieldTotalFormatDistance() {
+        cellStyleFieldTotalFormatDistance.setFont(xssfFont);
+        cellStyleFieldTotalFormatDistance.setBorderBottom(BorderStyle.MEDIUM);
+        cellStyleFieldTotalFormatDistance.setBorderTop(BorderStyle.DOTTED);
+        cellStyleFieldTotalFormatDistance.setBorderRight(BorderStyle.DOTTED);
+        cellStyleFieldTotalFormatDistance.setBorderLeft(BorderStyle.DOTTED);
+        cellStyleFieldTotalFormatDistance.setAlignment(HorizontalAlignment.CENTER);
+        cellStyleFieldTotalFormatDistance.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyleFieldTotalFormatDistance.setFillForegroundColor(new XSSFColor(new Color(204, 255, 204)));
+        cellStyleFieldTotalFormatDistance.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cellStyleFieldTotalFormatDistance.setWrapText(true);
+        cellStyleFieldTotalFormatDistance.setDataFormat(formatWithOut00());
     }
 
     private void cellStyleFieldTotalRight() {
@@ -250,15 +255,6 @@ public class CellStyleCommon {
         cellStyleFieldTotalRight.setFillForegroundColor(new XSSFColor(new Color(204, 255, 204)));
         cellStyleFieldTotalRight.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyleFieldTotalRight.setWrapText(true);
-    }
-
-    public XSSFCellStyle getCellStyleFieldTotalRight(boolean with00) {
-        if (!with00) {
-            cellStyleFieldTotalRight.setDataFormat(formatWith00());
-        }
-        if (with00) {
-            cellStyleFieldTotalRight.setDataFormat(formatWithOut00());
-        }
-        return cellStyleFieldTotalRight;
+        cellStyleFieldTotalRight.setDataFormat(formatWith00());
     }
 }

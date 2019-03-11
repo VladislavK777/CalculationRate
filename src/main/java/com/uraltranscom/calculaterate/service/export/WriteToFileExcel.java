@@ -82,6 +82,8 @@ public class WriteToFileExcel {
                 XSSFWorkbook xssfWorkbook = new XSSFWorkbook(fis);
                 CellStyleCommon cellStyleCommon = new CellStyleCommon(xssfWorkbook);
                 XSSFSheet sheet = xssfWorkbook.getSheetAt(0);
+                /*XSSFSheet tempSheet = xssfWorkbook.cloneSheet(0, "temp");
+                buildHeader(tempSheet, cellStyleCommon);*/
 
                 // Строка старта шапки
                 int rowStartHead = 0;
@@ -91,7 +93,6 @@ public class WriteToFileExcel {
 
                         // Строка финиша шапки
                         int rowFinishHead = rowStartHead + 3;
-
                         for (int i = rowStartHead; i <= rowFinishHead; i++) {
                             XSSFRow rowHead = sheet.createRow(i);
                             Cell head0 = rowHead.createCell(0);
@@ -210,7 +211,7 @@ public class WriteToFileExcel {
                             Cell stationDeparture = row.createCell(1);
                             stationDeparture.setCellValue(route.getStationDeparture().getNameStation());
                             if (route.isFlagNeedCalc()) {
-                                stationDeparture.setCellStyle(cellStyleCommon.getCellStyleFieldNeedCalc(false)); // with false
+                                stationDeparture.setCellStyle(cellStyleCommon.getCellStyleFieldNeedCalc()); // with false
                             } else {
                                 stationDeparture.setCellStyle(cellStyleCommon.getCellStyleField());
                             }
@@ -218,7 +219,7 @@ public class WriteToFileExcel {
                             Cell roadDeparture = row.createCell(2);
                             roadDeparture.setCellValue(route.getStationDeparture().getRoad().getNameRoad());
                             if (route.isFlagNeedCalc()) {
-                                roadDeparture.setCellStyle(cellStyleCommon.getCellStyleFieldNeedCalc(false)); // with false
+                                roadDeparture.setCellStyle(cellStyleCommon.getCellStyleFieldNeedCalc()); // with false
                             } else {
                                 roadDeparture.setCellStyle(cellStyleCommon.getCellStyleField());
                             }
@@ -226,7 +227,7 @@ public class WriteToFileExcel {
                             Cell stationDestination = row.createCell(3);
                             stationDestination.setCellValue(route.getStationDestination().getNameStation());
                             if (route.isFlagNeedCalc()) {
-                                stationDestination.setCellStyle(cellStyleCommon.getCellStyleFieldNeedCalc(false)); // with false
+                                stationDestination.setCellStyle(cellStyleCommon.getCellStyleFieldNeedCalc()); // with false
                             } else {
                                 stationDestination.setCellStyle(cellStyleCommon.getCellStyleField());
                             }
@@ -234,7 +235,7 @@ public class WriteToFileExcel {
                             Cell roadDestination = row.createCell(4);
                             roadDestination.setCellValue(route.getStationDestination().getRoad().getNameRoad());
                             if (route.isFlagNeedCalc()) {
-                                roadDestination.setCellStyle(cellStyleCommon.getCellStyleFieldNeedCalc(false)); // with false
+                                roadDestination.setCellStyle(cellStyleCommon.getCellStyleFieldNeedCalc()); // with false
                             } else {
                                 roadDestination.setCellStyle(cellStyleCommon.getCellStyleField());
                             }
@@ -250,7 +251,7 @@ public class WriteToFileExcel {
 
                             Cell distance = row.createCell(6);
                             distance.setCellValue(route.getDistance());
-                            distance.setCellStyle(cellStyleCommon.getCellStyleFieldFormat(true)); //with true
+                            distance.setCellStyle(cellStyleCommon.getCellStyleFieldFormatDistance()); //with true
 
                             Cell countDays = row.createCell(7);
                             countDays.setCellValue(route.getCountDays());
@@ -275,9 +276,9 @@ public class WriteToFileExcel {
                             } else {
                                 rate.setCellValue(route.getRate());
                                 if (route.isFlagNeedCalc()) {
-                                    rate.setCellStyle(cellStyleCommon.getCellStyleFieldNeedCalc(false)); // with false
+                                    rate.setCellStyle(cellStyleCommon.getCellStyleFieldNeedCalc()); // with false
                                 } else {
-                                    rate.setCellStyle(cellStyleCommon.getCellStyleFieldFormat(false)); // with false
+                                    rate.setCellStyle(cellStyleCommon.getCellStyleFieldFormat()); // with false
                                 }
                             }
 
@@ -286,12 +287,12 @@ public class WriteToFileExcel {
                                 tariff.setCellStyle(cellStyleCommon.getCellStyleFieldNull());
                             } else {
                                 tariff.setCellValue(route.getTariff());
-                                tariff.setCellStyle(cellStyleCommon.getCellStyleFieldFormat(false)); // with false
+                                tariff.setCellStyle(cellStyleCommon.getCellStyleFieldFormat()); // with false
                             }
 
                             Cell rateTariff = row.createCell(13);
                             rateTariff.setCellFormula("L" + num + "-M" + num);
-                            rateTariff.setCellStyle(cellStyleCommon.getCellStyleFieldFormat(false)); // with false
+                            rateTariff.setCellStyle(cellStyleCommon.getCellStyleFieldFormat()); // with false
                             sheet.setColumnWidth(13, 3182);
 
                             Cell cell13 = row.createCell(14);
@@ -329,7 +330,7 @@ public class WriteToFileExcel {
                         // Строка итоговых расчетов
                         Cell totalDistance = row.createCell(6);
                         totalDistance.setCellFormula("SUM(G" + firstNumberCell + ":G" + lastNumberCell + ")");
-                        totalDistance.setCellStyle(cellStyleCommon.getCellStyleFieldTotalFormat(true)); // with true
+                        totalDistance.setCellStyle(cellStyleCommon.getCellStyleFieldTotalFormatDistance()); // with true
 
                         Cell totalCountDays = row.createCell(7);
                         totalCountDays.setCellFormula("SUM(H" + firstNumberCell + ":H" + lastNumberCell + ")");
@@ -354,11 +355,11 @@ public class WriteToFileExcel {
 
                         Cell totalRateTariff = row.createCell(13);
                         totalRateTariff.setCellFormula("SUM(N" + firstNumberCell + ":N" + lastNumberCell + ")");
-                        totalRateTariff.setCellStyle(cellStyleCommon.getCellStyleFieldTotalFormat(false)); // with false
+                        totalRateTariff.setCellStyle(cellStyleCommon.getCellStyleFieldTotalFormat()); // with false
 
                         Cell yield = row.createCell(14);
                         yield.setCellFormula("N" + totalYieldNum + "/J" + totalYieldNum);
-                        yield.setCellStyle(cellStyleCommon.getCellStyleFieldTotalRight(false)); // with false
+                        yield.setCellStyle(cellStyleCommon.getCellStyleFieldTotalRight()); // with false
                         sheet.autoSizeColumn(14);
 
                         Cell cell15 = row.createCell(15);
@@ -385,6 +386,182 @@ public class WriteToFileExcel {
             logger.error("Ошибка записи в файл - {}", e.getMessage());
         }
     }
+
+    /*private static void buildHeader(XSSFSheet sheet, CellStyleCommon cellStyleCommon) {
+        for (int i = 0; i <= 3; i++) {
+            XSSFRow rowHead = sheet.createRow(i);
+            Cell head0 = rowHead.createCell(0);
+            head0.setCellValue("№п/п");
+            head0.setCellStyle(cellStyleCommon.getCellStyleHead());
+
+            Cell head1 = rowHead.createCell(1);
+            head1.setCellValue("Станция отправления");
+            head1.setCellStyle(cellStyleCommon.getCellStyleHead());
+
+            Cell head2 = rowHead.createCell(2);
+            head2.setCellValue("Дорога отпр.");
+            head2.setCellStyle(cellStyleCommon.getCellStyleHead());
+            sheet.setColumnWidth(2, 2194);
+
+            Cell head3 = rowHead.createCell(3);
+            head3.setCellValue("Станция назначения");
+            head3.setCellStyle(cellStyleCommon.getCellStyleHead());
+
+            Cell head4 = rowHead.createCell(4);
+            head4.setCellValue("Дорога назн.");
+            head4.setCellStyle(cellStyleCommon.getCellStyleHead());
+            sheet.setColumnWidth(4, 2194);
+
+            Cell head5 = rowHead.createCell(5);
+            head5.setCellValue("Наименование груза");
+            head5.setCellStyle(cellStyleCommon.getCellStyleHead());
+
+            Cell head6 = rowHead.createCell(6);
+            head6.setCellValue("Расст., км");
+            head6.setCellStyle(cellStyleCommon.getCellStyleHead());
+
+            Cell head7 = rowHead.createCell(7);
+            head7.setCellValue("Время в пути, сут");
+            head7.setCellStyle(cellStyleCommon.getCellStyleHead());
+
+            Cell head8 = rowHead.createCell(8);
+            head8.setCellValue("Погр. / выгр.");
+            head8.setCellStyle(cellStyleCommon.getCellStyleHead());
+
+            Cell head9 = rowHead.createCell(9);
+            head9.setCellValue("Оборот, сут.");
+            head9.setCellStyle(cellStyleCommon.getCellStyleHead());
+
+            Cell head10 = rowHead.createCell(10);
+            head10.setCellValue("ВО");
+            head10.setCellStyle(cellStyleCommon.getCellStyleHead());
+
+            Cell head11 = rowHead.createCell(11);
+            if (i == 3) {
+                head11.setCellValue("руб/ваг.");
+            } else {
+                head11.setCellValue("ДОХОД");
+            }
+            head11.setCellStyle(cellStyleCommon.getCellStyleHeadBottom());
+
+            Cell head12 = rowHead.createCell(12);
+            if (i == 2 || i == 1) {
+                head12.setCellValue("Тариф в собств. вагонах");
+            } else if (i == 3) {
+                head12.setCellValue("руб/ваг.");
+            } else {
+                head12.setCellValue("РАСХОД");
+            }
+            head12.setCellStyle(cellStyleCommon.getCellStyleHeadBottom());
+
+            Cell head13 = rowHead.createCell(13);
+            if (i == 2 || i == 1) {
+                head13.setCellValue("За нахождение в пути");
+            } else if (i == 3) {
+                head13.setCellValue("руб/ваг.");
+            } else {
+                head13.setCellValue("ПРИБЫЛЬ");
+            }
+            head13.setCellStyle(cellStyleCommon.getCellStyleHeadBottom());
+
+            Cell head14 = rowHead.createCell(14);
+            if (i == 2 || i == 1) {
+                head14.setCellValue("В сутки");
+            } else if (i == 3) {
+                head14.setCellValue("руб/ваг/сут.");
+            } else {
+                head14.setCellValue("ПРИБЫЛЬ");
+            }
+            head14.setCellStyle(cellStyleCommon.getCellStyleHeadRight());
+        }
+
+        for (int i = 0; i < 11; i++) {
+            sheet.addMergedRegion(new CellRangeAddress(0, 4, i, i));
+        }
+        sheet.addMergedRegion(new CellRangeAddress(0, 3, 11, 11));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 13, 14));
+        for (int i = 12; i < 15; i++) {
+            sheet.addMergedRegion(new CellRangeAddress(1, 3, i, i));
+        }
+    }
+
+    private static void copyRow(XSSFSheet srcSheet, XSSFSheet destSheet, XSSFRow srcRow, XSSFRow destRow, Map<Integer, XSSFCellStyle> styleMap) {
+        Set<CellRangeAddress> mergedRegions = new TreeSet<CellRangeAddress>();
+        destRow.setHeight(srcRow.getHeight());
+        for (int j = srcRow.getFirstCellNum(); j <= srcRow.getLastCellNum(); j++) {
+            XSSFCell oldCell = srcRow.getCell(j);
+            XSSFCell newCell = destRow.getCell(j);
+            if (oldCell != null) {
+                if (newCell == null) {
+                    newCell = destRow.createCell(j);
+                }
+                copyCell(oldCell, newCell, styleMap);
+                CellRangeAddress mergedRegion = getMergedRegion(srcSheet, srcRow.getRowNum(), (short)oldCell.getColumnIndex());
+                if (mergedRegion != null) {
+                    CellRangeAddress newMergedRegion = new CellRangeAddress(mergedRegion.getFirstRow(), mergedRegion.getFirstColumn(), mergedRegion.getLastRow(), mergedRegion.getLastColumn());
+                    if (isNewMergedRegion(newMergedRegion, mergedRegions)) {
+                        mergedRegions.add(newMergedRegion);
+                        destSheet.addMergedRegion(newMergedRegion);
+                    }
+                }
+            }
+        }
+
+    }
+
+    private static void copyCell(XSSFCell oldCell, XSSFCell newCell, Map<Integer, XSSFCellStyle> styleMap) {
+        if(styleMap != null) {
+            if(oldCell.getSheet().getWorkbook() == newCell.getSheet().getWorkbook()){
+                newCell.setCellStyle(oldCell.getCellStyle());
+            } else{
+                int stHashCode = oldCell.getCellStyle().hashCode();
+                XSSFCellStyle newCellStyle = styleMap.get(stHashCode);
+                if(newCellStyle == null){
+                    newCellStyle = newCell.getSheet().getWorkbook().createCellStyle();
+                    newCellStyle.cloneStyleFrom(oldCell.getCellStyle());
+                    styleMap.put(stHashCode, newCellStyle);
+                }
+                newCell.setCellStyle(newCellStyle);
+            }
+        }
+        switch(oldCell.getCellType()) {
+            case STRING:
+                newCell.setCellValue(oldCell.getStringCellValue());
+                break;
+            case NUMERIC:
+                newCell.setCellValue(oldCell.getNumericCellValue());
+                break;
+            case BLANK:
+                newCell.setCellType(CellType.BLANK);
+                break;
+            case BOOLEAN:
+                newCell.setCellValue(oldCell.getBooleanCellValue());
+                break;
+            case ERROR:
+                newCell.setCellErrorValue(oldCell.getErrorCellValue());
+                break;
+            case FORMULA:
+                newCell.setCellFormula(oldCell.getCellFormula());
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    private static CellRangeAddress getMergedRegion(XSSFSheet sheet, int rowNum, short cellNum) {
+        for (int i = 0; i < sheet.getNumMergedRegions(); i++) {
+            CellRangeAddress merged = sheet.getMergedRegion(i);
+            if (merged.isInRange(rowNum, cellNum)) {
+                return merged;
+            }
+        }
+        return null;
+    }
+
+    private static boolean isNewMergedRegion(CellRangeAddress newMergedRegion, Collection<CellRangeAddress> mergedRegions) {
+        return !mergedRegions.contains(newMergedRegion);
+    }*/
 
     /*private static XSSFFont getFont(XSSFSheet sheet) {
         XSSFFont font = sheet.getWorkbook().createFont();
