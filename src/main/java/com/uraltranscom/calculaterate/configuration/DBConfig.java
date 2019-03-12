@@ -2,11 +2,15 @@ package com.uraltranscom.calculaterate.configuration;
 
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import com.uraltranscom.calculaterate.util.zookeeper.ZookeeperSettingHolder;
-import org.apache.tomcat.jdbc.pool.DataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 /**
  * @author vladislav.klochkov
@@ -36,13 +40,18 @@ public class DBConfig {
     }
 
     @Bean(destroyMethod = "close")
-    @Lazy
-    public DataSource dataSource() throws Exception {
-        DataSource dataSource = new DataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(zookeeperSettingHolder().getDataBase());
-        dataSource.setUsername(zookeeperSettingHolder().getUser());
-        dataSource.setPassword((String) methodInvokingFactoryBean().getObject());
+    public HikariDataSource dataSource() throws Exception {
+        HikariConfig config = new HikariConfig();
+        HikariDataSource dataSource;
+        config.setDriverClassName("org.postgresql.Driver");
+        config.setJdbcUrl(zookeeperSettingHolder().getDataBase());
+        config.setUsername(zookeeperSettingHolder().getUser());
+        config.setPassword((String) methodInvokingFactoryBean().getObject());
+        config.setMaximumPoolSize(20);
+        config.addDataSourceProperty( "cachePrepStmts" , "true" );
+        config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
+        config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+        dataSource = new HikariDataSource(config);
         return dataSource;
     }
 

@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 
 <head>
@@ -17,7 +20,9 @@
 </head>
 
 <body onload="init()">
-
+  <div id="lockPane" class="lockScreenOff">
+    <div class="loader" hide></div>
+  </div>
   <div class="one">
     <h1>РАСЧЕТ СТАВОК</h1>
     <div class="train">
@@ -26,77 +31,147 @@
   </div>
   <div>
     <img class="logo" src="resources/img/logo.jpg">
+    <!--<div class="auth">
+      <p>${user}</p>
+      <c:url value="/logout" var="logoutUrl"/>
+      <form action="${logoutUrl}" method="post">
+        <button type="submit" class="bot1">Выход</button>
+      </form>
+    </div>-->
   </div>
+
   <div class="block"></div>
-  <div>
+  <div id="divCheckMode">
     <table>
       <tr>
+        <td id="mode1" class="tdOn">
+          Единичный расчет
+        </td>
         <td>
-          <p class="inp">
-            <label>
+          <input id="switchMode" class="modeCalculate" type="checkbox" checked onclick="switchMode(this.id);">
+        </td>
+        <td id="mode2" class="tdOff">
+          Групповой расчет
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div id="divModeRoot">
+    <div id="divMode1" class="divModeOn">
+      <table>
+        <tr>
+          <td>
+            <p class="inp">
+              <label>
               <input type="text" autocomplete="off" id="stationFrom" placeholder="&nbsp;" name="station_from" onkeyup="search(this.id)"/>
               <span class="label">Станция отправления</span>
               <span class="border" />
             </label>
-          </p>
-        </td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <td>
-          <p class="inp">
-            <label>
+            </p>
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>
+            <p class="inp">
+              <label>
               <input type="text" autocomplete="off" id="stationTo" placeholder="&nbsp;" name="station_to" onkeyup="search(this.id)" />
               <span class="label">Станция назначения</span>
               <span class="border" />
             </label>
-          </p>
-        </td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <td>
-          <p class="inp">
-            <label>
+            </p>
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>
+            <p class="inp">
+              <label>
               <input type="text" autocomplete="off" id="cargo" placeholder="&nbsp;" name="cargo" onkeyup="search(this.id)" />
               <span class="label">Груз</span>
               <span class="border" />
             </label>
-          </p>
-        </td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <td>
-          <p class="inp">
-            <label>
+            </p>
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>
+            <p class="inp">
+              <label>
               <input type="text" autocomplete="off" placeholder="&nbsp;" name="volume" />
               <span class="label">Объем</span>
               <span class="border" />
             </label>
-          </p>
-        </td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <td>
-          <p class="inp_file">
-            <label>
+            </p>
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>
+            <p class="inp_file">
+              <label>
               <input type="file" name="ratesFile" multiple accept="xlsx" />
               <span class="label">Файл ставок</span>
               <span class="border" />
             </label>
-          </p>
-        </td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <td>
-          <input type="button" onclick="calcRate()" class="bot1" value="Рассчитать ставку" />
-        </td>
-        <td>
-          <input type="button" onclick="reload()" class="bot1" value="Сбросить" />
-        </td>
-        <td>
-          <form action="export" method="get" id="calc">
-            <input type="image" form="calc" src="resources/img/excel.png" width="40px" height="40px" />
+            </p>
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>
+            <input type="button" onclick="calcRate()" class="bot1" value="Рассчитать ставку" />
+          </td>
+          <td>
+            <input type="button" onclick="reload()" class="bot1" value="Сбросить" />
+          </td>
+          <td>
+            <form action="export" method="get" id="calc">
+              <input type="image" form="calc" src="resources/img/excel.png" width="40px" height="40px" />
+            </form>
+          </td>
+          <td>
+            <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
+          </td>
+          <!--<c:if test="${role == '[ROLE_ADMIN]'}">
+            <td>
+             <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
+            </td>
+        </c:if>-->
+        </tr>
+      </table>
+    </div>
+    <div id="divMode2" class="divModeOff" style="padding: 23 0">
+      <table>
+        <tr>
+          <td class="tdOn">
+            Файл данных
+          </td>
+          <form enctype="multipart/form-data" method="post" action="group">
+            <td>
+              <input type="file" name="file" multiple accept="xlsx" />
+            </td>
+            <td>
+              <input type="submit" class="bot1" value="Расчитать ставки" onclick="lockScreen();" />
+            </td>
+            <td>
+              <input type="button" onclick="reload()" class="bot1" value="Сбросить" />
+            </td>
           </form>
-        </td>
-        <td>
-          <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
-        </td>
-      </tr>
-    </table>
+          <td>
+            <form action="exportGroup" method="get" id="groupCalc">
+              <input type="image" form="groupCalc" src="resources/img/excel.png" width="40px" height="40px" />
+            </form>
+          </td>
+          <td>
+            <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
+          </td>
+          <!--<c:if test="${role == '[ROLE_ADMIN]'}">
+                <td>
+                    <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
+                </td>
+            </c:if>-->
+        </tr>
+      </table>
+      <table>
+        <c:forEach items="${error}" var="errorList">
+          <tr>
+            <td class="tdOn">${errorList}</td>
+          </tr>
+        </c:forEach>
+      </table>
+    </div>
   </div>
   <div id="total"></div>
   <br><br>

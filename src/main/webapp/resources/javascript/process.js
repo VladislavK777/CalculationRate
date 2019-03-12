@@ -1,8 +1,11 @@
 function init() {
   getCache();
-  window.sessionStorage.setItem("tabId", "tab1");
-  window.sessionStorage.setItem("numberTableResult", 1);
-  document.getElementById("copy").innerText = new Date().getFullYear();
+    window.sessionStorage.setItem("tabId", "tab1");
+    window.sessionStorage.setItem("numberTableResult", 1);
+    var mode = (window.sessionStorage.getItem("switchMode") == 'true');
+    document.getElementById("switchMode").checked = mode;
+    switchModeNoClick(mode);
+    document.getElementById("copy").innerText = new Date().getFullYear();
 }
 
 function errorCodes(code) {
@@ -23,7 +26,8 @@ function errorCodes(code) {
     volume: "Объем",
     paramIsExist: "Парметр существует",
     stationIsNotExist: "Станция не существует",
-    settingIsNotExist: "Отсутсвует настройка"
+    settingIsNotExist: "Отсутсвует настройка",
+    errorCalculateRate: "Ошибка в расчете ставки"
   };
   if (toString.call(code) == "[object Array]") {
     for (var i = 0; i < code.length; i++) {
@@ -381,7 +385,8 @@ function insert(request, json) {
 }
 
 function reload() {
-  location.reload();
+  var host = location.protocol + location.host;
+  location.replace("/calculaterate/");
 }
 
 function reloadPage(id) {
@@ -697,4 +702,55 @@ function numberFormat(number, decimals, decPoint, separator) {
     s[1] += new Array(prec - s[1].length + 1).join("0");
   }
   return s.join(dec);
+}
+
+function switchMode(id) {
+   var checkbox = document.getElementById(id);
+   window.sessionStorage.setItem("switchMode", checkbox.checked);
+   var contextSwitchMode = document.getElementById("divCheckMode");
+   var contextDivMode = document.getElementById("divModeRoot");
+   var tdMode1 = contextSwitchMode.querySelector("#mode1");
+   var tdMode2 = contextSwitchMode.querySelector("#mode2");
+   var divMode1 = contextDivMode.querySelector("#divMode1");
+   var divMode2 = contextDivMode.querySelector("#divMode2");
+   if (checkbox.checked == true) {
+      tdMode1.className = "tdOff";
+      tdMode2.className = "tdOn";
+      divMode1.className = "divModeOff";
+      divMode2.className = "divModeOn";
+   } else {
+      tdMode1.className = "tdOn";
+      tdMode2.className = "tdOff";
+      divMode1.className = "divModeOn";
+      divMode2.className = "divModeOff";
+   }
+}
+
+function switchModeNoClick(bool) {
+   var contextSwitchMode = document.getElementById("divCheckMode");
+   var contextDivMode = document.getElementById("divModeRoot");
+   var tdMode1 = contextSwitchMode.querySelector("#mode1");
+   var tdMode2 = contextSwitchMode.querySelector("#mode2");
+   var divMode1 = contextDivMode.querySelector("#divMode1");
+   var divMode2 = contextDivMode.querySelector("#divMode2");
+   if (bool == true) {
+      tdMode1.className = "tdOff";
+      tdMode2.className = "tdOn";
+      divMode1.className = "divModeOff";
+      divMode2.className = "divModeOn";
+   } else {
+      tdMode1.className = "tdOn";
+      tdMode2.className = "tdOff";
+      divMode1.className = "divModeOn";
+      divMode2.className = "divModeOff";
+   }
+}
+
+function lockScreen() {
+   var lock = document.getElementById('lockPane');
+   if (lock) {
+       lock.className = 'lockScreenOn';
+       $('body').addClass('stop-scrolling');
+       document.body.scrollTop = document.documentElement.scrollTop = 0;
+   }
 }

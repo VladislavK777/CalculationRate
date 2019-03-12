@@ -1,6 +1,6 @@
 package com.uraltranscom.calculaterate.util.connect;
 
-import javax.sql.DataSource;
+import com.zaxxer.hikari.HikariDataSource;
 
 /**
  *
@@ -16,13 +16,13 @@ import javax.sql.DataSource;
  */
 
 public class ConnectionDB {
-    private static DataSource dataSource;
+    private static HikariDataSource dataSource;
 
-    public static DataSource getDataSource() {
+    public static HikariDataSource getDataSource() {
         return dataSource;
     }
 
-    public static void setDataSource(DataSource dataSource) {
+    public static void setDataSource(HikariDataSource dataSource) {
         ConnectionDB.dataSource = dataSource;
     }
 }

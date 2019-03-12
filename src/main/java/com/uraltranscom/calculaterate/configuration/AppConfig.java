@@ -26,10 +26,18 @@ import org.springframework.web.servlet.view.JstlView;
 @Import({DBConfig.class})
 public class AppConfig implements WebMvcConfigurer {
 
+    public AppConfig() {
+        super();
+    }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
+
+   /* public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/login").setViewName("login");
+    }*/
 
     @Bean
     public InternalResourceViewResolver internalResourceViewResolver() {
