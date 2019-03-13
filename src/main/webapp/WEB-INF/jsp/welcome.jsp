@@ -44,7 +44,7 @@
   <div id="divCheckMode">
     <table>
       <tr>
-        <td id="mode1" class="tdOn">
+        <td id="mode1" class="tdOff">
           Единичный расчет
         </td>
         <td>
@@ -57,7 +57,7 @@
     </table>
   </div>
   <div id="divModeRoot">
-    <div id="divMode1" class="divModeOn">
+    <div id="divMode1" class="divModeOff">
       <table>
         <tr>
           <td>
