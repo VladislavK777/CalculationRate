@@ -132,23 +132,25 @@
         </tr>
       </table>
     </div>
-    <div id="divMode2" class="divModeOff" style="padding: 23 0">
+    <div id="divMode2" class="divModeOff">
       <table>
         <tr>
-          <td class="tdOn">
-            Файл данных
+          <td>
+            <p class="inp_file">
+              <label>
+                  <input type="file" name="ratesGroupFile" multiple accept="xlsx" />
+                  <span class="label">Файл ставок</span>
+                  <span class="border" />
+                </label>
+            </p>
           </td>
-          <form enctype="multipart/form-data" method="post" action="group">
-            <td>
-              <input type="file" name="file" multiple accept="xlsx" />
-            </td>
-            <td>
-              <input type="submit" class="bot1" value="Расчитать ставки" onclick="lockScreen();" />
-            </td>
-            <td>
-              <input type="button" onclick="reload()" class="bot1" value="Сбросить" />
-            </td>
-          </form>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>
+            <input type="button" onclick="calcGroupRate()" class="bot1" value="Рассчитать ставки" />
+          </td>
+          <td>
+            <input type="button" onclick="reload()" class="bot1" value="Сбросить" />
+          </td>
           <td>
             <form action="exportGroup" method="get" id="groupCalc">
               <input type="image" form="groupCalc" src="resources/img/excel.png" width="40px" height="40px" />
@@ -163,13 +165,6 @@
                 </td>
             </c:if>-->
         </tr>
-      </table>
-      <table>
-        <c:forEach items="${error}" var="errorList">
-          <tr>
-            <td class="tdOn">${errorList}</td>
-          </tr>
-        </c:forEach>
       </table>
     </div>
   </div>

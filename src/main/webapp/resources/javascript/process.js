@@ -16,6 +16,7 @@ function errorCodes(code) {
     idStationReturn: "Станция возврата",
     stationFrom: "Станция отправления",
     stationTo: "Станция назначения",
+    file: "Файл ставок",
     cargo: "Груз",
     cargoTypeString: "Класс груза",
     routeType: "Тип рейса",
