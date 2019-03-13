@@ -1,15 +1,20 @@
 package com.uraltranscom.calculaterate.controller;
 
+import com.uraltranscom.calculaterate.model.CalcGroupRateBody;
 import com.uraltranscom.calculaterate.model.CalcRateBody;
 import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
+import com.uraltranscom.calculaterate.service.impl.GroupCalculateRate;
 import com.uraltranscom.calculaterate.util.CheckMandatoryParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.uraltranscom.calculaterate.util.ParserInputName.getId;
 
@@ -27,6 +32,8 @@ public class RestControllerGetRate {
 
     @Autowired
     private CommonLogicClass commonLogicClass;
+    @Autowired
+    private GroupCalculateRate groupCalculateRate;
 
     @PostMapping(value = "/info")
     public ResponseEntity<Object> totalModel(@RequestBody CalcRateBody object) {
@@ -43,4 +50,9 @@ public class RestControllerGetRate {
         }
     }
 
+    @PostMapping(value = "/group")
+    public ResponseEntity<Object> totalGroupModel(@RequestBody CalcGroupRateBody object) {
+        groupCalculateRate.fetchGroupModels(object.getFile());
+        return new ResponseEntity<>(groupCalculateRate.getListError(), HttpStatus.OK);
+    }
 }

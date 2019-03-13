@@ -3,15 +3,11 @@ package com.uraltranscom.calculaterate.controller;
 import com.uraltranscom.calculaterate.service.export.WriteToFileExcel;
 import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
 import com.uraltranscom.calculaterate.service.impl.GroupCalculateRate;
-import com.uraltranscom.calculaterate.util.MultipartFileToFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
@@ -50,14 +46,6 @@ public class WebController {
     @RequestMapping(value = "/export")
     public void getXLS(HttpServletResponse response) {
         WriteToFileExcel.downloadFileExcel(response, commonLogicClass.getTotalListModels());
-    }
-
-    // Групповая загрузка
-    @PostMapping(value = "/group")
-    public String groupLoading(@RequestParam(value = "file") MultipartFile file, Model model) {
-        groupCalculateRate.fetchGroupModels(MultipartFileToFile.multipartToFile(file));
-        model.addAttribute("error", groupCalculateRate.getListError());
-        return "welcome";
     }
 
     // Выгрузка в Excel

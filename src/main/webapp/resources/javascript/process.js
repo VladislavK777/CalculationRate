@@ -1,11 +1,11 @@
 function init() {
   getCache();
+    document.getElementById("copy").innerText = new Date().getFullYear();
     window.sessionStorage.setItem("tabId", "tab1");
     window.sessionStorage.setItem("numberTableResult", 1);
     var mode = (window.sessionStorage.getItem("switchMode") == 'true');
     document.getElementById("switchMode").checked = mode;
     switchModeNoClick(mode);
-    document.getElementById("copy").innerText = new Date().getFullYear();
 }
 
 function errorCodes(code) {
@@ -16,6 +16,7 @@ function errorCodes(code) {
     idStationReturn: "Станция возврата",
     stationFrom: "Станция отправления",
     stationTo: "Станция назначения",
+    file: "Файл ставок",
     cargo: "Груз",
     cargoTypeString: "Класс груза",
     routeType: "Тип рейса",

@@ -167,3 +167,35 @@ function calcRate() {
     });
   }
 }
+
+function calcGroupRate() {
+  var file = checkEmpty($('input[name="ratesGroupFile"]')
+      .val()
+      .split("\\")
+      .pop());
+  if (file != null) {
+      lockScreen();
+      $.ajax({
+        url: "rate/group",
+        datatype: "json",
+        type: "post",
+        contentType: "application/json",
+        data: JSON.stringify({ file: file }),
+        success: function(response) {
+          var lock = $('#lockPane').toggleClass("lockScreenOn lockScreenOff");
+          $table = $("<table>");
+          for (var i in response) {
+            $content = $("<tr>").append(
+              $('<td class="tdOn">').text(response[i])
+            );
+            $table.append($content);
+          }
+          $("#total").append($table);
+        }
+      });
+  } else {
+    var code = "file";
+    var message = "Не заполнен обязательный параметр!";
+    alert(errorCodes(code) + '\n' + message);
+  }
+}
