@@ -199,6 +199,13 @@ input.modeCalculate:checked[type="checkbox"]::before {
   left: 25px;
 }
 
+.temp {
+  position: absolute;
+  margin: -10 0;
+  font-size: 14;
+  color: #364274;
+}
+
 /* Блокировка экрана */
 .lockScreenOff {
     display: none;
@@ -352,6 +359,13 @@ input.modeCalculate:checked[type="checkbox"]::before {
   .auth {
     position: absolute;
     left: 93%;
+    color: #364274;
+  }
+
+  .temp {
+    position: absolute;
+    margin: -10 0;
+    font-size: 12;
     color: #364274;
   }
 }
