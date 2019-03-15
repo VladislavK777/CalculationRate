@@ -157,6 +157,12 @@
             </form>
           </td>
           <td>
+            <form action="downloadTemplate" method="get" id="template">
+              <input type="image" form="template" src="resources/img/excel.png" width="40px" height="40px" />
+            </form>
+            <p class="temp">Шаблон</p>
+          </td>
+          <td>
             <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
           </td>
           <!--<c:if test="${role == '[ROLE_ADMIN]'}">

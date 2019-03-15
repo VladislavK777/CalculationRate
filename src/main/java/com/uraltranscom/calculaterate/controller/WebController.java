@@ -1,5 +1,6 @@
 package com.uraltranscom.calculaterate.controller;
 
+import com.uraltranscom.calculaterate.service.additional.DownloadTemplate;
 import com.uraltranscom.calculaterate.service.export.WriteToFileExcel;
 import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
 import com.uraltranscom.calculaterate.service.impl.GroupCalculateRate;
@@ -52,5 +53,11 @@ public class WebController {
     @RequestMapping(value = "/exportGroup")
     public void getGroupXLS(HttpServletResponse response) {
         WriteToFileExcel.downloadFileExcel(response, groupCalculateRate.getTotalListModels().getTotalModelList());
+    }
+
+    // Загрузка шаблона
+    @RequestMapping(value = "/downloadTemplate")
+    public void getTemplate(HttpServletResponse response) {
+        DownloadTemplate.getTemplateFile(response);
     }
 }

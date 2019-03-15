@@ -52,10 +52,14 @@ public class GetGroupListBasicDate {
                 for (int j = 0; j < 7; j++) {
                     String cellHeader = row.getCell(j).getStringCellValue().trim();
                     XSSFCell cell = xssfRow.getCell(j);
-                    if (cellHeader.equals("СТАНЦИЯ ОТПРАВЛЕНИЯ")) {
-                        stationFromName = cell.getStringCellValue();
+                    if (cellHeader.equals("Станция отправления")) {
+                        if (cell == null) {
+                            stationFromName = null;
+                        } else {
+                            stationFromName = cell.getStringCellValue();
+                        }
                     }
-                    if (cellHeader.equals("код ст отпр.")) {
+                    if (cellHeader.equals("Код ст. отпр.")) {
                         if (cell == null) {
                             stationFromId = null;
                         } else {
@@ -69,10 +73,14 @@ public class GetGroupListBasicDate {
                             }
                         }
                     }
-                    if (cellHeader.equals("СТАНЦИЯ НАЗНАЧЕНИЯ")) {
-                        stationToName = cell.getStringCellValue();
+                    if (cellHeader.equals("Станция назначения")) {
+                        if (cell == null) {
+                            stationToName = null;
+                        } else {
+                            stationToName = cell.getStringCellValue();
+                        }
                     }
-                    if (cellHeader.equals("код ст назн.")) {
+                    if (cellHeader.equals("Код ст. назн.")) {
                         if (cell == null) {
                             stationToId = null;
                         } else {
@@ -87,9 +95,13 @@ public class GetGroupListBasicDate {
                         }
                     }
                     if (cellHeader.equals("Груз")) {
-                        cargoName = cell.getStringCellValue();
+                        if (cell == null) {
+                            cargoName = null;
+                        } else {
+                            cargoName = cell.getStringCellValue();
+                        }
                     }
-                    if (cellHeader.equals("Код гр.")) {
+                    if (cellHeader.equals("Код груза")) {
                         if (cell == null) {
                             cargoId = null;
                         } else {

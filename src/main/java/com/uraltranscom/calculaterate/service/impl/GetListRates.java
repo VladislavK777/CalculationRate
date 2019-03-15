@@ -44,7 +44,6 @@ public class GetListRates {
     public Set<RatesList> getListRates(File file) {
         try {
             XSSFWorkbook xssfWorkbook = new XSSFWorkbook(file);
-
             XSSFSheet sheet = xssfWorkbook.getSheetAt(0);
             XSSFRow row = sheet.getRow(3);
             for (int i = 6; i < sheet.getLastRowNum() + 1; i++) {
