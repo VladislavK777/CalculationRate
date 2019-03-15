@@ -202,7 +202,7 @@ input.modeCalculate:checked[type="checkbox"]::before {
 .temp {
   position: absolute;
   margin: -10 0;
-  font-size: 14;
+  font-size: 13;
   color: #364274;
 }
 

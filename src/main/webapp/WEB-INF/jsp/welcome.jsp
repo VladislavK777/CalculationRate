@@ -156,6 +156,7 @@
               <input type="image" form="groupCalc" src="resources/img/excel.png" width="40px" height="40px" />
             </form>
           </td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
           <td>
             <form action="downloadTemplate" method="get" id="template">
               <input type="image" form="template" src="resources/img/excel.png" width="40px" height="40px" />
