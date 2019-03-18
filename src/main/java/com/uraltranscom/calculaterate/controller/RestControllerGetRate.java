@@ -6,6 +6,7 @@ import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.service.impl.CommonLogicClass;
 import com.uraltranscom.calculaterate.service.impl.GroupCalculateRate;
 import com.uraltranscom.calculaterate.util.CheckMandatoryParams;
+import com.uraltranscom.calculaterate.util.MultipartFileToFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class RestControllerGetRate {
 
     @PostMapping(value = "/group")
     public ResponseEntity<Object> totalGroupModel(@RequestBody CalcGroupRateBody object) {
-        groupCalculateRate.fetchGroupModels(object.getFile());
+        groupCalculateRate.fetchGroupModels(MultipartFileToFile.multipartToFile(object.getFile()));
         return new ResponseEntity<>(groupCalculateRate.getListError(), HttpStatus.OK);
     }
 }
