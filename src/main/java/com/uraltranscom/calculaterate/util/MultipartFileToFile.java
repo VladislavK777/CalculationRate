@@ -15,7 +15,6 @@ package com.uraltranscom.calculaterate.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,10 +23,22 @@ import java.io.IOException;
 
 public class MultipartFileToFile {
     private static Logger logger = LoggerFactory.getLogger(MultipartFileToFile.class);
-    public static File convertToFile;
+    private static File convertToFile;
 
     public static File multipartToFile(File file) {
-        convertToFile = new File(System.getProperty("java.io.tmpdir"), file.getName());
+        try {
+            convertToFile = new File(System.getProperty("java.io.tmpdir"), file.getName());
+            convertToFile.createNewFile();
+            FileInputStream fileInputStream = new FileInputStream(file);
+            try(FileOutputStream fileOutputStream = new FileOutputStream(convertToFile)) {
+                int c;
+                while((c = fileInputStream.read()) != -1){
+                    fileOutputStream.write((char) c);
+                }
+            }
+        } catch (IOException e) {
+            logger.error("Ошибка конвертации файла - {}", e.getMessage());
+        }
         return convertToFile;
     }
 }

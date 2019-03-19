@@ -1,4 +1,5 @@
 /*
+
 package com.uraltranscom.calculaterate.util;
 
 import org.junit.Test;
@@ -14,11 +15,12 @@ import java.io.File;
 
 public class MultipartFileToFileTest {
 
-    private File file = new File("/Macintosh HD/Пользователи/vladislavklockov/Рабочий стол/template.xlsx");
+    private File file = new File("C:\\Users\\Vladislav.Klochkov\\Desktop\\Пример.xlsx");
 
     @Test
     public void test() {
         MultipartFileToFile.multipartToFile(file);
     }
 }
+
 */
