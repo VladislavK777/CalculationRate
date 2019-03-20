@@ -60,59 +60,61 @@
     <div id="divMode1" class="divModeOff">
       <table>
         <tr>
-          <td>
-            <p class="inp">
-              <label>
-              <input type="text" autocomplete="off" id="stationFrom" placeholder="&nbsp;" name="station_from" onkeyup="search(this.id)"/>
-              <span class="label">Станция отправления</span>
-              <span class="border" />
-            </label>
-            </p>
-          </td>
-          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-          <td>
-            <p class="inp">
-              <label>
-              <input type="text" autocomplete="off" id="stationTo" placeholder="&nbsp;" name="station_to" onkeyup="search(this.id)" />
-              <span class="label">Станция назначения</span>
-              <span class="border" />
-            </label>
-            </p>
-          </td>
-          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-          <td>
-            <p class="inp">
-              <label>
-              <input type="text" autocomplete="off" id="cargo" placeholder="&nbsp;" name="cargo" onkeyup="search(this.id)" />
-              <span class="label">Груз</span>
-              <span class="border" />
-            </label>
-            </p>
-          </td>
-          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-          <td>
-            <p class="inp">
-              <label>
-              <input type="text" autocomplete="off" placeholder="&nbsp;" name="volume" />
-              <span class="label">Объем</span>
-              <span class="border" />
-            </label>
-            </p>
-          </td>
-          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-          <td>
-            <p class="inp_file">
-              <label>
-              <input type="file" name="ratesFile" multiple accept="xlsx" />
-              <span class="label">Файл ставок</span>
-              <span class="border" />
-            </label>
-            </p>
-          </td>
-          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-          <td>
-            <input type="button" onclick="calcRate()" class="bot1" value="Рассчитать ставку" />
-          </td>
+          <form enctype="multipart/form-data" method="post" id="calcRate">
+              <td>
+                <p class="inp">
+                  <label>
+                  <input type="text" autocomplete="off" id="stationFrom" placeholder="&nbsp;" name="stationFrom" onkeyup="search(this.id)"/>
+                  <span class="label">Станция отправления</span>
+                  <span class="border" />
+                </label>
+                </p>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                <p class="inp">
+                  <label>
+                  <input type="text" autocomplete="off" id="stationTo" placeholder="&nbsp;" name="stationTo" onkeyup="search(this.id)" />
+                  <span class="label">Станция назначения</span>
+                  <span class="border" />
+                </label>
+                </p>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                <p class="inp">
+                  <label>
+                  <input type="text" autocomplete="off" id="cargo" placeholder="&nbsp;" name="cargo" onkeyup="search(this.id)" />
+                  <span class="label">Груз</span>
+                  <span class="border" />
+                </label>
+                </p>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                <p class="inp">
+                  <label>
+                  <input type="text" autocomplete="off" placeholder="&nbsp;" name="volume" />
+                  <span class="label">Объем</span>
+                  <span class="border" />
+                </label>
+                </p>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                <p class="inp_file">
+                  <label>
+                  <input type="file" name="ratesFile" accept="xlsx" />
+                  <span class="label">Файл ставок</span>
+                  <span class="border" />
+                </label>
+                </p>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                <input type="button" onclick="calcRate(event)" class="bot1" value="Рассчитать ставку" />
+              </td>
+          </form>
           <td>
             <input type="button" onclick="reload()" class="bot1" value="Сбросить" />
           </td>
@@ -135,19 +137,21 @@
     <div id="divMode2" class="divModeOff">
       <table>
         <tr>
-          <td>
-            <p class="inp_file">
-              <label>
-                  <input type="file" name="ratesGroupFile" multiple accept="xlsx" />
-                  <span class="label">Файл ставок</span>
-                  <span class="border" />
-                </label>
-            </p>
-          </td>
-          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-          <td>
-            <input type="button" onclick="calcGroupRate()" class="bot1" value="Рассчитать ставки" />
-          </td>
+          <form enctype="multipart/form-data" method="post" id="groupCalcRate">
+              <td>
+                <p class="inp_file">
+                  <label>
+                      <input type="file" name="ratesGroupFile" accept="xlsx" />
+                      <span class="label">Файл ставок</span>
+                      <span class="border" />
+                    </label>
+                </p>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                <input type="button" onclick="calcGroupRate(event)" class="bot1" value="Рассчитать ставки" />
+              </td>
+          </form>
           <td>
             <input type="button" onclick="reload()" class="bot1" value="Сбросить" />
           </td>
