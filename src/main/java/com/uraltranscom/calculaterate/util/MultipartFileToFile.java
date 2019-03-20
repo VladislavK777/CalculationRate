@@ -24,10 +24,21 @@ import java.io.IOException;
 
 public class MultipartFileToFile {
     private static Logger logger = LoggerFactory.getLogger(MultipartFileToFile.class);
-    public static File convertToFile;
+    private static File convertToFile;
 
-    public static File multipartToFile(File file) {
-        convertToFile = new File(System.getProperty("java.io.tmpdir"), file.getName());
+    public static File multipartToFile(MultipartFile file) {
+        try {
+            if (CheckEmptyParamConvertNull.checkEmptyParamConvert(file.getOriginalFilename()) == null) {
+                return null;
+            }
+            convertToFile = new File(System.getProperty("java.io.tmpdir"), file.getOriginalFilename());
+            convertToFile.createNewFile();
+            try(FileOutputStream fileOutputStream = new FileOutputStream(convertToFile)) {
+                fileOutputStream.write(file.getBytes());
+            }
+        } catch (IOException e) {
+            logger.error("Ошибка конвертации файла - {}", e.getMessage());
+        }
         return convertToFile;
     }
 }

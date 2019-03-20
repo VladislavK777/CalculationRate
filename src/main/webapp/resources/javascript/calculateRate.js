@@ -1,28 +1,18 @@
 function calcRate() {
   const volumeSet = ["114", "120", "122", "138", "140", "150", "158", "161"];
-  var stationFrom = checkEmpty($('input[name="station_from"]').val());
-  var stationTo = checkEmpty($('input[name="station_to"]').val());
-  var cargo = checkEmpty($('input[name="cargo"]').val());
-  var volume = checkEmpty($('input[name="volume"]').val());
+  var volume = $('input[name="volume"]').val();
   if (volumeSet.indexOf(volume) == -1) {
     alert("Некорректный объем, должен быть: " + volumeSet);
   } else {
-    var file = $('input[name="ratesFile"]')
-      .val()
-      .split("\\")
-      .pop();
+    var form = $('#calcRate')[0];
+    var data = new FormData(form);
     $.ajax({
       url: "rate/info",
-      datatype: "json",
       type: "post",
-      contentType: "application/json",
-      data: JSON.stringify({
-        stationFrom: stationFrom,
-        stationTo: stationTo,
-        cargo: cargo,
-        volume: volume,
-        file: file
-      }),
+      data: data,
+      processData: false,
+      contentType: false,
+      cache: false,
       success: function(response) {
         $table = $('<table class="table_calculate">');
         $head1 = $("<tr>").append(
@@ -168,19 +158,23 @@ function calcRate() {
   }
 }
 
-function calcGroupRate() {
+function calcGroupRate(event) {
+  event.preventDefault();
   var file = checkEmpty($('input[name="ratesGroupFile"]')
       .val()
       .split("\\")
       .pop());
   if (file != null) {
       lockScreen();
+      var form = $('#groupCalcRate')[0];
+      var data = new FormData(form);
       $.ajax({
         url: "rate/group",
-        datatype: "json",
         type: "post",
-        contentType: "application/json",
-        data: JSON.stringify({ file: file }),
+        data: data,
+        processData: false,
+        contentType: false,
+        cache: false,
         success: function(response) {
           var lock = $('#lockPane').toggleClass("lockScreenOn lockScreenOff");
           $table = $("<table>");
