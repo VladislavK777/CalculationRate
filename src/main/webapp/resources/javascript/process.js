@@ -725,6 +725,7 @@ function switchMode(id) {
       divMode1.className = "divModeOn";
       divMode2.className = "divModeOff";
    }
+   reload();
 }
 
 function switchModeNoClick(bool) {
