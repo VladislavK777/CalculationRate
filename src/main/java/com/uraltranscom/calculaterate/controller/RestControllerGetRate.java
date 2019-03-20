@@ -15,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-
 import static com.uraltranscom.calculaterate.util.ParserInputName.getId;
 
 /**
@@ -37,7 +35,7 @@ public class RestControllerGetRate {
     private GroupCalculateRate groupCalculateRate;
 
     @PostMapping(value = "/info")
-    public ResponseEntity<Object> totalModel(@RequestParam("stationFrom") String stationFrom,
+    public ResponseEntity<?> totalModel(@RequestParam("stationFrom") String stationFrom,
                                              @RequestParam("stationTo") String stationTo,
                                              @RequestParam("cargo") String cargo,
                                              @RequestParam("volume") int volume,
@@ -63,7 +61,7 @@ public class RestControllerGetRate {
     }
 
     @PostMapping(value = "/group")
-    public ResponseEntity<Object> totalGroupModel(@RequestParam("ratesGroupFile") MultipartFile file) {
+    public ResponseEntity<?> totalGroupModel(@RequestParam("ratesGroupFile") MultipartFile file) {
         groupCalculateRate.fetchGroupModels(MultipartFileToFile.multipartToFile(file));
         return new ResponseEntity<>(groupCalculateRate.getListError(), HttpStatus.OK);
     }

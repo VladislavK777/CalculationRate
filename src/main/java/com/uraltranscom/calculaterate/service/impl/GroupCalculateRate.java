@@ -33,11 +33,12 @@ public class GroupCalculateRate {
     private GetTotalModelDAO getTotalModelDAO;
     private TotalListModels totalListModels = new TotalListModels(new ArrayList<>());
     private List<String> listError = new ArrayList<>();
+    private List<GroupListBasicDate> list;
 
     public void fetchGroupModels(File file) {
         logger.info("start fetchGroupModels");
         long timeStart = System.currentTimeMillis();
-        List<GroupListBasicDate> list = getGroupListBasicDate.getGroupListBasicDateFromFile(file);
+        list = getGroupListBasicDate.getGroupListBasicDateFromFile(file);
         clearArrays();
         for (GroupListBasicDate groupListBasicDate : list) {
             Object object = getTotalModelDAO.getObject(PrepareMapParams.prepareMapWithParams(
@@ -64,7 +65,11 @@ public class GroupCalculateRate {
             }
         }
         if (listError.isEmpty()) {
-            listError.add("Нет ошибок.");
+            if (list.isEmpty()) {
+                listError.add("Файл пустой.");
+            } else {
+                listError.add("Нет ошибок.");
+            }
         }
         long timeEnd = (System.currentTimeMillis() - timeStart);
         logger.info("finish fetchGroupModels. Work time: {} ms", timeEnd);

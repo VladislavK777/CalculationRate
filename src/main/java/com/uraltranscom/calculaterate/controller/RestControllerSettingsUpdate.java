@@ -82,7 +82,7 @@ public class RestControllerSettingsUpdate {
     }
 
     @PutMapping("/updateReturnStation")
-    public ResponseEntity<Conflict> updateReturnStation(@RequestBody SettingReturnStations settingReturnStations) {
+    public ResponseEntity<?> updateReturnStation(@RequestBody SettingReturnStations settingReturnStations) {
         Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnStations, "namesRoad", "volumeGroupsString", "idStationReturn");
         if (conflict == null) {
             updateSettingReturnStationsDAO.updateObject(
@@ -103,7 +103,7 @@ public class RestControllerSettingsUpdate {
     }
 
     @PutMapping("/updateReturnException")
-    public ResponseEntity<Conflict> updateReturnException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
+    public ResponseEntity<?> updateReturnException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
         Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
         if (conflict == null) {
             updateSettingReturnExceptionsDAO.updateObject(
@@ -132,7 +132,7 @@ public class RestControllerSettingsUpdate {
     }
 
     @PutMapping("/updateBeginningException")
-    public ResponseEntity<Conflict> updateBeginningException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
+    public ResponseEntity<?> updateBeginningException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
         Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
         if (conflict == null) {
             updateSettingBeginningExceptionsDAO.updateObject(

@@ -44,7 +44,7 @@ public class RestControllerSettingsInsert {
     private CloneBeginningExceptionDAO cloneBeginningExceptionDAO;
 
     @PostMapping("/addReturnStation")
-    public ResponseEntity<Conflict> addReturnStation(@RequestBody SettingReturnStations settingReturnStations) {
+    public ResponseEntity<?> addReturnStation(@RequestBody SettingReturnStations settingReturnStations) {
         Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnStations, "namesRoad", "volumeGroupsString", "idStationReturn");
         if (conflict == null) {
             conflict = (Conflict) insertSettingReturnStationsDAO.insertObject(
@@ -68,7 +68,7 @@ public class RestControllerSettingsInsert {
     }
 
     @PostMapping("/addReturnException")
-    public ResponseEntity<Conflict> addReturnException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
+    public ResponseEntity<?> addReturnException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
         Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
         if (conflict == null) {
             conflict = (Conflict) insertSettingReturnExceptionsDAO.insertObject(
@@ -100,7 +100,7 @@ public class RestControllerSettingsInsert {
     }
 
     @PostMapping("/addBeginningException")
-    public ResponseEntity<Conflict> addBeginningException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
+    public ResponseEntity<?> addBeginningException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
         Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
         if (conflict == null) {
             conflict = (Conflict) insertSettingBeginningExceptionsDAO.insertObject(
