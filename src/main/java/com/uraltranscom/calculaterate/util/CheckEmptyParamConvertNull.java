@@ -12,7 +12,6 @@ public class CheckEmptyParamConvertNull {
     private static Logger logger = LoggerFactory.getLogger(CheckEmptyParamConvertNull.class);
 
     public static Object checkEmptyParamConvert(Object o) {
-        logger.info("o: {}", o);
         return o.equals("") ? null : o;
     }
 }

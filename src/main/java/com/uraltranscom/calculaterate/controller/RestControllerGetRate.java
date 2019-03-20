@@ -49,7 +49,6 @@ public class RestControllerGetRate {
                 volume,
                 MultipartFileToFile.multipartToFile(file)
         );
-        logger.info(object.toString());
         Conflict conflict = CheckMandatoryParams.checkMandatoryParams(object, "stationFrom", "stationTo", "cargo", "volume");
         if (conflict == null) {
             commonLogicClass.startLogic(getId(object.getStationFrom()), getId(object.getStationTo()), getId(object.getCargo()), object.getVolume(), object.getFile());
