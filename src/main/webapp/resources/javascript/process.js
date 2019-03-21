@@ -725,7 +725,11 @@ function switchMode(id) {
       divMode1.className = "divModeOn";
       divMode2.className = "divModeOff";
    }
-   reload();
+   /*var div = document.getElementById("total");
+   for (var i = 0; i < div.childNodes.length; i++) {
+   console.log(div);
+      div.removeChild(div.childNodes[i]);
+   }*/
 }
 
 function switchModeNoClick(bool) {

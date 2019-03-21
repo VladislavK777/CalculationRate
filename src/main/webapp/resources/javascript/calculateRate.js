@@ -177,6 +177,7 @@ function calcGroupRate(event) {
         cache: false,
         success: function(response) {
           var lock = $('#lockPane').toggleClass("lockScreenOn lockScreenOff");
+          $('body').removeClass('stop-scrolling');
           $table = $("<table>");
           for (var i in response) {
             $content = $("<tr>").append(
