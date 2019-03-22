@@ -71,7 +71,7 @@
                 <tr id="contReturnStation${setting.getId()}">
                   <input id="idReturnStation" value='${setting.getId()}' type="hidden" />
                   <td>
-                    <div class="col-3"><input class="effect-1__roads" type="text" autocomplete="off" id="roadReturnStation" value='${total.key}' />
+                    <div class="col-3"><input class="effect-1__roads" type="text" readonly autocomplete="off" id="roadReturnStation" value='${total.key}' />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
@@ -137,7 +137,7 @@
                 <tr id="contReturnException${setting.getId()}">
                   <input id="idReturnException" value='${setting.getId()}' type="hidden" />
                   <td>
-                    <div class="col-3"><input class="effect-1__roads" type="text" autocomplete="off" id="roadReturnException" value='${total.key}' />
+                    <div class="col-3"><input class="effect-1__roads" type="text" readonly autocomplete="off" id="roadReturnException" value='${total.key}' />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
@@ -240,7 +240,7 @@
                 <tr id="contBeginningException${setting.getId()}">
                   <input id="idBeginningException" value='${setting.getId()}' type="hidden" />
                   <td>
-                    <div class="col-3"><input class="effect-1__roads" type="text" autocomplete="off" id="roadBeginningException" value='${total.key}' />
+                    <div class="col-3"><input class="effect-1__roads" type="text" readonly autocomplete="off" id="roadBeginningException" value='${total.key}' />
                       <span class="focus-border"></span></div>
                   </td>
                   <td>
