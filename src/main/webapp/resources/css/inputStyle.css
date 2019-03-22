@@ -58,6 +58,7 @@ input[type="file"] {
   width: 100%;
   max-width: 280px;
 }
+
 .inp .label {
   position: absolute;
   top: 16px;
@@ -68,6 +69,7 @@ input[type="file"] {
   transform-origin: 0 0;
   transition: all 0.2s ease;
 }
+
 .inp .border {
   position: absolute;
   bottom: 0;
@@ -79,6 +81,7 @@ input[type="file"] {
   transform-origin: 0 0;
   transition: all 0.15s ease;
 }
+
 .inp input {
   -webkit-appearance: none;
   width: 100%;
@@ -94,21 +97,26 @@ input[type="file"] {
   color: #223254;
   transition: all 0.15s ease;
 }
+
 .inp input:hover {
   background: rgba(34, 50, 84, 0.03);
 }
+
 .inp input:not(:placeholder-shown) + span {
   color: #5a667f;
   transform: translateY(-26px) scale(0.75);
 }
+
 .inp input:focus {
   background: none;
   outline: none;
 }
+
 .inp input:focus + span {
   color: #364274;
   transform: translateY(-26px) scale(0.75);
 }
+
 .inp input:focus + span + .border {
   transform: scaleX(1);
 }
@@ -119,6 +127,7 @@ input[type="file"] {
   width: 100%;
   max-width: 280px;
 }
+
 .inp_file .label {
   position: absolute;
   top: 16px;
@@ -129,6 +138,7 @@ input[type="file"] {
   transform-origin: 0 0;
   transition: all 0.2s ease;
 }
+
 .inp_file .border {
   position: absolute;
   bottom: 0;
@@ -140,6 +150,7 @@ input[type="file"] {
   transform-origin: 0 0;
   transition: all 0.15s ease;
 }
+
 .inp_file input {
   -webkit-appearance: none;
   width: 100%;
@@ -155,34 +166,39 @@ input[type="file"] {
   color: #223254;
   transition: all 0.15s ease;
 }
+
 .inp_file input:hover {
   background: rgba(34, 50, 84, 0.03);
 }
+
 .inp_file input:not(:placeholder-shown) + span {
   color: #5a667f;
   transform: translateY(-26px) scale(0.75);
 }
+
 .inp_file input:focus {
   background: none;
   outline: none;
 }
+
 .inp_file input:focus + span {
   color: #364274;
   transform: translateY(-26px) scale(0.75);
 }
+
 .inp_file input:focus + span + .border {
   transform: scaleX(1);
 }
 
 #tooltip {
-    z-index: 9999;
-	position: fixed;
-	display: none;
-	top:0px;
-	left:0px;
-	background-color: #000;
-	padding: 5px 10px 5px 10px;
-	color: white;
-	opacity: 0.6;
-	border-radius: 5px;
+  z-index: 9999;
+  position: fixed;
+  display: none;
+  top:0px;
+  left:0px;
+  background-color: #000;
+  padding: 5px 10px 5px 10px;
+  color: white;
+  opacity: 0.6;
+  border-radius: 5px;
 }

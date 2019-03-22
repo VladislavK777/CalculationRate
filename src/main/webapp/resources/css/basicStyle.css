@@ -305,18 +305,18 @@ input.modeCalculate:checked[type="checkbox"]::before {
   }
 
   .form_auth {
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1;
-      padding: 20px 20px;
-      background: #ffffff;
-      border: 1px solid #666666;
-      border-radius: 20px;
-      box-shadow: 0 0 3px rgba(0, 0, 0, 0.9);
-      font-size: 12px;
-    }
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    padding: 20px 20px;
+    background: #ffffff;
+    border: 1px solid #666666;
+    border-radius: 20px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.9);
+    font-size: 12px;
+  }
 
   .bot1 {
     background-color: #ffffff;
