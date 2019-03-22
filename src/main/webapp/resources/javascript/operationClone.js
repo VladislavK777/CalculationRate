@@ -35,7 +35,8 @@ function cloneFieldReturnStation(id) {
           response.namesRoad,
           roadsList,
           true,
-          "__form_roads"
+          "__form_roads",
+          true
         )
       );
       tr1.appendChild(td11);
@@ -149,7 +150,8 @@ function cloneFieldReturnException(id) {
           response.namesRoad,
           roadsList,
           true,
-          "__form_roads"
+          "__form_roads",
+          true
         )
       );
       var td12 = document.createElement("td");
@@ -324,7 +326,8 @@ function cloneFieldBeginningException(id) {
           response.namesRoad,
           roadsList,
           true,
-          "__form_roads"
+          "__form_roads",
+          true
         )
       );
       var td12 = document.createElement("td");

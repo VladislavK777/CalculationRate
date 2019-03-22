@@ -98,6 +98,16 @@ function hiddenList() {
   datalist.parentNode.removeChild(datalist);
 }
 
+/* Функция создания инпута. Параметры:
+id - id инпута,
+name - name инпута,
+isCallSearch - режим автопоиска,
+defaultText - текс инпута,
+defaultListText - массив для автопоиска,
+selectList - список из чекбоксов,
+marker - разделитель для классов,
+readonly - только чтение
+*/
 function createInput(
   id,
   name,
@@ -105,7 +115,8 @@ function createInput(
   defaultText,
   defaultListText,
   selectList,
-  marker
+  marker,
+  readonly
 ) {
   var p = document.createElement("p");
   p.className = "inp";
@@ -113,6 +124,7 @@ function createInput(
   var input = document.createElement("input");
   input.value = typeof defaultText == "undefined" ? "" : defaultText;
   input.type = "text";
+  input.readOnly = typeof readonly == "undefined" ? false : readonly;
   input.id = id;
   input.setAttribute("autocomplete", "off");
   input.placeholder = "\xa0";
@@ -187,7 +199,7 @@ function createField(id) {
     var tr1 = document.createElement("tr");
     var td11 = document.createElement("td");
     td11.appendChild(
-      createInput("road", "Дорога", false, "", roadsList, true, "__form_roads")
+      createInput("road", "Дорога", false, "", roadsList, true, "__form_roads", true)
     );
     tr1.appendChild(td11);
     table.appendChild(tr1);
@@ -228,7 +240,7 @@ function createField(id) {
     var tr1 = document.createElement("tr");
     var td11 = document.createElement("td");
     td11.appendChild(
-      createInput("road", "Дорога", false, "", roadsList, true, "__form_roads")
+      createInput("road", "Дорога", false, "", roadsList, true, "__form_roads", true)
     );
     var td12 = document.createElement("td");
     td12.appendChild(createInput("stationList", "Список станций", false));
