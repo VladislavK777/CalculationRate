@@ -740,11 +740,11 @@ function switchMode(id) {
       divMode1.className = "divModeOn";
       divMode2.className = "divModeOff";
    }
-   /*var div = document.getElementById("total");
-   for (var i = 0; i < div.childNodes.length; i++) {
-   console.log(div);
-      div.removeChild(div.childNodes[i]);
-   }*/
+   var div = document.getElementById("total");
+   var length = div.childNodes.length;
+   for (var i = 0; i < length; i++) {
+     div.removeChild(div.childNodes[0]);
+   }
 }
 
 function switchModeNoClick(bool) {
