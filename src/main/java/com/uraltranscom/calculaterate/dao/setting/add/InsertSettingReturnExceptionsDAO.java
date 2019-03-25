@@ -21,7 +21,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class InsertSettingReturnExceptionsDAO {
     private static Logger logger = LoggerFactory.getLogger(InsertSettingReturnExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_return_exception(?,?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
+    private static final String SQL_CALL_NAME = " { call test_setting.insert_setting_return_exception(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;
