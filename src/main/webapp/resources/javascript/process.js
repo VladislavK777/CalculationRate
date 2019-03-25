@@ -316,7 +316,10 @@ function createField(id) {
     var tr5 = document.createElement("tr");
     var td51 = document.createElement("td");
     td51.appendChild(createInput("tariff", "Тариф", false, "0"));
+    var td52 = document.createElement("td");
+    td52.appendChild(createInput("num", "Порядок", false, "1"));
     tr5.appendChild(td51);
+    tr5.appendChild(td52);
     table.appendChild(tr5);
     button.addEventListener("click", function() {
       addException(context.parentNode.id);
@@ -737,11 +740,11 @@ function switchMode(id) {
       divMode1.className = "divModeOn";
       divMode2.className = "divModeOff";
    }
-   /*var div = document.getElementById("total");
-   for (var i = 0; i < div.childNodes.length; i++) {
-   console.log(div);
-      div.removeChild(div.childNodes[i]);
-   }*/
+   var div = document.getElementById("total");
+   var length = div.childNodes.length;
+   for (var i = 0; i < length; i++) {
+     div.removeChild(div.childNodes[0]);
+   }
 }
 
 function switchModeNoClick(bool) {

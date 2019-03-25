@@ -47,6 +47,7 @@ function addException(id) {
     request = "/addReturnException";
   }
   var context = document.getElementById(id);
+  var num = checkEmpty(context.querySelector("#num").value);
   var namesRoad = checkEmpty(context.querySelector("#road").value);
   var idsStationString = context.querySelector("#stationList").value;
   var volumeGroup = checkEmpty(context.querySelector("#volume").value);
@@ -115,6 +116,7 @@ function addException(id) {
   var idsDepartmentArray = array != null ? array[0] : null,
     namesDepartmentArray = array != null ? array[1] : null;
   var json = JSON.stringify({
+    num: num,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
     idsDepartment: idsDepartmentArray,

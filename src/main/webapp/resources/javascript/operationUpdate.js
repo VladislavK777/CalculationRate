@@ -47,6 +47,7 @@ function updateFieldBeginningException(id) {
   var cargo;
   var context = document.getElementById(id);
   var ide = context.querySelector("#idBeginningException").value;
+  var num = context.querySelector("#idNumBeginningException").value;
   var namesRoad = checkEmpty(
     context.querySelector("#roadBeginningException").value
   );
@@ -130,6 +131,7 @@ function updateFieldBeginningException(id) {
     namesDepartmentArray = array != null ? array[1] : null;
   var json = JSON.stringify({
     id: ide,
+    num: num,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
     idsDepartment: idsDepartmentArray,
@@ -156,6 +158,7 @@ function updateFieldReturnException(id) {
   var cargo;
   var context = document.getElementById(id);
   var ide = context.querySelector("#idReturnException").value;
+  var num = context.querySelector("#idNumReturnException").value;
   var namesRoad = checkEmpty(
     context.querySelector("#roadReturnException").value
   );
@@ -239,6 +242,7 @@ function updateFieldReturnException(id) {
     namesDepartmentArray = array != null ? array[1] : null;
   var json = JSON.stringify({
     id: ide,
+    num: num,
     namesRoad: namesRoad,
     idsStationString: idsStationString,
     idsDepartment: idsDepartmentArray,

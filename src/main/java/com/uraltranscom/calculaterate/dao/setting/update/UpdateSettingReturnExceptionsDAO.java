@@ -23,7 +23,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class UpdateSettingReturnExceptionsDAO {
     private static Logger logger = LoggerFactory.getLogger(UpdateSettingReturnExceptionsDAO.class);
-    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_return_exception(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
+    private static final String SQL_CALL_NAME = " { call test_setting.update_setting_return_exception(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) } ";
 
     @Autowired
     private ConnectionDB connectionDB;

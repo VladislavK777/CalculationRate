@@ -265,7 +265,10 @@ function cloneFieldReturnException(id) {
       var tr5 = document.createElement("tr");
       var td51 = document.createElement("td");
       td51.appendChild(createInput("tariff", "Тариф", false, response.tariff));
+      var td52 = document.createElement("td");
+      td52.appendChild(createInput("num", "Порядок", false, response.num));
       tr5.appendChild(td51);
+      tr5.appendChild(td52);
       table.appendChild(tr5);
       button.addEventListener("click", function() {
         addException(context.parentNode.parentNode.parentNode.id);
@@ -441,7 +444,10 @@ function cloneFieldBeginningException(id) {
       var tr5 = document.createElement("tr");
       var td51 = document.createElement("td");
       td51.appendChild(createInput("tariff", "Тариф", false, response.tariff));
+      var td52 = document.createElement("td");
+      td52.appendChild(createInput("num", "Порядок", false, response.num));
       tr5.appendChild(td51);
+      tr5.appendChild(td52);
       table.appendChild(tr5);
       button.addEventListener("click", function() {
         addException(context.parentNode.parentNode.parentNode.id);

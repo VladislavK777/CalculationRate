@@ -118,6 +118,7 @@
         <table class="table_report">
           <tbody>
             <tr>
+              <th>Порядок</th>
               <th>Дорога</th>
               <th>Список станций(исключения на...)</th>
               <th>Отделение(исключения на...)</th>
@@ -136,6 +137,9 @@
               <c:forEach items="${total.value}" var="setting">
                 <tr id="contReturnException${setting.getId()}">
                   <input id="idReturnException" value='${setting.getId()}' type="hidden" />
+                  <td>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="idNumReturnException" value='${setting.getNum()}' /><span class="focus-border"></span></div>
+                  </td>
                   <td>
                     <div class="col-3"><input class="effect-1__roads" type="text" readonly autocomplete="off" id="roadReturnException" value='${total.key}' />
                       <span class="focus-border"></span></div>
@@ -221,6 +225,7 @@
         <table class="table_report">
           <tbody>
             <tr>
+              <th>Порядок</th>
               <th>Дорога</th>
               <th>Список станций(исключения на...)</th>
               <th>Отделение(исключения на...)</th>
@@ -239,6 +244,9 @@
               <c:forEach items="${total.value}" var="setting">
                 <tr id="contBeginningException${setting.getId()}">
                   <input id="idBeginningException" value='${setting.getId()}' type="hidden" />
+                  <td>
+                    <div class="col-3"><input class="effect-1" type="text" autocomplete="off" id="idNumBeginningException" value='${setting.getNum()}' /><span class="focus-border"></span></div>
+                  </td>
                   <td>
                     <div class="col-3"><input class="effect-1__roads" type="text" readonly autocomplete="off" id="roadBeginningException" value='${total.key}' />
                       <span class="focus-border"></span></div>

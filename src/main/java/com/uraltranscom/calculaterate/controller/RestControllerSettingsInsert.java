@@ -69,10 +69,11 @@ public class RestControllerSettingsInsert {
 
     @PostMapping("/addReturnException")
     public ResponseEntity<?> addReturnException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
+        Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "num", "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
         if (conflict == null) {
             conflict = (Conflict) insertSettingReturnExceptionsDAO.insertObject(
                     PrepareMapParams.prepareMapWithParams(
+                            settingReturnExceptions.getNum(),
                             settingReturnExceptions.getNamesRoad(),
                             settingReturnExceptions.getIdsStationString(),
                             settingReturnExceptions.getIdsDepartment(),
@@ -101,10 +102,11 @@ public class RestControllerSettingsInsert {
 
     @PostMapping("/addBeginningException")
     public ResponseEntity<?> addBeginningException(@RequestBody SettingReturnExceptions settingReturnExceptions) {
-        Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
+        Conflict conflict = CheckMandatoryParams.checkMandatoryParams(settingReturnExceptions, "num", "namesRoad", "volumeGroupsString", "stationFrom", "stationTo", "cargo", "cargoTypeString", "routeType", "distance", "rate", "tariff");
         if (conflict == null) {
             conflict = (Conflict) insertSettingBeginningExceptionsDAO.insertObject(
                     PrepareMapParams.prepareMapWithParams(
+                            settingReturnExceptions.getNum(),
                             settingReturnExceptions.getNamesRoad(),
                             settingReturnExceptions.getIdsStationString(),
                             settingReturnExceptions.getIdsDepartment(),
