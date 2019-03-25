@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * @author vladislav.klochkov
- * @project CalculationRate_1.0
+ * @author Vladislav Klochkov
+ * @project CalculationRate
  * @date 14.01.2019
  */
 

@@ -28,16 +28,9 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- *
- * Класс записи в файл Excel
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 25.01.2019
- *
- * 25.01.2019
- *   1. Версия 1.0
- *
  */
 
 

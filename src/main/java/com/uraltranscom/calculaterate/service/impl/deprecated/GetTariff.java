@@ -2,6 +2,7 @@ package com.uraltranscom.calculaterate.service.impl.deprecated;
 
 /**
  * @author Vladislav Klochkov
+ * @project CalculationRate
  * @create 2019-01-01
  */
 /*

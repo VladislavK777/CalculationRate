@@ -3,6 +3,7 @@ package com.uraltranscom.calculaterate.dao;
 import com.uraltranscom.calculaterate.configuration.AppConfig;
 import com.uraltranscom.calculaterate.configuration.AppInit;
 import com.uraltranscom.calculaterate.configuration.DBConfig;
+import com.uraltranscom.calculaterate.dao.model.GetTotalModelDAO;
 import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.model_ex.TotalModel;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;

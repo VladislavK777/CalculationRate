@@ -3,16 +3,9 @@ package com.uraltranscom.calculaterate.model.route;
 import lombok.Getter;
 
 /**
- *
- * Типы рейсов
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 24.12.2018
- *
- * 24.12.2018
- *   1. Версия 1.0
- *
  */
 
 @Getter

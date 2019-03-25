@@ -2,18 +2,9 @@ package com.uraltranscom.calculaterate.dao.deprecated;
 
 
 /**
- *
- * Класс получения ставки
- *
  * @author Vladislav Klochkov
- * @version 2.0
+ * @project CalculationRate
  * @create 26.07.2018
- *
- * 26.07.2018
- *   1. Версия 1.0
- * 12.10.2018
- *   1. Версия 2.0
- *
  */
 
 /*

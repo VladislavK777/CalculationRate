@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 
 /**
- * @author Vladislav.Klochkov
+ * @author Vladislav Klochkov
  * @project CalculationRate
  * @date 10.03.2019
  */

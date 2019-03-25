@@ -1,6 +1,6 @@
 package com.uraltranscom.calculaterate.service.impl;
 
-import com.uraltranscom.calculaterate.dao.GetTotalModelDAO;
+import com.uraltranscom.calculaterate.dao.model.GetTotalModelDAO;
 import com.uraltranscom.calculaterate.model.GroupListBasicDate;
 import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.model_ex.TotalListModels;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Vladislav.Klochkov
+ * @author Vladislav Klochkov
  * @project CalculationRate
  * @date 05.03.2019
  */

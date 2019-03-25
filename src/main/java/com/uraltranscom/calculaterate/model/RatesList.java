@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * @author vladislav.klochkov
- * @project CalculationRate_1.0
+ * @author Vladislav Klochkov
+ * @project CalculationRate
  * @date 29.01.2019
  */
 

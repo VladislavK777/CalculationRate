@@ -15,16 +15,9 @@ import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.KeySpec;
 
 /**
- *
- * Класс для шифрование/дешифрования ключа(используется алгорит "PBEWithMD5AndDES")
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 19.07.2018
- *
- * 19.07.2018
- *   1. Версия 1.0
- *
  */
 
 public final class KeyMaster {

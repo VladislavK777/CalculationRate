@@ -19,8 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author vladislav.klochkov
- * @project CalculationRate_1.0
+ * @author Vladislav Klochkov
+ * @project CalculationRate
  * @date 16.01.2019
  */
 

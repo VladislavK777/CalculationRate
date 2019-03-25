@@ -14,16 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
 /**
- *
- * Контроллер
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 21.12.2018
- *
- * 21.12.2018
- *   1. Версия 1.0
- *
  */
 
 @org.springframework.stereotype.Controller
@@ -37,6 +30,7 @@ public class WebController {
 
     @RequestMapping(value = "/")
     public String home(Model model, Principal principal) {
+        //TODO раскомментить для авторизации
         //model.addAttribute("user", principal.getName());
         //model.addAttribute("role", SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
         commonLogicClass.getTotalListModels().clear();

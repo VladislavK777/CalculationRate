@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import java.io.File;
 
 /**
- * @author vladislav.klochkov
- * @project CalculationRate_1.0
+ * @author Vladislav Klochkov
+ * @project CalculationRate
  * @date 15.01.2019
  */
 

@@ -3,6 +3,7 @@ package com.uraltranscom.calculaterate.dao;
 import com.uraltranscom.calculaterate.configuration.AppConfig;
 import com.uraltranscom.calculaterate.configuration.AppInit;
 import com.uraltranscom.calculaterate.configuration.DBConfig;
+import com.uraltranscom.calculaterate.dao.model.GetCountryStationDAO;
 import com.uraltranscom.calculaterate.util.PrepareMapParams;
 import org.junit.Assert;
 import org.junit.Test;

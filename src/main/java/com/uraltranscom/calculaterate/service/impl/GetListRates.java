@@ -21,16 +21,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- *
- * Получени списка ставок из файла
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 29.01.2019
- *
- * 29.01.2019
- *   1. Версия 1.0
- *
  */
 
 @Component

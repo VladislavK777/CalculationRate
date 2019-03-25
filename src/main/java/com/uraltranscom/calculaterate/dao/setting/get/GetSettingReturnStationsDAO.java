@@ -13,8 +13,8 @@ import java.sql.*;
 import java.util.*;
 
 /**
- * @author vladislav.klochkov
- * @project CalculationRate_1.0
+ * @author Vladislav Klochkov
+ * @project CalculationRate
  * @date 09.01.2019
  */
 

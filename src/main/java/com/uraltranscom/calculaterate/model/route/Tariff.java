@@ -5,6 +5,7 @@ import lombok.*;
 
 /**
  * @author Vladislav Klochkov
+ * @project CalculationRate
  * @create 2018-12-27
  */
 

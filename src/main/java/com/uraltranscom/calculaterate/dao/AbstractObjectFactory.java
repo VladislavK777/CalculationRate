@@ -6,6 +6,7 @@ import java.util.Map;
 
 /**
  * @author Vladislav Klochkov
+ * @project CalculationRate
  * @create 2018-12-25
  */
 

@@ -1,4 +1,4 @@
-package com.uraltranscom.calculaterate.dao;
+package com.uraltranscom.calculaterate.dao.model;
 
 import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.model.route.Cargo;
@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @author vladislav.klochkov
- * @project CalculationRate_1.0
+ * @author Vladislav Klochkov
+ * @project CalculationRate
  * @date 13.01.2019
  */
 
