@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Vladislav Klochkov
+ * @project CalculationRate
  * @create 2019-03-20
  */
 

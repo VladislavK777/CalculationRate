@@ -1,8 +1,8 @@
 package com.uraltranscom.calculaterate.dao.deprecated;
 
 /**
- * @author vladislav.klochkov
- * @project CalculationRate_1.0
+ * @author Vladislav Klochkov
+ * @project CalculationRate
  * @date 30.12.2018
  */
 

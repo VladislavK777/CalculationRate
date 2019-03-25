@@ -13,16 +13,9 @@ import org.springframework.beans.factory.InitializingBean;
 import java.lang.reflect.Field;
 
 /**
- *
- * Все настройки, значения которых приложение получает из Zookeeper
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 19.07.2018
- *
- * 19.07.2018
- *   1. Версия 1.0
- *
  */
 
 @NoArgsConstructor

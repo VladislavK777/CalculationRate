@@ -1,5 +1,6 @@
-package com.uraltranscom.calculaterate.dao;
+package com.uraltranscom.calculaterate.dao.model;
 
+import com.uraltranscom.calculaterate.dao.AbstractObjectFactory;
 import com.uraltranscom.calculaterate.model.station.Country;
 import com.uraltranscom.calculaterate.util.connect.ConnectionDB;
 import lombok.NoArgsConstructor;
@@ -18,16 +19,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- *
- * Класс получения станции
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 26.12.2018
- *
- * 26.12.2018
- *   1. Версия 1.0
- *
  */
 
 

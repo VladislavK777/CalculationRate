@@ -1,16 +1,9 @@
 package com.uraltranscom.calculaterate.service.impl.deprecated;
 
 /**
- *
- * Класс Получения Роута
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 24.12.2018
- *
- * 24.12.2018
- *   1. Версия 1.0
- *
  */
 /*
 

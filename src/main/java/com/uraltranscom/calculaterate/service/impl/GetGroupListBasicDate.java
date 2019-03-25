@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Vladislav.Klochkov
+ * @author Vladislav Klochkov
  * @project CalculationRate
  * @date 06.03.2019
  */

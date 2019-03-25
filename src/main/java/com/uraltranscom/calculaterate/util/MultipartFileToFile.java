@@ -1,16 +1,9 @@
 package com.uraltranscom.calculaterate.util;
 
 /**
- *
- * Класс для конвертации из MultipartFile в File
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 13.06.2018
- *
- * 13.06.2018
- *   1. Версия 1.0
- *
  */
 
 import org.slf4j.Logger;

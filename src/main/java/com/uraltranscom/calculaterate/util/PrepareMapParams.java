@@ -7,16 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
- * Класс подготовки мапы с параметрами
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 26.12.2018
- *
- * 26.12.2018
- *   1. Версия 1.0
- *
  */
 
 public final class PrepareMapParams {

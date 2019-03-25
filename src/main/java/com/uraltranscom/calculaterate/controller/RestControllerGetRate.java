@@ -18,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import static com.uraltranscom.calculaterate.util.ParserInputName.getId;
 
 /**
- * @author vladislav.klochkov
- * @project CalculationRate_1.0
+ * @author Vladislav Klochkov
+ * @project CalculationRate
  * @date 14.01.2019
  */
 

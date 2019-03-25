@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author vladislav.klochkov
- * @project CalculationRate_1.0
+ * @author Vladislav Klochkov
+ * @project CalculationRate
  * @date 16.01.2019
  */
 

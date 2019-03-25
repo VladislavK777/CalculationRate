@@ -11,12 +11,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 */
 /**
- * @author Vladislav.Klochkov
+ * @author Vladislav Klochkov
  * @project CalculationRate
  * @date 05.03.2019
  *//*
 
-
+//TODO Раскомменитить для авторизации
 @EnableWebSecurity
 public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
 

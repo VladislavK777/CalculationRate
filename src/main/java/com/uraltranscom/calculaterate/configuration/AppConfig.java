@@ -14,8 +14,8 @@ import org.springframework.web.servlet.view.JstlView;
 
 
 /**
- * @author vladislav.klochkov
- * @project CalculationRate_1.0
+ * @author Vladislav Klochkov
+ * @project CalculationRate
  * @date 25.01.2019
  */
 
@@ -35,6 +35,7 @@ public class AppConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
+    //TODO Расскомменитить для авторизации
    /* public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
     }*/

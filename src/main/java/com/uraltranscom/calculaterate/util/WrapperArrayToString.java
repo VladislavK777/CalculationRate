@@ -1,7 +1,7 @@
 package com.uraltranscom.calculaterate.util;
 
 /**
- * @author Vladislav.Klochkov
+ * @author Vladislav Klochkov
  * @project CalculationRate
  * @date 21.02.2019
  */

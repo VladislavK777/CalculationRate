@@ -6,6 +6,7 @@ import static com.uraltranscom.calculaterate.util.GetVolumeGroup.getVolumeGroup;
 
 /**
  * @author Vladislav Klochkov
+ * @project CalculationRate
  * @create 2019-01-07
  */
 

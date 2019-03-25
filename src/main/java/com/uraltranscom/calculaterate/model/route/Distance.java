@@ -3,8 +3,8 @@ package com.uraltranscom.calculaterate.model.route;
 import lombok.*;
 
 /**
- * @author Vladislav.Klochkov
- * @project CalculationRate_1.0
+ * @author Vladislav Klochkov
+ * @project CalculationRate
  * @date 26.12.2018
  */
 

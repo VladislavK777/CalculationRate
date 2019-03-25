@@ -5,16 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
- * Класс для правильного определения окончания в слове День
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 19.07.2018
- *
- * 19.07.2018
- *   1. Версия 1.0
- *
  */
 
 public class PrefixOfDays extends JavaHelperBase {

@@ -6,7 +6,7 @@ import com.uraltranscom.calculaterate.util.GetVolumeGroup;
 import lombok.Data;
 
 /**
- * @author Vladislav.Klochkov
+ * @author Vladislav Klochkov
  * @project CalculationRate
  * @date 05.03.2019
  */

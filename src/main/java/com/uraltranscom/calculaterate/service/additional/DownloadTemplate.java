@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 /**
- * @author Vladislav.Klochkov
+ * @author Vladislav Klochkov
  * @project CalculationRate
  * @date 15.03.2019
  */

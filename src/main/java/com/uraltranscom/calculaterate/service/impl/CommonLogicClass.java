@@ -1,7 +1,7 @@
 package com.uraltranscom.calculaterate.service.impl;
 
-import com.uraltranscom.calculaterate.dao.GetCountryStationDAO;
-import com.uraltranscom.calculaterate.dao.GetTotalModelDAO;
+import com.uraltranscom.calculaterate.dao.model.GetCountryStationDAO;
+import com.uraltranscom.calculaterate.dao.model.GetTotalModelDAO;
 import com.uraltranscom.calculaterate.model.RatesList;
 import com.uraltranscom.calculaterate.model.conflicts.Conflict;
 import com.uraltranscom.calculaterate.model.route.Route;
@@ -20,16 +20,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- *
- * Класс основной логике
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 26.12.2018
- *
- * 26.12.2018
- *   1. Версия 1.0
- *
  */
 
 @Component

@@ -3,16 +3,9 @@ package com.uraltranscom.calculaterate.service.additional;
 import com.uraltranscom.calculaterate.util.PropertyUtil;
 
 /**
- *
- * Класс-помощник содержит основные константы
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 24.12.2018
- *
- * 24.12.2018
- *   1. Версия 1.0
- *
  */
 
 public class JavaHelperBase {

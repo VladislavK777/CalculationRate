@@ -4,16 +4,9 @@ import com.uraltranscom.calculaterate.model.station.Station;
 import lombok.Data;
 
 /**
- *
- * Класс Маршрута
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 24.12.2018
- *
- * 24.12.2018
- *   1. Версия 1.0
- *
  */
 
 @Data

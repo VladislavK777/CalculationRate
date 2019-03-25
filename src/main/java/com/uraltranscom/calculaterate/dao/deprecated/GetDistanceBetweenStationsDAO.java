@@ -1,16 +1,9 @@
 package com.uraltranscom.calculaterate.dao.deprecated;
 
 /**
- *
- * Класс получения расстояния между станциями
- *
  * @author Vladislav Klochkov
- * @version 1.0
+ * @project CalculationRate
  * @create 26.12.2018
- *
- * 26.12.2018
- *   1. Версия 1.0
- *
  */
 
 /*
