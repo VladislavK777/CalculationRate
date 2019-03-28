@@ -12,6 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <product.name>calculaterate</product.name>
         <java.version>11</java.version>
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
     </properties>
@@ -191,6 +192,7 @@
     </dependencies>
 
     <build>
+        <finalName>${product.name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
