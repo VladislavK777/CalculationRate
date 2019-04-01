@@ -19,7 +19,6 @@ import org.springframework.web.servlet.view.JstlView;
  * @date 25.01.2019
  */
 
-
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = { "com.uraltranscom.calculaterate" })
