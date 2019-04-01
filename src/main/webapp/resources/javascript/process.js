@@ -657,8 +657,12 @@ function wrapperPrepareStringToArray(string) {
     var stringSplit = string.split(",");
     for (var i = 0; i < stringSplit.length; i++) {
       if (stringSplit[i].length > 0) {
-        idsArray.push(stringSplit[i].match(/\d+/)[0].trim());
-        namesArray.push(stringSplit[i].match(/^\S+\s/)[0].trim());
+        if (stringSplit[i].match(/\d+/) !== null) {
+            idsArray.push(stringSplit[i].match(/\d+/)[0].trim());
+            namesArray.push(stringSplit[i].match(/^\S+\s/)[0].trim());
+        } else {
+            return null;
+        }
       }
     }
     return [idsArray, namesArray];
