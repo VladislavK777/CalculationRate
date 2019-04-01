@@ -22,11 +22,11 @@ function updateFieldReturnStation(id) {
       returnStation = "";
     }
   }
-  var array = wrapperPrepareStringToArray(
+  var arrayDepartment = wrapperPrepareStringToArray(
     context.querySelector("#departmentStationReturnStation" + ide).value
   );
-  var idsDepartmentArray = array != null ? array[0] : null,
-    namesDepartmentArray = array != null ? array[1] : null;
+  var idsDepartmentArray = arrayDepartment != null ? arrayDepartment[0] : null,
+    namesDepartmentArray = arrayDepartment != null ? arrayDepartment[1] : null;
   var json = JSON.stringify({
     id: ide,
     namesRoad: namesRoad,
@@ -124,11 +124,11 @@ function updateFieldBeginningException(id) {
   var countDays = context.querySelector("#countDaysBeginningException").value;
   var rate = context.querySelector("#rateBeginningException").value;
   var tariff = context.querySelector("#tariffBeginningException").value;
-  var array = wrapperPrepareStringToArray(
+  var arrayDepartment = wrapperPrepareStringToArray(
     context.querySelector("#departmentStationBeginningException" + ide).value
   );
-  var idsDepartmentArray = array != null ? array[0] : null,
-    namesDepartmentArray = array != null ? array[1] : null;
+  var idsDepartmentArray = arrayDepartment != null ? arrayDepartment[0] : null,
+    namesDepartmentArray = arrayDepartment != null ? arrayDepartment[1] : null;
   var json = JSON.stringify({
     id: ide,
     num: num,
@@ -235,11 +235,11 @@ function updateFieldReturnException(id) {
   var countDays = context.querySelector("#countDaysReturnException").value;
   var rate = context.querySelector("#rateReturnException").value;
   var tariff = context.querySelector("#tariffReturnException").value;
-  var array = wrapperPrepareStringToArray(
+  var arrayDepartment = wrapperPrepareStringToArray(
     context.querySelector("#departmentStationReturnException" + ide).value
   );
-  var idsDepartmentArray = array != null ? array[0] : null,
-    namesDepartmentArray = array != null ? array[1] : null;
+  var idsDepartmentArray = arrayDepartment != null ? arrayDepartment[0] : null,
+    namesDepartmentArray = arrayDepartment != null ? arrayDepartment[1] : null;
   var json = JSON.stringify({
     id: ide,
     num: num,
