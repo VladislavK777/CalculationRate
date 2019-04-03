@@ -23,8 +23,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -46,7 +46,7 @@ public class WriteToFileExcel {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat();
     private static DataFormatter dataFormatter = new DataFormatter(Locale.GERMAN);
 
-    public static void downloadFileExcel(HttpServletResponse response, List<TotalModel> listTotalModel) {
+    public static void downloadFileExcel(HttpServletResponse response, ArrayList<TotalModel> listTotalModel) {
         try {
             String fileName = "Rate_" + dateFormat.format(new Date()) + ".xlsx";
             response.setHeader("Content-Disposition", "inline; filename=" + fileName);
@@ -61,7 +61,7 @@ public class WriteToFileExcel {
         }
     }
 
-    private static synchronized void writeToFileExcel(HttpServletResponse response, List<TotalModel> listTotalModel) {
+    private static synchronized void writeToFileExcel(HttpServletResponse response, ArrayList<TotalModel> listTotalModel) {
         try {
             logger.info("size list: {}", listTotalModel.size());
             long timeStart = System.currentTimeMillis();
