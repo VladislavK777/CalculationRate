@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Vladislav Klochkov
@@ -16,5 +16,5 @@ import java.util.ArrayList;
 @ToString
 @AllArgsConstructor
 public class TotalListModels {
-    private ArrayList<TotalModel> totalModelList;
+    private List<TotalModel> totalModelList;
 }
