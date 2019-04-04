@@ -238,7 +238,7 @@ public class WriteToFileExcel {
                                 cargo.setCellValue(route.getCargo().getNameCargo());
                                 cargo.setCellStyle(cellStyleCommon.getCellStyleFieldCargo());
                             } else {
-                                cargo.setCellValue("Порожняк");
+                                cargo.setCellValue("Порожний");
                                 cargo.setCellStyle(cellStyleCommon.getCellStyleFieldCargo());
                             }
 
