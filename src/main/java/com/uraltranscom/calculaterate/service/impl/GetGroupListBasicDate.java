@@ -116,7 +116,14 @@ public class GetGroupListBasicDate {
                         }
                     }
                     if (cellHeader.equals("Объем")) {
-                        volume = (int) cell.getNumericCellValue();
+                        switch (cell.getCellType()) {
+                            case NUMERIC:
+                                volume = (int) cell.getNumericCellValue();
+                                break;
+                            case STRING:
+                                volume = Integer.parseInt(cell.getStringCellValue());
+                                break;
+                        }
                     }
                     number = i + 1;
                 }
