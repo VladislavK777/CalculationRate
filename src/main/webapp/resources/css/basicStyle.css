@@ -91,9 +91,9 @@ html * {
 
 .form {
   position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  left: 35%;
+  top: 20%;
+  /*transform: translate(-50%, -50%);*/
   z-index: 1;
   width: 30%;
   padding: 25px 25px;
@@ -106,9 +106,9 @@ html * {
 
 .form_auth {
   position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  left: 30%;
+  top: 25%;
+  /*transform: translate(-50%, -50%);*/
   z-index: 1;
   padding: 25px 25px;
   background: #ffffff;
@@ -291,9 +291,9 @@ input.modeCalculate:checked[type="checkbox"]::before {
 
   .form {
     position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    left: 30%;
+    top: 25%;
+    /*transform: translate(-50%, -50%);*/
     z-index: 1;
     width: 30%;
     padding: 20px 20px;
@@ -306,9 +306,9 @@ input.modeCalculate:checked[type="checkbox"]::before {
 
   .form_auth {
     position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    left: 30%;
+    top: 25%;
+    /*transform: translate(-50%, -50%);*/
     z-index: 1;
     padding: 20px 20px;
     background: #ffffff;
