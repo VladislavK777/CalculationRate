@@ -28,7 +28,7 @@
     </div>
   </div>
   <div>
-    <img class="logo" src="resources/img/logo.jpg">
+    <!--<img class="logo" src="resources/img/logo.jpg">-->
   </div>
   <div class="block"></div>
   <div>
