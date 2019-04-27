@@ -30,14 +30,14 @@
     </div>
   </div>
   <div>
-    <img class="logo" src="resources/img/logo.jpg">
-    <!--<div class="auth">
+    <!--<img class="logo" src="resources/img/logo.jpg">-->
+    <div class="auth">
       <p>${user}</p>
       <c:url value="/logout" var="logoutUrl"/>
       <form action="${logoutUrl}" method="post">
         <button type="submit" class="bot1">Выход</button>
       </form>
-    </div>-->
+    </div>
   </div>
 
   <div class="block"></div>
@@ -123,14 +123,14 @@
               <input type="image" form="calc" src="resources/img/excel.png" width="40px" height="40px" />
             </form>
           </td>
-          <td>
+          <!--<td>
             <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
-          </td>
-          <!--<c:if test="${role == '[ROLE_ADMIN]'}">
+          </td>-->
+          <c:if test="${role == '[ROLE_ADMIN]'}">
             <td>
              <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
             </td>
-        </c:if>-->
+        </c:if>
         </tr>
       </table>
     </div>
@@ -167,14 +167,14 @@
             </form>
             <p class="temp">Шаблон</p>
           </td>
-          <td>
+          <!--<td>
             <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
-          </td>
-          <!--<c:if test="${role == '[ROLE_ADMIN]'}">
+          </td>-->
+          <c:if test="${role == '[ROLE_ADMIN]'}">
                 <td>
                     <a href="settings"><img class="setting" src="resources/img/setting.png" /></a>
                 </td>
-            </c:if>-->
+            </c:if>
         </tr>
       </table>
     </div>

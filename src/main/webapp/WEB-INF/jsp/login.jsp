@@ -26,7 +26,7 @@
     </div>
   </div>
   <div>
-    <img class="logo" src="resources/img/logo.jpg">
+    <!--<img class="logo" src="resources/img/logo.jpg">-->
   </div>
   <div class="block"></div>
   <div style="position: absolute; height: 100%; width: 100%; top: 0px; left: 0px;">
